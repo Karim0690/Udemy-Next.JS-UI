@@ -18,7 +18,7 @@ import { MdOutlineOpenInNew } from "react-icons/md";
 
 const InstructorHeader = () => {
   return (
-    <div className="flex justify-start items-center flex-row-reverse gap-8 mx-10 my-6">
+    <div className="hidden md:flex justify-start items-center flex-row-reverse gap-8 mx-10 my-6">
       <HoverCard>
         <HoverCardTrigger asChild>
           <Avatar className="hover:cursor-pointer w-[35px] h-[35px]">

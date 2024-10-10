@@ -63,7 +63,7 @@ const Page = () => {
 
   return (
     <>
-      <div className="container mx-auto h-screen px-4 flex justify-center items-center">
+      <div className="container mx-auto px-4 flex my-4 justify-center items-center">
         <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 h-full w-[100%] md:w-[60%] lg:w-[100%]">
           <div className="flex justify-center items-center">
             <Image

@@ -11,22 +11,23 @@ import { GoChevronDown } from "react-icons/go";
 import Image from "next/image";
 import InstructorHeader from "../../InstructorHeader/InstructorHeader";
 import SideNav from "../../InstructorSidenav/SideNav";
+import InstructorFooter from "../../instractorFooter/page";
 
 export default function Page() {
   return (
     <>
       <InstructorHeader />
       {/* Main Content */}
-      <div className="flex h-screen">
-        <div className="w-1/5">
+      <div className="flex">
+        <div className="hidden md:block">
           <SideNav />
         </div>
-        <div className="flex-1 flex flex-col px-4">
-          <div className="flex items-baseline gap-6 ">
+        <div className="flex-1 flex flex-col my-10 px-4 h-screen">
+          <div className="flex flex-col lg:flex-row items-baseline gap-2 lg:gap-6 ">
             <h1 className="text-4xl font-serif font-bold text-gray-800">
               Assignments
             </h1>
-            <DropdownMenu >
+            <DropdownMenu>
               <div className="text-2xl font-bold flex items-center gap-3">
                 <DropdownMenuTrigger className="appearance-none outline-none">
                   All Courses
@@ -34,7 +35,6 @@ export default function Page() {
                 <GoChevronDown className="text-xs" />
               </div>
               <DropdownMenuContent className="w-48 mt-4 bg-white">
-              
                 <DropdownMenuSeparator />
 
                 <DropdownMenuItem className="hover:text-violet-700 cursor-pointer">
@@ -49,35 +49,35 @@ export default function Page() {
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
-       
-          <div class="relative flex w-full flex-col  mt-6">
-            <nav class="flex flex-1 flex-row  ">
+
+          <div className="relative flex flex-col mt-6">
+            <nav className="flex flex-col md:flex-row flex-wrap md:items-center gap-6">
               <div
                 role="button"
-                class="flex w-full items-center rounded-lg p-0 transition-all"
+                className="flex items-center p-0 transition-all"
               >
                 <label
-                  for="check-vertical-list-group4"
-                  class="flex w-full cursor-pointer items-center px-3 py-2 "
+                  htmlFor="check-vertical-list-group4"
+                  className="flex w-full cursor-pointer items-center"
                 >
-                  <div class="inline-flex items-center">
+                  <div className="inline-flex items-center">
                     <label
-                      class="flex items-center cursor-pointer relative"
-                      for="check-vertical-list-group4"
+                      className="flex items-center cursor-pointer relative"
+                      htmlFor="check-vertical-list-group4"
                     >
                       <input
                         type="checkbox"
-                        class="peer h-5 w-5  border-2 border-black cursor-pointer transition-all appearance-none rounded shadow hover:shadow-md  checked:bg-slate-800 checked:border-slate-800"
+                        className="peer h-5 w-5  border-2 border-black cursor-pointer transition-all appearance-none rounded shadow hover:shadow-md  checked:bg-slate-800 checked:border-slate-800"
                         id="check-vertical-list-group4"
                       />
-                      <span class="absolute text-white opacity-0 peer-checked:opacity-100 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                      <span className="absolute text-white opacity-0 peer-checked:opacity-100 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
-                          class="h-3.5 w-3.5"
+                          className="h-3.5 w-3.5"
                           viewBox="0 0 20 20"
                           fill="currentColor"
                           stroke="currentColor"
-                          stroke-width="1"
+                          strokeWidth="1"
                         >
                           <path
                             fill-rule="evenodd"
@@ -88,34 +88,79 @@ export default function Page() {
                       </span>
                     </label>
                     <label
-                      class="cursor-pointer ml-2 text-slate-600 text-sm"
-                      for="check-vertical-list-group4"
+                      className="cursor-pointer ml-2 text-slate-600 text-sm"
+                      htmlFor="check-vertical-list-group4"
                     >
                       Unread (0)
                     </label>
                   </div>
                 </label>
               </div>
-              <div className="flex items-baseline">
-                <p className="font-serif  text-gray-800">Sharing prefrence:</p>
+              <div className="flex items-center gap-1">
+                <p className="text-gray-800 text-sm">Sharing prefrence:</p>
                 <DropdownMenu>
-                  <div className="font-bold flex items-center gap-3">
-                    <DropdownMenuTrigger className="appearance-none outline-none">
+                  <div className="font-bold flex items-center text-sm">
+                    <DropdownMenuTrigger className="appearance-none outline-none flex items-center">
                       All (0)
+                      <GoChevronDown className="text-xs" />
                     </DropdownMenuTrigger>
-                    <GoChevronDown className="text-xs" />
                   </div>
-                  <DropdownMenuContent className="w-48 mt-4">
-                    
+                  <DropdownMenuContent className="w-48 mt-4 bg-white">
                     <DropdownMenuSeparator />
                     <DropdownMenuItem className="hover:text-violet-700 cursor-pointer">
-                     All (0)
+                      All (0)
                     </DropdownMenuItem>
                     <DropdownMenuItem className="hover:text-violet-700 cursor-pointer">
-                     Instructor only (0)
+                      Instructor only (0)
                     </DropdownMenuItem>
                     <DropdownMenuItem className="hover:text-violet-700 cursor-pointer">
-                     Public (0)
+                      Public (0)
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+              <div className="flex items-center gap-1">
+                <p className="text-gray-800 text-sm">Feedback type:</p>
+                <DropdownMenu>
+                  <div className="font-bold flex items-center text-sm">
+                    <DropdownMenuTrigger className="appearance-none outline-none flex items-center">
+                      All (0)
+                      <GoChevronDown className="text-xs" />
+                    </DropdownMenuTrigger>
+                  </div>
+                  <DropdownMenuContent className="w-48 mt-4 bg-white">
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem className="hover:text-violet-700 cursor-pointer">
+                      All (0)
+                    </DropdownMenuItem>
+                    <DropdownMenuItem className="hover:text-violet-700 cursor-pointer">
+                      Instructor only (0)
+                    </DropdownMenuItem>
+                    <DropdownMenuItem className="hover:text-violet-700 cursor-pointer">
+                      Public (0)
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+              <div className="flex items-center gap-1">
+                <p className="text-gray-800 text-sm">Sort by:</p>
+                <DropdownMenu>
+                  <div className="font-bold flex items-center text-sm">
+                    <DropdownMenuTrigger className="appearance-none outline-none flex items-center">
+                      All (0)
+                      <GoChevronDown className="text-xs" />
+                    </DropdownMenuTrigger>
+                  </div>
+                  <DropdownMenuContent className="w-48 mt-4 bg-white">
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem className="hover:text-violet-700 cursor-pointer">
+                      All (0)
+                    </DropdownMenuItem>
+                    <DropdownMenuItem className="hover:text-violet-700 cursor-pointer">
+                      Instructor only (0)
+                    </DropdownMenuItem>
+                    <DropdownMenuItem className="hover:text-violet-700 cursor-pointer">
+                      Public (0)
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
@@ -130,12 +175,11 @@ export default function Page() {
               alt="Empty Q&A"
             />
             <h3 className="text-xl font-bold">No result</h3>
-            <p className="text-gray-500">
-            Try a different filter
-            </p>
+            <p className="text-gray-500">Try a different filter</p>
           </div>
         </div>
       </div>
+      <InstructorFooter />
     </>
   );
 }

@@ -11,27 +11,28 @@ import { GoChevronDown } from "react-icons/go";
 import Image from "next/image";
 import InstructorHeader from "../../InstructorHeader/InstructorHeader";
 import SideNav from "../../InstructorSidenav/SideNav";
+import InstructorFooter from "../../instractorFooter/page";
 
 const Page = () => {
   return (
     <>
       <InstructorHeader />
       {/* Main Content */}
-      <div className="flex h-screen">
-        <div className="w-1/5">
+      <div className="flex">
+        <div className="hidden md:block">
           <SideNav />
         </div>
-        <div className="flex-1 flex flex-col px-10">
-          <div className="flex items-baseline gap-6 mt-6">
+        <div className="flex-1 flex flex-col my-10 mx-10 h-screen">
+          <div className="flex items-baseline flex-col lg:flex-row gap-2 lg:gap-6">
             <h1 className="text-4xl font-serif font-bold text-gray-800">Q&A</h1>
             <DropdownMenu>
-              <div className="text-2xl font-bold flex items-center gap-3">
-                <DropdownMenuTrigger className="appearance-none outline-none">
+              <div className="text-2xl font-bold">
+                <DropdownMenuTrigger className="appearance-none outline-none flex items-center gap-3">
                   All Courses
+                  <GoChevronDown className="text-xs" />
                 </DropdownMenuTrigger>
-                <GoChevronDown className="text-xs" />
               </div>
-              <DropdownMenuContent className="w-48 mt-4">
+              <DropdownMenuContent className="w-48 mt-4 bg-white">
                 <DropdownMenuLabel className="font-normal text-sm hover:text-violet-700 cursor-pointer">
                   All Courses
                 </DropdownMenuLabel>
@@ -48,7 +49,7 @@ const Page = () => {
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
-          <div className="my-8 flex flex-col items-center text-center w-1/2 mx-auto">
+          <div className="my-8 flex flex-col items-center text-center w-full md:w-[430px] mx-auto">
             <Image
               src="https://s.udemycdn.com/communication/empty-mailbox-v2.jpg"
               width={240}
@@ -64,6 +65,7 @@ const Page = () => {
           </div>
         </div>
       </div>
+      <InstructorFooter />
     </>
   );
 };
