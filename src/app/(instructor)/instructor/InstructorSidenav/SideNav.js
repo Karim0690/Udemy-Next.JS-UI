@@ -14,7 +14,7 @@ const SideNav = () => {
 
   return (
     <>
-      <div className="min-w-72">
+      <div className="min-w-72 hidden md:block">
         <div
           className="fixed left-0 top-0 z-10 bg-[#2d2f31] h-screen w-14 border-r-gray-800 hover:w-72 hover:shadow-md overflow-hidden sidenav"
           style={{ transition: "width 400ms cubic-bezier(.2,0,.38,.9)" }}

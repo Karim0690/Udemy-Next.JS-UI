@@ -1,6 +1,6 @@
 "use client";
-import CoursesSlider from "../_components/CoursesSlider/CoursesSlider";
 import React from "react";
+import CoursesSlider from "../CoursesSlider/CoursesSlider";
 
 function LandingPageSection5() {
   const settings = {

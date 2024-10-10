@@ -1,8 +1,7 @@
 "use client";
 import { useState } from "react";
-import CourseComponent from "../_components/CourseComponent/CourseComponent";
-import CourseComponentCard from "../_components/CourseComponentCard/CourseComponentCard";
-import CoursesSlider from "../_components/CoursesSlider/CoursesSlider";
+import CourseComponent from "../CourseComponent/CourseComponent";
+import CoursesSlider from "../CoursesSlider/CoursesSlider";
 
 function BroadSelection() {
   const settings = {

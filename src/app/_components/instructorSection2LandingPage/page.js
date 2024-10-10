@@ -11,7 +11,7 @@ import { FaChalkboardTeacher } from "react-icons/fa";
 function InstructorSection2LandingPage() {
   return (
     <>
-      <h1 className="text-center text-gray-700 my-20 ml-20 mr-10">
+      <h1 className="text-center text-gray-700 my-20 md:ml-20 ml-10 mr-10">
         Based on your experience, we think these resources will be helpful.
       </h1>
       <div className="md:ml-20 md:mr-10">
@@ -42,11 +42,11 @@ function InstructorSection2LandingPage() {
           des="Get exclusive tips and resources designed to help you launch your first course faster! Eligible instructors who publish their first course on time will receive a special bonus to celebrate. Start today!"
         />
       </div>
-      <h1 className="text-center text-gray-700 my-20 ml-20 mr-10">
+      <h1 className="text-center text-gray-700 my-20 md:ml-20 ml-10 mr-10">
         Have questions? Here are our most popular instructor resources.
       </h1>
 
-      <div className="ml-20 mr-10 lg:mx-auto pb-20 my-20 flex flex-wrap gap-5 justify-center items-baseline">
+      <div className="md:ml-20 ml-10 mr-10 lg:mx-auto pb-20 my-20 flex flex-wrap gap-5 justify-center items-baseline">
         <div className="flex justify-center items-center flex-col ">
           <Link
             href="test-video/"
