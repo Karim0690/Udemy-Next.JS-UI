@@ -203,7 +203,7 @@ const Page = () => {
               <div className="flex justify-center items-center mt-12 bg-slate-50 p-4">
                 <p>Don&apos;t have an account?</p>
                 <a
-                  href="#"
+                  href="/signup"
                   className="text-md font-bold underline text-purple-800 hover:text-purple-950 ml-1 decoration-purple-800 decoration-1 underline-offset-4"
                 >
                   Sign up
