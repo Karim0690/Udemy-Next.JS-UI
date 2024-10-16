@@ -8,10 +8,8 @@ import { FiTool } from "react-icons/fi";
 import { FaRegQuestionCircle } from "react-icons/fa";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
 const SideNav = () => {
   const path = usePathname();
-
   return (
     <>
       <div className="min-w-72 hidden md:block">
