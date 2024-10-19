@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import { MdEdit } from "react-icons/md";
 import { Checkbox } from "@/components/ui/checkbox";
 import axios from "axios";
+import Image from "next/image";
 
 export default function Page() {
   const [activeTab, setActiveTab] = useState("profile");
@@ -21,6 +22,7 @@ export default function Page() {
       linkedin: "",
       youtube: "",
     },
+    photo: " ",
   });
 
   const [isLoading, setIsLoading] = useState(false);
@@ -48,6 +50,8 @@ export default function Page() {
     setIsLoading(true);
     setError(null);
     setSuccess(null);
+    console.log(formData);
+
     try {
       const response = await axios.put(
         `http://localhost:3000/user/669904f9ad62aaee0f072f8a`,
@@ -79,7 +83,6 @@ export default function Page() {
 
     const { password, newPassword, confirmPassword } = passwordData;
 
-    
     if (newPassword !== confirmPassword) {
       setError("Passwords do not match!");
       setIsLoading(false);
@@ -87,7 +90,6 @@ export default function Page() {
     }
 
     try {
-     
       const response = await axios.put(
         `http://localhost:3000/user/change-password/669904f9ad62aaee0f072f8a`,
         {
@@ -117,11 +119,50 @@ export default function Page() {
       [name]: value,
     }));
   };
+  const cloud_name = process.env.NEXT_PUBLIC_CLOUD_NAME;
+  const preset_key = process.env.NEXT_PUBLIC_CLOUD_PRESET;
+  const [imageLoading, setImageLoading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
 
+  const handleFileChange = async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const imageData = new FormData();
+    imageData.append("file", file);
+    imageData.append("upload_preset", preset_key);
+    setImageLoading(true);
+    console.log(formData);
+
+    try {
+      const { data } = await axios.post(
+        `https://api.cloudinary.com/v1_1/${cloud_name}/image/upload`,
+        imageData,
+        {
+          onUploadProgress: (progressEvent) => {
+            const percentCompleted = Math.round(
+              (progressEvent.loaded * 100) / progressEvent.total
+            );
+            setUploadProgress(percentCompleted);
+          },
+        }
+      );
+
+      setFormData((prevData) => ({
+        ...prevData,
+        // photo: data.secure_url,
+        photo: photo,
+      }));
+    } catch (error) {
+      console.error("Error uploading file:", error);
+    } finally {
+      setImageLoading(false);
+    }
+  };
   return (
     <>
-      <div className="pt-6 px-48 pb-12 grid grid-cols-12">
-        <div className="col-span-2 border border-gray-300">
+      <div className="pt-6 px-48 pb-12  grid grid-cols-1 md:grid-cols-12">
+        <div className="col-span-1 md:col-span-2 border border-gray-300">
           <div class="flex justify-center p-4">
             <div class="bg-gray-800 inline-flex items-center justify-center rounded-full bg-cover font-bold leading-tight tracking-normal text-lg sm:text-xl md:text-2xl max-w-3xl text-white w-16 h-16">
               KA
@@ -212,7 +253,7 @@ export default function Page() {
           </ul>
         </div>
 
-        <div className="col-span-10 border-y border-e border-gray-300">
+        <div className="col-span-1 md:col-span-10 border border-gray-300">
           <div className=" text-black mr-6">
             {/* profile Tap */}
             {activeTab === "Profile" && (
@@ -321,7 +362,7 @@ export default function Page() {
                         name="language"
                         value={formData.language}
                         onChange={handleChangeUpdate}
-                        id="language" 
+                        id="language"
                         className="border border-black py-3 px-4 mb-3 text-gray-900 text-sm block w-full h-12"
                       >
                         <option value="English (US)">English (US)</option>
@@ -495,7 +536,7 @@ export default function Page() {
             {activeTab === "Photo" && (
               <>
                 <div className="flex border-b border-gray-300 py-4">
-                  <div class="mx-auto max-w-7xl px-6 text-center">
+                  <div className="mx-auto max-w-7xl px-6 text-center">
                     <h1 className="font-heading font-bold leading-tight tracking-normal text-lg sm:text-xl md:text-2xl max-w-3xl">
                       Photo
                     </h1>
@@ -504,19 +545,21 @@ export default function Page() {
                     </p>
                   </div>
                 </div>
-                <div className="mx-32 px-7">
-                  <p className="font-heading font-bold  my-4  leading-tight tracking-normal ">
+
+                {/* Form for uploading the image */}
+                <form className="mx-32 px-7" onSubmit={handleSubmit}>
+                  <p className="font-heading font-bold my-4 leading-tight tracking-normal">
                     Image preview
                   </p>
 
-                  <div class="flex items-center justify-center w-full">
+                  <div className="flex items-center justify-center w-full">
                     <label
-                      for="dropzone-file"
-                      class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+                      htmlFor="dropzone-file"
+                      className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
                     >
-                      <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                      <div className="flex flex-col items-center justify-center pt-5 pb-6">
                         <svg
-                          class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
+                          className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
                           aria-hidden="true"
                           xmlns="http://www.w3.org/2000/svg"
                           fill="none"
@@ -524,30 +567,50 @@ export default function Page() {
                         >
                           <path
                             stroke="currentColor"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
                             d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
                           />
                         </svg>
-                        <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                          <span class="font-semibold">Click to upload</span> or
-                          drag and drop
+                        <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                          <span className="font-semibold">Click to upload</span>{" "}
+                          or drag and drop
                         </p>
-                        {/* <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p> */}
                       </div>
-                      <input id="dropzone-file" type="file" class="hidden" />
+                      <input
+                        id="dropzone-file"
+                        type="file"
+                        className="hidden"
+                        onChange={handleFileChange} // connect the handleFileChange function
+                      />
                     </label>
                   </div>
+
+                  {/* Show preview of the uploaded image */}
+                  {/*   {photo && (
+                    <div className="mt-4">
+                      <Image
+                        src={photo}
+                        alt="Uploaded preview"
+                        className="h-40"
+                      />
+                    </div>
+                  )} */}
+
                   {/* button save */}
                   <div className="flex items-center mb-28 space-x-2">
-                    <Button className="bg-zinc-800 text-white hover:bg-zinc-700 w-20 h-12 font-bold text-lg mt-6">
+                    <Button
+                      type="submit"
+                      className="bg-zinc-800 text-white hover:bg-zinc-700 w-20 h-12 font-bold text-lg mt-6"
+                    >
                       Save
                     </Button>
                   </div>
-                </div>
+                </form>
               </>
             )}
+
             {/* Close account Tap */}
             {activeTab === "Close account" && (
               <>
