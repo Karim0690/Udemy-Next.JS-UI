@@ -16,8 +16,8 @@ const StudentsAlsoBought = ({ courses }) => {
       </h2>
       <div className="flex flex-auto flex-col	  ">
         
-        {courses.slice(0, itemsToShow).map((course) => (
-          <div key={course.id} className="flex border-b-2 p-4 rounded-lg ">
+        {courses.slice(0, itemsToShow).map((course , index) => (
+          <div key={course.id || index} className="flex border-b-2 p-4 rounded-lg ">
             <div className='w-28 h-16 mr-2'>
             <img
               src={course.courseImg}

@@ -1,11 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./MultiLevelDropdown.module.css";
+<<<<<<< HEAD
 import Link from "next/link";
 import axios from "axios";
+=======
+import Link from 'next/link';
+>>>>>>> d282308 (update the commit to get it locally)
 
 // const categories = [
 //   {
-//     id: 288,
+//     _id: 288,
 //     name: "Development",
 //     subcategories: [
 //       {
@@ -106,7 +110,7 @@ const MultiLevelDropdown = () => {
     };
   }, []);
 
-  return (
+   return (
     <div
       className="relative"
       ref={dropdownRef}
