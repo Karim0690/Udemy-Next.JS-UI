@@ -65,19 +65,7 @@ async function fetchData() {
   try {
     const res = await fetch('https://udemy-eosin-eight.vercel.app/category');
     const data = await res.json();
-    // console.log(data);
     
-
-    // // Structure the data in the desired format
-    // const categories = data.result.map(category => ({
-    //   id: category._id,
-    //   name: category.name,
-    //   subcategories: category.subcategories.map(subcategory => ({
-    //     id: subcategory._id,
-    //     name: subcategory.name,
-    //     popularTopics: subcategory.topics.map(topic => topic.name),
-    //   })),
-    // }));
 
     return data.result;
   } catch (error) {

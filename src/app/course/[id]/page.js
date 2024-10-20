@@ -19,11 +19,11 @@ import CourseCommentReview from "@/app/_components/CourseCommentReview/CourseCom
 import CourseComment from "@/app/_components/CourseComment/CourseComment";
 import MoreCoursesByInstructor from "@/app/_components/MoreCoursesByInstructor/MoreCoursesByInstructor";
 
-export async function fetchdata(title) {
+export async function fetchdata(id) {
 
     
     try {
-        const res = await fetch(`https://udemy-eosin-eight.vercel.app/course/${title}`);
+        const res = await fetch(`https://udemy-eosin-eight.vercel.app/course/${id}`);
         const data = await res.json();
         
         // console.log(data);
@@ -33,7 +33,7 @@ export async function fetchdata(title) {
             return { notFound: true };
         }
 
-        return data.data;
+        return data.data.course;
     } catch (error) {
         console.error("Error fetching course", error);
         return null;
@@ -41,32 +41,21 @@ export async function fetchdata(title) {
         
  
 }
+
+
 const page = async ({ params }) => {
-    // const [course, setCourseData] = useState(null);
-    // const [loading,setLoading] = useState(true); 
-    // useEffect(()=>{
-    //     const fetchCorusedata = async() => {
-    //         try{
-    //             const res = await fetch(`https://udemy-eosin-eight.vercel.app/course/${params.title}`)
-    //             const data = await res.json(); 
-    //             setCourseData(data.data); 
-    //         }catch(error)
-    //         {
-    //             console.log("failed to fetch course data:",error);                
-    //         }
-    //         finally{
-    //             setLoading(false); 
-    //         }
-    //     }
-    //     fetchCorusedata()
-    // },[params.title])
-    
-    // console.log(params);
+  
     
     const {id} = params;
-    const course = await fetchdata(id) ;
+    const course = await fetchdata(id);
     // console.log(data);
     console.log(course);
+    console.log("========================================================================================================")
+    console.log(course.topics);
+    
+    // console.log(Object.keys(course)) ;
+
+    
     // const instructor = await fetchInstructorData(); 
     
     // const course = {
@@ -124,13 +113,13 @@ const page = async ({ params }) => {
                             Bestseller
                         </span>
                         <span className="text-yellow-500 mr-2 font-extrabold text-sm">
-                            {course.rating}⭐
+                            {course.rating.average}⭐
                         </span>
                         <span className="text-indigo-400 font-semibold underline underline-offset-2">
-                            ({course.numberOfRates} ratings)
+                            ({course.rating.court} ratings)
                         </span>
                         <span className="ml-2">
-                            {course.numberOfStudent} students
+                            {course.enrollments} students
                         </span>
                     </div>
                 </div>
@@ -139,21 +128,21 @@ const page = async ({ params }) => {
                 <div className="w-[50%] ml-36 pb-10">
                   <CourseHeader
                         title={course.title}
-                        description={course.description}
-                        categories={course.categories}
-                        rating={course.rating}
-                        numberOfRates={course.numberOfRates}
-                        numberOfStudent={course.numberOfStudent}
+                        description={course.subtitle}
+                        categories={[course.category.name,course.subcategory.name,course.topics[0]]}
+                        rating={course.rating.average}
+                        numberOfRates={course.rating.count}
+                        numberOfStudent={course.enrollments}
                         instructorName={course.instructor.name}
-                        courseImg={course.courseImg}
+                        courseImg={course.courseImage}
                         price={course.price}
                     />
                 </div>
                 <div className="w-[360px] my-4 absolute  top-4 right-36">
-                    <CourseSideBar courseImg={course.courseImg} price={course.price} />
+                    <CourseSideBar courseImg={course.courseImage} price={course.price} />
                 </div>
             </div>
-            <div className="grid grid-cols-12 gap-1 ">
+            {/* <div className="grid grid-cols-12 gap-1 ">
                 <div className="col-start-2 col-end-8">
                     <div className="mt-11">
                         <AboutLearning topics={course.topics} />
@@ -203,7 +192,7 @@ const page = async ({ params }) => {
                     <div> <CourseComment course={course} /> </div>
                     <div>       <MoreCoursesByInstructor course={course} /> </div>
                 </div>
-            </div>
+            </div> */}
         </>
     );
 };
