@@ -3,7 +3,8 @@ import Rating from "../Rating/Rating";
 import CoursePrice from "../CorusePrice/CoursePrice";
 import { Button } from "@/components/ui/button";
 
-const FrequentlyBoughtTogother = ({ courses }) => {
+const 
+FrequentlyBoughtTogother = ({ courses }) => {
     const totalPrice = courses.reduce((total, course) => total + course.price, 0);
 
     return (
@@ -22,7 +23,7 @@ const FrequentlyBoughtTogother = ({ courses }) => {
                                     <h3 className="text-md w-80 font-bold text-slate-800 ">{course.title}</h3>
                                     <p className="text-lg text-stone-400">{course.instructor.name}</p>
                                     <div className="flex items-center">
-                                        <span className="text-[#4D3105] mr-2 font-sans font-extrabold">{course.rating}</span>
+                                        <span className="text-[#4D3105] mr-2 font-extrabold">{course.rating}</span>
                                         <Rating ratingValue={course.rating} readOnly={true} className="mt-9 bg-[#B56B11]" />
                                         <a className="mr-3 ml-4 text-stone-400 font-semibold">({course.numberOfRates})</a>
                                     </div>
