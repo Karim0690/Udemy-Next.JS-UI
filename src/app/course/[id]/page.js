@@ -19,31 +19,47 @@ import CourseCommentReview from "@/app/_components/CourseCommentReview/CourseCom
 import CourseComment from "@/app/_components/CourseComment/CourseComment";
 import MoreCoursesByInstructor from "@/app/_components/MoreCoursesByInstructor/MoreCoursesByInstructor";
 
-export async function fetchdata(id) {
+// export async function fetchdata(id) {
 
     
-    try {
-        const res = await fetch(`https://udemy-eosin-eight.vercel.app/course/${id}`);
-        const data = await res.json();
+//     try {
+//         const res = await fetch(`https://udemy-eosin-eight.vercel.app/course/${id}`);
+//         const data = await res.json();
         
-        // console.log(data);
+//         // console.log(data);
         
 
-        if (!data.data) {
-            return { notFound: true };
-        }
+//         if (!data.data) {
+//             return { notFound: true };
+//         }
 
-        return data.data.course;
-    } catch (error) {
-        console.error("Error fetching course", error);
-        return null;
-    }
+//         return data.data.course;
+//     } catch (error) {
+//         console.error("Error fetching course", error);
+//         return null;
+//     }
         
  
-}
+// }
+async function fetchdata(id) {
+    try {
+      const res = await fetch(`https://udemy-eosin-eight.vercel.app/course/${id}`, {
+        cache: 'no-store' // Ensures fresh data is fetched every time
+      });
+      const data = await res.json();
+  
+      if (!data.data) {
+        throw new Error('Course not found');
+      }
+  
+      return data.data.course;
+    } catch (error) {
+      console.error("Error fetching course", error);
+      return null;
+    }
+  }
 
-
-const page = async ({ params }) => {
+const page = async ({ params  }) => {
   
     
     const {id} = params;
@@ -196,5 +212,27 @@ const page = async ({ params }) => {
         </>
     );
 };
+
+
+// export async function getServerSideProps({ params }) {
+//     const { id } = params;
+  
+//     // Fetching the course data
+//     const course = await fetchdata(id);
+  
+//     // Handling course not found
+//     if (!course) {
+//       return {
+//         notFound: true,
+//       };
+//     }
+  
+//     return {
+//       props: {
+//         course, // Passing the fetched course data to the page
+//       },
+//     };
+//   }
+  
 
 export default page;
