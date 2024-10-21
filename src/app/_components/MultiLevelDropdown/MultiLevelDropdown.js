@@ -235,18 +235,12 @@ const MultiLevelDropdown = () => {
                     ?.topics?.map((topic, index) => (
                       <Link
                         key={index}
-                        href={`#`}
-                      >
+                        href={`/topic/${topic.name.tolowercase()}`}>
                         <li
                           key={index}
                           className="px-3 py-2 hover:text-violet-600"
                         >
-                          <a
-                            href={`#${topic}`}
-                            className="ud-btn ud-btn-large ud-btn-ghost ud-text-sm w-full text-left"
-                          >
                             {topic.name}
-                          </a>
                         </li>
                       </Link>
                     ))}
