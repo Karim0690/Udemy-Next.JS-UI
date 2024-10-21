@@ -222,14 +222,23 @@ const MultiLevelDropdown = () => {
                     ?.subcategories?.find((sc) => sc._id === activeSubcategory)
                     ?.topics?.map((topic) => (
                       <Link
+<<<<<<< HEAD
                         key={topic._id}
                         href={`/topic/${topic.name.toLowerCase()}`}
                       >
+=======
+                        key={index}
+                        href={`/topic/${topic.name.tolowercase()}`}>
+>>>>>>> 1982ca8 (update to pull)
                         <li
                           key={topic._id}
                           className="px-3 py-2 hover:text-violet-600"
                         >
+<<<<<<< HEAD
                           {topic.name}
+=======
+                            {topic.name}
+>>>>>>> 1982ca8 (update to pull)
                         </li>
                       </Link>
                     ))}
