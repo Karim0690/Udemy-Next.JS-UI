@@ -1,13 +1,89 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./MultiLevelDropdown.module.css";
 import Link from "next/link";
+import axios from "axios";
 
+// const categories = [
+//   {
+//     id: 288,
+//     name: "Development",
+//     subcategories: [
+//       {
+//         id: 8,
+//         name: "Web Development",
+//         popularTopics: [
+//           "React",
+//           "JavaScript",
+//           "HTML",
+//           "CSS",
+//           "Angular",
+//           "Vue.js",
+//           "Bootstrap",
+//         ],
+//       },
+//       {
+//         id: 558,
+//         name: "Data Science",
+//         popularTopics: [
+//           "Python",
+//           "Machine Learning",
+//           "Data Analysis",
+//           "Deep Learning",
+//           "Statistics",
+//         ],
+//       },
+//       {
+//         id: 10,
+//         name: "Mobile Development",
+//         popularTopics: ["Flutter", "React Native", "Swift", "Kotlin", "Ionic"],
+//       },
+//     ],
+//   },
+//   {
+//     id: 268,
+//     name: "Business",
+//     subcategories: [
+//       {
+//         id: 12,
+//         name: "Entrepreneurship",
+//         popularTopics: [
+//           "Business Strategy",
+//           "Freelancing",
+//           "Startup",
+//           "Business Plan",
+//         ],
+//       },
+//       {
+//         id: 13,
+//         name: "Management",
+//         popularTopics: ["Leadership", "Time Management", "Productivity"],
+//       },
+//     ],
+//   },
+//   { id: 328, name: "Finance & Accounting" },
+// ];
 const MultiLevelDropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [categories, setCategories] = useState([]); // State to store categories
   const [activeCategory, setActiveCategory] = useState(null);
   const [activeSubcategory, setActiveSubcategory] = useState(null);
   const dropdownRef = useRef(null);
   const timeoutRef = useRef(null);
+  // Fetch categories from an API endpoint
+  async function fetchData() {
+    try {
+      const res = await axios.get(
+        "https://udemy-eosin-eight.vercel.app/category"
+      );
+      if (res.status === 200) setCategories(res.data.result);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }
+  // Fetch categories when component mounts
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const handleMouseEnter = () => {
     clearTimeout(timeoutRef.current);
@@ -44,16 +120,16 @@ const MultiLevelDropdown = () => {
             <div className="flex px-3 py-2 border border-gray-300">
               <ul className="ud-unstyled-list ud-block-list w-[215px] h-[30rem]">
                 {categories.map((category) => (
-                  <Link key={category.id} href={`/courses/${category.slug}`}>
+                  <Link key={category._id} href={`/courses/${category.slug}`}>
                     <li className="p-2 text-sm">
                       <button
                         className={`ud-btn ud-btn-large ud-btn-ghost ud-text-sm w-full text-left ${
-                          activeCategory === category.id
+                          activeCategory === category._id
                             ? "text-violet-600"
                             : ""
                         }`}
                         onMouseEnter={() => {
-                          setActiveCategory(category.id);
+                          setActiveCategory(category._id);
                           setActiveSubcategory(null);
                         }}
                       >
@@ -88,30 +164,30 @@ const MultiLevelDropdown = () => {
               <div className="flex px-3 py-2 border border-gray-300">
                 <ul className="ud-unstyled-list ud-block-list w-[215px] h-[30rem]">
                   {categories
-                    .find((c) => c.id === activeCategory)
+                    .find((c) => c._id === activeCategory)
                     ?.subcategories?.map((subcategory) => (
                       <Link
-                        key={categories.id}
+                        key={categories._id}
                         href={`/courses/${subcategory.slug}`}
                       >
                         <li
-                          key={subcategory.id}
+                          key={subcategory._id}
                           className="px-3 py-2 text-sm hover:text-violet-600"
                         >
                           <button
                             className={`ud-btn ud-btn-large ud-btn-ghost ud-text-sm w-full text-left ${
-                              activeSubcategory === subcategory.id
+                              activeSubcategory === subcategory._id
                                 ? "text-violet-600"
                                 : ""
                             }`}
                             onMouseEnter={() =>
-                              setActiveSubcategory(subcategory.id)
+                              setActiveSubcategory(subcategory._id)
                             }
                           >
                             <div className="flex justify-between items-center">
                               <span>{subcategory.name}</span>
-                              {subcategory.popularTopics &&
-                                subcategory.popularTopics.length > 0 && (
+                              {subcategory.topics &&
+                                subcategory.topics.length > 0 && (
                                   <svg
                                     className="h-4 w-4"
                                     fill="none"
@@ -142,23 +218,18 @@ const MultiLevelDropdown = () => {
                 <h2 className={styles.popular}>Popular Topics</h2>
                 <ul className="ud-unstyled-list ud-block-list w-[215px] h-[457px]">
                   {categories
-                    .find((c) => c.id === activeCategory)
-                    ?.subcategories?.find((sc) => sc.id === activeSubcategory)
-                    ?.popularTopics?.map((topic, index) => (
+                    .find((c) => c._id === activeCategory)
+                    ?.subcategories?.find((sc) => sc._id === activeSubcategory)
+                    ?.topics?.map((topic, index) => (
                       <Link
                         key={index}
-                        href={`/topic/${topic.toLowerCase()}`}
+                        href={`/topic/${topic.name.toLowerCase()}`}
                       >
                         <li
                           key={index}
                           className="px-3 py-2 hover:text-violet-600"
                         >
-                          <a
-                            href={`#${topic}`}
-                            className="ud-btn ud-btn-large ud-btn-ghost ud-text-sm w-full text-left"
-                          >
-                            {topic}
-                          </a>
+                          {topic.name}
                         </li>
                       </Link>
                     ))}
@@ -173,143 +244,143 @@ const MultiLevelDropdown = () => {
 };
 
 export default MultiLevelDropdown;
-const categories = [
-  {
-    id: 288,
-    name: "Development",
-    slug: "development",
-    subcategories: [
-      {
-        id: 8,
-        name: "Web Development",
-        slug: "web-development",
-        popularTopics: [
-          "React",
-          "JavaScript",
-          "HTML",
-          "CSS",
-          "Angular",
-          "Vue.js",
-          "Bootstrap",
-        ],
-      },
-      {
-        id: 558,
-        name: "Data Science",
-        slug: "data-science",
-        popularTopics: [
-          "Python",
-          "Machine Learning",
-          "Data Analysis",
-          "Deep Learning",
-          "Statistics",
-        ],
-      },
-      {
-        id: 10,
-        name: "Mobile Development",
-        slug: "mobile-development",
-        popularTopics: ["Flutter", "React Native", "Swift", "Kotlin", "Ionic"],
-      },
-    ],
-  },
-  {
-    id: 268,
-    name: "Business",
-    slug: "business",
-    subcategories: [
-      {
-        id: 12,
-        name: "Entrepreneurship",
-        slug: "entrepreneurship",
-        popularTopics: [
-          "Business Strategy",
-          "Freelancing",
-          "Startup",
-          "Business Plan",
-        ],
-      },
-      {
-        id: 13,
-        name: "Management",
-        slug: "management",
-        popularTopics: ["Leadership", "Time Management", "Productivity"],
-      },
-    ],
-  },
-  {
-    id: 328,
-    name: "Finance & Accounting",
-    slug: "finance-accounting",
-  },
-  {
-    id: 444,
-    name: "Design",
-    slug: "design",
-    subcategories: [
-      {
-        id: 15,
-        name: "Graphic Design",
-        slug: "graphic-design",
-        popularTopics: ["Photoshop", "Illustrator", "Logo Design", "Branding"],
-      },
-      {
-        id: 16,
-        name: "UI/UX Design",
-        slug: "ui-ux-design",
-        popularTopics: [
-          "User Research",
-          "Wireframing",
-          "Prototyping",
-          "Usability Testing",
-        ],
-      },
-    ],
-  },
-  {
-    id: 555,
-    name: "Health & Fitness",
-    slug: "health-fitness",
-    subcategories: [
-      {
-        id: 18,
-        name: "Nutrition",
-        slug: "nutrition",
-        popularTopics: [
-          "Healthy Eating",
-          "Meal Planning",
-          "Dietary Supplements",
-        ],
-      },
-      {
-        id: 19,
-        name: "Fitness",
-        slug: "fitness",
-        popularTopics: ["Yoga", "Weight Loss", "Strength Training", "Cardio"],
-      },
-    ],
-  },
-  {
-    id: 666,
-    name: "Personal Development",
-    slug: "personal-development",
-    subcategories: [
-      {
-        id: 20,
-        name: "Soft Skills",
-        slug: "soft-skills",
-        popularTopics: [
-          "Communication",
-          "Emotional Intelligence",
-          "Time Management",
-        ],
-      },
-      {
-        id: 21,
-        name: "Productivity",
-        slug: "productivity",
-        popularTopics: ["Goal Setting", "Motivation", "Mindfulness"],
-      },
-    ],
-  },
-];
+// const categories = [
+//   {
+//     id: 288,
+//     name: "Development",
+//     slug: "development",
+//     subcategories: [
+//       {
+//         id: 8,
+//         name: "Web Development",
+//         slug: "web-development",
+//         popularTopics: [
+//           "React",
+//           "JavaScript",
+//           "HTML",
+//           "CSS",
+//           "Angular",
+//           "Vue.js",
+//           "Bootstrap",
+//         ],
+//       },
+//       {
+//         id: 558,
+//         name: "Data Science",
+//         slug: "data-science",
+//         popularTopics: [
+//           "Python",
+//           "Machine Learning",
+//           "Data Analysis",
+//           "Deep Learning",
+//           "Statistics",
+//         ],
+//       },
+//       {
+//         id: 10,
+//         name: "Mobile Development",
+//         slug: "mobile-development",
+//         popularTopics: ["Flutter", "React Native", "Swift", "Kotlin", "Ionic"],
+//       },
+//     ],
+//   },
+//   {
+//     id: 268,
+//     name: "Business",
+//     slug: "business",
+//     subcategories: [
+//       {
+//         id: 12,
+//         name: "Entrepreneurship",
+//         slug: "entrepreneurship",
+//         popularTopics: [
+//           "Business Strategy",
+//           "Freelancing",
+//           "Startup",
+//           "Business Plan",
+//         ],
+//       },
+//       {
+//         id: 13,
+//         name: "Management",
+//         slug: "management",
+//         popularTopics: ["Leadership", "Time Management", "Productivity"],
+//       },
+//     ],
+//   },
+//   {
+//     id: 328,
+//     name: "Finance & Accounting",
+//     slug: "finance-accounting",
+//   },
+//   {
+//     id: 444,
+//     name: "Design",
+//     slug: "design",
+//     subcategories: [
+//       {
+//         id: 15,
+//         name: "Graphic Design",
+//         slug: "graphic-design",
+//         popularTopics: ["Photoshop", "Illustrator", "Logo Design", "Branding"],
+//       },
+//       {
+//         id: 16,
+//         name: "UI/UX Design",
+//         slug: "ui-ux-design",
+//         popularTopics: [
+//           "User Research",
+//           "Wireframing",
+//           "Prototyping",
+//           "Usability Testing",
+//         ],
+//       },
+//     ],
+//   },
+//   {
+//     id: 555,
+//     name: "Health & Fitness",
+//     slug: "health-fitness",
+//     subcategories: [
+//       {
+//         id: 18,
+//         name: "Nutrition",
+//         slug: "nutrition",
+//         popularTopics: [
+//           "Healthy Eating",
+//           "Meal Planning",
+//           "Dietary Supplements",
+//         ],
+//       },
+//       {
+//         id: 19,
+//         name: "Fitness",
+//         slug: "fitness",
+//         popularTopics: ["Yoga", "Weight Loss", "Strength Training", "Cardio"],
+//       },
+//     ],
+//   },
+//   {
+//     id: 666,
+//     name: "Personal Development",
+//     slug: "personal-development",
+//     subcategories: [
+//       {
+//         id: 20,
+//         name: "Soft Skills",
+//         slug: "soft-skills",
+//         popularTopics: [
+//           "Communication",
+//           "Emotional Intelligence",
+//           "Time Management",
+//         ],
+//       },
+//       {
+//         id: 21,
+//         name: "Productivity",
+//         slug: "productivity",
+//         popularTopics: ["Goal Setting", "Motivation", "Mindfulness"],
+//       },
+//     ],
+//   },
+// ];

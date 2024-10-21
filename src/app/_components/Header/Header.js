@@ -57,11 +57,57 @@ const products = [
   },
 ];
 
+async function fetchTopics(subcategoryId) {
+  const topicsRes = await fetch(`https://udemy-eosin-eight.vercel.app/topics?subcategoryId=${subcategoryId}`);
+  const topics = await topicsRes.json();
+  return topics;
+}
+async function fetchSubcategories(categoryId) {
+  const subcategoryRes = await fetch(`https://udemy-eosin-eight.vercel.app/subcategories?categoryId=${categoryId}`);
+  const subcategories = await subcategoryRes.json();
+  return subcategories;
+}
+export async function getServerSideProps() {
+  // Fetch all categories
+  const categoryRes = await fetch('https://udemy-eosin-eight.vercel.app/category');
+  const categories = await categoryRes.json();
+
+  // Fetch subcategories and topics for each category
+  const categoriesWithSubcategories = await Promise.all(
+    categories.map(async (category) => {
+      const subcategories = await fetchSubcategories(category.id);
+
+      // Fetch topics for each subcategory
+      const subcategoriesWithTopics = await Promise.all(
+        subcategories.map(async (subcategory) => {
+          const topics = await fetchTopics(subcategory.id);
+          return {
+            ...subcategory,
+            topics,
+          };
+        })
+      );
+
+      return {
+        ...category,
+        subcategories: subcategoriesWithTopics,
+      };
+    })
+  );
+
+  return {
+    props: {
+      categories: categoriesWithSubcategories,
+    },
+  };
+}
+
+
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="bg-white shadow-md font-sans">
+    <header className="bg-white shadow-md font-sans relative z-10">
       <nav
         aria-label="Global"
         className="mx-auto flex items-center justify-between lg:justify-evenly p-3 lg:px-4 shadow-md z-10 relative"
