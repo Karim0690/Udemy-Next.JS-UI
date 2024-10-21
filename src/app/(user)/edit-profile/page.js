@@ -2,7 +2,7 @@
 import RichText from "@/app/(instructor)/_components/RichText/RichText";
 import { Button } from "@/components/ui/button";
 // import React, { useState } from "react";
-import { MdEdit } from "react-icons/md";
+import { MdEdit, MdModeEdit } from "react-icons/md";
 import { Checkbox } from "@/components/ui/checkbox";
 import axios from "axios";
 import Image from "next/image";
@@ -177,6 +177,7 @@ export default function Page() {
     };
 
     updateUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formPhoto.photo]);
 
   const handleSubmitPhoto = async (event) => {
@@ -797,6 +798,27 @@ export default function Page() {
                     </p>
                   </div>
                 </div>
+                <div className="mx-32 px-7 my-6">
+                  <h2 className="font-semibold px-3 ">Email:</h2>
+                  <div class="w-full px-3 mt-2  min-w-[200px]">
+                    <div class="relative">
+                      <div class="w-full pl-3 pr-10 py-4 bg-transparent text-slate-600 text-sm border border-black">
+                        <span class="text-black ">
+                          Your email address is <b>543125983a@emailfoxi.pro</b>
+                        </span>
+                      </div>
+                      <div class="absolute inset-y-0 right-0 flex items-center">
+                        <button
+                          type="button"
+                          class="h-full p-0 border border-black text-slate-900 hover:bg-slate-100 w-10 flex justify-center items-center"
+                        >
+                          <MdModeEdit />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="border-b border-gray-300"></div>
                 <div className="mx-32 px-7">
                   <form onSubmit={handlePasswordChange}>
                     <h2 className="font-semibold px-3 mt-6">Password:</h2>
