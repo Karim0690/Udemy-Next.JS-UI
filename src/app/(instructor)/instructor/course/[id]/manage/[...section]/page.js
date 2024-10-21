@@ -1,20 +1,16 @@
-import CourseManagmentContent from "@/app/(instructor)/_Pages/CourseManagmentContent/CourseManagmentContent";
-import ManageCourseHeader from "@/app/(instructor)/_components/ManageCourseHeader/ManageCourseHeader";
-import SidenavCourseManagment from "@/app/(instructor)/_components/SidenavCourseManagment/SidenavCourseManagment";
-import Footer from "@/app/_components/Footer/Footer";
+import ManagementCourse from "@/app/(instructor)/_components/ManagementCourse/ManagementCourse";
 import React from "react";
+import axios from "axios";
 
-const Page = ({ params: { section } }) => {
-  let path = section[0];
+const Page = async ({ params: { id, section } }) => {
+  const path = section[0];
+  // let data = {};
+  // let response = await axios(`${process.env.LOCAL_API}/course/${id}`);
+  // data = response.data.data.course;
 
   return (
     <>
-      <ManageCourseHeader />
-      <div className="lg:container flex flex-col lg:flex-row pt-2 lg:pt-8 px-4 pb-24 mx-auto">
-        <SidenavCourseManagment path={path} />
-        <CourseManagmentContent path={path} />
-      </div>
-      <Footer />
+      <ManagementCourse id={id} path={path} />
     </>
   );
 };

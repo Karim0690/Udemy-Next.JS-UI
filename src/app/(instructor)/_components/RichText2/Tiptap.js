@@ -11,10 +11,6 @@ import CodeBlock from "@tiptap/extension-code-block";
 const Tiptap = ({ onChange, content }) => {
   const maxChars = 1000;
 
-  const handleChange = (content) => {
-    onChange(content);
-  };
-
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -31,6 +27,7 @@ const Tiptap = ({ onChange, content }) => {
         defaultNode: "paragraph",
       }),
     ],
+    content,
     editorProps: {
       attributes: {
         class:
@@ -40,7 +37,7 @@ const Tiptap = ({ onChange, content }) => {
     onUpdate: ({ editor }) => {
       const text = editor.getText();
       if (text.length <= maxChars) {
-        handleChange(editor.getHTML());
+        onChange(editor.getHTML());
       }
     },
     immediatelyRender: false,

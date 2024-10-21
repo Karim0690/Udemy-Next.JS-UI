@@ -4,9 +4,39 @@ import React, { useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { BsCircle } from "react-icons/bs";
 import { BsCheckCircle } from "react-icons/bs";
+import axios from "axios";
 
-const SidenavCourseManagment = ({ path }) => {
+const SidenavCourseManagment = ({ path, course }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  let basics =
+    course.title &&
+    course.subtitle &&
+    course.description &&
+    course.language &&
+    course.category &&
+    course.subcategory &&
+    course.topics &&
+    course.courseImage &&
+    course.promotionalVideo;
+  const curriculum = course.duration >= 30;
+  const handleCourseStructureClick = async (field) => {
+    try {
+      // Make a PATCH request to the API
+      const response = await axios.patch(
+        `${process.env.NEXT_PUBLIC_LOCAL_API}/course/${course._id}`,
+        {
+          [field]: true,
+        }
+      );
+
+      if (response.status === 200) {
+      } else {
+        console.error("Failed to update course structure:", response.status);
+      }
+    } catch (error) {
+      console.error("Error updating course structure:", error);
+    }
+  };
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -44,8 +74,13 @@ const SidenavCourseManagment = ({ path }) => {
                     className="side-nav--completion--KfXbf"
                     aria-label="Completed"
                   >
-                    <BsCircle className=" text-xl" />
-                    <BsCheckCircle className=" text-xl hidden" />
+                    {course.learningObjective.length > 0 &&
+                    course.courseFor.length > 0 &&
+                    course.requirements.length > 0 ? (
+                      <BsCheckCircle className=" text-xl" />
+                    ) : (
+                      <BsCircle className=" text-xl" />
+                    )}
                   </span>
                   <span>Intended learners</span>
                 </Link>
@@ -60,13 +95,17 @@ const SidenavCourseManagment = ({ path }) => {
                 <Link
                   href="course-structure"
                   className="flex items-center gap-3 py-1 px-4"
+                  onClick={() => handleCourseStructureClick("courseStructure")}
                 >
                   <span
                     className="side-nav--completion--KfXbf"
                     aria-label="Completed"
                   >
-                    <BsCircle className=" text-xl" />
-                    <BsCheckCircle className=" text-xl hidden" />
+                    {course.courseStructure ? (
+                      <BsCheckCircle className=" text-xl" />
+                    ) : (
+                      <BsCircle className=" text-xl" />
+                    )}
                   </span>
                   <span>Course structure</span>
                 </Link>
@@ -81,13 +120,17 @@ const SidenavCourseManagment = ({ path }) => {
                 <Link
                   href="setup"
                   className="flex items-center gap-3 py-1 px-4"
+                  onClick={() => handleCourseStructureClick("setupAndTest")}
                 >
                   <span
                     className="side-nav--completion--KfXbf"
                     aria-label="Completed"
                   >
-                    <BsCircle className=" text-xl" />
-                    <BsCheckCircle className=" text-xl hidden" />
+                    {course.setupAndTest ? (
+                      <BsCheckCircle className=" text-xl " />
+                    ) : (
+                      <BsCircle className=" text-xl" />
+                    )}
                   </span>
                   <span>setup & test video</span>
                 </Link>
@@ -107,13 +150,20 @@ const SidenavCourseManagment = ({ path }) => {
                     : "border-l-4 border-transparent"
                 }`}
               >
-                <Link href="film" className="flex items-center gap-3 py-1 px-4">
+                <Link
+                  href="film"
+                  className="flex items-center gap-3 py-1 px-4"
+                  onClick={() => handleCourseStructureClick("filmAndEdite")}
+                >
                   <span
                     className="side-nav--completion--KfXbf"
                     aria-label="Completed"
                   >
-                    <BsCircle className=" text-xl" />
-                    <BsCheckCircle className=" text-xl hidden" />
+                    {course.filmAndEdite ? (
+                      <BsCheckCircle className=" text-xl " />
+                    ) : (
+                      <BsCircle className=" text-xl" />
+                    )}
                   </span>
                   <span>Film & edit</span>
                 </Link>
@@ -133,8 +183,11 @@ const SidenavCourseManagment = ({ path }) => {
                     className="side-nav--completion--KfXbf"
                     aria-label="Completed"
                   >
-                    <BsCircle className=" text-xl" />
-                    <BsCheckCircle className=" text-xl hidden" />
+                    {curriculum ? (
+                      <BsCheckCircle className=" text-xl" />
+                    ) : (
+                      <BsCircle className=" text-xl" />
+                    )}
                   </span>
                   <span>Curriculum</span>
                 </Link>
@@ -149,13 +202,17 @@ const SidenavCourseManagment = ({ path }) => {
                 <Link
                   href="captions"
                   className="flex items-center gap-3 py-1 px-4"
+                  onClick={() => handleCourseStructureClick("captions")}
                 >
                   <span
                     className="side-nav--completion--KfXbf"
                     aria-label="Completed"
                   >
-                    <BsCircle className=" text-xl" />
-                    <BsCheckCircle className=" text-xl hidden" />
+                    {course.captions ? (
+                      <BsCheckCircle className=" text-xl " />
+                    ) : (
+                      <BsCircle className=" text-xl" />
+                    )}
                   </span>
                   <span>Captions (optional)</span>
                 </Link>
@@ -170,13 +227,17 @@ const SidenavCourseManagment = ({ path }) => {
                 <Link
                   href="accessibility"
                   className="flex items-center gap-3 py-1 px-4"
+                  onClick={() => handleCourseStructureClick("accessibility")}
                 >
                   <span
                     className="side-nav--completion--KfXbf"
                     aria-label="Completed"
                   >
-                    <BsCircle className=" text-xl" />
-                    <BsCheckCircle className=" text-xl hidden" />
+                    {course.accessibility ? (
+                      <BsCheckCircle className=" text-xl " />
+                    ) : (
+                      <BsCircle className=" text-xl" />
+                    )}
                   </span>
                   <span>Accessibility (optional)</span>
                 </Link>
@@ -204,8 +265,11 @@ const SidenavCourseManagment = ({ path }) => {
                     className="side-nav--completion--KfXbf"
                     aria-label="Completed"
                   >
-                    <BsCircle className=" text-xl" />
-                    <BsCheckCircle className=" text-xl hidden" />
+                    {basics ? (
+                      <BsCheckCircle className=" text-xl" />
+                    ) : (
+                      <BsCircle className=" text-xl" />
+                    )}
                   </span>
                   <span>Course landing page</span>
                 </Link>
@@ -225,8 +289,11 @@ const SidenavCourseManagment = ({ path }) => {
                     className="side-nav--completion--KfXbf"
                     aria-label="Completed"
                   >
-                    <BsCircle className=" text-xl" />
-                    <BsCheckCircle className=" text-xl hidden" />
+                    {course.price !== "" ? (
+                      <BsCheckCircle className=" text-xl " />
+                    ) : (
+                      <BsCircle className=" text-xl" />
+                    )}
                   </span>
                   <span>Pricing</span>
                 </Link>
@@ -241,13 +308,17 @@ const SidenavCourseManagment = ({ path }) => {
                 <Link
                   href="promotions"
                   className="flex items-center gap-3 py-1 px-4"
+                  onClick={() => handleCourseStructureClick("promotions")}
                 >
                   <span
                     className="side-nav--completion--KfXbf"
                     aria-label="Completed"
                   >
-                    <BsCircle className=" text-xl" />
-                    <BsCheckCircle className=" text-xl hidden" />
+                    {course.promotions ? (
+                      <BsCheckCircle className=" text-xl " />
+                    ) : (
+                      <BsCircle className=" text-xl" />
+                    )}
                   </span>
                   <span>Promotions</span>
                 </Link>
@@ -267,8 +338,11 @@ const SidenavCourseManagment = ({ path }) => {
                     className="side-nav--completion--KfXbf"
                     aria-label="Completed"
                   >
-                    <BsCircle className=" text-xl" />
-                    <BsCheckCircle className=" text-xl hidden" />
+                    {course.welcomeMessage && course.congratesMessage ? (
+                      <BsCheckCircle className=" text-xl " />
+                    ) : (
+                      <BsCircle className=" text-xl" />
+                    )}
                   </span>
                   <span>Course messages</span>
                 </Link>

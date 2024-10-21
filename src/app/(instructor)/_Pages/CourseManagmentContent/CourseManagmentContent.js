@@ -11,7 +11,14 @@ import Promotions from "../Promotions/Promotions";
 import CourseMessages from "../CourseMessages/CourseMessages";
 import Curriculum from "../Curriculum/Curriculum";
 
-const CourseManagmentContent = ({ path }) => {
+const CourseManagmentContent = ({
+  path,
+  course,
+  formData,
+  setFormData,
+  setBasics,
+  setMessages,
+}) => {
   return (
     <>
       <div className="bg-white shadow-2xl w-full flex-1">
@@ -34,7 +41,11 @@ const CourseManagmentContent = ({ path }) => {
                 descriptions will help learners decide if your course is right
                 for them.
               </p>
-              <DragnDrop />
+              <DragnDrop
+                course={course}
+                formData={formData}
+                setFormData={setFormData}
+              />
             </div>
           </div>
         ) : (
@@ -175,7 +186,10 @@ const CourseManagmentContent = ({ path }) => {
                 Course Landing Page
               </h2>
             </div>
-            <CourseLandingPage />
+            <CourseLandingPage
+              course={course}
+              setBasics={setBasics}
+            />
           </div>
         ) : (
           ""
@@ -187,7 +201,7 @@ const CourseManagmentContent = ({ path }) => {
                 Pricing
               </h2>
             </div>
-            <Price />
+            <Price id={course._id} price={course.price} />
           </div>
         ) : (
           ""
@@ -211,7 +225,7 @@ const CourseManagmentContent = ({ path }) => {
                 Course messages
               </h2>
             </div>
-            <CourseMessages />
+            <CourseMessages course={course} setMessages={setMessages} />
           </div>
         ) : (
           ""

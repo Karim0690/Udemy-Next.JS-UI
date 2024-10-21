@@ -1,31 +1,40 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import useCourseStore from "@/app/store/courseStore";
+import React, { useEffect, useState, useMemo } from "react";
 import { IoMdInformationCircle } from "react-icons/io";
 
-const AutoSuggest = () => {
+const AutoSuggest = ({ courseTopics, relatedTopic, setFormData }) => {
   const [inputValue, setInputValue] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [isExpanded, setIsExpanded] = useState(false);
-  const [selectedTopics, setSelectedTopics] = useState([]);
   const [isProposeMode, setIsProposeMode] = useState(false);
+  const { topics, fetchTopics } = useCourseStore();
 
-  // Sample data for suggestions
-  const data = [
-    "Landscape Photography",
-    "Portrait Photography",
-    "Wildlife Photography",
-    "Street Photography",
-    "Sports Photography",
-    "Macro Photography",
-    "Aerial Photography",
-  ];
+  useEffect(() => {
+    const loadTopicsData = async () => {
+      await fetchTopics();
+    };
+    loadTopicsData();
+  }, [fetchTopics]);
+
+  useEffect(() => {
+    setIsProposeMode(courseTopics.length === 0);
+
+    if (courseTopics.length === 1) {
+      setFormData((prevData) => ({
+        ...prevData,
+        relatedTopic: courseTopics[0]._id,
+      }));
+    }
+  }, [courseTopics, setFormData]);
 
   const handleInputChange = (e) => {
     const value = e.target.value;
     setInputValue(value);
-    if (value) {
-      const filteredSuggestions = data.filter((item) =>
-        item.toLowerCase().includes(value.toLowerCase())
+
+    if (value && topics) {
+      const filteredSuggestions = topics.filter((topic) =>
+        topic.name.toLowerCase().includes(value.toLowerCase())
       );
       setSuggestions(filteredSuggestions);
       setIsExpanded(true);
@@ -36,16 +45,22 @@ const AutoSuggest = () => {
   };
 
   const handleSuggestionClick = (suggestion) => {
-    if (!selectedTopics.includes(suggestion)) {
-      setSelectedTopics((prev) => [...prev, suggestion]);
+    if (!courseTopics.some((topic) => topic._id === suggestion._id)) {
+      setFormData((prevData) => ({
+        ...prevData,
+        topics: [...prevData.topics, suggestion],
+      }));
     }
     setInputValue("");
     setSuggestions([]);
     setIsExpanded(false);
   };
 
-  const handleRemoveTopic = (topic) => {
-    setSelectedTopics(selectedTopics.filter((t) => t !== topic));
+  const handleRemoveTopic = (topicId) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      topics: prevData.topics.filter((topic) => topic._id !== topicId),
+    }));
   };
 
   const handleProposeAnotherTopic = () => {
@@ -54,22 +69,42 @@ const AutoSuggest = () => {
   };
 
   useEffect(() => {
-    setIsProposeMode(selectedTopics.length === 0);
-  }, [selectedTopics]);
+    setIsProposeMode(courseTopics.length === 0);
+  }, [courseTopics]);
 
   const [tooltipVisible, setTooltipVisible] = useState(false);
+
+  const filteredSuggestions = useMemo(() => {
+    return suggestions.map((suggestion) => (
+      <div
+        key={suggestion._id}
+        className="p-2 my-2 cursor-pointer text-sm font-medium border border-black rounded-3xl hover:bg-gray-200"
+        onClick={() => handleSuggestionClick(suggestion)}
+      >
+        {suggestion.name}
+      </div>
+    ));
+  }, [suggestions]);
+
+  const handleSelectRelatedTopic = (e) => {
+    const selectedTopicId = e.target.value;
+    setFormData((prevData) => ({
+      ...prevData,
+      relatedTopic: selectedTopicId,
+    }));
+  };
 
   return (
     <div className="relative w-full">
       <div className="flex flex-wrap gap-2 mb-2 w-full md:w-[50%]">
-        {selectedTopics.map((topic) => (
+        {courseTopics.map((topic) => (
           <div
-            key={topic}
+            key={topic._id}
             className="flex items-center justify-between px-3 py-2 text-sm font-semibold text-white bg-gray-800 rounded-full"
           >
-            {topic}
+            {topic.name}
             <button
-              onClick={() => handleRemoveTopic(topic)}
+              onClick={() => handleRemoveTopic(topic._id)}
               className="ml-2 text-white"
             >
               &times;
@@ -79,7 +114,6 @@ const AutoSuggest = () => {
       </div>
 
       {isProposeMode ? (
-        // Input for proposing new topics
         <input
           aria-invalid="false"
           placeholder="e.g. Landscape Photography"
@@ -95,7 +129,6 @@ const AutoSuggest = () => {
           onFocus={() => setIsExpanded(inputValue.length > 0)}
         />
       ) : (
-        // Propose another topic link
         <div className="cursor-pointer" onClick={handleProposeAnotherTopic}>
           <span className="text-gray-600 text-xs underline">
             Propose another topic...
@@ -103,23 +136,16 @@ const AutoSuggest = () => {
         </div>
       )}
 
-      {isExpanded && suggestions.length > 0 && (
+      {isExpanded && filteredSuggestions.length > 0 && (
         <div
           role="listbox"
           className="absolute w-full md:w-[50%] left-0 right-0 z-10 mt-1 px-4 bg-white border border-gray-300 rounded-md shadow-lg max-h-56 overflow-auto"
         >
-          {suggestions.map((suggestion, index) => (
-            <div
-              key={index}
-              className="p-2 my-2  cursor-pointer text-sm font-medium border border-black rounded-3xl hover:bg-gray-200"
-              onClick={() => handleSuggestionClick(suggestion)}
-            >
-              {suggestion}
-            </div>
-          ))}
+          {filteredSuggestions}
         </div>
       )}
-      {selectedTopics.length > 1 && (
+
+      {courseTopics.length > 1 && (
         <>
           <div className="flex items-center gap-2 my-4">
             <h2 className="font-bold text-base">
@@ -137,14 +163,13 @@ const AutoSuggest = () => {
 
             {tooltipVisible && (
               <div
-                id="tooltip-right"
                 role="tooltip"
                 className="absolute z-10 left-[600px] w-[300px] inline-block p-6 text-sm text-gray-600 bg-white border border-gray-200"
               >
                 Which topic do you spend the most time covering in your course?
-                If you believe two topics are equally representative of your
-                entire course, select either one. All of the topics listed will
-                still count as being taught in your course.{" "}
+                If you believe two topics are equally representative, select
+                either one. All topics will still count as being taught in your
+                course.
                 <a
                   href="#"
                   className="text-violet-700 underline underline-offset-2"
@@ -156,19 +181,19 @@ const AutoSuggest = () => {
           </div>
           <div className="border border-black p-3 w-full md:w-[50%]">
             <select
-              id="level-options"
-              name="level"
+              id="topic-options"
+              name="topic"
               required
+              value={relatedTopic ? relatedTopic._id : ""}
               className="block w-full text-base focus:outline-none bg-transparent text-gray-800"
+              onChange={handleSelectRelatedTopic}
             >
-              <option value="0">Select a primary topic</option>
-              {selectedTopics.map((topic) => {
-                return (
-                  <option key={topic} value={topic}>
-                    {topic}
-                  </option>
-                );
-              })}
+              <option value="">Select a primary topic</option>
+              {courseTopics.map((topic) => (
+                <option key={topic._id} value={topic._id}>
+                  {topic.name}
+                </option>
+              ))}
             </select>
           </div>
         </>

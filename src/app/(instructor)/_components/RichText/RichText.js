@@ -1,17 +1,20 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import Tiptap from "./Tiptap";
 
-const RichText = () => {
-  const [content, setContent] = useState("");
-  const handleContextChange = (cont) => {
-    setContent(cont);
+const RichText = ({ content, onChange, placeholder }) => {
+  const handleContentChange = (newContent) => {
+    if (onChange) {
+      onChange(newContent); // Call onChange only if it's passed as a prop
+    }
   };
+
   return (
     <>
       <Tiptap
+        placeholder={placeholder} // Add a placeholder text to the RichText editor
         content={content}
-        onChange={(newContent) => handleContextChange(newContent)}
+        onChange={handleContentChange} // Pass handleContentChange to Tiptap
       />
     </>
   );

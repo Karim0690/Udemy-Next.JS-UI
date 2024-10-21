@@ -1,8 +1,8 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MdOutlineInsertDriveFile } from "react-icons/md";
-import { FaBook, FaPen, FaQuestion, FaTrash } from "react-icons/fa";
-import { IoIosMenu, IoIosCheckmarkCircle, IoMdClose } from "react-icons/io";
+import { FaPen, FaPlayCircle, FaTrash } from "react-icons/fa";
+import { IoIosMenu, IoIosCheckmarkCircle } from "react-icons/io";
 import { FaPlus } from "react-icons/fa6";
 import ExpandedSection from "../../_components/ExpandedSection/ExpandedSection";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
@@ -12,91 +12,68 @@ import EditItemForm from "../../_components/EditItemForm/EditItemForm";
 import NewLectureForm from "../../_components/NewLectureForm/NewLectureForm";
 import NewQuizForm from "../../_components/NewQuizForm/NewQuizForm";
 import AddContentForm from "../../_components/AddContentForm/AddContentForm";
+import AddQuestionForm from "../../_components/AddQuestionForm/AddQuestionForm";
+import axios from "axios";
+import { useParams } from "next/navigation";
+import { Spinner } from "@material-tailwind/react";
+import { IoChevronDown } from "react-icons/io5";
+import LectureContentExpanded from "../../_components/LectureContentExpanded/LectureContentExpanded";
+import QuizContentExpanded from "../../_components/QuizContentExpanded/QuizContentExpanded";
+import useCourseStore from "@/app/store/courseStore";
 
 const Curriculum = () => {
+  const params = useParams();
+
   const [isFormVisible, setFormVisible] = useState(false);
   const [addContent, setAddContent] = useState(null);
+  const [addQuestion, setAddQuestion] = useState(null);
   const [visibleSectionIndex, setVisibleSectionIndex] = useState(null);
   const [lectureFormVisible, setLectureFormVisible] = useState(null);
   const [quizFormVisible, setQuizFormVisible] = useState(null);
   const [editSectionIndex, setEditSectionIndex] = useState(null);
   const [editLectureIndex, setEditLectureIndex] = useState(null);
-  const [editLectureTitle, setEditedLectureTitle] = useState("");
-  const [editQuizDescription, setEditQuizDescription] = useState("");
-  const [sections, setSections] = useState([
-    {
-      title: "Section 1",
-      objective: "objective",
-      items: [
-        {
-          type: "lecture",
-          title: "Lecture 1",
-          content: "Content of Lecture 1",
-        },
-        { type: "quiz", title: "Quiz 1", description: "Quiz Description" },
-        {
-          type: "lecture",
-          title: "Lecture 2",
-          content: "Content of Lecture 2",
-        },
-      ],
-    },
-    {
-      title: "Section 2",
-      objective: "objective",
-      items: [
-        {
-          type: "lecture",
-          title: "Lecture 1",
-          content: "Content of Lecture 1",
-        },
-        { type: "quiz", title: "Quiz 1", description: "Quiz Description" },
-        {
-          type: "lecture",
-          title: "Lecture 2",
-          content: "Content of Lecture 2",
-        },
-      ],
-    },
-  ]);
+  const [addVideo, setAddVideo] = useState(true);
+  const [addQuestions, setAddQuestions] = useState(true);
+  const [sections, setSections] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [lectureContent, setLectureContent] = useState(null);
+  const [quizContent, setQuizContent] = useState(null);
+  const { fetchCourse } = useCourseStore();
+  const [questionId, SetQuestionId] = useState(null);
 
-  const handleSaveSectionTitle = (index, newTitle, newObjective) => {
-    const updatedSections = [...sections];
-    updatedSections[index].title = newTitle; // Update section title
-    updatedSections[index].objective = newObjective; // Update section objective
-    setSections(updatedSections);
+  const handelSections = async () => {
+    try {
+      let response = await axios.get(
+        `${process.env.NEXT_PUBLIC_LOCAL_API}/course/${params.id}/course_sections`
+      );
+      setSections(response.data[0].sections);
+    } catch (error) {
+      console.error("Error fetching sections:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    handelSections();
+  }, []);
+
+  const handleAddSection = () => {
+    handelSections();
+  };
+
+  const videoAdded = () => {
+    setAddVideo(false);
+    setAddContent(null);
+    handelSections();
   };
 
   const handleEditLectureTitle = (sectionIndex, lectureIndex) => {
     setEditLectureIndex(`${sectionIndex}-${lectureIndex}`);
-    setEditedLectureTitle(sections[sectionIndex].items[lectureIndex].title);
-    setEditQuizDescription(
-      sections[sectionIndex].items[lectureIndex].description
-    );
-  };
-
-  const handleSaveLectureTitle = (sectionIndex, lectureIndex) => {
-    // Save the updated title and content
-    const updatedSections = [...sections];
-    updatedSections[sectionIndex].items[lectureIndex].title = editLectureTitle;
-    updatedSections[sectionIndex].items[lectureIndex].description =
-      editQuizDescription;
-    setSections(updatedSections);
-    setEditLectureIndex(null);
   };
 
   const toggleFormVisibility = () => {
     setFormVisible((prev) => !prev);
-  };
-
-  const handleCancel = () => {
-    setFormVisible(false);
-  };
-
-  const handleAddSection = (title, objective) => {
-    const newSection = { title, objective, items: [] };
-    setSections((prevSections) => [...prevSections, newSection]);
-    setFormVisible(false);
   };
 
   const toggleCurriculumVisibility = (index) => {
@@ -115,41 +92,42 @@ const Curriculum = () => {
 
   const handleQuizFormVisibility = (index) => {
     setQuizFormVisible((prevIndex) => (prevIndex === index ? null : index));
-    setEditQuizDescription("");
   };
 
-  const handleAddItem = (sectionIndex, type, newItemTitle, newQuizContent) => {
-    const newItem = {
-      type,
-      title: newItemTitle,
-      description: type === "quiz" ? newQuizContent : "", // Only set description for quizzes
-      content: type === "lecture" ? "" : "", // This is fine for lectures
-    };
-    const updatedSections = [...sections];
-    updatedSections[sectionIndex].items.push(newItem);
-    setSections(updatedSections);
-
+  const handleAddItem = () => {
     // Reset the form visibility and related states
     setLectureFormVisible(null);
     setQuizFormVisible(null);
-    setEditQuizDescription("");
     setVisibleSectionIndex(null);
+    handelSections();
   };
 
-  const handleDeleteItem = (sectionIndex, itemIndex) => {
-    const updatedSections = [...sections];
-    updatedSections[sectionIndex].items.splice(itemIndex, 1);
-    setSections(updatedSections);
-  };
-
-  const handleDeleteSection = (index) => {
-    const updatedSections = sections.filter(
-      (_, sectionIndex) => sectionIndex !== index
+  const handleDeleteItem = async (type, itemId, sectionId, item) => {
+    await axios.delete(
+      `${process.env.NEXT_PUBLIC_LOCAL_API}/course-sections/${sectionId}/items/${item}`
     );
-    setSections(updatedSections);
+    if (type === "Lecture") {
+      await axios.delete(
+        `${process.env.NEXT_PUBLIC_LOCAL_API}/lectures/${itemId}/course/${params.id}`
+      );
+    }
+    if (type === "Quiz") {
+      await axios.delete(
+        `${process.env.NEXT_PUBLIC_LOCAL_API}/quizzes/${itemId}`
+      );
+    }
+    handelSections();
+    fetchCourse(params.id);
   };
 
-  const onDragEnd = (result) => {
+  const handleDeleteSection = async (sectionId) => {
+    await axios.delete(
+      `${process.env.NEXT_PUBLIC_LOCAL_API}/course-sections/${sectionId}`
+    );
+    handelSections();
+  };
+
+  const onDragEnd = async (result) => {
     if (!result.destination) return;
 
     const { source, destination } = result;
@@ -163,6 +141,12 @@ const Curriculum = () => {
       const [movedSection] = reorderedSections.splice(source.index, 1);
       reorderedSections.splice(destination.index, 0, movedSection);
       setSections(reorderedSections);
+      await axios.patch(
+        `${process.env.NEXT_PUBLIC_LOCAL_API}/course/${params.id}`,
+        {
+          sections: reorderedSections.map((section) => section._id),
+        }
+      );
     }
     // Handle item moving between sections
     else if (source.droppableId !== destination.droppableId) {
@@ -178,8 +162,26 @@ const Curriculum = () => {
       const updatedSections = [...sections];
       updatedSections[sourceSectionIndex] = sourceSection;
       updatedSections[destinationSectionIndex] = destinationSection;
+      updatedSections.map((section) => ({
+        _id: section._id,
+        items: section.items.map((item) => console.log(item)),
+      })),
+        setSections(updatedSections);
+      const updatePromises = updatedSections.map(async (section) => {
+        return axios
+          .put(
+            `${process.env.NEXT_PUBLIC_LOCAL_API}/course-sections/${section._id}`,
+            {
+              items: section.items,
+            }
+          )
+          .catch((error) => {
+            console.error(`Failed to update section ${section._id}:`, error);
+          });
+      });
 
-      setSections(updatedSections);
+      // Wait for all updates to complete
+      await Promise.all(updatePromises);
     }
     // Handle item reordering within the same section
     else {
@@ -193,8 +195,27 @@ const Curriculum = () => {
         ...updatedSections[sectionIndex],
         items: reorderedItems,
       };
-
       setSections(updatedSections);
+      updatedSections.map((section) => ({
+        _id: section._id,
+        items: section.items.map((item) => console.log(item)),
+      }));
+
+      const updatePromises = updatedSections.map(async (section) => {
+        return axios
+          .put(
+            `${process.env.NEXT_PUBLIC_LOCAL_API}/course-sections/${section._id}`,
+            {
+              items: section.items,
+            }
+          )
+          .catch((error) => {
+            console.error(`Failed to update section ${section._id}:`, error);
+          });
+      });
+
+      // Wait for all updates to complete
+      await Promise.all(updatePromises);
     }
   };
 
@@ -205,10 +226,10 @@ const Curriculum = () => {
 
     for (let i = 0; i < sectionIndex; i++) {
       totalLectures += sections[i].items.filter(
-        (item) => item.type === "lecture"
+        (item) => item.type === "Lecture"
       ).length;
       totalQuizzes += sections[i].items.filter(
-        (item) => item.type === "quiz"
+        (item) => item.type === "Quiz"
       ).length;
     }
 
@@ -216,13 +237,13 @@ const Curriculum = () => {
     const currentSection = sections[sectionIndex];
     totalLectures += currentSection.items
       .slice(0, itemIndex)
-      .filter((item) => item.type === "lecture").length;
+      .filter((item) => item.type === "Lecture").length;
     totalQuizzes += currentSection.items
       .slice(0, itemIndex)
-      .filter((item) => item.type === "quiz").length;
+      .filter((item) => item.type === "Quiz").length;
 
     // Determine if the item is a lecture or quiz for the numbering
-    if (currentSection.items[itemIndex].type === "lecture") {
+    if (currentSection.items[itemIndex].type === "Lecture") {
       return totalLectures + 1; // Lecture numbering starts from 1
     } else {
       return totalQuizzes + 1; // Quiz numbering starts from 1
@@ -247,323 +268,463 @@ const Curriculum = () => {
         </p>
       </div>
 
-      <DragDropContext onDragEnd={onDragEnd}>
-        <Droppable droppableId="droppable" type="SECTION">
-          {(provided) => (
-            <div
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-              className="my-8"
-            >
-              {sections.map((section, sectionIndex) => (
-                <Draggable
-                  key={sectionIndex}
-                  draggableId={`section-${sectionIndex}`}
-                  index={sectionIndex}
+      {isLoading ? (
+        <div className="flex-1 flex justify-center items-center mt-4">
+          <Spinner className="h-16 w-16 text-gray-900/50" />
+        </div>
+      ) : (
+        <>
+          <DragDropContext onDragEnd={onDragEnd}>
+            <Droppable droppableId="droppable" type="SECTION">
+              {(provided) => (
+                <div
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                  className="my-8"
                 >
-                  {(provided) => (
-                    <div
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      className="border border-gray-600 bg-gray-100 my-4"
-                    >
-                      {editSectionIndex === sectionIndex ? (
-                        <NewSectionForm
-                          sectionIndex={sectionIndex}
-                          sections={sections}
-                          setEditSectionIndex={setEditSectionIndex}
-                          handleSaveSectionTitle={handleSaveSectionTitle}
-                        />
-                      ) : (
-                        <div
-                          {...provided.dragHandleProps}
-                          className="py-4 px-2 flex gap-4 group"
+                  {sections
+                    ? sections.map((section, sectionIndex) => (
+                        <Draggable
+                          key={sectionIndex}
+                          draggableId={`section-${sectionIndex}`}
+                          index={sectionIndex}
                         >
-                          <div className="flex gap-2">
-                            <h2 className="font-bold">
-                              Section {sectionIndex + 1}:
-                            </h2>
-                            <div className="flex items-center gap-2">
-                              <MdOutlineInsertDriveFile />
-                              <p>{section.title}</p>
-                            </div>
-                          </div>
-                          <div className="flex items-center justify-between flex-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <div className="flex items-center gap-4">
-                              <FaPen
-                                className="text-xs cursor-pointer"
-                                onClick={() =>
-                                  setEditSectionIndex(sectionIndex)
-                                }
-                              />
-                              <FaTrash
-                                className="text-xs cursor-pointer"
-                                onClick={() =>
-                                  handleDeleteSection(sectionIndex)
-                                }
-                              />
-                            </div>
-                            <div>
-                              <IoIosMenu className="text-2xl" />
-                            </div>
-                          </div>
-                        </div>
-                      )}
+                          {(provided) => (
+                            <div
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              className="border border-gray-600 bg-gray-100 my-4"
+                            >
+                              {editSectionIndex === sectionIndex ? (
+                                <NewSectionForm
+                                  sectionIndex={sectionIndex}
+                                  sectionId={section._id}
+                                  currentSection={section}
+                                  setEditSectionIndex={setEditSectionIndex}
+                                />
+                              ) : (
+                                <div
+                                  {...provided.dragHandleProps}
+                                  className="py-4 px-2 flex gap-4 group"
+                                >
+                                  <div className="flex gap-2">
+                                    <h2 className="font-bold">
+                                      Section {sectionIndex + 1}:
+                                    </h2>
+                                    <div className="flex items-center gap-2">
+                                      <MdOutlineInsertDriveFile />
+                                      <p>{section.title}</p>
+                                    </div>
+                                  </div>
+                                  <div className="flex items-center justify-between flex-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    <div className="flex items-center gap-4">
+                                      <FaPen
+                                        className="text-xs cursor-pointer"
+                                        onClick={() => {
+                                          setEditSectionIndex(sectionIndex);
+                                        }}
+                                      />
+                                      <FaTrash
+                                        className="text-xs cursor-pointer"
+                                        onClick={() =>
+                                          handleDeleteSection(section._id)
+                                        }
+                                      />
+                                    </div>
+                                    <div>
+                                      <IoIosMenu className="text-2xl" />
+                                    </div>
+                                  </div>
+                                </div>
+                              )}
 
-                      <Droppable droppableId={`${sectionIndex}`} type="ITEM">
-                        {(provided) => (
-                          <div
-                            {...provided.droppableProps}
-                            ref={provided.innerRef}
-                          >
-                            {section.items.map((item, itemIndex) => (
-                              <Draggable
-                                key={`${item.type}-${itemIndex}`}
-                                draggableId={`item-${sectionIndex}-${itemIndex}`}
-                                index={itemIndex}
+                              <Droppable
+                                droppableId={`${sectionIndex}`}
+                                type="ITEM"
                               >
                                 {(provided) => (
-                                  <>
-                                    {editLectureIndex ===
-                                    `${sectionIndex}-${itemIndex}` ? (
-                                      <EditItemForm
-                                        item={item}
-                                        sectionIndex={sectionIndex}
-                                        itemIndex={itemIndex}
-                                        editLectureTitle={editLectureTitle}
-                                        setEditedLectureTitle={
-                                          setEditedLectureTitle
-                                        }
-                                        editQuizDescription={
-                                          editQuizDescription
-                                        }
-                                        setEditQuizDescription={
-                                          setEditQuizDescription
-                                        }
-                                        handleSaveLectureTitle={
-                                          handleSaveLectureTitle
-                                        }
-                                        setEditLectureIndex={
-                                          setEditLectureIndex
-                                        }
-                                        getItemNumber={getItemNumber}
-                                      />
-                                    ) : (
-                                      <>
-                                        <div
-                                          ref={provided.innerRef}
-                                          {...provided.draggableProps}
-                                          {...provided.dragHandleProps}
-                                          className="relative mt-4 ml-20 mr-2 p-3 flex items-center border border-gray-600 bg-white group cursor-move"
-                                        >
-                                          <div className=" flex items-center gap-4 flex-1">
-                                            <IoIosCheckmarkCircle className="text-gray-800" />
-                                            <h3 className="font-medium">
-                                              {item.type === "lecture"
-                                                ? "Lecture"
-                                                : "Quiz"}{" "}
-                                              {getItemNumber(
-                                                sectionIndex,
-                                                itemIndex
-                                              )}
-                                              :
-                                            </h3>
-                                            <div className="flex items-center gap-2">
-                                              {item.type === "lecture" ? (
-                                                <MdOutlineInsertDriveFile />
-                                              ) : (
-                                                <GoQuestion />
-                                              )}
-                                              <p>{item.title}</p>
-                                            </div>
-                                            <div className="flex items-center gap-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                              <FaPen
-                                                className="text-xs cursor-pointer"
-                                                onClick={() => {
-                                                  handleEditLectureTitle(
-                                                    sectionIndex,
-                                                    itemIndex
-                                                  );
-                                                }}
-                                              />
-                                              <FaTrash
-                                                className="text-xs cursor-pointer"
-                                                onClick={() =>
-                                                  handleDeleteItem(
-                                                    sectionIndex,
-                                                    itemIndex
-                                                  )
+                                  <div
+                                    {...provided.droppableProps}
+                                    ref={provided.innerRef}
+                                  >
+                                    {section.items.map((item, itemIndex) => (
+                                      <Draggable
+                                        key={`${item.type}-${itemIndex}`}
+                                        draggableId={`item-${sectionIndex}-${itemIndex}`}
+                                        index={itemIndex}
+                                      >
+                                        {(provided) => (
+                                          <>
+                                            {editLectureIndex ===
+                                            `${sectionIndex}-${itemIndex}` ? (
+                                              <EditItemForm
+                                                item={item}
+                                                sectionIndex={sectionIndex}
+                                                itemIndex={itemIndex}
+                                                setEditLectureIndex={
+                                                  setEditLectureIndex
                                                 }
+                                                getItemNumber={getItemNumber}
+                                                handelSections={handelSections}
                                               />
-                                            </div>
-                                          </div>
-                                          <div className="flex items-center gap-4">
-                                            {item.type === "lecture" ? (
+                                            ) : (
                                               <>
-                                                <button
-                                                  className={`flex items-center gap-2 border border-gray-800 py-[3px] px-2 font-medium hover:bg-gray-100 ${
-                                                    addContent ===
-                                                      `${sectionIndex}-${itemIndex}` &&
-                                                    "hidden"
-                                                  }`}
-                                                  onClick={() =>
-                                                    setAddContent(
-                                                      `${sectionIndex}-${itemIndex}`
-                                                    )
-                                                  }
+                                                <div
+                                                  ref={provided.innerRef}
+                                                  {...provided.draggableProps}
+                                                  {...provided.dragHandleProps}
+                                                  className="relative mt-4 ml-20 mr-2 p-3 flex items-center border border-gray-600 bg-white group cursor-move"
                                                 >
-                                                  <FaPlus /> Content
-                                                </button>
+                                                  <div className=" flex items-center gap-4 flex-1">
+                                                    <IoIosCheckmarkCircle className="text-gray-800" />
+                                                    <h3 className="font-medium">
+                                                      {item.type === "Lecture"
+                                                        ? "Lecture"
+                                                        : "Quiz"}{" "}
+                                                      {getItemNumber(
+                                                        sectionIndex,
+                                                        itemIndex
+                                                      )}
+                                                      :
+                                                    </h3>
+                                                    <div className="flex items-center gap-2">
+                                                      {item.type ===
+                                                      "Lecture" ? (
+                                                        item.item.resource ? (
+                                                          <FaPlayCircle />
+                                                        ) : (
+                                                          <MdOutlineInsertDriveFile />
+                                                        )
+                                                      ) : (
+                                                        <GoQuestion />
+                                                      )}
+                                                      <p>{item.item.title}</p>
+                                                    </div>
+                                                    <div className="flex items-center gap-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                                      <FaPen
+                                                        className="text-xs cursor-pointer"
+                                                        onClick={() => {
+                                                          handleEditLectureTitle(
+                                                            sectionIndex,
+                                                            itemIndex
+                                                          );
+                                                        }}
+                                                      />
+                                                      <FaTrash
+                                                        className="text-xs cursor-pointer"
+                                                        onClick={() =>
+                                                          handleDeleteItem(
+                                                            item.type,
+                                                            item.item._id,
+                                                            section._id,
+                                                            item._id
+                                                          )
+                                                        }
+                                                      />
+                                                    </div>
+                                                  </div>
+                                                  <div className="flex items-center gap-4">
+                                                    {item.type === "Lecture" &&
+                                                      !item.item.resource && (
+                                                        <>
+                                                          <button
+                                                            className={`flex items-center gap-1 border text-sm border-gray-800 py-[3px] px-2 font-medium hover:bg-gray-100 ${
+                                                              addContent ===
+                                                                `${sectionIndex}-${itemIndex}` &&
+                                                              "hidden"
+                                                            }`}
+                                                            onClick={() =>
+                                                              setAddContent(
+                                                                `${sectionIndex}-${itemIndex}`
+                                                              )
+                                                            }
+                                                          >
+                                                            <FaPlus className="text-sm" />
+                                                            Content
+                                                          </button>
+                                                        </>
+                                                      )}
+                                                    {item.type === "Quiz" &&
+                                                    item.item.questions
+                                                      .length === 0 ? (
+                                                      <>
+                                                        <button
+                                                          className={`flex items-center gap-1 border text-sm border-gray-800 py-[3px] px-2 font-medium hover:bg-gray-100 ${
+                                                            addQuestion ===
+                                                              `${sectionIndex}-${itemIndex}` &&
+                                                            "hidden"
+                                                          }`}
+                                                          onClick={() => {
+                                                            setAddQuestion(
+                                                              `${sectionIndex}-${itemIndex}`
+                                                            );
+                                                          }}
+                                                        >
+                                                          <FaPlus className="text-sm" />{" "}
+                                                          Question
+                                                        </button>
+                                                      </>
+                                                    ) : (
+                                                      item.type === "Quiz" && (
+                                                        <div
+                                                          className="transition duration-300 cursor-pointer"
+                                                          onClick={() =>
+                                                            setQuizContent(
+                                                              quizContent ===
+                                                                `${sectionIndex}-${itemIndex}`
+                                                                ? null
+                                                                : `${sectionIndex}-${itemIndex}`
+                                                            )
+                                                          }
+                                                        >
+                                                          <IoChevronDown
+                                                            className={`transform transition-transform duration-900 ${
+                                                              quizContent ===
+                                                              `${sectionIndex}-${itemIndex}`
+                                                                ? "rotate-180"
+                                                                : ""
+                                                            }`}
+                                                          />
+                                                        </div>
+                                                      )
+                                                    )}
+                                                    {/* Chevron */}
+                                                    {item.type === "Lecture" &&
+                                                      !addContent && (
+                                                        <div
+                                                          className="transition duration-300 cursor-pointer"
+                                                          onClick={() =>
+                                                            setLectureContent(
+                                                              lectureContent ===
+                                                                `${sectionIndex}-${itemIndex}`
+                                                                ? null
+                                                                : `${sectionIndex}-${itemIndex}`
+                                                            )
+                                                          }
+                                                        >
+                                                          {}
+                                                          <IoChevronDown
+                                                            className={`transform transition-transform duration-900 ${
+                                                              lectureContent ===
+                                                              `${sectionIndex}-${itemIndex}`
+                                                                ? "rotate-180"
+                                                                : ""
+                                                            }`}
+                                                          />
+                                                        </div>
+                                                      )}
+                                                    <IoIosMenu className="text-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                                                  </div>
+                                                </div>
                                                 {addContent ===
                                                   `${sectionIndex}-${itemIndex}` && (
-                                                  <div className="absolute right-10 -bottom-[1px] bg-white flex items-center gap-2 border border-black border-b-0 p-1 cursor-default">
-                                                    <p className="font-bold">
-                                                      Select contetn type
-                                                    </p>
-                                                    <IoMdClose
-                                                      className="text-lg cursor-pointer"
-                                                      onClick={() =>
-                                                        setAddContent(null)
-                                                      }
-                                                    />
-                                                  </div>
+                                                  <AddContentForm
+                                                    addVideo={addVideo}
+                                                    setAddVideo={setAddVideo}
+                                                    id={item.item._id}
+                                                    videoAdded={videoAdded}
+                                                    setAddContent={
+                                                      setAddContent
+                                                    }
+                                                    courseId={params.id}
+                                                  />
+                                                )}
+
+                                                {addQuestion ===
+                                                  `${sectionIndex}-${itemIndex}` && (
+                                                  <AddQuestionForm
+                                                    addQuestions={addQuestions}
+                                                    setAddQuestions={
+                                                      setAddQuestions
+                                                    }
+                                                    setAddQuestion={
+                                                      setAddQuestion
+                                                    }
+                                                    id={item.item._id}
+                                                    SetQuestionId={
+                                                      SetQuestionId
+                                                    }
+                                                    questionId={questionId}
+                                                    sections={sections}
+                                                    handelSections={
+                                                      handelSections
+                                                    }
+                                                  />
+                                                )}
+                                                {/* Expanded Content */}
+                                                {lectureContent ===
+                                                  `${sectionIndex}-${itemIndex}` && (
+                                                  <LectureContentExpanded
+                                                    item={item.item}
+                                                    setLectureContent={
+                                                      setLectureContent
+                                                    }
+                                                    setAddVideo={setAddVideo}
+                                                    sectionIndex={sectionIndex}
+                                                    itemIndex={itemIndex}
+                                                    setAddContent={
+                                                      setAddContent
+                                                    }
+                                                    addContent={addContent}
+                                                  />
+                                                )}
+                                                {quizContent ===
+                                                  `${sectionIndex}-${itemIndex}` && (
+                                                  <QuizContentExpanded
+                                                    item={item.item}
+                                                    sectionIndex={sectionIndex}
+                                                    itemIndex={itemIndex}
+                                                    setAddQuestion={
+                                                      setAddQuestion
+                                                    }
+                                                    setAddQuestions={
+                                                      setAddQuestions
+                                                    }
+                                                    setQuizContent={
+                                                      setQuizContent
+                                                    }
+                                                    SetQuestionId={
+                                                      SetQuestionId
+                                                    }
+                                                  />
                                                 )}
                                               </>
-                                            ) : (
-                                              <button className="flex items-center gap-2 border border-gray-800 py-[3px] px-2 font-medium hover:bg-gray-100">
-                                                <FaPlus /> Question
-                                              </button>
                                             )}
-
-                                            <IoIosMenu className="text-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                                          </div>
-                                        </div>
-                                        {addContent ===
-                                          `${sectionIndex}-${itemIndex}` && (
-                                          <AddContentForm />
+                                          </>
                                         )}
-                                      </>
-                                    )}
-                                  </>
-                                )}
-                              </Draggable>
-                            ))}
-                            {provided.placeholder}
+                                      </Draggable>
+                                    ))}
+                                    {provided.placeholder}
 
-                            {/* Add new curriculum item button */}
-                            <div className="my-4 ml-20">
-                              <button
-                                className={`flex items-center gap-2 border border-gray-800 py-[6px] px-3 font-medium transition-all ${
-                                  visibleSectionIndex === sectionIndex
-                                    ? "border-transparent bg-transparent h-0"
-                                    : "hover:bg-gray-100 bg-white"
-                                }`}
-                                onClick={() =>
-                                  toggleCurriculumVisibility(sectionIndex)
-                                }
-                              >
-                                <FaPlus
-                                  className={`transition-transform duration-900 text-xl ${
-                                    visibleSectionIndex === sectionIndex
-                                      ? "rotate-45 -translate-x-11 -translate-y-3"
-                                      : ""
-                                  }`}
-                                />
-                                <span
-                                  className={`transition-opacity ${
-                                    visibleSectionIndex === sectionIndex
-                                      ? "opacity-0 hidden"
-                                      : "opacity-100"
-                                  }`}
-                                >
-                                  Curriculum item
-                                </span>
-                              </button>
+                                    {/* Add new curriculum item button */}
+                                    <div className="my-4 ml-20">
+                                      <button
+                                        className={`flex items-center gap-2 border border-gray-800 py-[6px] px-3 font-medium transition-all ${
+                                          visibleSectionIndex === sectionIndex
+                                            ? "border-transparent bg-transparent h-0"
+                                            : "hover:bg-gray-100 bg-white"
+                                        }`}
+                                        onClick={() =>
+                                          toggleCurriculumVisibility(
+                                            sectionIndex
+                                          )
+                                        }
+                                      >
+                                        <FaPlus
+                                          className={`transition-transform duration-900 text-xl ${
+                                            visibleSectionIndex === sectionIndex
+                                              ? "rotate-45 -translate-x-11 -translate-y-3"
+                                              : ""
+                                          }`}
+                                        />
+                                        <span
+                                          className={`transition-opacity ${
+                                            visibleSectionIndex === sectionIndex
+                                              ? "opacity-0 hidden"
+                                              : "opacity-100"
+                                          }`}
+                                        >
+                                          Curriculum item
+                                        </span>
+                                      </button>
 
-                              {/* Add lecture or quiz only for the visible section */}
-                              {visibleSectionIndex === sectionIndex &&
-                                lectureFormVisible !== sectionIndex &&
-                                quizFormVisible !== sectionIndex && (
-                                  <div className="flex gap-4 border border-black border-dashed bg-white mr-2 p-4">
-                                    <button
-                                      className="flex items-center text-violet-800 hover:text-violet-950 gap-2"
-                                      onClick={() =>
-                                        handleLectureFormVisibility(
-                                          sectionIndex
-                                        )
-                                      }
-                                    >
-                                      <FaPlus />
-                                      <p className="font-bold">Lecture</p>
-                                    </button>
+                                      {/* Add lecture or quiz only for the visible section */}
+                                      {visibleSectionIndex === sectionIndex &&
+                                        lectureFormVisible !== sectionIndex &&
+                                        quizFormVisible !== sectionIndex && (
+                                          <div className="flex gap-4 border border-black border-dashed bg-white mr-2 p-4">
+                                            <button
+                                              className="flex items-center text-violet-800 hover:text-violet-950 gap-2"
+                                              onClick={() =>
+                                                handleLectureFormVisibility(
+                                                  sectionIndex
+                                                )
+                                              }
+                                            >
+                                              <FaPlus />
+                                              <p className="font-bold">
+                                                Lecture
+                                              </p>
+                                            </button>
 
-                                    <button
-                                      className="flex items-center text-violet-800 hover:text-violet-950 gap-2"
-                                      onClick={() =>
-                                        handleQuizFormVisibility(sectionIndex)
-                                      }
-                                    >
-                                      <FaPlus />
-                                      <p className="font-bold">Quiz</p>
-                                    </button>
+                                            <button
+                                              className="flex items-center text-violet-800 hover:text-violet-950 gap-2"
+                                              onClick={() =>
+                                                handleQuizFormVisibility(
+                                                  sectionIndex
+                                                )
+                                              }
+                                            >
+                                              <FaPlus />
+                                              <p className="font-bold">Quiz</p>
+                                            </button>
+                                          </div>
+                                        )}
+
+                                      {lectureFormVisible === sectionIndex && (
+                                        <NewLectureForm
+                                          sectionIndex={sectionIndex}
+                                          sectionId={section._id}
+                                          setLectureFormVisible={
+                                            setLectureFormVisible
+                                          }
+                                          handleAddItem={handleAddItem}
+                                        />
+                                      )}
+                                      {quizFormVisible === sectionIndex && (
+                                        <NewQuizForm
+                                          sectionId={section._id}
+                                          sectionIndex={sectionIndex}
+                                          setQuizFormVisible={
+                                            setQuizFormVisible
+                                          }
+                                          handleAddItem={handleAddItem}
+                                        />
+                                      )}
+                                    </div>
                                   </div>
                                 )}
-
-                              {lectureFormVisible === sectionIndex && (
-                                <NewLectureForm
-                                  sectionIndex={sectionIndex}
-                                  setLectureFormVisible={setLectureFormVisible}
-                                  handleAddItem={handleAddItem}
-                                />
-                              )}
-                              {quizFormVisible === sectionIndex && (
-                                <NewQuizForm
-                                  sectionIndex={sectionIndex}
-                                  setQuizFormVisible={setQuizFormVisible}
-                                  handleAddItem={handleAddItem}
-                                />
-                              )}
+                              </Droppable>
                             </div>
-                          </div>
-                        )}
-                      </Droppable>
-                    </div>
-                  )}
-                </Draggable>
-              ))}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
-      </DragDropContext>
-
-      {/* Add Section Button */}
-      <div className="my-4">
-        <button
-          className={`flex items-center gap-2 border border-gray-800 py-[6px] px-3 font-medium bg-white transition-all ${
-            isFormVisible ? "border-transparent" : "hover:bg-gray-100"
-          }`}
-          onClick={toggleFormVisibility}
-        >
-          <FaPlus
-            className={`transition-transform duration-300 ${
-              isFormVisible ? "-rotate-45 -translate-x-4" : ""
-            }`}
-          />
-          <span
-            className={`transition-opacity ${
-              isFormVisible ? "opacity-0 hidden" : "opacity-100"
-            }`}
-          >
-            Section
-          </span>
-        </button>
-      </div>
+                          )}
+                        </Draggable>
+                      ))
+                    : ""}
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+          </DragDropContext>
+          {/* Add Section Button */}
+          <div className="my-4">
+            <button
+              className={`flex items-center gap-2 border border-gray-800 py-[6px] px-3 font-medium bg-white transition-all ${
+                isFormVisible ? "border-transparent" : "hover:bg-gray-100"
+              }`}
+              onClick={toggleFormVisibility}
+            >
+              <FaPlus
+                className={`transition-transform duration-300 ${
+                  isFormVisible ? "-rotate-45 -translate-x-4" : ""
+                }`}
+              />
+              <span
+                className={`transition-opacity ${
+                  isFormVisible ? "opacity-0 hidden" : "opacity-100"
+                }`}
+              >
+                Section
+              </span>
+            </button>
+          </div>
+        </>
+      )}
 
       {/* Section Form */}
       {isFormVisible && (
         <ExpandedSection
-          onCancel={handleCancel}
+          courseId={params.id}
+          formVisibility={setFormVisible}
           onAddSection={handleAddSection}
         />
       )}

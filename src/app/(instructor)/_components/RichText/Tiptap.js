@@ -3,25 +3,27 @@ import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Toolbar from "./Toolbar";
 import BulletList from "@tiptap/extension-bullet-list";
-import ListItem from "@tiptap/extension-list-item";
 import OrderedList from "@tiptap/extension-ordered-list";
 import Placeholder from "@tiptap/extension-placeholder";
 
-const Tiptap = ({ onChange, content }) => {
+const Tiptap = ({ onChange, content, placeholder }) => {
+  // Handle editor content change
   const handleChange = (content) => {
     onChange(content);
   };
+
+  // Initialize the editor with desired extensions and properties
   const editor = useEditor({
     extensions: [
       StarterKit,
       BulletList,
-      ListItem,
       OrderedList,
       Placeholder.configure({
-        placeholder: "Insert your course description.",
+        placeholder: placeholder || "Insert your course description.",
         defaultNode: "paragraph",
       }),
     ],
+    content, // Initial content
     editorProps: {
       attributes: {
         class:
@@ -29,21 +31,24 @@ const Tiptap = ({ onChange, content }) => {
       },
     },
     onUpdate: ({ editor }) => {
-      handleChange(editor.getHTML());
+      handleChange(editor.getHTML()); // Handle content changes
     },
   });
 
+  // Ensure the editor is initialized before rendering EditorContent
+  if (!editor) {
+    return null; // Prevent rendering until editor is ready
+  }
+
   return (
-    <>
-      <div className="w-full">
-        <Toolbar editor={editor} content={content} />
-        <EditorContent
-          style={{ whiteSpace: "pre-line" }}
-          editor={editor}
-          className="appearance-none"
-        />
-      </div>
-    </>
+    <div className="w-full">
+      <Toolbar editor={editor} content={content} />
+      <EditorContent
+        style={{ whiteSpace: "pre-line" }} // Maintain whitespace formatting
+        editor={editor}
+        className="appearance-none"
+      />
+    </div>
   );
 };
 

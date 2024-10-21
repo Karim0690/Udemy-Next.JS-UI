@@ -80,3 +80,6 @@ div.code-block {
   color: orange;
 }
 
+.radio label {
+  padding: 0 8px;
+}

@@ -1,14 +1,32 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { HiOutlinePlus } from "react-icons/hi";
 import { FaTrash } from "react-icons/fa";
 import { IoMdMenu } from "react-icons/io";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 
-const DragnDrop = () => {
-  const [inputs, setInputs] = useState(["", "", "", ""]);
-  const [reqinputs, setReqInputs] = useState([""]);
-  const [forinputs, setForInputs] = useState([""]);
+const DragnDrop = ({ course, formData, setFormData }) => {
+  const [inputs, setInputs] = useState(
+    course.learningObjective.length == 0
+      ? ["", "", "", ""]
+      : course.learningObjective
+  );
+  const [reqinputs, setReqInputs] = useState(
+    course.requirements == 0 ? [""] : course.requirements
+  );
+  const [forinputs, setForInputs] = useState(
+    course.courseFor == 0 ? [""] : course.courseFor
+  );
+
+  // Update the formData when inputs change
+  useEffect(() => {
+    setFormData((prev) => ({
+      ...prev,
+      learningObjective: inputs,
+      requirements: reqinputs,
+      courseFor: forinputs,
+    }));
+  }, [inputs, reqinputs, forinputs, setFormData]);
 
   const placeholders1 = [
     "Example: Define the roles and responsibilities of a project manager",
@@ -22,7 +40,7 @@ const DragnDrop = () => {
   ];
 
   const placeholders3 = [
-    "Example: Beginner Python developers courious about data science",
+    "Example: Beginner Python developers curious about data science",
   ];
 
   const handleInputChange = (index, value) => {
@@ -76,9 +94,9 @@ const DragnDrop = () => {
   };
 
   const handleRemoveInput3 = (index) => {
-    if (reqinputs.length > 1) {
-      const newForInputs = reqinputs.filter((_, i) => i !== index);
-      setReqInputs(newForInputs);
+    if (forinputs.length > 1) {
+      const newForInputs = forinputs.filter((_, i) => i !== index);
+      setForInputs(newForInputs);
     }
   };
 
@@ -106,6 +124,7 @@ const DragnDrop = () => {
 
   return (
     <div>
+      {/* Learning Objectives Section */}
       <form>
         <div>
           <div className="font-bold mb-1">
@@ -137,7 +156,7 @@ const DragnDrop = () => {
                         >
                           <div className="relative mt-4 w-[250px] md:w-[600px] lg:w-[680px]">
                             <input
-                              className="appearance-none block w-full text-gray-700 border border-black py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white pr-12" // Add padding to the right side
+                              className="appearance-none block w-full text-gray-700 border border-black py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white pr-12"
                               type="text"
                               placeholder={`${placeholders1[index % 4]}`}
                               value={input}
@@ -196,7 +215,8 @@ const DragnDrop = () => {
           </button>
         </div>
       </form>
-      {/* 2 */}
+
+      {/* Requirements Section */}
       <form>
         <div>
           <div className="font-bold mb-1">
@@ -227,7 +247,7 @@ const DragnDrop = () => {
                         >
                           <div className="relative mt-4 w-[250px] md:w-[600px] lg:w-[680px]">
                             <input
-                              className="appearance-none block w-full text-gray-700 border border-black py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                              className="appearance-none block w-full text-gray-700 border border-black py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white pr-12"
                               type="text"
                               placeholder={`${placeholders2[index % 1]}`}
                               value={input}
@@ -235,6 +255,9 @@ const DragnDrop = () => {
                                 handleInputChange2(index, e.target.value)
                               }
                             />
+                            <span className="absolute right-2 bottom-6 pr-1 text-gray-600">
+                              {`${160 - input.length}`}
+                            </span>
                           </div>
                           {input.trim() !== "" && (
                             <>
@@ -283,17 +306,14 @@ const DragnDrop = () => {
           </button>
         </div>
       </form>
-      {/* 3 */}
+
+      {/* Course For Section */}
       <form>
         <div>
-          <div className="font-bold mb-1">Who is this course for? </div>
+          <div className="font-bold mb-1">Who is this course for?</div>
           <p>
-            Write a clear description of the{" "}
-            <span className="text-[#5022c3] underline underline-offset-4 hover:text-[#3b198f] cursor-pointer">
-              intended learners
-            </span>{" "}
-            for your course who will find your course content valuable. This
-            will help you attract the right learners to your course.
+            List the specific audience or demographic that this course is
+            tailored for.
           </p>
 
           <DragDropContext
@@ -304,8 +324,8 @@ const DragnDrop = () => {
                 <div {...provided.droppableProps} ref={provided.innerRef}>
                   {forinputs.map((input, index) => (
                     <Draggable
-                      key={`forinputs-${index}`}
-                      draggableId={`forinputs-${index}`}
+                      key={`forinput-${index}`}
+                      draggableId={`forinput-${index}`}
                       index={index}
                     >
                       {(provided) => (
@@ -316,7 +336,7 @@ const DragnDrop = () => {
                         >
                           <div className="relative mt-4 w-[250px] md:w-[600px] lg:w-[680px]">
                             <input
-                              className="appearance-none block w-full text-gray-700 border border-black py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                              className="appearance-none block w-full text-gray-700 border border-black py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white pr-12"
                               type="text"
                               placeholder={`${placeholders3[index % 1]}`}
                               value={input}
@@ -324,6 +344,9 @@ const DragnDrop = () => {
                                 handleInputChange3(index, e.target.value)
                               }
                             />
+                            <span className="absolute right-2 bottom-6 pr-1 text-gray-600">
+                              {`${160 - input.length}`}
+                            </span>
                           </div>
                           {input.trim() !== "" && (
                             <>

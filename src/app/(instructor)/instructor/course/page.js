@@ -1,4 +1,3 @@
-import Footer from "@/app/_components/Footer/Footer";
 import InstructorLandingPage from "@/app/_components/instructorLandingPage/page";
 import InstructorSection2LandingPage from "@/app/_components/instructorSection2LandingPage/page";
 import SideNav from "../InstructorSidenav/SideNav";

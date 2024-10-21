@@ -1,18 +1,41 @@
+import axios from "axios";
 import React, { useState } from "react";
 
-const ExpandedSection = ({ onCancel, onAddSection }) => {
-  const [title, setTitle] = useState("");
-  const [objective, setObjective] = useState("");
+const MAX_TITLE_LENGTH = 80;
+const MAX_OBJECTIVE_LENGTH = 200;
+
+const ExpandedSection = ({ courseId, formVisibility, onAddSection }) => {
+  const [section, setSection] = useState({
+    title: "",
+    objective: "",
+  });
   const [titleError, setTitleError] = useState(false);
 
-  const handleAddSection = () => {
-    if (title.trim() === "") {
+  const addSection = async () => {
+    try {
+      await axios.post(
+        `http://127.0.0.1:3001/course-sections/${courseId}`,
+        section
+      );
+      return true;
+    } catch (error) {
+      console.error("Failed to add section:", error);
+      return false;
+    }
+  };
+
+  const handleAddSection = async () => {
+    if (section.title.trim() === "") {
       setTitleError(true);
       return;
     }
 
     setTitleError(false);
-    onAddSection(title, objective);
+    const success = await addSection();
+    if (success) {
+      formVisibility(false);
+      onAddSection();
+    }
   };
 
   return (
@@ -28,11 +51,12 @@ const ExpandedSection = ({ onCancel, onAddSection }) => {
             className={`appearance-none block w-full text-gray-700 border ${
               titleError ? "border-2 border-orange-300" : "border-black"
             } p-2 mb-1 leading-tight focus:outline-none focus:bg-white pr-12`}
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            value={section.title}
+            onChange={(e) => setSection({ ...section, title: e.target.value })}
+            maxLength={MAX_TITLE_LENGTH}
           />
           <span className={`absolute right-2 bottom-3 pr-1 text-gray-500`}>
-            80
+            {MAX_TITLE_LENGTH - section.title.length}
           </span>
         </div>
       </div>
@@ -50,14 +74,24 @@ const ExpandedSection = ({ onCancel, onAddSection }) => {
             type="text"
             placeholder="Enter a Learning Objective"
             className="appearance-none block w-full text-gray-700 border border-black p-2 mb-3 leading-tight focus:outline-none focus:bg-white pr-12"
-            value={objective}
-            onChange={(e) => setObjective(e.target.value)}
+            value={section.objective}
+            onChange={(e) =>
+              setSection({ ...section, objective: e.target.value })
+            }
+            maxLength={MAX_OBJECTIVE_LENGTH}
           />
-          <p className="absolute right-2 bottom-2 pr-1 text-gray-500">200</p>
+          <p className="absolute right-2 bottom-2 pr-1 text-gray-500">
+            {MAX_OBJECTIVE_LENGTH - section.objective.length}
+          </p>
         </div>
       </div>
       <div className="flex justify-end gap-4">
-        <button className="px-4 py-2 border border-gray-800" onClick={onCancel}>
+        <button
+          className="px-4 py-2 border border-gray-800"
+          onClick={() => {
+            formVisibility(false);
+          }}
+        >
           Cancel
         </button>
         <button
