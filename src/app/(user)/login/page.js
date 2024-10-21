@@ -49,7 +49,7 @@ const Page = () => {
         setGeneralError(data.message);
       }
     } catch (err) {
-      setGeneralError(data.message);
+      setGeneralError(err.message);
     }
   };
   const handleEmailChange = (e) => {
@@ -128,7 +128,7 @@ const Page = () => {
               <div className="flex justify-center items-center mt-6">
                 <p>or</p>
                 <a
-                  href="#"
+                  href="/forget-password"
                   className="text-md font-bold underline text-purple-800 hover:text-purple-950 ml-1 decoration-purple-800 decoration-1 underline-offset-4"
                 >
                   Forgot Password
