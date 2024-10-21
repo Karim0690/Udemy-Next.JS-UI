@@ -1,11 +1,12 @@
 "use client";
 import RichText from "@/app/(instructor)/_components/RichText/RichText";
 import { Button } from "@/components/ui/button";
-import React, { useState } from "react";
+// import React, { useState } from "react";
 import { MdEdit } from "react-icons/md";
 import { Checkbox } from "@/components/ui/checkbox";
 import axios from "axios";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 export default function Page() {
   const [activeTab, setActiveTab] = useState("profile");
@@ -54,7 +55,7 @@ export default function Page() {
 
     try {
       const response = await axios.put(
-        `http://localhost:3000/user/669904f9ad62aaee0f072f8a`,
+        `http://localhost:3001/user/669904f9ad62aaee0f072f8a`,
 
         formData
       );
@@ -91,7 +92,7 @@ export default function Page() {
 
     try {
       const response = await axios.put(
-        `http://localhost:3000/user/change-password/669904f9ad62aaee0f072f8a`,
+        `http://localhost:3001/user/change-password/669904f9ad62aaee0f072f8a`,
         {
           oldPassword: password,
           newPassword: newPassword,
@@ -119,8 +120,13 @@ export default function Page() {
       [name]: value,
     }));
   };
+  const [formPhoto, setFormPhoto] = useState({
+    photo: "",
+  });
+
   const cloud_name = process.env.NEXT_PUBLIC_CLOUD_NAME;
   const preset_key = process.env.NEXT_PUBLIC_CLOUD_PRESET;
+
   const [imageLoading, setImageLoading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
 
@@ -132,7 +138,6 @@ export default function Page() {
     imageData.append("file", file);
     imageData.append("upload_preset", preset_key);
     setImageLoading(true);
-    console.log(formData);
 
     try {
       const { data } = await axios.post(
@@ -148,17 +153,52 @@ export default function Page() {
         }
       );
 
-      setFormData((prevData) => ({
-        ...prevData,
-        // photo: data.secure_url,
-        photo: photo,
-      }));
+      setFormPhoto({ photo: data.secure_url });
+      setSuccess("Image uploaded successfully!");
     } catch (error) {
       console.error("Error uploading file:", error);
     } finally {
       setImageLoading(false);
     }
   };
+
+  useEffect(() => {
+    const updateUser = async () => {
+      if (!formPhoto.photo) return;
+      try {
+        await axios.put(
+          `http://localhost:3001/user/669904f9ad62aaee0f072f8a`,
+          formPhoto
+        );
+        console.log("User data updated successfully!");
+      } catch (error) {
+        console.error("Error updating user data:", error);
+      }
+    };
+
+    updateUser();
+  }, [formPhoto.photo]);
+
+  const handleSubmitPhoto = async (event) => {
+    event.preventDefault();
+    // إذا كنت ترغب في استخدام هذه الدالة لتحديث بيانات المستخدم مرة أخرى، تأكد من تمرير البيانات الصحيحة هنا
+    if (formPhoto.photo) {
+      try {
+        await axios.put(
+          `http://localhost:3001/user/669904f9ad62aaee0f072f8a`,
+          formPhoto
+        );
+        setSuccess("User data updated successfully!");
+      } catch (error) {
+        console.error(error);
+        setError(
+          error.response?.data?.message ||
+            "An error occurred. Please try again later."
+        );
+      }
+    }
+  };
+
   return (
     <>
       <div className="pt-6 px-48 pb-12  grid grid-cols-1 md:grid-cols-12">
@@ -546,8 +586,7 @@ export default function Page() {
                   </div>
                 </div>
 
-                {/* Form for uploading the image */}
-                <form className="mx-32 px-7" onSubmit={handleSubmit}>
+                <form className="mx-32 px-7" onSubmit={handleSubmitPhoto}>
                   <p className="font-heading font-bold my-4 leading-tight tracking-normal">
                     Image preview
                   </p>
@@ -582,16 +621,16 @@ export default function Page() {
                         id="dropzone-file"
                         type="file"
                         className="hidden"
-                        onChange={handleFileChange} // connect the handleFileChange function
+                        onChange={handleFileChange}
                       />
                     </label>
                   </div>
 
                   {/* Show preview of the uploaded image */}
-                  {/*   {photo && (
+                  {/*   {formData.photo && (
                     <div className="mt-4">
-                      <Image
-                        src={photo}
+                      <img
+                        src={formData.photo}
                         alt="Uploaded preview"
                         className="h-40"
                       />
@@ -600,12 +639,12 @@ export default function Page() {
 
                   {/* button save */}
                   <div className="flex items-center mb-28 space-x-2">
-                    <Button
+                    <button
                       type="submit"
                       className="bg-zinc-800 text-white hover:bg-zinc-700 w-20 h-12 font-bold text-lg mt-6"
                     >
                       Save
-                    </Button>
+                    </button>
                   </div>
                 </form>
               </>
