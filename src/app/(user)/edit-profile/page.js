@@ -1,12 +1,25 @@
 "use client";
+
 import RichText from "@/app/(instructor)/_components/RichText/RichText";
 import { Button } from "@/components/ui/button";
-// import React, { useState } from "react";
-import { MdEdit, MdModeEdit } from "react-icons/md";
 import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import axios from "axios";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+// import React, { useState } from "react";
+import { MdEdit, MdModeEdit } from "react-icons/md";
+
+// import { Input } from "@/components/ui/input"
+// import { Label } from "@/components/ui/label"
 
 export default function Page() {
   const [activeTab, setActiveTab] = useState("profile");
@@ -112,7 +125,6 @@ export default function Page() {
       setIsLoading(false);
     }
   };
-
   const handlePasswordChangeUpdate = (event) => {
     const { name, value } = event.target;
     setPasswordData((prevData) => ({
@@ -123,13 +135,10 @@ export default function Page() {
   const [formPhoto, setFormPhoto] = useState({
     photo: "",
   });
-
   const cloud_name = process.env.NEXT_PUBLIC_CLOUD_NAME;
   const preset_key = process.env.NEXT_PUBLIC_CLOUD_PRESET;
-
   const [imageLoading, setImageLoading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
-
   const handleFileChange = async (event) => {
     const file = event.target.files[0];
     if (!file) return;
@@ -161,7 +170,6 @@ export default function Page() {
       setImageLoading(false);
     }
   };
-
   useEffect(() => {
     const updateUser = async () => {
       if (!formPhoto.photo) return;
@@ -182,7 +190,6 @@ export default function Page() {
 
   const handleSubmitPhoto = async (event) => {
     event.preventDefault();
-    // إذا كنت ترغب في استخدام هذه الدالة لتحديث بيانات المستخدم مرة أخرى، تأكد من تمرير البيانات الصحيحة هنا
     if (formPhoto.photo) {
       try {
         await axios.put(
@@ -199,13 +206,54 @@ export default function Page() {
       }
     }
   };
+  const [emailData, setEmailData] = useState({
+    email: "",
+    password: "",
+  });
+  const handleEmailChange = async (event) => {
+    event.preventDefault();
+    setIsLoading(true);
+    setError(null);
+    setSuccess(null);
+
+    const { email, password } = emailData;
+
+    try {
+      const response = await axios.put(
+        `http://localhost:3001/user/669904f9ad62aaee0f072f8a`,
+        {
+          email,
+          password,
+        }
+      );
+
+      setSuccess("Email updated successfully!");
+      setEmailData({ email: "", password: "" }); // إعادة تعيين المدخلات
+    } catch (error) {
+      console.error(error);
+      setError(
+        error.response?.data?.message ||
+          "An error occurred. Please try again later."
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleEmailChangeUpdate = (event) => {
+    const { name, value } = event.target;
+    setEmailData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
 
   return (
     <>
       <div className="pt-6 px-48 pb-12  grid grid-cols-1 md:grid-cols-12">
         <div className="col-span-1 md:col-span-2 border border-gray-300">
-          <div class="flex justify-center p-4">
-            <div class="bg-gray-800 inline-flex items-center justify-center rounded-full bg-cover font-bold leading-tight tracking-normal text-lg sm:text-xl md:text-2xl max-w-3xl text-white w-16 h-16">
+          <div className="flex justify-center p-4">
+            <div className="bg-gray-800 inline-flex items-center justify-center rounded-full bg-cover font-bold leading-tight tracking-normal text-lg sm:text-xl md:text-2xl max-w-3xl text-white w-16 h-16">
               KA
             </div>
           </div>
@@ -300,7 +348,7 @@ export default function Page() {
             {activeTab === "Profile" && (
               <>
                 <div className="flex border-b border-gray-300 py-4">
-                  <div class="mx-auto max-w-7xl px-6 text-center">
+                  <div className="mx-auto max-w-7xl px-6 text-center">
                     <h1 className="font-heading font-bold leading-tight tracking-normal text-lg sm:text-xl md:text-2xl max-w-3xl">
                       Public profile
                     </h1>
@@ -312,13 +360,13 @@ export default function Page() {
                 <div className="mx-32 px-7">
                   <form onSubmit={handleSubmit}>
                     <h2 className="font-semibold px-3 mt-3">Basics:</h2>
-                    <div class="w-full px-3 mt-2 m mb-6 md:mb-0">
+                    <div className="w-full px-3 mt-2 m mb-6 md:mb-0">
                       <label
-                        class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                        className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                         for="grid-first-name"
                       ></label>
                       <input
-                        class="appearance-none block w-full  text-gray-700 border border-black  py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                        className="appearance-none block w-full  text-gray-700 border border-black  py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                         id="grid-first-name"
                         type="text"
                         name="firstName"
@@ -330,13 +378,13 @@ export default function Page() {
                       />
                     </div>
 
-                    <div class="w-full  px-3 mt-6 md:mb-0">
+                    <div className="w-full  px-3 mt-6 md:mb-0">
                       <label
-                        class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                        className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                         for="grid-first-name"
                       ></label>
                       <input
-                        class="appearance-none block w-full  text-gray-700 border border-black py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                        className="appearance-none block w-full  text-gray-700 border border-black py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                         id="grid-first-name"
                         type="text"
                         placeholder="Last Name"
@@ -347,19 +395,19 @@ export default function Page() {
                         }}
                       />
                     </div>
-                    <div class="w-full  px-3 mt-6 md:mb-0">
+                    <div className="w-full  px-3 mt-6 md:mb-0">
                       <label
-                        class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                        className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                         for="grid-headline"
                       ></label>
-                      <div class="relative">
+                      <div className="relative">
                         <input
                           name="headline"
                           value={formData.headline}
                           onChange={(e) => {
                             handleChangeUpdate(e);
                           }}
-                          class="appearance-none block w-full text-gray-700 border border-black py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                          className="appearance-none block w-full text-gray-700 border border-black py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                           id="grid-first-name"
                           type="text"
                           placeholder="Headline"
@@ -377,7 +425,7 @@ export default function Page() {
                     </div>
                     <div className="w-full px-3 mt-6 md:mb-0  ">
                       <label
-                        class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                        className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                         for="grid-biography"
                       ></label>
                       <RichText
@@ -424,14 +472,14 @@ export default function Page() {
                       </select>
                     </div>
 
-                    <div class="w-full  px-3 mt-6 md:mb-0">
+                    <div className="w-full  px-3 mt-6 md:mb-0">
                       <h2 className="font-bold"> Links:</h2>
                       <label
-                        class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-3"
+                        className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-3"
                         for="grid-first-name"
                       ></label>
                       <input
-                        class="appearance-none block w-full  text-gray-700 border border-black py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                        className="appearance-none block w-full  text-gray-700 border border-black py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                         id="grid-first-name"
                         type="text"
                         placeholder="Website (http(s)://..)"
@@ -445,11 +493,11 @@ export default function Page() {
                     <div className="w-full  px-3 mt-6 md:mb-0">
                       <label
                         for="grid-twittre-url"
-                        class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                        className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                       ></label>
-                      <div class="relative  flex w-full items-stretch">
+                      <div className="relative  flex w-full items-stretch">
                         <span
-                          class="inline-flex items-center whitespace-nowrap text-black bg-gray-100 border border-black py-3 px-4 mb-3 text-center text-base font-normal leading-[1.6] text-surface dark:border-white/10 dark:text-white"
+                          className="inline-flex items-center whitespace-nowrap text-black bg-gray-100 border border-black py-3 px-4 mb-3 text-center text-base font-normal leading-[1.6] text-surface dark:border-white/10 dark:text-white"
                           id="basic-addon3"
                         >
                           http://www.twitter.com/
@@ -457,7 +505,7 @@ export default function Page() {
                         <input
                           placeholder="Twitter Profile"
                           type="text"
-                          class="relative m-0 block flex-auto  appearance-none  w-full  text-gray-700 border border-black py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                          className="relative m-0 block flex-auto  appearance-none  w-full  text-gray-700 border border-black py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                           id="grid-twittre-url"
                           aria-describedby="basic-addon3"
                           name="twitter"
@@ -474,11 +522,11 @@ export default function Page() {
                     <div className="w-full px-3 mt-6 md:mb-0">
                       <label
                         for="grid-facebook-url"
-                        class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                        className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                       ></label>
-                      <div class="relative  flex w-full items-stretch">
+                      <div className="relative  flex w-full items-stretch">
                         <span
-                          class="inline-flex items-center whitespace-nowrap text-black bg-gray-100 border border-black py-3 px-4 mb-3 text-center text-base font-normal leading-[1.6] text-surface dark:border-white/10 dark:text-white"
+                          className="inline-flex items-center whitespace-nowrap text-black bg-gray-100 border border-black py-3 px-4 mb-3 text-center text-base font-normal leading-[1.6] text-surface dark:border-white/10 dark:text-white"
                           id="basic-addon3"
                         >
                           http://www.facebook.com/
@@ -491,7 +539,7 @@ export default function Page() {
                             handleChangeUpdate(e);
                           }}
                           type="text"
-                          class="relative m-0 block flex-auto  appearance-none  w-full  text-gray-700 border border-black py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                          className="relative m-0 block flex-auto  appearance-none  w-full  text-gray-700 border border-black py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                           id="grid-facebooke-url"
                           aria-describedby="basic-addon3"
                         />
@@ -504,11 +552,11 @@ export default function Page() {
                     <div className="w-full  px-3 mt-6 md:mb-0">
                       <label
                         for="grid-linkedin-url"
-                        class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                        className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                       ></label>
-                      <div class="relative  flex w-full items-stretch">
+                      <div className="relative  flex w-full items-stretch">
                         <span
-                          class="inline-flex items-center whitespace-nowrap text-black bg-gray-100 border border-black py-3 px-4 mb-3 text-center text-base font-normal leading-[1.6] text-surface dark:border-white/10 dark:text-white"
+                          className="inline-flex items-center whitespace-nowrap text-black bg-gray-100 border border-black py-3 px-4 mb-3 text-center text-base font-normal leading-[1.6] text-surface dark:border-white/10 dark:text-white"
                           id="basic-addon3"
                         >
                           http://www.linkedin.com/
@@ -521,7 +569,7 @@ export default function Page() {
                             handleChangeUpdate(e);
                           }}
                           type="text"
-                          class="relative m-0 block flex-auto  appearance-none  w-full  text-gray-700 border border-black py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                          className="relative m-0 block flex-auto  appearance-none  w-full  text-gray-700 border border-black py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                           id="grid-linkedin-url"
                           aria-describedby="basic-addon3"
                         />
@@ -533,11 +581,11 @@ export default function Page() {
                     <div className="w-full  px-3 mt-6 md:mb-0">
                       <label
                         for="grid-youtube-url"
-                        class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                        className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                       ></label>
-                      <div class="relative flex w-full items-stretch">
+                      <div className="relative flex w-full items-stretch">
                         <span
-                          class="inline-flex items-center whitespace-nowrap text-black bg-gray-100 border border-black py-3 px-4 mb-3 text-center text-base font-normal leading-[1.6] text-surface dark:border-white/10 dark:text-white"
+                          className="inline-flex items-center whitespace-nowrap text-black bg-gray-100 border border-black py-3 px-4 mb-3 text-center text-base font-normal leading-[1.6] text-surface dark:border-white/10 dark:text-white"
                           id="basic-addon3"
                         >
                           http://www.youtube.com/
@@ -550,7 +598,7 @@ export default function Page() {
                             handleChangeUpdate(e);
                           }}
                           type="text"
-                          class="relative m-0 block flex-auto appearance-none  w-full  text-gray-700 border border-black py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                          className="relative m-0 block flex-auto appearance-none  w-full  text-gray-700 border border-black py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                           id="grid-youtube-url"
                           aria-describedby="basic-addon3"
                         />
@@ -655,7 +703,7 @@ export default function Page() {
             {activeTab === "Close account" && (
               <>
                 <div className="flex border-b border-gray-300 py-4">
-                  <div class="mx-auto max-w-7xl px-6 text-center">
+                  <div className="mx-auto max-w-7xl px-6 text-center">
                     <h1 className="font-heading font-bold leading-tight tracking-normal text-lg sm:text-xl md:text-2xl max-w-3xl">
                       Close Account
                     </h1>
@@ -667,7 +715,7 @@ export default function Page() {
                 <div className="mx-32 px-7">
                   <div className="mt-4">
                     <p>
-                      <b className="text-red-700 "> Warning:</b>
+                      <b className="text-red-700 "> Warning: </b>
                       If you close your account, you will be unsubscribed from
                       all 0 of your courses and will lose access to your account
                       and data associated with your account forever, even if you
@@ -682,10 +730,58 @@ export default function Page() {
                     </p>
                   </div>
                   {/* button save */}
-                  <div className="flex items-center mb-80 space-x-2">
+                  {/* <div className="flex items-center mb-80 space-x-2">
                     <Button className="bg-zinc-800 text-white hover:bg-zinc-700 h-12 font-semibold text-lg mt-6">
                       Close account
                     </Button>
+                  </div> */}
+
+                  <div className="flex items-center mb-80 space-x-2">
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <Button className="bg-zinc-800 text-white hover:bg-zinc-700 h-12 font-semibold text-lg mt-6">
+                          Close account
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent className="sm:max-w-[600px] bg-white">
+                        <DialogHeader>
+                          <DialogTitle>Close Your Account</DialogTitle>
+                        </DialogHeader>
+                        <div className="pt-3">
+                          <b>
+                            Are you sure you want to close your account? 
+                          </b>
+                        </div>
+                        <form
+                          // onSubmit={handleEmailChange}
+                          className="grid gap-4"
+                        >
+                          <div className="items-center gap-4">
+                            <input
+                              id="password"
+                              type="password"
+                              name="password"
+                              value={emailData.password}
+                              onChange={handleEmailChangeUpdate}
+                              className="border border-black w-full p-2"
+                              placeholder="Enter your password"
+                            />
+                          </div>
+
+                          <div className="mt-4">
+                            <div className="flex justify-end">
+                              <Button
+                                type="submit"
+                                className="bg-black text-white font-bold hover:bg-gray-800 h-14 w-25"
+                                disabled={isLoading}
+                              >
+                                {isLoading ? "Close account..." : "Close account"}
+                              </Button>
+                            </div>
+                          </div>
+                        </form>
+                      </DialogContent>
+                    </Dialog>
                   </div>
                 </div>
               </>
@@ -695,7 +791,7 @@ export default function Page() {
             {activeTab === "Privacy" && (
               <>
                 <div className="flex border-b border-gray-300 py-4">
-                  <div class="mx-auto max-w-7xl px-6 text-center">
+                  <div className="mx-auto max-w-7xl px-6 text-center">
                     <h1 className="font-heading font-bold leading-tight tracking-normal text-lg sm:text-xl md:text-2xl max-w-3xl">
                       Privacy
                     </h1>
@@ -800,20 +896,81 @@ export default function Page() {
                 </div>
                 <div className="mx-32 px-7 my-6">
                   <h2 className="font-semibold px-3 ">Email:</h2>
-                  <div class="w-full px-3 mt-2  min-w-[200px]">
-                    <div class="relative">
-                      <div class="w-full pl-3 pr-10 py-4 bg-transparent text-slate-600 text-sm border border-black">
-                        <span class="text-black ">
+                  <div className="w-full px-3 mt-2  min-w-[200px]">
+                    <div className="relative">
+                      <div className="w-full pl-3 pr-10 py-4 bg-transparent text-slate-600 text-sm border border-black">
+                        <span className="text-black ">
                           Your email address is <b>543125983a@emailfoxi.pro</b>
                         </span>
                       </div>
-                      <div class="absolute inset-y-0 right-0 flex items-center">
-                        <button
-                          type="button"
-                          class="h-full p-0 border border-black text-slate-900 hover:bg-slate-100 w-10 flex justify-center items-center"
-                        >
-                          <MdModeEdit />
-                        </button>
+                      <div className="absolute inset-y-0 right-0 flex items-center">
+                        <Dialog>
+                          <DialogTrigger asChild>
+                            <div className="absolute inset-y-0 right-0 flex items-center">
+                              <Button
+                                type="button"
+                                className="h-full p-0 border border-black text-slate-900 hover:bg-slate-100 w-10 flex justify-center items-center"
+                              >
+                                <MdModeEdit />
+                              </Button>
+                            </div>
+                          </DialogTrigger>
+                          <DialogContent className="sm:max-w-[600px] bg-white">
+                            <DialogHeader>
+                              <DialogTitle>Change your email</DialogTitle>
+                            </DialogHeader>
+                            <form
+                              onSubmit={handleEmailChange}
+                              className="grid gap-4 py-4"
+                            >
+                              <div className="items-center gap-4">
+                                <input
+                                  id="email"
+                                  name="email"
+                                  value={emailData.email}
+                                  onChange={handleEmailChangeUpdate}
+                                  className="border border-black w-full p-2"
+                                  placeholder="Enter your email"
+                                />
+                              </div>
+                              <div className="items-center gap-4">
+                                <input
+                                  id="password"
+                                  type="password"
+                                  name="password"
+                                  value={emailData.password}
+                                  onChange={handleEmailChangeUpdate}
+                                  className="border border-black w-full p-2"
+                                  placeholder="Enter your password"
+                                />
+                              </div>
+                              {error && (
+                                <div className="text-red-500">{error}</div>
+                              )}
+                              {success && (
+                                <div className="text-green-500">{success}</div>
+                              )}
+                              <div className="mt-4">
+                                <div className="mb-4">
+                                  <p>
+                                    For your security, if you change your email
+                                    address your saved credit card information
+                                    will be deleted.
+                                  </p>
+                                </div>
+                                <div className="flex justify-end">
+                                  <Button
+                                    type="submit"
+                                    className="bg-black text-white font-bold hover:bg-gray-800 h-12 w-20"
+                                    disabled={isLoading}
+                                  >
+                                    {isLoading ? "Saving..." : "Save"}
+                                  </Button>
+                                </div>
+                              </div>
+                            </form>
+                          </DialogContent>
+                        </Dialog>
                       </div>
                     </div>
                   </div>
