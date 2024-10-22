@@ -220,13 +220,13 @@ const MultiLevelDropdown = () => {
                   {categories
                     .find((c) => c._id === activeCategory)
                     ?.subcategories?.find((sc) => sc._id === activeSubcategory)
-                    ?.topics?.map((topic, index) => (
+                    ?.topics?.map((topic) => (
                       <Link
-                        key={index}
+                        key={topic._id}
                         href={`/topic/${topic.name.toLowerCase()}`}
                       >
                         <li
-                          key={index}
+                          key={topic._id}
                           className="px-3 py-2 hover:text-violet-600"
                         >
                           {topic.name}

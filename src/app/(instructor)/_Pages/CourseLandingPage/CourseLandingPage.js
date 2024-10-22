@@ -247,12 +247,14 @@ const CourseLandingPage = ({ course, setBasics }) => {
       {/* Course Description */}
       <div className="my-5">
         <h2 className="font-bold text-base mb-4">Course description</h2>
-        <RichText
-          onChange={(content) =>
-            setBasics((prevData) => ({ ...prevData, description: content }))
-          }
-          content={formData.description}
-        />
+        <div className="w-[900px]">
+          <RichText
+            onChange={(content) =>
+              setBasics((prevData) => ({ ...prevData, description: content }))
+            }
+            content={formData.description}
+          />
+        </div>
         <span className="text-xs text-gray-500">
           Description should have minimum 200 words.
         </span>
@@ -421,7 +423,7 @@ const CourseLandingPage = ({ course, setBasics }) => {
                 width={420}
                 height={220}
                 alt=""
-                className="w-full"
+                className="w-full h-[220px]"
               />
             ) : (
               <Image

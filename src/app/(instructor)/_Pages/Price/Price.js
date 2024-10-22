@@ -3,7 +3,7 @@ import axios from "axios";
 import React, { useState } from "react";
 
 const Price = ({ id, price }) => {
-  const [priceTier, setPriceTier] = useState(price.toString() || "");
+  const [priceTier, setPriceTier] = useState(price || "");
   const [priceModified, setPriceModified] = useState(false);
 
   const handleAddPrice = async () => {

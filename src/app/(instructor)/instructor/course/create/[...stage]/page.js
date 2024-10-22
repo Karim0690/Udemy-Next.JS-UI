@@ -1,19 +1,88 @@
 "use client";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { LuMonitorPlay } from "react-icons/lu";
-import { CiViewList } from "react-icons/ci";
-
+import Link from "next/link";
+import useCourseStore from "@/app/store/courseStore";
+import axios from "axios";
+import { toast } from "sonner";
+import { jwtDecode } from "jwt-decode";
+import { IoMdCheckmarkCircle } from "react-icons/io";
+import { TbAlertOctagonFilled } from "react-icons/tb";
 
 const Page = () => {
   const path = usePathname();
   const router = useRouter();
   const page = parseInt(path.split("/")[4]);
   const progress = (page - 1) * 0.25 + 0.25;
-  const [steps, setStep] = useState(null);
-  const [title, setTitle] = useState("");
+  const [decodedToken, setDecodedToken] = useState({});
+  let [steps, setStep] = useState(0);
+  const [courseDetails, setCourseDetails] = useState({
+    title: "",
+    instructor: "",
+    category: "",
+  });
   const [selectedOption, setSelectedOption] = useState("");
+  const { categories, fetchCategories } = useCourseStore();
+
+  const showToast = (message, isError = false) => {
+    const toastId = toast("", {
+      description: (
+        <div className="flex flex-col">
+          <div className="flex items-center gap-5">
+            {isError ? (
+              <TbAlertOctagonFilled className="text-6xl" />
+            ) : (
+              <IoMdCheckmarkCircle className="text-4xl" />
+            )}
+            <span className={`font-bold "text-black"`}>{message}</span>
+          </div>
+          <button
+            className="mt-5 mx-14 bg-gray-800 text-white w-20 p-3"
+            onClick={() => toast.dismiss(toastId)}
+          >
+            Dismiss
+          </button>
+        </div>
+      ),
+      style: {
+        background: isError ? "#fcbca0" : "#acd2cc",
+        fontSize: "16px",
+        color: "#1c1c1c",
+        padding: "12px",
+        borderRadius: "0",
+        border: isError ? "1px solid #f5c6cb" : "1px solid #ccc",
+      },
+    });
+  };
+  const decodeToken = () => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      try {
+        const decoded = jwtDecode(token);
+        setDecodedToken(decoded);
+        setCourseDetails((prevData) => ({
+          ...prevData,
+          instructor: decoded._id,
+        }));
+      } catch (error) {
+        console.error("Failed to decode token:", error);
+      }
+    } else {
+      console.log("No token found in local storage.");
+    }
+  };
+
+  useEffect(() => {
+    fetchCategories();
+    decodeToken();
+
+    const savedCourseDetails = localStorage.getItem("courseDetails");
+    if (savedCourseDetails) {
+      setCourseDetails(JSON.parse(savedCourseDetails));
+    }
+  }, []);
 
   const options = [
     "I’m very busy right now (0-2 hours)",
@@ -25,32 +94,72 @@ const Page = () => {
   const handleTitleChange = (e) => {
     const newTitle = e.target.value;
     if (newTitle.length <= 60) {
-      setTitle(newTitle);
+      setCourseDetails({ ...courseDetails, title: newTitle });
     }
+    setStep(2);
   };
 
   const handleContinue = () => {
-    if (page < 4) {
-      router.push(`/instructor/course/create/${page + 1}`);
+    if (validateCurrentStep()) {
+      localStorage.setItem("courseDetails", JSON.stringify(courseDetails));
+      if (page < 4) {
+        router.push(`/instructor/course/create/${page + 1}`);
+      }
     }
   };
+
+  const handleSubmit = async () => {
+    // Save course details to database
+    const { data } = await axios.post(
+      `${process.env.NEXT_PUBLIC_LOCAL_API}/course`,
+      courseDetails,
+      {
+        headers: {
+          Authorization: `${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    // Redirect to course page
+    if (data.message === "success") {
+      router.push(`/instructor/course`);
+      showToast("Your changes have been saved successfully");
+      localStorage.removeItem("courseDetails");
+    } else {
+      showToast("Failed to save course", true);
+    }
+  };
+
+  const validateCurrentStep = () => {
+    if (page === 2 && !courseDetails.title) {
+      // showToast("Please enter a course title.", true);
+      return false;
+    }
+    if (page === 3 && !courseDetails.category) {
+      // showToast("Please enter a course category.", true);
+      return false;
+    }
+    return true;
+  };
+  const isValidStep = validateCurrentStep();
 
   return (
     <div className="flex flex-col min-h-screen">
       <div className="shadow-md">
-        <div className="px-8 flex h-16">
+        <div className="px-8 flex items-center h-16">
           <Image
             src="https://www.udemy.com/staticx/udemy/images/v7/logo-udemy.svg"
             width={75}
             height={28}
             alt="Udemy Logo"
           />
-          <div className="mx-9 border-l border-gray-300 flex flex-1 items-center px-9">
+          <div className="mx-4 border-l border-gray-300 flex flex-1 items-center px-4">
             <div className="overflow-hidden text-ellipsis whitespace-nowrap">
               <span className="text-xl text-gray-700">{`Step ${page} of 4`}</span>
             </div>
           </div>
-          <button className="text-[#5022c3] font-semibold">Exit</button>
+          <Link href={"/instructor/course"}>
+            <button className="text-[#5022c3] font-semibold">Exit</button>
+          </Link>
         </div>
         <div className="bg-gray-300 h-1">
           <div
@@ -101,8 +210,8 @@ const Page = () => {
                         </span>
                       </span>
                     </label>
-
                     {/* Second Option: Practice Test */}
+                    {/* 
                     <label
                       className={`cursor-pointer ml-4 relative w-56 h-72 min-h-72 border p-4 hover:bg-slate-50 text-center ${
                         steps === 2
@@ -128,7 +237,7 @@ const Page = () => {
                           providing practice questions.
                         </span>
                       </span>
-                    </label>
+                    </label> */}
                   </div>
                 </fieldset>
               </form>
@@ -152,11 +261,11 @@ const Page = () => {
                   id="grid-title"
                   type="text"
                   placeholder="e.g. Learn Photoshop CS6 from Scratch"
-                  value={title}
+                  value={courseDetails.title}
                   onChange={handleTitleChange}
                 />
                 <span className="absolute right-4 bottom-3 pr-4 text-gray-600">{`${
-                  60 - title.length
+                  60 - courseDetails.title.length
                 }`}</span>
               </div>
             </div>
@@ -179,8 +288,21 @@ const Page = () => {
                   name="category"
                   required
                   className="block  w-full  py-3 text-base focus:outline-none bg-transparent text-gray-700 "
+                  value={courseDetails.category}
+                  onChange={(e) => {
+                    setCourseDetails({
+                      ...courseDetails,
+                      category: e.target.value,
+                    });
+                    setStep(3);
+                  }}
                 >
                   <option value="">Choose a Category</option>
+                  {categories?.map((category) => (
+                    <option key={category._id} value={category._id}>
+                      {category.name}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>
@@ -231,15 +353,26 @@ const Page = () => {
               Previous
             </button>
           )}
-          <button
-            className={`${
-              steps ? "bg-[#2d2f31]" : "bg-gray-400"
-            } text-white font-bold p-4 text-center`}
-            disabled={!steps}
-            onClick={handleContinue}
-          >
-            Continue
-          </button>
+          {page !== 4 ? (
+            <button
+              className={`${
+                isValidStep
+                  ? "bg-[#2d2f31] cursor-pointer"
+                  : "bg-gray-400 cursor-not-allowed"
+              } text-white font-bold p-4 text-center`}
+              disabled={!isValidStep}
+              onClick={handleContinue}
+            >
+              Continue
+            </button>
+          ) : (
+            <button
+              className={`bg-[#2d2f31] text-white font-bold p-4 text-center`}
+              onClick={handleSubmit}
+            >
+              Finish
+            </button>
+          )}
         </div>
       </div>
     </div>

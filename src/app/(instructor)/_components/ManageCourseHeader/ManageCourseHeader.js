@@ -56,6 +56,7 @@ const ManageCourseHeader = ({
     setIsMessagesModified(false);
   };
 
+
   return (
     <div className="bg-[#2d2f31] text-white shadow-md sticky top-0 py-4 px-5 z-10">
       <div className="flex gap-5 items-center">
@@ -74,8 +75,7 @@ const ManageCourseHeader = ({
               DRAFT
             </span>
             <span className="text-xs md:text-base font-medium">
-              {Math.round(course?.duration || "Loading...")}min of video content
-              uploaded
+              {Math.round(course?.duration || 0)}min of video content uploaded
             </span>
           </div>
           <div className="flex items-center gap-4">

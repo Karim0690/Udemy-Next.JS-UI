@@ -9,11 +9,10 @@ import { Spinner } from "@material-tailwind/react";
 function InstructorLandingPage() {
   const [courses, setCourses] = useState([]);
   const [searchKeyword, setSearchKeyword] = useState("");
-  const [sort, setSort] = useState("createdAt");
+  const [sort, setSort] = useState("-createdAt");
   const [isLoading, setIsLoading] = useState(false);
-  const progress = 20; // You might want to make this dynamic per course
 
-  const fetchCourses = async (keyword = "", sort = "createdAt") => {
+  const fetchCourses = async (keyword = "", sort = "-createdAt") => {
     setIsLoading(true);
     console.log(keyword);
 
@@ -21,7 +20,7 @@ function InstructorLandingPage() {
       const response = await fetch(
         `${
           process.env.NEXT_PUBLIC_LOCAL_API
-        }/course/669b9e111e89df5d4a072f8b/instructor?${
+        }/course/66aa2d5a201f806f92eebb25/instructor?${
           keyword ? `keyword=${keyword}` : ""
         }&${sort ? `sort=${sort}` : ""}`
       );
@@ -36,7 +35,7 @@ function InstructorLandingPage() {
 
   useEffect(() => {
     fetchCourses(searchKeyword, sort);
-  }, [sort]);
+  }, [sort, searchKeyword]);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -49,9 +48,11 @@ function InstructorLandingPage() {
         <h1 className="font-serif text-4xl font-bold text-gray-700 mb-6">
           Courses
         </h1>
-        <button className="bg-[#a435f0] hover:bg-[#8b2dc9] text-white p-3 font-bold md:hidden">
-          New Course
-        </button>
+        <Link href={"course/create/1"}>
+          <button className="bg-[#a435f0] hover:bg-[#8b2dc9] text-white p-3 font-bold md:hidden">
+            New Course
+          </button>
+        </Link>
       </div>
       <div className="flex justify-between items-center">
         <div className="flex flex-1 items-center justify-between md:justify-normal">
@@ -76,16 +77,18 @@ function InstructorLandingPage() {
               value={sort}
               onChange={(e) => setSort(e.target.value)}
             >
-              <option value="createdAt">Newest</option>
-              <option value="-createdAt">Oldest</option>
+              <option value="-createdAt">Newest</option>
+              <option value="createdAt">Oldest</option>
               <option value="title">A-Z</option>
               <option value="-title">Z-A</option>
             </select>
           </div>
         </div>
-        <button className="bg-[#a435f0] hover:bg-[#8b2dc9] text-white p-3 font-bold hidden md:block">
-          New Course
-        </button>
+        <Link href={"course/create/1"}>
+          <button className="bg-[#a435f0] hover:bg-[#8b2dc9] text-white p-3 font-bold hidden md:block">
+            New Course
+          </button>
+        </Link>
       </div>
 
       {/* Course Card */}
@@ -131,7 +134,7 @@ function InstructorLandingPage() {
                     <div className="mt-2 mx-6 bg-gray-200 w-3/4 h-2">
                       <div
                         className="bg-[#5022C3] h-full"
-                        style={{ width: `${progress}%` }}
+                        style={{ width: `${course.progress || 0}%` }}
                       />
                     </div>
                   </Link>

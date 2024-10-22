@@ -8,6 +8,10 @@ import axios from "axios";
 
 const SidenavCourseManagment = ({ path, course }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const objectives =
+    course.learningObjective.length > 0 &&
+    course.courseFor.length > 0 &&
+    course.requirements.length > 0;
   let basics =
     course.title &&
     course.subtitle &&
@@ -37,6 +41,33 @@ const SidenavCourseManagment = ({ path, course }) => {
       console.error("Error updating course structure:", error);
     }
   };
+
+  const calculateProgress = async () => {
+    const totalPaths = 11; // Total number of paths: goals, basics, communications
+    let completedPaths = 0;
+
+    if (objectives) completedPaths += 1; // Goals
+    if (basics) completedPaths += 1; // Basics
+    if (curriculum) completedPaths += 1; // curriculum
+    if (course.courseStructure) completedPaths += 1; // courseStructure
+    if (course.setupAndTest) completedPaths += 1; // setupAndTest
+    if (course.filmAndEdite) completedPaths += 1; // filmAndEdite
+    if (course.captions) completedPaths += 1; // captions
+    if (course.accessibility) completedPaths += 1; // accessibility
+    if (course.price) completedPaths += 1; // price
+    if (course.promotions) completedPaths += 1; // promotions
+    if (course.welcomeMessage && course.congratesMessage) completedPaths += 1; // promotions
+    let progress = (completedPaths / totalPaths) * 100;
+    try {
+      await axios.patch(
+        `${process.env.NEXT_PUBLIC_LOCAL_API}/course/${course._id}`,
+        { progress }
+      );
+    } catch (error) {
+      console.error("Error updating progress:", error);
+    }
+  };
+  calculateProgress();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -74,9 +105,7 @@ const SidenavCourseManagment = ({ path, course }) => {
                     className="side-nav--completion--KfXbf"
                     aria-label="Completed"
                   >
-                    {course.learningObjective.length > 0 &&
-                    course.courseFor.length > 0 &&
-                    course.requirements.length > 0 ? (
+                    {objectives ? (
                       <BsCheckCircle className=" text-xl" />
                     ) : (
                       <BsCircle className=" text-xl" />
