@@ -105,7 +105,7 @@ export default function Page() {
 
     try {
       const response = await axios.put(
-        `http://localhost:3001/user/change-password/669904f9ad62aaee0f072f8a`,
+        `http://localhost:3001/user/change-password/669e81d82db8b0adc1f2ed7e`,
         {
           oldPassword: password,
           newPassword: newPassword,
@@ -228,7 +228,7 @@ export default function Page() {
       );
 
       setSuccess("Email updated successfully!");
-      setEmailData({ email: "", password: "" }); // إعادة تعيين المدخلات
+      setEmailData({ email: "", password: "" }); 
     } catch (error) {
       console.error(error);
       setError(
