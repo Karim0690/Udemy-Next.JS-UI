@@ -3,6 +3,7 @@ import Header from "../_components/Header/Header";
 import Footer from "../_components/Footer/Footer";
 import "./globals.css";
 import InstructorFooter from "../(instructor)/instructor/instractorFooter/page";
+import { Toaster } from "sonner";
 
 const geistSans = localFont({
   src: "../fonts/GeistVF.woff",
@@ -26,6 +27,7 @@ export default function RootLayout({ children }) {
       <body className="font-sans">
         <Header />
         {children}
+        <Toaster position="bottom-right" />
         <div>
           <InstructorFooter />
         </div>

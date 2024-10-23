@@ -1,8 +1,12 @@
 import { create } from "zustand";
 import { jwtDecode } from "jwt-decode";
+import axios from "axios";
 
 const useUserStore = create((set) => ({
   user: null,
+  userData: null,
+  loading: false,
+  error: null,
 
   setUser: () => {
     const token = localStorage.getItem("token");
@@ -20,9 +24,21 @@ const useUserStore = create((set) => ({
     }
   },
 
+  fetchUser: async (id) => {
+    set({ error: null, loading: true });
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_LOCAL_API}/user/${id}`
+      );
+      set({ userData: response.data.user, loading: false }); // Adjusted to set userData correctly
+    } catch (error) {
+      set({ error: error.message, loading: false }); // Reset loading state on error
+    }
+  },
+
   clearUser: () => {
     localStorage.removeItem("token");
-    set({ user: null });
+    set({ user: null, userData: null });
   },
 }));
 

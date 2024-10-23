@@ -3,6 +3,7 @@ import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Placeholder from "@tiptap/extension-placeholder";
 import Toolbar from "./Toolbar";
+import { useEffect } from "react";
 
 const Tiptap = ({ onChange, content }) => {
   // Initialize the editor with content
@@ -26,6 +27,12 @@ const Tiptap = ({ onChange, content }) => {
       onChange(editor.getHTML());
     },
   });
+
+  useEffect(() => {
+    if (editor) {
+      editor.commands.setContent(content);
+    }
+  }, [content, editor]);
 
   return (
     <>
