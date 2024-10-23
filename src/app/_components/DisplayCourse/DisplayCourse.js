@@ -59,7 +59,7 @@ async function fetchdata(id) {
     }
   }
 
-const page = async ({ params  }) => {
+const DisplayCourse = async ({ CourseId  }) => {
   
     
     const {id} = params;
@@ -223,16 +223,16 @@ const page = async ({ params  }) => {
 //     // Handling course not found
 //     if (!course) {
 //       return {
-//         notFound: true,
+//         notFound: true   
 //       };
 //     }
   
 //     return {
 //       props: {
-//         course, // Passing the fetched course data to the page
+//         course, // Passing the fetched course data to the DisplayCourse
 //       },
 //     };
 //   }
   
 
-export default page;
+export default DisplayCourse;
