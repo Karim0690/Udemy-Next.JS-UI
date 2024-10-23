@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import styles from "./Header.module.css";
 import {
-  Dialog,
+  Dialog as D,
   DialogPanel,
   Disclosure,
   DisclosureButton,
@@ -33,6 +33,13 @@ import {
 } from "@/components/ui/hover-card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MdOutlineOpenInNew, MdFavoriteBorder } from "react-icons/md";
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogTitle,
+  DialogHeader,
+} from "@/components/ui/dialog";
 
 const products = [
   {
@@ -250,7 +257,7 @@ export default function Header() {
                     </Avatar>
                   </HoverCardTrigger>
                   <HoverCardContent className="w-72 bg-white mt-4 mr-8">
-                    <div className="flex items-center py-4 group">
+                    <div className="flex items-center px-2 py-4 group">
                       <Avatar className="hover:cursor-pointer w-[60px] h-[60px]">
                         <AvatarImage />
                         <AvatarFallback className="bg-gray-900 text-white text-2xl font-bold">
@@ -270,71 +277,90 @@ export default function Header() {
                     </div>
 
                     <hr />
-                    <h1 className="p-2 hover:text-violet-700">My Learning</h1>
-                    <h1 className="p-2 hover:text-violet-700">My Cart</h1>
-                    <h1 className="p-2 hover:text-violet-700">Wishlist</h1>
-                    <h1 className="p-2 hover:text-violet-700">
+                    <h1 className="p-2 hover:text-violet-700 cursor-pointer">My Learning</h1>
+                    <h1 className="p-2 hover:text-violet-700 cursor-pointer">My Cart</h1>
+                    <h1 className="p-2 hover:text-violet-700 cursor-pointer">Wishlist</h1>
+                    <h1 className="p-2 hover:text-violet-700 cursor-pointer">
                       Teach on Udemy
                     </h1>
 
                     <hr />
-                    <h1 className="p-2 hover:text-violet-700">Notification</h1>
-                    <h1 className="p-2 hover:text-violet-700">Messages</h1>
+                    <h1 className="p-2 hover:text-violet-700 cursor-pointer">Notification</h1>
+                    <h1 className="p-2 hover:text-violet-700 cursor-pointer">Messages</h1>
                     <hr />
 
-                    <h1 className="p-2 hover:text-violet-700 pb-0">
+                    <h1 className="p-2 hover:text-violet-700 cursor-pointer pb-0">
                       Account settings
                     </h1>
-                    <h1 className="p-2 hover:text-violet-700">
+                    <h1 className="p-2 hover:text-violet-700 cursor-pointer">
                       Payout Methods
                     </h1>
-                    <h1 className="p-2 hover:text-violet-700">Subscriptions</h1>
-                    <h1 className="p-2 hover:text-violet-700">Udemy credits</h1>
-                    <h1 className="p-2 hover:text-violet-700">
+                    <h1 className="p-2 hover:text-violet-700 cursor-pointer">Subscriptions</h1>
+                    <h1 className="p-2 hover:text-violet-700 cursor-pointer">Udemy credits</h1>
+                    <h1 className="p-2 hover:text-violet-700 cursor-pointer">
                       Purchase history
                     </h1>
                     <hr />
 
                     <div className="flex items-center">
-                      <h1 className="p-2 hover:text-violet-700">Language</h1>
+                      <h1 className="p-2 hover:text-violet-700 cursor-pointer">Language</h1>
                       <div className=" flex ml-auto">
-                        <h1 className="p-2 hover:text-violet-700">English</h1>
-                        <div className="p-2 hover:bg-gray-200">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            strokeWidth={1.5}
-                            stroke="currentColor"
-                            className="size-5 mt-1"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418"
-                            />
-                          </svg>
-                        </div>
+                        <Dialog>
+                          <DialogTrigger asChild>
+                            <div className="flex">
+                              <h1 className="p-2 hover:text-violet-700 cursor-pointer">
+                                English
+                              </h1>
+                              <div className="p-2 hover:bg-gray-200">
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  strokeWidth={1.5}
+                                  stroke="currentColor"
+                                  className="size-5 mt-1"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418"
+                                  />
+                                </svg>
+                              </div>
+                            </div>
+                          </DialogTrigger>
+                          <DialogContent className="sm:max-w-[425px] flex flex-col bg-white items-start justify-start flex-1">
+                            <DialogHeader>
+                              <DialogTitle>Choose a language</DialogTitle>
+                            </DialogHeader>
+                            <button className="w-full text-left p-2 border border-black">
+                              English
+                            </button>
+                            <button className="w-full text-left p-2">
+                              Arabic
+                            </button>
+                          </DialogContent>
+                        </Dialog>
                       </div>
                     </div>
                     <hr />
 
-                    <h1 className="p-2 hover:text-violet-700 pb-0">
+                    <h1 className="p-2 hover:text-violet-700 cursor-pointer pb-0">
                       Public Profile
                     </h1>
-                    <h1 className="p-2 hover:text-violet-700">Edit Profile</h1>
+                    <h1 className="p-2 hover:text-violet-700 cursor-pointer">Edit Profile</h1>
 
                     <hr />
 
-                    <h1 className="p-2 hover:text-violet-700 pb-0">
+                    <h1 className="p-2 hover:text-violet-700 cursor-pointer pb-0">
                       Help and Support
                     </h1>
 
                     <Link href="/login" onClick={() => signOut()}>
-                      <h1 className="p-2 hover:text-violet-700">Log out</h1>
+                      <h1 className="p-2 hover:text-violet-700 cursor-pointer">Log out</h1>
                     </Link>
                     <hr />
-                    <div className="flex w-full justify-between items-start py-4 group">
+                    <div className="flex w-full justify-between items-start px-2 py-4 group">
                       <div className="flex flex-col justify-between">
                         <h1 className="text-lg font-bold text-gray-900 group-hover:text-violet-800">
                           Udemy Business
@@ -357,7 +383,7 @@ export default function Header() {
                     <div className="flex flex-col justify-between space-x-4">
                       <div className="flex justify-between items-center">
                         <h1 className="font-bold text-xl">Notifications</h1>
-                        <p className="text-violet-700 font-bold text-sm">
+                        <p className="text-violet-700 cursor-pointer font-bold text-sm">
                           Settings
                         </p>
                       </div>
@@ -405,7 +431,7 @@ export default function Header() {
                     </h1>
                   </HoverCardTrigger>
                   <HoverCardContent className="w-80 bg-white mt-4 mr-36">
-                    <div className="flex items-center justify-center mx-4">
+                    <div className="flex items-center justify-center mx-4 p-2">
                       <h1 className="text-sm text-gray-600 text-center">
                         Switch to the student veiw here - get back to the
                         courses you&apos;re taking.
@@ -467,22 +493,35 @@ export default function Header() {
               >
                 Sign up
               </Link>
-              <div className="border border-gray-400 p-2 hover:bg-gray-200">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="size-6 "
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418"
-                  />
-                </svg>
-              </div>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <div className="border border-gray-400 p-2 hover:bg-gray-200">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="size-6 "
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418"
+                      />
+                    </svg>
+                  </div>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-[425px] flex flex-col bg-white items-start justify-start flex-1">
+                  <DialogHeader>
+                    <DialogTitle>Choose a language</DialogTitle>
+                  </DialogHeader>
+                  <button className="w-full text-left p-2 border border-black">
+                    English
+                  </button>
+                  <button className="w-full text-left p-2">Arabic</button>
+                </DialogContent>
+              </Dialog>
             </>
           )}
         </div>
@@ -518,7 +557,7 @@ export default function Header() {
         </div>
       </nav>
       {/* sidebar */}
-      <Dialog
+      {/* <Dialog
         open={mobileMenuOpen}
         onClose={setMobileMenuOpen}
         className="lg:hidden"
@@ -587,7 +626,7 @@ export default function Header() {
             </div>
           </div>
         </DialogPanel>
-      </Dialog>
+      </Dialog> */}
     </header>
   );
 }
