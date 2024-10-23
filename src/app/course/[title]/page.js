@@ -7,7 +7,7 @@ const page = ({params}) => {
   return (
     
     <div>
-         {/* <DisplayCourse/> */}
+         <DisplayCourse slug={title}/>
     </div>
   )
 }
