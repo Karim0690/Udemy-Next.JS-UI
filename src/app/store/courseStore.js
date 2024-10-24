@@ -25,12 +25,12 @@ const useCourseStore = create((set) => ({
   fetchCoursetitle : async (title) =>{
     set({ error: null, loading: true });
     try {
-      const response = await axios.get(
+      const {data} = await axios.get(
         `${process.env.NEXT_PUBLIC_PRODUCTION_API}/course/courseTitle/${title}`
       );
-      console.log(response);
+      console.log(data.data.course);
+      set({ courseTitle: data.data.course });      
       
-      set({ course: response.data.data.course });      
     } catch (error) {
       set({ error: error.message });
     }

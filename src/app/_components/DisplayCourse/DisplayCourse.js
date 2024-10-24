@@ -45,68 +45,64 @@ import useCourseStore from "@/app/store/courseStore";
 
 
 
-const DisplayCourse =  ({ slug  }) => {
-    const [loading,setLoading] = useState(true);   
-    const {courseTitle , fetchCoursetitle}= useCourseStore();
+const DisplayCourse =  ({ slug }) => {    
+    const [loading, setLoading] = useState(true);
+    const { courseTitle, fetchCoursetitle } = useCourseStore();
+
     useEffect(() => {
-        const fetch =  () => {
-
-            fetchCoursetitle(slug); 
-           console.log(courseTitle);
-           
-           }   
-       fetch(); 
-
-       setLoading(false); 
-
-    
-    
-    }, [])
-    
-    useEffect(() => {
-        const fetch =  () => {
-
-             fetchCoursetitle(slug); 
-            console.log(courseTitle);
+        const loadCourseData = async () => {
+            await fetchCoursetitle(slug);
             
-            }   
-        fetch(); 
+            setLoading(false);
+        };
+        loadCourseData();
+    }, [slug, fetchCoursetitle]);
+    useEffect(() => {
+        console.log(courseTitle);
 
-        setLoading(false); 
-    }, []);   
+    },[courseTitle])
+
+//     useEffect(() => {
+
+//              fetchCoursetitle(slug); 
+            
+//             setCourse(courseTitle); 
+//             console.log(courseTitle);
+//         setLoading(false); 
+// }, [courseTitle]);   
  
-    let course = courseTitle;
     // console.log(data);
-    console.log(course);
-    console.log("========================================================================================================")
+    // console.log(course);
+    // console.log("========================================================================================================")
     
     // console.log(Object.keys(course)) ;
 
     
     // const instructor = await fetchInstructorData(); 
     
-  
-    let courses = [course, course, course, course, course, course, course, course, course, course, course, course]
-    
+    let courses = [courseTitle, courseTitle, courseTitle, courseTitle, courseTitle, courseTitle, courseTitle, courseTitle, courseTitle, courseTitle, courseTitle, courseTitle]
+   
     return (
         <>
-            <div className="w-full z-[1] mx-auto fixed top-0 bg-[#2D2F31] text-white shadow-sm">
+        {loading?"loading...":(
+             <>
+             <div className="w-full z-[1] mx-auto fixed top-0 bg-[#2D2F31] text-white shadow-sm">
                 <div className="px-4 py-1">
                     <div>
-                        <h1 className="font-bold text-base">{course.title}</h1>
+                        <h1 className="font-bold text-base">{courseTitle.title}</h1>
                     </div>
                     <div className="text-sm mt-1">
                         <span className="bg-[#ECEB98] px-3 py  text-[#3D3C0A]  mr-4 text-sm">
                             Bestseller
                         </span>
                         <span className="text-yellow-500 mr-2 font-extrabold text-sm">
-                            {course.rating.average}⭐
+                            {courseTitle.rating.average}⭐
                         </span>
                         <span className="text-indigo-400 font-semibold underline underline-offset-2">
-                            ({course.rating.court} ratings)
+                            ({courseTitle.rating.count} ratings)
                         </span>
                         <span className="ml-2">
-                            {course.enrollments} students
+                            {courseTitle.enrollments} students
                         </span>
                     </div>
                 </div>
@@ -114,31 +110,32 @@ const DisplayCourse =  ({ slug  }) => {
             <div className="relative max-w-[1440px] mx-auto bg-[#2D2F31]">
                 <div className="w-[50%] ml-36 pb-10">
                   <CourseHeader
-                        title={course.title}
-                        description={course.subtitle}
-                        categories={[course.category.name,course.subcategory.name,course.topics[0]]}
-                        rating={course.rating.average}
-                        numberOfRates={course.rating.count}
-                        numberOfStudent={course.enrollments}
-                        instructorName={course.instructor.name}
-                        courseImg={course.courseImage}
-                        price={course.price}
+                        title={courseTitle.title}
+                        description={courseTitle.subtitle}
+                        categories={[courseTitle.category.name,courseTitle.subcategory.name,courseTitle.topics[0].name]}
+                        rating={courseTitle.rating.average}
+                        numberOfRates={courseTitle.rating.count}
+                        numberOfStudent={courseTitle.enrollments}
+                        instructorName={courseTitle.instructor.name}
+                        courseImg={courseTitle.courseImage}
+                        price={courseTitle.price}
                     />
                 </div>
                 <div className="w-[360px] my-4 absolute  top-4 right-36">
-                    <CourseSideBar courseImg={course.courseImage} price={course.price} />
+                    <CourseSideBar courseImg={courseTitle.courseImage} price={courseTitle.price} />
                 </div>
             </div>
-            {/* <div className="grid grid-cols-12 gap-1 ">
+            <div className="grid grid-cols-12 gap-1 ">
                 <div className="col-start-2 col-end-8">
                     <div className="mt-11">
-                        <AboutLearning topics={course.topics} />
+                        <AboutLearning topics={courseTitle.intendedLearns?.[0]?.willLearn || []} />
                     </div>
-                    <h2 className="text-3xl mt-9 font-bold text-slate-800">
+                     <h2 className="text-3xl mt-9 font-bold text-slate-800">
                         Explore related topics
                     </h2>
-                    <Tags tags={course.categories} />
+                    <Tags tags={[courseTitle.category.name,courseTitle.subcategory.name,courseTitle.topics[0].name]} />
 
+                    {/*
                     <h2 className="text-3xl mt-20 font-bold text-slate-800">
                         This course includes:
                     </h2>
@@ -146,7 +143,7 @@ const DisplayCourse =  ({ slug  }) => {
                         <ul className=" grid grid-cols-2 gap-3 mt-5">
                             <li className="flex items-start mb-2 font-light ">
                                 <PiMonitorPlayBold className=" mr-3" />
-                                <span>{course.duration} on-demand video</span>
+                                <span>{courseTitle.duration} on-demand video</span>
                             </li> 
                             <li className="flex items-start mb-2 font-light">
                                 <MdOutlineSmartphone className=" mr-3" />
@@ -154,15 +151,15 @@ const DisplayCourse =  ({ slug  }) => {
                             </li>
                             <li className="flex items-start mb-2 font-light">
                                 <BsFileEarmark className=" mr-3" />
-                                <span>{course.numOfArticle} article</span>
+                                <span>{courseTitle.numOfArticle} article</span>
                             </li>
                             <li className="flex items-start mb-2 font-light">
                                 <FaTrophy className=" mr-3" />
-                                <span>{course.numOfCertificate} Certificate of completion</span>
+                                <span>{courseTitle.numOfCertificate} Certificate of completion</span>
                             </li>
                             <li className="flex items-start mb-2 font-light">
                                 <RiFolderDownloadLine className=" mr-3" />
-                                <span>{course.numOfResources} downloadable resources</span>
+                                <span>{courseTitle.numOfResources} downloadable resources</span>
                             </li>
                         </ul>
                     </div>
@@ -172,14 +169,17 @@ const DisplayCourse =  ({ slug  }) => {
                     <div>
                         <CourseContent/>
                     </div>
-                    <div> <ReqAndDesc requirments={course.requirments}  WhoThisCourseIsFor={course.WhoThisCourseIsFor}/> </div>
+                    <div> <ReqAndDesc requirments={courseTitle.requirments}  WhoThisCourseIsFor={courseTitle.WhoThisCourseIsFor}/> </div>
                     <div> <StudentsAlsoBought courses={courses} /></div>
                     <div><FrequentlyBoughtTogother courses={courses.splice(9)} /></div>
-                    <div> <CourseInstructorDetails course={course} /> </div>
-                    <div> <CourseComment course={course} /> </div>
-                    <div>       <MoreCoursesByInstructor course={course} /> </div>
+                    <div> <CourseInstructorDetails course={courseTitle} /> </div>
+                    <div> <CourseComment course={courseTitle} /> </div>
+                    <div>       <MoreCoursesByInstructor course={courseTitle} /> </div> */}
                 </div>
-            </div> */}
+            </div> 
+            </>)}
+           
+
         </>
     );
 };
