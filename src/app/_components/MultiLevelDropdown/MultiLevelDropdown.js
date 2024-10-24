@@ -5,7 +5,7 @@ import axios from "axios";
 
 // const categories = [
 //   {
-//     _id: 288,
+//     id: 288,
 //     name: "Development",
 //     subcategories: [
 //       {
@@ -106,7 +106,7 @@ const MultiLevelDropdown = () => {
     };
   }, []);
 
-   return (
+  return (
     <div
       className="relative"
       ref={dropdownRef}
@@ -225,7 +225,6 @@ const MultiLevelDropdown = () => {
                         key={topic._id}
                         href={`/topic/${topic.name.toLowerCase()}`}
                       >
-       
                         <li
                           key={topic._id}
                           className="px-3 py-2 hover:text-violet-600"
