@@ -5,7 +5,7 @@ const ReqAndDesc = ({ requirments,WhoThisCourseIsFor}) => {
         <>
             <h2 className="text-2xl font-bold text-slate-800">Requirements</h2>
             <ul className="max-w-4xl mx-auto p-4">
-                {requirments.map((req, idx) => <li key={idx} className="text-lg leading-relaxed text-gray-700 mb-6">{ req}</li>)}    
+            {requirments?.map((req, idx) =>  <li key={idx} className="text-lg leading-relaxed text-gray-700 mb-6">{ req}</li>)}    
               </ul>
             <h2 className="text-2xl font-bold text-slate-800"> 
                 Description
@@ -65,7 +65,7 @@ const ReqAndDesc = ({ requirments,WhoThisCourseIsFor}) => {
             <h2 className="text-2xl font-bold text-slate-800">Who this course is for:</h2>
             
             <ul className="max-w-4xl mx-auto p-4">
-                {WhoThisCourseIsFor.map((req, idx) => <li key={idx} className="text-lg  leading-relaxed text-gray-700 mb-6" >{ req}</li>)}    
+                {WhoThisCourseIsFor.map((req, idx)  => <li key={idx} className="text-lg  leading-relaxed text-gray-700 mb-6" >{ req}</li>)}    
               </ul>
         </>
     )

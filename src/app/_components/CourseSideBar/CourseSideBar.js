@@ -15,11 +15,12 @@ const CourseSideBar = ({ courseImg, price }) => {
         <div className="mb-4 w-full">
           <button className="relative w-full h-40 overflow-hidden rounded-lg">
             <Image
-              src={courseImg}
+              src={"https://tailwindcss.com/_next/static/media/card.a1cd9cff.jpg"}
               alt="Course Preview"
-              layout="fill"
+              width={200}
+              height={300}
               objectFit="cover"
-              className="transition-transform duration-300 transform hover:scale-105 w-full"
+              className="transition-transform duration-300 transform hover:scale-105  w-full"
             />
             <span className="absolute inset-0 font-extrabold flex mb-3 items-end justify-center text-white bg-black bg-opacity-15 hover:bg-opacity-50 transition-opacity duration-200">
               Preview this course

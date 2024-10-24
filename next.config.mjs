@@ -42,6 +42,12 @@ const nextConfig = {
       },
       {
         protocol: "https",
+        hostname: "tailwindcss.com",
+        port: "",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
         hostname: "res.cloudinary.com",
         port: "",
         pathname: "/**",

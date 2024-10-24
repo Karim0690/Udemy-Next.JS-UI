@@ -20,7 +20,7 @@ const StudentsAlsoBought = ({ courses }) => {
           <div key={course.id || index} className="flex border-b-2 p-4 rounded-lg ">
             <div className='w-28 h-16 mr-2'>
             <img
-              src={course.courseImg}
+              src={course.courseImage}
               alt={course.title}
               className="w-full h-full object-cover rounded-md mb-4"
               />
@@ -29,10 +29,10 @@ const StudentsAlsoBought = ({ courses }) => {
               {course.title}
             </h3> 
             <span className="text-yellow-600 mr-5 font-extrabold text-sm">
-              {course.rating}⭐
+              {course.rating.average}⭐
             </span>
             <span className='mr-7'>
-              👥{course.numberOfStudent}
+              👥{course.enrollments}
             </span>
             <p className="text-lg font-semibold text-slate-700">
               {<CoursePrice price={course.price}/>}

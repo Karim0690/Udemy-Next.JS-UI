@@ -17,15 +17,15 @@ FrequentlyBoughtTogother = ({ courses }) => {
                             {/* Course Image, Title, Instructor, Rating */}
                             <div className="flex">
                                 <div className="w-48">
-                                    <img src={course.courseImg} alt={course.title} className="w-full h-full" />
+                                    <img src={course.courseImage} alt={course.title} className="w-full h-full" />
                                 </div>
                                 <div className="flex flex-col ml-3 w-60">
                                     <h3 className="text-md w-80 font-bold text-slate-800 ">{course.title}</h3>
                                     <p className="text-lg text-stone-400">{course.instructor.name}</p>
                                     <div className="flex items-center">
                                         <span className="text-[#4D3105] mr-2 font-extrabold">{course.rating}</span>
-                                        <Rating ratingValue={course.rating} readOnly={true} className="mt-9 bg-[#B56B11]" />
-                                        <a className="mr-3 ml-4 text-stone-400 font-semibold">({course.numberOfRates})</a>
+                                        <Rating ratingValue={course.rating.average} readOnly={true} className="mt-9 bg-[#B56B11]" />
+                                        <a className="mr-3 ml-4 text-stone-400 font-semibold">({course.enrollments})</a>
                                     </div>
                                 </div>
                             </div>
