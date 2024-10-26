@@ -13,6 +13,11 @@ const VideoCoursePlayer = () => {
         width="1920"
         height="1080"
         src="https://res.cloudinary.com/djtjlvuvb/video/upload/v1729369464/cbx06ulgjz9vadhd90md.mp4"
+        colors={{
+            accent: '#A435F0',
+            base: '#000',
+            text: '#FFF'
+          }}
       />
     </>
   );
