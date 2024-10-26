@@ -24,7 +24,8 @@ const Tiptap = ({ onChange, content }) => {
     content,
     editorProps: {
       attributes: {
-        class: "flex flex-col px-4 py-3 justify-start border border-gray-800 w-full focus:outline-none min-h-[50px]",
+        class:
+          "flex flex-col px-4 py-3 justify-start border border-gray-800 w-full focus:outline-none min-h-[50px]",
       },
       // Disable immediate rendering to capture onChange properly
       immediatelyRender: false,

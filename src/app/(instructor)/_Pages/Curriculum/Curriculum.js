@@ -44,7 +44,7 @@ const Curriculum = () => {
   const handelSections = async () => {
     try {
       let response = await axios.get(
-        `${process.env.NEXT_PUBLIC_LOCAL_API}/course/${params.id}/course_sections`
+        `${process.env.NEXT_PUBLIC_LOCAL_API}/course/${params.id}/course_sections`,
       );
       setSections(response.data[0].sections);
     } catch (error) {
@@ -104,16 +104,16 @@ const Curriculum = () => {
 
   const handleDeleteItem = async (type, itemId, sectionId, item) => {
     await axios.delete(
-      `${process.env.NEXT_PUBLIC_LOCAL_API}/course-sections/${sectionId}/items/${item}`
+      `${process.env.NEXT_PUBLIC_LOCAL_API}/course-sections/${sectionId}/items/${item}`,
     );
     if (type === "Lecture") {
       await axios.delete(
-        `${process.env.NEXT_PUBLIC_LOCAL_API}/lectures/${itemId}/course/${params.id}`
+        `${process.env.NEXT_PUBLIC_LOCAL_API}/lectures/${itemId}/course/${params.id}`,
       );
     }
     if (type === "Quiz") {
       await axios.delete(
-        `${process.env.NEXT_PUBLIC_LOCAL_API}/quizzes/${itemId}`
+        `${process.env.NEXT_PUBLIC_LOCAL_API}/quizzes/${itemId}`,
       );
     }
     handelSections();
@@ -122,7 +122,7 @@ const Curriculum = () => {
 
   const handleDeleteSection = async (sectionId) => {
     await axios.delete(
-      `${process.env.NEXT_PUBLIC_LOCAL_API}/course-sections/${sectionId}`
+      `${process.env.NEXT_PUBLIC_LOCAL_API}/course-sections/${sectionId}`,
     );
     handelSections();
   };
@@ -145,7 +145,7 @@ const Curriculum = () => {
         `${process.env.NEXT_PUBLIC_LOCAL_API}/course/${params.id}`,
         {
           sections: reorderedSections.map((section) => section._id),
-        }
+        },
       );
     }
     // Handle item moving between sections
@@ -173,7 +173,7 @@ const Curriculum = () => {
             `${process.env.NEXT_PUBLIC_LOCAL_API}/course-sections/${section._id}`,
             {
               items: section.items,
-            }
+            },
           )
           .catch((error) => {
             console.error(`Failed to update section ${section._id}:`, error);
@@ -207,7 +207,7 @@ const Curriculum = () => {
             `${process.env.NEXT_PUBLIC_LOCAL_API}/course-sections/${section._id}`,
             {
               items: section.items,
-            }
+            },
           )
           .catch((error) => {
             console.error(`Failed to update section ${section._id}:`, error);
@@ -226,10 +226,10 @@ const Curriculum = () => {
 
     for (let i = 0; i < sectionIndex; i++) {
       totalLectures += sections[i].items.filter(
-        (item) => item.type === "Lecture"
+        (item) => item.type === "Lecture",
       ).length;
       totalQuizzes += sections[i].items.filter(
-        (item) => item.type === "Quiz"
+        (item) => item.type === "Quiz",
       ).length;
     }
 
@@ -383,7 +383,7 @@ const Curriculum = () => {
                                                         : "Quiz"}{" "}
                                                       {getItemNumber(
                                                         sectionIndex,
-                                                        itemIndex
+                                                        itemIndex,
                                                       )}
                                                       :
                                                     </h3>
@@ -406,7 +406,7 @@ const Curriculum = () => {
                                                         onClick={() => {
                                                           handleEditLectureTitle(
                                                             sectionIndex,
-                                                            itemIndex
+                                                            itemIndex,
                                                           );
                                                         }}
                                                       />
@@ -417,7 +417,7 @@ const Curriculum = () => {
                                                             item.type,
                                                             item.item._id,
                                                             section._id,
-                                                            item._id
+                                                            item._id,
                                                           )
                                                         }
                                                       />
@@ -435,7 +435,7 @@ const Curriculum = () => {
                                                             }`}
                                                             onClick={() =>
                                                               setAddContent(
-                                                                `${sectionIndex}-${itemIndex}`
+                                                                `${sectionIndex}-${itemIndex}`,
                                                               )
                                                             }
                                                           >
@@ -456,7 +456,7 @@ const Curriculum = () => {
                                                           }`}
                                                           onClick={() => {
                                                             setAddQuestion(
-                                                              `${sectionIndex}-${itemIndex}`
+                                                              `${sectionIndex}-${itemIndex}`,
                                                             );
                                                           }}
                                                         >
@@ -473,7 +473,7 @@ const Curriculum = () => {
                                                               quizContent ===
                                                                 `${sectionIndex}-${itemIndex}`
                                                                 ? null
-                                                                : `${sectionIndex}-${itemIndex}`
+                                                                : `${sectionIndex}-${itemIndex}`,
                                                             )
                                                           }
                                                         >
@@ -498,7 +498,7 @@ const Curriculum = () => {
                                                               lectureContent ===
                                                                 `${sectionIndex}-${itemIndex}`
                                                                 ? null
-                                                                : `${sectionIndex}-${itemIndex}`
+                                                                : `${sectionIndex}-${itemIndex}`,
                                                             )
                                                           }
                                                         >
@@ -606,7 +606,7 @@ const Curriculum = () => {
                                         }`}
                                         onClick={() =>
                                           toggleCurriculumVisibility(
-                                            sectionIndex
+                                            sectionIndex,
                                           )
                                         }
                                       >
@@ -637,7 +637,7 @@ const Curriculum = () => {
                                               className="flex items-center text-violet-800 hover:text-violet-950 gap-2"
                                               onClick={() =>
                                                 handleLectureFormVisibility(
-                                                  sectionIndex
+                                                  sectionIndex,
                                                 )
                                               }
                                             >
@@ -651,7 +651,7 @@ const Curriculum = () => {
                                               className="flex items-center text-violet-800 hover:text-violet-950 gap-2"
                                               onClick={() =>
                                                 handleQuizFormVisibility(
-                                                  sectionIndex
+                                                  sectionIndex,
                                                 )
                                               }
                                             >

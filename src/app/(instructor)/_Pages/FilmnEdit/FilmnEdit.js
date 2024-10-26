@@ -40,9 +40,7 @@ const FilmnEdit = () => {
         </div>
       </div>
       <div className="p-7 lg:p-14 max-w-[57rem]">
-        <h2 className="text-2xl mb-4 font-bold text-[#1a1d23]">
-          Tips
-        </h2>
+        <h2 className="text-2xl mb-4 font-bold text-[#1a1d23]">Tips</h2>
         <div className="text-base">
           <h3 className="font-bold text-[#1a1d23] mt-10 mb-1">
             Take breaks and review frequently.
@@ -120,9 +118,7 @@ const FilmnEdit = () => {
         </div>
         {/* ****************************** */}
         <div className="mt-12 text-base">
-          <h2 className="text-2xl mb-4 font-bold text-[#1a1d23]">
-            Resources
-          </h2>
+          <h2 className="text-2xl mb-4 font-bold text-[#1a1d23]">Resources</h2>
           <div className="my-8">
             <h3 className="font-bold text-[#1a1d23] mb-1">
               <span className="text-[#5022c3] underline underline-offset-4 hover:text-[#3b198f] cursor-pointer">

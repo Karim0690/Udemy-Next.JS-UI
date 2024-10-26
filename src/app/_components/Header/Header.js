@@ -76,14 +76,14 @@ const products = [
 
 async function fetchTopics(subcategoryId) {
   const topicsRes = await fetch(
-    `https://udemy-eosin-eight.vercel.app/topics?subcategoryId=${subcategoryId}`
+    `https://udemy-eosin-eight.vercel.app/topics?subcategoryId=${subcategoryId}`,
   );
   const topics = await topicsRes.json();
   return topics;
 }
 async function fetchSubcategories(categoryId) {
   const subcategoryRes = await fetch(
-    `https://udemy-eosin-eight.vercel.app/subcategories?categoryId=${categoryId}`
+    `https://udemy-eosin-eight.vercel.app/subcategories?categoryId=${categoryId}`,
   );
   const subcategories = await subcategoryRes.json();
   return subcategories;
@@ -91,7 +91,7 @@ async function fetchSubcategories(categoryId) {
 export async function getServerSideProps() {
   // Fetch all categories
   const categoryRes = await fetch(
-    "https://udemy-eosin-eight.vercel.app/category"
+    "https://udemy-eosin-eight.vercel.app/category",
   );
   const categories = await categoryRes.json();
 
@@ -108,14 +108,14 @@ export async function getServerSideProps() {
             ...subcategory,
             topics,
           };
-        })
+        }),
       );
 
       return {
         ...category,
         subcategories: subcategoriesWithTopics,
       };
-    })
+    }),
   );
 
   return {
@@ -277,16 +277,26 @@ export default function Header() {
                     </div>
 
                     <hr />
-                    <h1 className="p-2 hover:text-violet-700 cursor-pointer">My Learning</h1>
-                    <h1 className="p-2 hover:text-violet-700 cursor-pointer">My Cart</h1>
-                    <h1 className="p-2 hover:text-violet-700 cursor-pointer">Wishlist</h1>
+                    <h1 className="p-2 hover:text-violet-700 cursor-pointer">
+                      My Learning
+                    </h1>
+                    <h1 className="p-2 hover:text-violet-700 cursor-pointer">
+                      My Cart
+                    </h1>
+                    <h1 className="p-2 hover:text-violet-700 cursor-pointer">
+                      Wishlist
+                    </h1>
                     <h1 className="p-2 hover:text-violet-700 cursor-pointer">
                       Teach on Udemy
                     </h1>
 
                     <hr />
-                    <h1 className="p-2 hover:text-violet-700 cursor-pointer">Notification</h1>
-                    <h1 className="p-2 hover:text-violet-700 cursor-pointer">Messages</h1>
+                    <h1 className="p-2 hover:text-violet-700 cursor-pointer">
+                      Notification
+                    </h1>
+                    <h1 className="p-2 hover:text-violet-700 cursor-pointer">
+                      Messages
+                    </h1>
                     <hr />
 
                     <h1 className="p-2 hover:text-violet-700 cursor-pointer pb-0">
@@ -295,15 +305,21 @@ export default function Header() {
                     <h1 className="p-2 hover:text-violet-700 cursor-pointer">
                       Payout Methods
                     </h1>
-                    <h1 className="p-2 hover:text-violet-700 cursor-pointer">Subscriptions</h1>
-                    <h1 className="p-2 hover:text-violet-700 cursor-pointer">Udemy credits</h1>
+                    <h1 className="p-2 hover:text-violet-700 cursor-pointer">
+                      Subscriptions
+                    </h1>
+                    <h1 className="p-2 hover:text-violet-700 cursor-pointer">
+                      Udemy credits
+                    </h1>
                     <h1 className="p-2 hover:text-violet-700 cursor-pointer">
                       Purchase history
                     </h1>
                     <hr />
 
                     <div className="flex items-center">
-                      <h1 className="p-2 hover:text-violet-700 cursor-pointer">Language</h1>
+                      <h1 className="p-2 hover:text-violet-700 cursor-pointer">
+                        Language
+                      </h1>
                       <div className=" flex ml-auto">
                         <Dialog>
                           <DialogTrigger asChild>
@@ -348,7 +364,9 @@ export default function Header() {
                     <h1 className="p-2 hover:text-violet-700 cursor-pointer pb-0">
                       Public Profile
                     </h1>
-                    <h1 className="p-2 hover:text-violet-700 cursor-pointer">Edit Profile</h1>
+                    <h1 className="p-2 hover:text-violet-700 cursor-pointer">
+                      Edit Profile
+                    </h1>
 
                     <hr />
 
@@ -357,7 +375,9 @@ export default function Header() {
                     </h1>
 
                     <Link href="/login" onClick={() => signOut()}>
-                      <h1 className="p-2 hover:text-violet-700 cursor-pointer">Log out</h1>
+                      <h1 className="p-2 hover:text-violet-700 cursor-pointer">
+                        Log out
+                      </h1>
                     </Link>
                     <hr />
                     <div className="flex w-full justify-between items-start px-2 py-4 group">

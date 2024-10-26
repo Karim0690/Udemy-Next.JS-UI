@@ -17,30 +17,36 @@ const Page = () => {
     setEmailError("");
     setPasswordError("");
 
-
     if (!email.includes("@gmail.com") || email.trim() === "") {
-      setEmailError("Please include an '@' in the email address and ensure it is not empty.");
+      setEmailError(
+        "Please include an '@' in the email address and ensure it is not empty.",
+      );
       return;
     }
 
     if (password.trim().length < 6) {
-      setPasswordError("Please lengthen this text to at least 6 characters or more.");
+      setPasswordError(
+        "Please lengthen this text to at least 6 characters or more.",
+      );
       return;
     }
 
     try {
-      const response = await fetch('https://udemy-eosin-eight.vercel.app/auth/signin', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        "https://udemy-eosin-eight.vercel.app/auth/signin",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
         },
-        body: JSON.stringify({ email, password }),
-      });
+      );
 
       const data = await response.json();
 
       if (response.ok) {
-        localStorage.setItem('token', data.token);
+        localStorage.setItem("token", data.token);
         window.location.href = "/";
         setEmail("");
         setPassword("");
@@ -87,7 +93,12 @@ const Page = () => {
               <h1 className="text-3xl font-bold mb-6 text-gray-950">
                 Log in to your Udemy account
               </h1>
-              {generalError && <div className="bg-[#fcbca0] p-4 text-start mb-4"><BiSolidErrorAlt className="inline mr-2 text-2xl text-black-500" />{generalError}</div>}
+              {generalError && (
+                <div className="bg-[#fcbca0] p-4 text-start mb-4">
+                  <BiSolidErrorAlt className="inline mr-2 text-2xl text-black-500" />
+                  {generalError}
+                </div>
+              )}
               <form onSubmit={handleLogin}>
                 <div className="relative">
                   <input
@@ -104,7 +115,12 @@ const Page = () => {
                     Email
                   </label>
                 </div>
-                {emailError && <div className="text-black-500 mt-2 border border-gray-500 p-2 absolute rounded z-20 w-auto text-center bg-white"><MdError className="inline text-2xl mr-2 text-orange-500" />{emailError}</div>}
+                {emailError && (
+                  <div className="text-black-500 mt-2 border border-gray-500 p-2 absolute rounded z-20 w-auto text-center bg-white">
+                    <MdError className="inline text-2xl mr-2 text-orange-500" />
+                    {emailError}
+                  </div>
+                )}
                 <div className="relative">
                   <input
                     type="password"
@@ -120,8 +136,16 @@ const Page = () => {
                     Password
                   </label>
                 </div>
-                {passwordError && <div className="text-black-500 mt-2 border border-gray-500 p-2 absolute rounded z-10 w-auto text-center bg-white"><MdError className="inline text-2xl mr-2 text-orange-500" />{passwordError}</div>}
-                <button type="submit" className="mt-6 w-full bg-purple-500 text-white text-lg font-medium py-3 px-6 hover:bg-purple-800">
+                {passwordError && (
+                  <div className="text-black-500 mt-2 border border-gray-500 p-2 absolute rounded z-10 w-auto text-center bg-white">
+                    <MdError className="inline text-2xl mr-2 text-orange-500" />
+                    {passwordError}
+                  </div>
+                )}
+                <button
+                  type="submit"
+                  className="mt-6 w-full bg-purple-500 text-white text-lg font-medium py-3 px-6 hover:bg-purple-800"
+                >
                   Log in
                 </button>
               </form>

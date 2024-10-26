@@ -117,7 +117,7 @@ const Page = () => {
         headers: {
           Authorization: `${localStorage.getItem("token")}`,
         },
-      }
+      },
     );
     // Redirect to course page
     if (data.message === "success") {

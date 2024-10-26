@@ -1,9 +1,8 @@
-import React from 'react'
+import React from "react";
 
 const page = () => {
   return (
     <>
-  
       <div className="w-full mx-auto top-0 bg-[#2D2F31] text-white shadow-sm">
         <div className="px-4 py-1">
           <div>
@@ -11,9 +10,8 @@ const page = () => {
           </div>
         </div>
       </div>
-
     </>
-  )
-}
+  );
+};
 
-export default page
+export default page;

@@ -8,10 +8,10 @@ export default function Home() {
   return (
     <>
       <InstructorHeader />
-      <InstructorLandingPage/>
-      <InstructorSection2LandingPage/>
-      <InstructorFooter/>
-      <SideNav/>
+      <InstructorLandingPage />
+      <InstructorSection2LandingPage />
+      <InstructorFooter />
+      <SideNav />
     </>
   );
 }

@@ -9,13 +9,13 @@ const DragnDrop = ({ course, formData, setFormData }) => {
   const [inputs, setInputs] = useState(
     course.learningObjective.length == 0
       ? ["", "", "", ""]
-      : course.learningObjective
+      : course.learningObjective,
   );
   const [reqinputs, setReqInputs] = useState(
-    course.requirements == 0 ? [""] : course.requirements
+    course.requirements == 0 ? [""] : course.requirements,
   );
   const [forinputs, setForInputs] = useState(
-    course.courseFor == 0 ? [""] : course.courseFor
+    course.courseFor == 0 ? [""] : course.courseFor,
   );
 
   // Update the formData when inputs change

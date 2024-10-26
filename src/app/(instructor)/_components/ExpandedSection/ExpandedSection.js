@@ -15,7 +15,7 @@ const ExpandedSection = ({ courseId, formVisibility, onAddSection }) => {
     try {
       await axios.post(
         `http://127.0.0.1:3001/course-sections/${courseId}`,
-        section
+        section,
       );
       return true;
     } catch (error) {

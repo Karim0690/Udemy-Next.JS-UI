@@ -62,11 +62,11 @@ const AddContentForm = ({
           cancelToken: cancelTokenSource.current.token, // Attach the cancel token
           onUploadProgress: (progressEvent) => {
             const percentCompleted = Math.round(
-              (progressEvent.loaded * 100) / progressEvent.total
+              (progressEvent.loaded * 100) / progressEvent.total,
             );
             setUploadVideoProgress(percentCompleted);
           },
-        }
+        },
       );
       setFormData({
         resourceTitle: data.original_filename,
@@ -99,7 +99,7 @@ const AddContentForm = ({
     const uploadLectureVideo = async () => {
       await axios.put(
         `${process.env.NEXT_PUBLIC_LOCAL_API}/lectures/${id}/course/${courseId}`,
-        formData
+        formData,
       );
     };
     uploadLectureVideo();

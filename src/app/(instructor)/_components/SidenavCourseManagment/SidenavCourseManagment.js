@@ -30,7 +30,7 @@ const SidenavCourseManagment = ({ path, course }) => {
         `${process.env.NEXT_PUBLIC_LOCAL_API}/course/${course._id}`,
         {
           [field]: true,
-        }
+        },
       );
 
       if (response.status === 200) {
@@ -61,7 +61,7 @@ const SidenavCourseManagment = ({ path, course }) => {
     try {
       await axios.patch(
         `${process.env.NEXT_PUBLIC_LOCAL_API}/course/${course._id}`,
-        { progress }
+        { progress },
       );
     } catch (error) {
       console.error("Error updating progress:", error);

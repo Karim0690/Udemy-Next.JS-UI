@@ -74,7 +74,7 @@ const FeaturedCourseSlider = () => {
         },
       },
       {
-        breakpoint: 600, 
+        breakpoint: 600,
         settings: {
           arrows: false,
         },

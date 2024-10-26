@@ -1,4 +1,3 @@
-
 import axios from "axios";
 import { useParams } from "next/navigation";
 import React, { useState } from "react";
@@ -8,7 +7,7 @@ const NewLectureForm = ({
   sectionId,
   setLectureFormVisible,
   handleAddItem,
-}) => {  
+}) => {
   const [newLecture, setNewLecture] = useState({
     title: "",
   });
@@ -22,7 +21,7 @@ const NewLectureForm = ({
     try {
       let response = await axios.post(
         `http://127.0.0.1:3001/course-sections/${sectionId}/lecture`,
-        newLecture
+        newLecture,
       );
       if (response.data.message === "success") {
         handleAddItem();

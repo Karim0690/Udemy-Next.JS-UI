@@ -56,7 +56,6 @@ const ManageCourseHeader = ({
     setIsMessagesModified(false);
   };
 
-
   return (
     <div className="bg-[#2d2f31] text-white shadow-md sticky top-0 py-4 px-5 z-10">
       <div className="flex gap-5 items-center">

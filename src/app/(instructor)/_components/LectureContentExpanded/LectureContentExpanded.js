@@ -15,13 +15,13 @@ const LectureContentExpanded = ({
 }) => {
   const [description, setDescription] = useState(false);
   const [descriptionInput, setDescriptionInput] = useState(
-    item.description || ""
+    item.description || "",
   );
   const minutes = Math.floor(item.duration / 60);
   const remainingSeconds = item.duration % 60;
 
   const formattedTime = `${String(minutes).padStart(2, "0")}:${String(
-    Math.round(remainingSeconds)
+    Math.round(remainingSeconds),
   ).padStart(2, "0")}`;
   const handelAddDescription = async () => {
     try {
@@ -29,7 +29,7 @@ const LectureContentExpanded = ({
         `${process.env.NEXT_PUBLIC_LOCAL_API}/lectures/${item._id}`,
         {
           description: descriptionInput,
-        }
+        },
       );
       data.message === "success" && setDescription(false);
     } catch (e) {

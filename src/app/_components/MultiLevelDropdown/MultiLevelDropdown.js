@@ -73,7 +73,7 @@ const MultiLevelDropdown = () => {
   async function fetchData() {
     try {
       const res = await axios.get(
-        "https://udemy-eosin-eight.vercel.app/category"
+        "https://udemy-eosin-eight.vercel.app/category",
       );
       if (res.status === 200) setCategories(res.data.result);
     } catch (error) {

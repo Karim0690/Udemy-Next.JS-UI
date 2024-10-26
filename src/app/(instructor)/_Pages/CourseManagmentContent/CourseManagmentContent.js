@@ -186,10 +186,7 @@ const CourseManagmentContent = ({
                 Course Landing Page
               </h2>
             </div>
-            <CourseLandingPage
-              course={course}
-              setBasics={setBasics}
-            />
+            <CourseLandingPage course={course} setBasics={setBasics} />
           </div>
         ) : (
           ""

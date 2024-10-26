@@ -23,7 +23,7 @@ const NewQuizForm = ({
     try {
       const response = await axios.post(
         `http://127.0.0.1:3001/course-sections/${sectionId}/quiz`,
-        newQuiz
+        newQuiz,
       );
     } catch (error) {
       console.error("Error adding quiz:", error);

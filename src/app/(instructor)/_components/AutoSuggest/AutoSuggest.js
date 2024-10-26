@@ -34,7 +34,7 @@ const AutoSuggest = ({ courseTopics, relatedTopic, setFormData }) => {
 
     if (value && topics) {
       const filteredSuggestions = topics.filter((topic) =>
-        topic.name.toLowerCase().includes(value.toLowerCase())
+        topic.name.toLowerCase().includes(value.toLowerCase()),
       );
       setSuggestions(filteredSuggestions);
       setIsExpanded(true);

@@ -41,7 +41,7 @@ const QuizContentExpanded = ({
       `${process.env.NEXT_PUBLIC_LOCAL_API}/quizzes/${item._id}`,
       {
         questions: updatedQuestions.map((q) => q._id),
-      }
+      },
     );
   };
 

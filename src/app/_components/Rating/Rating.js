@@ -1,5 +1,5 @@
-"use client"
-import { useState } from 'react';
+"use client";
+import { useState } from "react";
 
 const Rating = ({ totalStars = 5, ratingValue = 4.8, readOnly = false }) => {
   const [rating, setRating] = useState(ratingValue);
@@ -14,7 +14,7 @@ const Rating = ({ totalStars = 5, ratingValue = 4.8, readOnly = false }) => {
   return (
     <div className="flex space-x-1 mt-1">
       {Array.from({ length: totalStars }, (_, index) => (
-        <Star 
+        <Star
           key={index}
           filled={index + 1 <= Math.floor(rating)} // Full star
           half={index + 1 > Math.floor(rating) && index < rating} // Half star

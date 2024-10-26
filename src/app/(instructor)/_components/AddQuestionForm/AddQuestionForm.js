@@ -26,7 +26,7 @@ const AddQuestionForm = ({
   const handelGetQuestion = async () => {
     try {
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_LOCAL_API}/questions/${questionId}`
+        `${process.env.NEXT_PUBLIC_LOCAL_API}/questions/${questionId}`,
       );
       if (response.data.message === "success") setQuestion(response.data.data);
     } catch (error) {
@@ -38,7 +38,7 @@ const AddQuestionForm = ({
     (section) =>
       section.items
         .filter((item) => item.type === "Lecture" && item.item.resource) // Filter for type "Lecture" with resource
-        .map((item) => item.item) // Return the item
+        .map((item) => item.item), // Return the item
   );
 
   useEffect(() => {
@@ -50,7 +50,7 @@ const AddQuestionForm = ({
   const handelAddQuestion = async () => {
     // Make sure to validate the answers before sending
     const isAnyAnswerCorrect = question.answers.some(
-      (answer) => answer.isCorrect
+      (answer) => answer.isCorrect,
     );
 
     if (!isAnyAnswerCorrect) {
@@ -61,7 +61,7 @@ const AddQuestionForm = ({
     try {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_LOCAL_API}/questions/${id}`,
-        question
+        question,
       );
       console.log(response.data);
       if (response.data.message === "success") {
@@ -77,7 +77,7 @@ const AddQuestionForm = ({
   const removeAnswer = (indexToRemove) => {
     if (question.answers.length > 1) {
       const updatedAnswers = question.answers.filter(
-        (_, index) => index !== indexToRemove
+        (_, index) => index !== indexToRemove,
       );
       setQuestion({ ...question, answers: updatedAnswers });
     }
@@ -95,7 +95,7 @@ const AddQuestionForm = ({
   // Function to handle input changes for answer and explanation
   const handleInputChange = (index, field, value) => {
     const updatedAnswers = question.answers.map((answer, i) =>
-      i === index ? { ...answer, [field]: value } : answer
+      i === index ? { ...answer, [field]: value } : answer,
     );
     setQuestion({ ...question, answers: updatedAnswers });
   };
@@ -108,7 +108,7 @@ const AddQuestionForm = ({
 
   const handelUpdata = async () => {
     const isAnyAnswerCorrect = question.answers.some(
-      (answer) => answer.isCorrect
+      (answer) => answer.isCorrect,
     );
 
     if (!isAnyAnswerCorrect) {
@@ -119,7 +119,7 @@ const AddQuestionForm = ({
     try {
       const response = await axios.put(
         `${process.env.NEXT_PUBLIC_LOCAL_API}/questions/${questionId}`,
-        question
+        question,
       );
       console.log(response.data);
       // Optionally clear the form or give feedback here
@@ -215,7 +215,7 @@ const AddQuestionForm = ({
                             handleInputChange(
                               index,
                               "explanation",
-                              e.target.value
+                              e.target.value,
                             )
                           }
                         />

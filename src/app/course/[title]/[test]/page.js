@@ -1,11 +1,11 @@
-import AboutLearning from '@/app/_components/AboutLearning/AboutLearning'
-import CourseComment from '@/app/_components/CourseComment/CourseComment';
-import CourseInstructorDetails from '@/app/_components/CourseInstructorDetails/CourseInstructorDetails';
-import FrequentlyBoughtTogother from '@/app/_components/FrequentlyBoughtTogother/FrequentlyBoughtTogother';
-import MoreCoursesByInstructor from '@/app/_components/MoreCoursesByInstructor/MoreCoursesByInstructor';
-import ReqAndDesc from '@/app/_components/ReqAndDesc/ReqAndDesc';
-import Tags from '@/app/_components/Tags/Tags';
-import React from 'react'
+import AboutLearning from "@/app/_components/AboutLearning/AboutLearning";
+import CourseComment from "@/app/_components/CourseComment/CourseComment";
+import CourseInstructorDetails from "@/app/_components/CourseInstructorDetails/CourseInstructorDetails";
+import FrequentlyBoughtTogother from "@/app/_components/FrequentlyBoughtTogother/FrequentlyBoughtTogother";
+import MoreCoursesByInstructor from "@/app/_components/MoreCoursesByInstructor/MoreCoursesByInstructor";
+import ReqAndDesc from "@/app/_components/ReqAndDesc/ReqAndDesc";
+import Tags from "@/app/_components/Tags/Tags";
+import React from "react";
 
 const page = () => {
   const course = {
@@ -33,22 +33,23 @@ const page = () => {
       students: 502771,
       studentsRate: 173418,
       courses: 24,
-      bio: `Brad Traversy has been programming for around 12 years and teaching for almost 5 years. He is the owner of Traversy Media which is a successful web development YouTube channel and specializes in everything from HTML5 to front end frameworks like Angular as well as server side technologies like Node.js, PHP and Python. Brad has mastered explaining very complex topics in a simple manner that is very understandable. Invest in your knowledge by watching Brad's courses.`
-          },
+      bio: `Brad Traversy has been programming for around 12 years and teaching for almost 5 years. He is the owner of Traversy Media which is a successful web development YouTube channel and specializes in everything from HTML5 to front end frameworks like Angular as well as server side technologies like Node.js, PHP and Python. Brad has mastered explaining very complex topics in a simple manner that is very understandable. Invest in your knowledge by watching Brad's courses.`,
+    },
     price: 1499.99,
     enrolled: 1200,
     numOfArticle: 1,
     numOfCertificate: 1,
     numOfResources: 10,
     duration: "5h 30m",
-    numberOfLecture:111,
+    numberOfLecture: 111,
     sections: [
       { title: "Introduction", lessons: ["Welcome", "Setup", "First Steps"] },
       { title: "Core Concepts", lessons: ["Flexbox", "Grid", "Spacing"] },
     ],
     requirments: ["You should know the basics of CSS"],
-    WhoThisCourseIsFor: ["Anyone that wants to get better at creating website and UI layouts"],
-
+    WhoThisCourseIsFor: [
+      "Anyone that wants to get better at creating website and UI layouts",
+    ],
   };
   let courses = [course, course, course];
   return (
@@ -58,7 +59,7 @@ const page = () => {
       <CourseComment course={course} />
       <MoreCoursesByInstructor course={course} />
     </>
-)
-}
+  );
+};
 
-export default page
+export default page;

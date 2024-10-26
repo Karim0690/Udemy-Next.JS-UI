@@ -41,9 +41,7 @@ const CourseStructure = () => {
         </div>
       </div>
       <div className="p-7 lg:p-14 max-w-[57rem]">
-        <h2 className="text-2xl mb-4 font-bold text-[#1a1d23]">
-          Tips
-        </h2>
+        <h2 className="text-2xl mb-4 font-bold text-[#1a1d23]">Tips</h2>
         <div className="text-base">
           <h3 className="font-bold text-[#1a1d23] mt-10 mb-1">
             Start with your goals.

@@ -42,7 +42,7 @@ const CourseLandingPage = ({ course, setBasics }) => {
     try {
       if (category) {
         const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_LOCAL_API}/category/${category}/subcategories`
+          `${process.env.NEXT_PUBLIC_LOCAL_API}/category/${category}/subcategories`,
         );
         setSubcategories(response.data.result);
       } else {
@@ -127,11 +127,11 @@ const CourseLandingPage = ({ course, setBasics }) => {
         {
           onUploadProgress: (progressEvent) => {
             const percentCompleted = Math.round(
-              (progressEvent.loaded * 100) / progressEvent.total
+              (progressEvent.loaded * 100) / progressEvent.total,
             );
             setUploadProgress(percentCompleted);
           },
-        }
+        },
       );
 
       setFormData((prevData) => ({
@@ -166,11 +166,11 @@ const CourseLandingPage = ({ course, setBasics }) => {
         {
           onUploadProgress: (progressEvent) => {
             const percentCompleted = Math.round(
-              (progressEvent.loaded * 100) / progressEvent.total
+              (progressEvent.loaded * 100) / progressEvent.total,
             );
             setUploadVideoProgress(percentCompleted);
           },
-        }
+        },
       );
 
       setFormData((prevData) => ({

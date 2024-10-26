@@ -40,7 +40,7 @@ const Accessibility = () => {
             </p>
           </div>
         </div>
-        <div >
+        <div>
           <h2 className="font-bold text-2xl text-gray-800">
             Accessibility checklists
           </h2>

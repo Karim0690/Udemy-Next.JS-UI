@@ -1,7 +1,7 @@
-'use client'
-import Image from 'next/image';
-import React, { useState } from 'react';
-import CoursePrice from '../CorusePrice/CoursePrice';
+"use client";
+import Image from "next/image";
+import React, { useState } from "react";
+import CoursePrice from "../CorusePrice/CoursePrice";
 
 const StudentsAlsoBought = ({ courses }) => {
   const [showMore, setShowMore] = useState(false);
@@ -15,40 +15,39 @@ const StudentsAlsoBought = ({ courses }) => {
         Students also bought
       </h2>
       <div className="flex flex-auto flex-col	  ">
-        
-        {courses.slice(0, itemsToShow).map((course , index) => (
-          <div key={course.id || index} className="flex border-b-2 p-4 rounded-lg ">
-            <div className='w-28 h-16 mr-2'>
-            <img
-              src={course.courseImage}
-              alt={course.title}
-              className="w-full h-full object-cover rounded-md mb-4"
+        {courses.slice(0, itemsToShow).map((course, index) => (
+          <div
+            key={course.id || index}
+            className="flex border-b-2 p-4 rounded-lg "
+          >
+            <div className="w-28 h-16 mr-2">
+              <img
+                src={course.courseImage}
+                alt={course.title}
+                className="w-full h-full object-cover rounded-md mb-4"
               />
-              </div>
+            </div>
             <h3 className="text-lg font-medium w-2/5 text-slate-900 mb-2">
               {course.title}
-            </h3> 
+            </h3>
             <span className="text-yellow-600 mr-5 font-extrabold text-sm">
               {course.rating.average}⭐
             </span>
-            <span className='mr-7'>
-              👥{course.enrollments}
-            </span>
+            <span className="mr-7">👥{course.enrollments}</span>
             <p className="text-lg font-semibold text-slate-700">
-              {<CoursePrice price={course.price}/>}
+              {<CoursePrice price={course.price} />}
             </p>
-            
           </div>
         ))}
       </div>
-      
+
       {/* Show More/Show Less Button */}
       {courses.length > 3 && (
         <button
           onClick={toggleShowMore}
           className="px-4 w-full mb-9 py-4 border-b	border-x border	 bg-[#FFFFFF] hover:bg-[#E3E7EA]"
         >
-          {showMore ? 'Show Less' : 'Show More'}
+          {showMore ? "Show Less" : "Show More"}
         </button>
       )}
     </div>

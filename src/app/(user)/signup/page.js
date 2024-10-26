@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import React, { useState } from "react";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 import { BiSolidErrorAlt } from "react-icons/bi";
 import { MdError } from "react-icons/md";
 
@@ -12,7 +12,7 @@ const Page = () => {
   const [nameError, setNameError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
-  const [generalError,setGeneralError] = useState("");
+  const [generalError, setGeneralError] = useState("");
 
   const router = useRouter();
 
@@ -24,28 +24,37 @@ const Page = () => {
     setPasswordError("");
 
     if (name.trim().length < 2) {
-      setNameError("Please lengthen this text to at least 2 characters or more.");
+      setNameError(
+        "Please lengthen this text to at least 2 characters or more.",
+      );
       return;
     }
 
     if (!email.includes("@gmail.com") || email.trim() === "") {
-      setEmailError("Please include an '@' in the email address and ensure it is not empty.");
-      return; 
+      setEmailError(
+        "Please include an '@' in the email address and ensure it is not empty.",
+      );
+      return;
     }
 
     if (password.trim().length < 6) {
-      setPasswordError("Please lengthen this text to at least 6 characters or more.");
-      return; 
+      setPasswordError(
+        "Please lengthen this text to at least 6 characters or more.",
+      );
+      return;
     }
 
     try {
-      const response = await fetch("https://udemy-eosin-eight.vercel.app/auth/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        "https://udemy-eosin-eight.vercel.app/auth/signup",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ name, email, password }),
         },
-        body: JSON.stringify({ name, email, password }),
-      });
+      );
 
       const data = await response.json();
 
@@ -57,7 +66,6 @@ const Page = () => {
       setEmail("");
       setPassword("");
       router.push("/login");
-
     } catch (err) {
       setGeneralError(err.message);
     }
@@ -104,7 +112,12 @@ const Page = () => {
               <h1 className="text-3xl font-bold mb-6 text-gray-950">
                 Sign up and start learning
               </h1>
-              {generalError && <div className="bg-[#fcbca0] p-4 text-start mb-4"><BiSolidErrorAlt className="inline mr-2 text-2xl text-black-500" />{generalError}</div>}
+              {generalError && (
+                <div className="bg-[#fcbca0] p-4 text-start mb-4">
+                  <BiSolidErrorAlt className="inline mr-2 text-2xl text-black-500" />
+                  {generalError}
+                </div>
+              )}
               <form onSubmit={handleSignup}>
                 <div className="relative">
                   <input
@@ -118,7 +131,12 @@ const Page = () => {
                     Full Name
                   </label>
                 </div>
-                {nameError && <div className="text-black-500 mt-2 border border-gray-500 p-2 absolute rounded z-20 w-auto text-center bg-white"><MdError className="inline text-2xl mr-2 text-orange-500" />{nameError}</div>}
+                {nameError && (
+                  <div className="text-black-500 mt-2 border border-gray-500 p-2 absolute rounded z-20 w-auto text-center bg-white">
+                    <MdError className="inline text-2xl mr-2 text-orange-500" />
+                    {nameError}
+                  </div>
+                )}
 
                 <div className="relative">
                   <input
@@ -132,7 +150,12 @@ const Page = () => {
                     Email
                   </label>
                 </div>
-                {emailError && <div className="text-black-500 mt-2 border border-gray-500 p-2 absolute rounded z-20 w-auto text-center bg-white"><MdError className="inline text-2xl mr-2 text-orange-500" />{emailError}</div>}
+                {emailError && (
+                  <div className="text-black-500 mt-2 border border-gray-500 p-2 absolute rounded z-20 w-auto text-center bg-white">
+                    <MdError className="inline text-2xl mr-2 text-orange-500" />
+                    {emailError}
+                  </div>
+                )}
 
                 <div className="relative">
                   <input
@@ -146,7 +169,12 @@ const Page = () => {
                     Password
                   </label>
                 </div>
-                {passwordError && <div className="text-black-500 mt-2 border border-gray-500 p-2 absolute rounded z-10 w-auto text-center bg-white"><MdError className="inline text-2xl mr-2 text-orange-500" />{passwordError}</div>}
+                {passwordError && (
+                  <div className="text-black-500 mt-2 border border-gray-500 p-2 absolute rounded z-10 w-auto text-center bg-white">
+                    <MdError className="inline text-2xl mr-2 text-orange-500" />
+                    {passwordError}
+                  </div>
+                )}
 
                 <div className="flex mt-4">
                   <input

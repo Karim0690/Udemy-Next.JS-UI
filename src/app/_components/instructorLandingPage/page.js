@@ -22,7 +22,7 @@ function InstructorLandingPage() {
           process.env.NEXT_PUBLIC_LOCAL_API
         }/course/66aa2d5a201f806f92eebb25/instructor?${
           keyword ? `keyword=${keyword}` : ""
-        }&${sort ? `sort=${sort}` : ""}`
+        }&${sort ? `sort=${sort}` : ""}`,
       );
       const data = await response.json();
       setCourses(data.data || []);

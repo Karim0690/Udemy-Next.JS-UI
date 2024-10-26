@@ -8,9 +8,12 @@ const Price = ({ id, price }) => {
 
   const handleAddPrice = async () => {
     if (priceTier) {
-      const response = await axios.patch(`${process.env.NEXT_PUBLIC_LOCAL_API}/course/${id}`, {
-        price: priceTier,
-      });
+      const response = await axios.patch(
+        `${process.env.NEXT_PUBLIC_LOCAL_API}/course/${id}`,
+        {
+          price: priceTier,
+        },
+      );
       setPriceModified(false);
     }
   };

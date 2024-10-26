@@ -64,7 +64,9 @@ const Page = () => {
             <div
               key={reason.title}
               className={`flex flex-col items-center max-w-[340px] ${
-                index === 1 || index === 2 ? "lg:ml-0 md:ml-10 mt-10 md:mt-0" : ""
+                index === 1 || index === 2
+                  ? "lg:ml-0 md:ml-10 mt-10 md:mt-0"
+                  : ""
               }`}
             >
               <Image
@@ -109,7 +111,9 @@ const Page = () => {
       </div>
 
       <div className="flex flex-col justify-evenly items-center my-20 p-10 text-center">
-        <h1 className="font-bold text-2xl md:text-5xl text-gray-800 mb-4">How to begin</h1>
+        <h1 className="font-bold text-2xl md:text-5xl text-gray-800 mb-4">
+          How to begin
+        </h1>
         <div className="hidden lg:block">
           <LearningMenu />
         </div>

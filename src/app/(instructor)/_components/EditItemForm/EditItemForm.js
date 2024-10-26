@@ -28,7 +28,7 @@ const EditItemForm = ({
       if (item.type === "Lecture") {
         await axios.put(
           `${process.env.NEXT_PUBLIC_LOCAL_API}/lectures/${item.item._id}`,
-          { title }
+          { title },
         );
       } else if (item.type === "Quiz") {
         await axios.put(
@@ -36,7 +36,7 @@ const EditItemForm = ({
           {
             title,
             description,
-          }
+          },
         );
       }
 
@@ -108,8 +108,8 @@ const EditItemForm = ({
               {loading
                 ? "Saving..."
                 : item.type === "Quiz"
-                ? "Save Quiz"
-                : "Save Lecture"}
+                  ? "Save Quiz"
+                  : "Save Lecture"}
             </button>
           </div>
         </div>

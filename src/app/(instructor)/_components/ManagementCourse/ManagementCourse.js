@@ -120,10 +120,10 @@ const ManagementCourse = ({ id, path }) => {
   useEffect(() => {
     setIsModified(JSON.stringify(formData) !== JSON.stringify(initialFormData));
     setIsBasicsModified(
-      JSON.stringify(basics) !== JSON.stringify(initialBasics)
+      JSON.stringify(basics) !== JSON.stringify(initialBasics),
     );
     setIsMessagesModified(
-      JSON.stringify(messages) !== JSON.stringify(initialMessages)
+      JSON.stringify(messages) !== JSON.stringify(initialMessages),
     );
   }, [
     formData,
@@ -138,7 +138,7 @@ const ManagementCourse = ({ id, path }) => {
     try {
       await axios.patch(
         `${process.env.NEXT_PUBLIC_LOCAL_API}/course/${id}`,
-        formData
+        formData,
       );
       setInitialFormData(formData); // Update initial data after saving
       showToast("Your changes have been saved successfully");
@@ -146,7 +146,7 @@ const ManagementCourse = ({ id, path }) => {
       console.error("Error saving objectives:", error);
       showToast(
         "Your changes have not been saved. Please address the issues.",
-        true
+        true,
       );
     }
   };
@@ -155,7 +155,7 @@ const ManagementCourse = ({ id, path }) => {
     try {
       await axios.patch(
         `${process.env.NEXT_PUBLIC_LOCAL_API}/course/${id}/basics`,
-        basics
+        basics,
       );
       setInitialBasics(basics); // Update initial data after saving
       showToast("Your changes have been saved successfully");
@@ -163,7 +163,7 @@ const ManagementCourse = ({ id, path }) => {
       console.error("Error saving basics:", error);
       showToast(
         "Your changes have not been saved. Please address the issues.",
-        true
+        true,
       );
     }
   };
@@ -172,7 +172,7 @@ const ManagementCourse = ({ id, path }) => {
     try {
       await axios.patch(
         `${process.env.NEXT_PUBLIC_LOCAL_API}/course/${id}`,
-        messages
+        messages,
       );
       setInitialMessages(messages); // Update initial data after saving
       showToast("Your changes have been saved successfully");
@@ -180,7 +180,7 @@ const ManagementCourse = ({ id, path }) => {
       console.error("Error saving messages:", error);
       showToast(
         "Your changes have not been saved. Please address the issues.",
-        true
+        true,
       );
     }
   };
