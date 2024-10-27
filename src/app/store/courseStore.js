@@ -3,6 +3,7 @@ import axios from "axios";
 
 const useCourseStore = create((set) => ({
   course: null,
+  courseTitle:null,
   error: null,
   categories: null,
   topics: null,
@@ -17,6 +18,19 @@ const useCourseStore = create((set) => ({
         `${process.env.NEXT_PUBLIC_LOCAL_API}/course/${id}`
       );
       set({ course: response.data.data.course });      
+    } catch (error) {
+      set({ error: error.message });
+    }
+  },
+  fetchCoursetitle : async (title) =>{
+    set({ error: null, loading: true });
+    try {
+      const {data} = await axios.get(
+        `${process.env.NEXT_PUBLIC_LOCAL_API}/course/courseTitle/${title}`
+      );
+      console.log(data.data.course);
+      set({ courseTitle: data.data.course });      
+      
     } catch (error) {
       set({ error: error.message });
     }
