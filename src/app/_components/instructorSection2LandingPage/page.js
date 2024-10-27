@@ -1,12 +1,12 @@
-import ReuseableInstructorCard from "@/app/(instructor)/instructor/reuseableInstructorCard/page";
+import ReuseableInstructorCard from "@/app/[locale]/(instructor)/instructor/reuseableInstructorCard/page";
 import Link from "next/link";
+import { FaChalkboardTeacher } from "react-icons/fa";
 import {
   MdOutlineOndemandVideo,
   MdQuestionAnswer,
   MdHelpCenter,
   MdInsights,
 } from "react-icons/md";
-import { FaChalkboardTeacher } from "react-icons/fa";
 
 function InstructorSection2LandingPage() {
   return (

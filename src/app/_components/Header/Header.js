@@ -17,7 +17,6 @@ import {
   SquaresPlusIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import Image from "next/image";
 import MultiLevelDropdown from "../MultiLevelDropdown/MultiLevelDropdown";
 import PopperComponent from "../Popper/Popper";

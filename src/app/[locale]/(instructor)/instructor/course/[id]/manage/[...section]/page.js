@@ -1,6 +1,6 @@
-import ManagementCourse from "@/app/(instructor)/_components/ManagementCourse/ManagementCourse";
-import React from "react";
+import ManagementCourse from "@/app/[locale]/(instructor)/_components/ManagementCourse/ManagementCourse";
 import axios from "axios";
+import React from "react";
 
 const Page = async ({ params: { id, section } }) => {
   const path = section[0];

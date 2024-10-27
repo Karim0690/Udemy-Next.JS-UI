@@ -1,11 +1,11 @@
 "use client";
+
+import AccountSidenav from "../accountSidenav/AccountSidenav";
+import RichText3 from "@/app/[locale]/(instructor)/_components/RichText3/RichText";
+import useUserStore from "@/app/store/userStore";
+import { Spinner } from "@material-tailwind/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import AccountSidenav from "../accountSidenav/AccountSidenav";
-import useUserStore from "@/app/store/userStore";
-import RichText3 from "@/app/(instructor)/_components/RichText3/RichText";
-import { Spinner } from "@material-tailwind/react";
-
 
 export default function Page() {
   const { user, userData, setUser, fetchUser } = useUserStore();

@@ -1,15 +1,16 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import CourseManagmentContent from "@/app/(instructor)/_Pages/CourseManagmentContent/CourseManagmentContent";
-import ManageCourseHeader from "@/app/(instructor)/_components/ManageCourseHeader/ManageCourseHeader";
-import SidenavCourseManagment from "@/app/(instructor)/_components/SidenavCourseManagment/SidenavCourseManagment";
+
+import CourseManagmentContent from "@/app/[locale]/(instructor)/_Pages/CourseManagmentContent/CourseManagmentContent";
+import ManageCourseHeader from "@/app/[locale]/(instructor)/_components/ManageCourseHeader/ManageCourseHeader";
+import SidenavCourseManagment from "@/app/[locale]/(instructor)/_components/SidenavCourseManagment/SidenavCourseManagment";
 import Footer from "@/app/_components/Footer/Footer";
-import axios from "axios";
 import useCourseStore from "@/app/store/courseStore";
 import { Spinner } from "@material-tailwind/react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { IoMdCheckmarkCircle } from "react-icons/io";
-import { toast } from "sonner";
 import { TbAlertOctagonFilled } from "react-icons/tb";
+import { toast } from "sonner";
 
 const ManagementCourse = ({ id, path }) => {
   const showToast = (message, isError = false) => {
