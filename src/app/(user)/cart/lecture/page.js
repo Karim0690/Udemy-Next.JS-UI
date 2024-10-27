@@ -28,6 +28,7 @@ import {
 
 import VideoCoursePlayer from "@/app/_components/VideoCoursePlayer/VideoCoursePlayer";
 import CourseContentSideBar from "@/app/_components/CourseContentSideBar/CourseContentSideBar";
+import TabsCourseView from "@/app/_components/TabsCourseView/TabsCourseView";
 
 const page = () => {
     return (
@@ -58,7 +59,7 @@ const page = () => {
                             <Popover>
                                 <PopoverTrigger>
                                     <div className="flex items-center">
-                                        <RadialProgress percentage={50} />
+                                        <RadialProgress percentage={100} />
                                         <div className="flex items-center ml-3 mb-2 hover:text-stone-300">
                                             <p className="mt-1 mx-3">progress</p>
                                             <IoIosArrowDown className="mt-3" />
@@ -101,6 +102,9 @@ const page = () => {
                     </div>
                 </div>
 
+            </div>
+            <div>
+                <TabsCourseView />
             </div>
         </>
     );
