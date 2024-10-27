@@ -16,7 +16,7 @@ const CourseContentSideBar = () => {
     const [openSection, setOpenSection] = useState(true);
     return (
         <>
-            <div  onClick={() => setOpenSection(true)} className={`${openSection ? "hidden" : ""} group z-[6] bg-[#2D2F31] text-center  h-full flex justify-center items-center text-white w-16 hover:w-40 transition-all duration-300`}>
+            <div onClick={() => setOpenSection(true)} className={`${openSection ? "hidden" : ""} group z-[6] bg-[#2D2F31] text-center  h-full flex justify-center items-center text-white w-16 hover:w-40 transition-all duration-300`}>
                 <FaArrowLeft />
                 <div className="hidden text-white font-bold text-lg ml-2 group-hover:block">
                     Course Content
@@ -45,31 +45,37 @@ const CourseContentSideBar = () => {
                         </div>
                     </div>
                     <SidebarMenu className="w-72">
-                        <ScrollArea className="h-[500]  rounded-md border p-4">
-
+                        <ScrollArea className="h-[500px] rounded-md border p-4">
+                            {/* Repeat this block for each section */}
                             <Collapsible defaultOpen className="group/collapsible">
                                 <SidebarMenuItem>
                                     <CollapsibleTrigger asChild>
-                                        <SidebarMenuButton >click here</SidebarMenuButton>
+                                        <SidebarMenuButton className="flex items-center justify-between h-18 bg-[#F7F9FA] py-5 border-b-2 text-lg font-semibold text-gray-700">
+                                            <span>Section 11: Course Summary</span>
+                                            <span className="text-sm text-gray-500">0 / 1 | 2min</span>
+                                        </SidebarMenuButton>
                                     </CollapsibleTrigger>
                                     <CollapsibleContent>
-                                        <SidebarMenuSub>
-                                            <SidebarMenuSubItem >item 1 </SidebarMenuSubItem>
-                                            <SidebarMenuSubItem >item 2 </SidebarMenuSubItem>
-                                            <SidebarMenuSubItem >item 3 </SidebarMenuSubItem>
-                                            <SidebarMenuSubItem >item 4 </SidebarMenuSubItem>
-                                            <SidebarMenuSubItem >item 5 </SidebarMenuSubItem>
-                                            <SidebarMenuSubItem >item 6 </SidebarMenuSubItem>
-                                            <SidebarMenuSubItem >item 7 </SidebarMenuSubItem>
-                                            <SidebarMenuSubItem >item 8 </SidebarMenuSubItem>
+                                        <SidebarMenuSub className="px-4 py-2">
+                                            <SidebarMenuSubItem className="flex items-center space-x-2 py-2 text-gray-700">
+                                                <input type="checkbox" className="mr-2" />
+                                                <span>394. Thank You and Please Leave a Rating for the course</span>
+                                                <span className="ml-auto text-xs text-gray-500">2min</span>
+                                            </SidebarMenuSubItem>
+                                            <SidebarMenuSubItem className="flex items-center space-x-2 py-2 text-gray-700">
+                                                <input type="checkbox" className="mr-2" />
+                                                <span>394. Thank You and Please Leave a Rating for the course</span>
+                                                <span className="ml-auto text-xs text-gray-500">2min</span>
+                                            </SidebarMenuSubItem>
                                         </SidebarMenuSub>
                                     </CollapsibleContent>
                                 </SidebarMenuItem>
                             </Collapsible>
 
+                            {/* Add more sections as needed */}
                         </ScrollArea>
-
                     </SidebarMenu>
+
                 </div>
             </SidebarProvider>
 
