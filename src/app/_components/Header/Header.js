@@ -180,7 +180,7 @@ export default function Header() {
         <div className="hidden lg:flex lg:gap-x-12 lg:order-2">
           <MultiLevelDropdown />
         </div>
-        <div className="relative w-full max-w-[40rem] hidden lg:flex lg:order-3">
+        <div className="relative flex-1 mx-2 w-full max-w-[40rem] hidden lg:flex lg:order-3">
           <input
             type="text"
             placeholder="Search for anything"
@@ -203,7 +203,7 @@ export default function Header() {
         </div>
 
         <div className="hidden lg:flex lg:justify-end lg:order-3 items-center space-x-4">
-          {/* <PopperComponent
+          <PopperComponent
             trigger={
               <a
                 href="#"
@@ -215,7 +215,7 @@ export default function Header() {
             content="Get your team access to over 27,000 top Udemy courses, anytime, anywhere."
             placement="bottom"
             buttonContent="Try Udemy Business"
-          /> */}
+          />
 
           {decodedToken ? (
             <>
@@ -277,16 +277,26 @@ export default function Header() {
                     </div>
 
                     <hr />
-                    <h1 className="p-2 hover:text-violet-700 cursor-pointer">My Learning</h1>
-                    <h1 className="p-2 hover:text-violet-700 cursor-pointer">My Cart</h1>
-                    <h1 className="p-2 hover:text-violet-700 cursor-pointer">Wishlist</h1>
+                    <h1 className="p-2 hover:text-violet-700 cursor-pointer">
+                      My Learning
+                    </h1>
+                    <h1 className="p-2 hover:text-violet-700 cursor-pointer">
+                      My Cart
+                    </h1>
+                    <h1 className="p-2 hover:text-violet-700 cursor-pointer">
+                      Wishlist
+                    </h1>
                     <h1 className="p-2 hover:text-violet-700 cursor-pointer">
                       Teach on Udemy
                     </h1>
 
                     <hr />
-                    <h1 className="p-2 hover:text-violet-700 cursor-pointer">Notification</h1>
-                    <h1 className="p-2 hover:text-violet-700 cursor-pointer">Messages</h1>
+                    <h1 className="p-2 hover:text-violet-700 cursor-pointer">
+                      Notification
+                    </h1>
+                    <h1 className="p-2 hover:text-violet-700 cursor-pointer">
+                      Messages
+                    </h1>
                     <hr />
 
                     <h1 className="p-2 hover:text-violet-700 cursor-pointer pb-0">
@@ -295,15 +305,21 @@ export default function Header() {
                     <h1 className="p-2 hover:text-violet-700 cursor-pointer">
                       Payout Methods
                     </h1>
-                    <h1 className="p-2 hover:text-violet-700 cursor-pointer">Subscriptions</h1>
-                    <h1 className="p-2 hover:text-violet-700 cursor-pointer">Udemy credits</h1>
+                    <h1 className="p-2 hover:text-violet-700 cursor-pointer">
+                      Subscriptions
+                    </h1>
+                    <h1 className="p-2 hover:text-violet-700 cursor-pointer">
+                      Udemy credits
+                    </h1>
                     <h1 className="p-2 hover:text-violet-700 cursor-pointer">
                       Purchase history
                     </h1>
                     <hr />
 
                     <div className="flex items-center">
-                      <h1 className="p-2 hover:text-violet-700 cursor-pointer">Language</h1>
+                      <h1 className="p-2 hover:text-violet-700 cursor-pointer">
+                        Language
+                      </h1>
                       <div className=" flex ml-auto">
                         <Dialog>
                           <DialogTrigger asChild>
@@ -348,7 +364,9 @@ export default function Header() {
                     <h1 className="p-2 hover:text-violet-700 cursor-pointer pb-0">
                       Public Profile
                     </h1>
-                    <h1 className="p-2 hover:text-violet-700 cursor-pointer">Edit Profile</h1>
+                    <h1 className="p-2 hover:text-violet-700 cursor-pointer">
+                      Edit Profile
+                    </h1>
 
                     <hr />
 
@@ -357,7 +375,9 @@ export default function Header() {
                     </h1>
 
                     <Link href="/login" onClick={() => signOut()}>
-                      <h1 className="p-2 hover:text-violet-700 cursor-pointer">Log out</h1>
+                      <h1 className="p-2 hover:text-violet-700 cursor-pointer">
+                        Log out
+                      </h1>
                     </Link>
                     <hr />
                     <div className="flex w-full justify-between items-start px-2 py-4 group">
