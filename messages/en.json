@@ -3,5 +3,32 @@
     "baner": "Keep moving up",
     "banerDescription": "Learn the skills you need to take the next step — and every step after. Courses from E£249.99 through Sept 24.",
     "combaner": "Trusted by over 16,000 companies and millions of learners around the world"
+  },
+  "notFound": {
+    "title": " We can’ t find the page you’ re looking for",
+    "visit": "Visit our",
+    "support": "support page",
+    "for": "for further assistance"
+  },
+  "ProfileSettings": {
+    "title": "Profile & Settings",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "website": "Website",
+    "twitter": "Twitter",
+    "headline": "Headline",
+    "imagePreview": "Image Preview",
+    "minimumRequirements": "Minimum 200x200 pixels, Maximum 6000x6000 pixels",
+    "save": "Save",
+    "biography": "Biography",
+    "language": "Language",
+    "chooseLanguage": "Choose a Language",
+    "udemyProfile": "Udemy Profile",
+    "profilePicture": "Profile Picture",
+    "privacySettings": "Privacy Settings",
+    "clickToUpload": "Click to upload",
+    "orDragAndDrop": "or drag and drop",
+    "showCourses": "Show courses you're taking on your profile page",
+    "showProfile": "Show your profile to logged-in users"
   }
 }
