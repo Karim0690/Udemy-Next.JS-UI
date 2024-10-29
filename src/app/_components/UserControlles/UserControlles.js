@@ -1,3 +1,5 @@
+import CartPopper from "../CartPopper/CartPopper";
+import LanguageSwitch from "../LanguageSwitch/LanguageSwitch";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   HoverCard,
@@ -5,14 +7,19 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import React from "react";
+import { FaRegBell } from "react-icons/fa";
+import { MdFavoriteBorder, MdOutlineOpenInNew } from "react-icons/md";
 
-const UserControlles = () => {
+const UserControlles = ({ decodedToken }) => {
   const signOut = () => {
     localStorage.removeItem("token");
     window.location.reload();
   };
+  const t = useTranslations("Header");
+
   return (
     <>
       <div className="hidden md:flex justify-start items-center flex-row-reverse gap-8 mx-10 ">
@@ -180,15 +187,12 @@ const UserControlles = () => {
         <HoverCard>
           <HoverCardTrigger asChild>
             <h1 className="text-sm text-gray-500 hover:text-violet-600 hover:cursor-pointer">
-              My Learning
+              {t("learning")}
             </h1>
           </HoverCardTrigger>
           <HoverCardContent className="w-80 bg-white mt-4 mr-36">
             <div className="flex items-center justify-center mx-4 p-2">
-              <h1 className="text-sm text-gray-600 text-center">
-                Switch to the student veiw here - get back to the courses
-                you&apos;re taking.
-              </h1>
+              <h1 className="text-sm text-gray-600 text-center">{t("lt")}</h1>
             </div>
           </HoverCardContent>
         </HoverCard>

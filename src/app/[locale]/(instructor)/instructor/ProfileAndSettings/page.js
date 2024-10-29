@@ -1,14 +1,21 @@
 "use client";
-import Image from "next/image";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Button } from "@/components/ui/button";
+
+import RichText from "../../_components/RichText/RichText";
 import InstructorHeader from "../InstructorHeader/InstructorHeader";
 import SideNav from "../InstructorSidenav/SideNav";
 import InstructorFooter from "../instractorFooter/page";
-import RichText from "../../_components/RichText/RichText";
-import React, { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import axios from "axios";
+import { useTranslations } from "next-intl";
+import Image from "next/image";
+import { useParams } from "next/navigation";
+import React, { useState, useEffect } from "react";
+
 export default function Page() {
+  const t = useTranslations("ProfileSettings");
+  const [activeTab, setActiveTab] = useState(t("udemyProfile"));
+  console.log("Translations :", t);
   const [formData, setFormData] = useState({
     name: "",
     headline: "",
@@ -36,7 +43,6 @@ export default function Page() {
         },
       }));
     } else {
-      // Update other fields
       setFormData((prevData) => ({
         ...prevData,
         [name]: value,
@@ -68,7 +74,6 @@ export default function Page() {
       setIsLoading(false);
     }
   };
-  const [activeTab, setActiveTab] = useState("Udemy profile");
 
   const MAX_CHARS = 60;
   const [remainingChars, setRemainingChars] = useState(MAX_CHARS);
@@ -78,112 +83,96 @@ export default function Page() {
       setRemainingChars(MAX_CHARS - value.length);
     }
   };
-
+  const { locale } = useParams();
   return (
     <>
       <InstructorHeader />
       {/* Main Content */}
-      <div className="flex">
+      <div>
         <div className="hidden md:block">
           <SideNav />
         </div>
-        <div className="max-w-7xl min-h-screen  ml-4">
-          <h1 className="mb-10 font-bold text-3xl leading-tight tracking-tighter max-w-3xl">
-            Profile & settings
+        <div className={`flex-1 ${locale === "en" ? "ml-24" : " mr-24"}`}>
+          <h1 className="mb-10 font-semibold text-5xl leading-tight tracking-tighter max-w-3xl">
+            {t("title")}
           </h1>
-          <div className="container flex ">
-            <div>
-              <div className="text-2xl font-bold text-center text-gray-500 flex ">
-                <ul className="flex w-[fit-content] border-b-2 border-gray-200">
-                  <li className="me-2">
-                    <div
-                      className={`inline-block p-4 border-b-2 rounded-t-lg hover:cursor-pointer ${
-                        activeTab === "Udemy profile"
-                          ? "text-black border-black"
-                          : "border-transparent hover:text-black"
-                      }`}
-                      onClick={() => setActiveTab("Udemy profile")}
-                    >
-                      Udemy profile
-                    </div>
-                  </li>
-                  <li className="me-2">
-                    <div
-                      className={`inline-block p-4 border-b-2 rounded-t-lg hover:cursor-pointer ${
-                        activeTab === "Profile picture"
-                          ? "text-black border-black"
-                          : "border-transparent hover:text-black"
-                      }`}
-                      onClick={() => setActiveTab("Profile picture")}
-                    >
-                      Profile picture
-                    </div>
-                  </li>
-                  <li className="me-2">
-                    <div
-                      className={`inline-block p-4 border-b-2 rounded-t-lg hover:cursor-pointer ${
-                        activeTab === "Privicy settings"
-                          ? "text-black border-black"
-                          : "border-transparent hover:text-black"
-                      }`}
-                      onClick={() => setActiveTab("Privicy settings")}
-                    >
-                      Privicy settings
-                    </div>
-                  </li>
+          <div className="container flex w-full">
+            <div className="w-full">
+              <div className="text-2xl font-bold text-center text-gray-500 flex w-full">
+                <ul className="flex">
+                  {[
+                    t("udemyProfile"),
+                    t("profilePicture"),
+                    t("privacySettings"),
+                  ].map((tab) => (
+                    <li key={tab} className="me-2">
+                      <div
+                        className={`inline-block p-4 border-b-2 rounded-t-lg hover:cursor-pointer ${
+                          activeTab === tab
+                            ? "text-black border-black"
+                            : "border-transparent hover:text-black"
+                        }`}
+                        onClick={() => setActiveTab(tab)}
+                      >
+                        {tab}
+                      </div>
+                    </li>
+                  ))}
                 </ul>
               </div>
-              <div className="text-left">
-                <div className="p-6 text-black mr-6">
-                  {activeTab === "Udemy profile" && (
+              {/* border */}
+              <div className="border-b-2 border-gray-200"></div>
+              <div>
+                <div className=" py-6 text-black ">
+                  {activeTab === t("udemyProfile") && (
                     <form onSubmit={handleSubmit}>
-                      <div class="flex flex-wrap -mx-3 mb-6">
-                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                      <div className="flex flex-wrap -mx-3 mb-6">
+                        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                           <label
-                            class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                            className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                             for="grid-first-name"
                           >
-                            First Name
+                            {t("firstName")}
                           </label>
                           <input
-                            class="appearance-none block w-full  text-gray-700 border border-black  py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                            className="appearance-none block w-full  text-gray-700 border border-black  py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                             id="grid-first-name"
                             type="text"
                             name="name"
-                            placeholder="First Name"
+                            placeholder={t("firstName")}
                             value={formData.name}
                             onChange={(e) => {
                               handleChangeUpdate(e);
                             }}
                           />
                         </div>
-                        <div class="w-full md:w-1/2 px-3">
+                        <div className="w-full md:w-1/2 px-3">
                           <label
-                            class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                            className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                             for="grid-last-name"
                           >
-                            WebSite
+                            {t("website")}
                           </label>
                           <input
-                            class="appearance-none block w-full disabled:opacity-50 disabled:cursor-not-allowed bg-gray-200 text-gray-700  border border-black py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                            className="appearance-none block w-full disabled:opacity-50 disabled:cursor-not-allowed bg-gray-200 text-gray-700  border border-black py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                             id="grid-last-name"
                             type="text"
-                            placeholder="URL"
+                            placeholder={t("url")}
                             disabled
                           />
                         </div>
-                        <div class="w-full md:w-1/2 px-3 mt-6 md:mb-0">
+                        <div className="w-full md:w-1/2 px-3 mt-6 md:mb-0">
                           <label
-                            class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                            className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                             for="grid-first-name"
                           >
-                            Last Name
+                            {t("lastName")}
                           </label>
                           <input
-                            class="appearance-none block w-full  text-gray-700 border border-black py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                            className="appearance-none block w-full  text-gray-700 border border-black py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                             id="grid-first-name"
                             type="text"
-                            placeholder="Last Name"
+                            placeholder={t("lastName")}
                             name="lastName"
                             /*    value={formData.name}
                             onChange={(e) => {
@@ -194,20 +183,20 @@ export default function Page() {
                         <div className="w-full md:w-1/2 px-3 mt-6 md:mb-0">
                           <label
                             for="grid-twittre-url"
-                            class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                            className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                           >
-                            Twitter
+                            {t("twitter")}
                           </label>
-                          <div class="relative mb-4 flex w-full items-stretch">
+                          <div className="relative mb-4 flex w-full items-stretch">
                             <span
-                              class="inline-flex items-center whitespace-nowrap text-black bg-gray-100 border border-black py-3 px-4 mb-3 text-center text-base font-normal leading-[1.6] text-surface dark:border-white/10 dark:text-white"
+                              className="inline-flex items-center whitespace-nowrap text-black bg-gray-100 border border-black py-3 px-4 mb-3 text-center text-base font-normal leading-[1.6] text-surface dark:border-white/10 dark:text-white"
                               id="basic-addon3"
                             >
                               http://www.twitter.com/
                             </span>
                             <input
                               type="text"
-                              class="relative m-0 block flex-auto  appearance-none  w-full  text-gray-700 border border-black py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                              className="relative m-0 block flex-auto  appearance-none  w-full  text-gray-700 border border-black py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                               id="grid-twittre-url"
                               aria-describedby="basic-addon3"
                               name="twitter"
@@ -218,28 +207,32 @@ export default function Page() {
                             />
                           </div>
                         </div>
-                        <div class="w-full md:w-1/2 px-3 mt-6 md:mb-0">
+                        <div className="w-full md:w-1/2 px-3 mt-6 md:mb-0">
                           <label
-                            class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                            className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                             for="grid-headline"
                           >
-                            Headline
+                            {t("headline")}
                           </label>
-                          <div class="relative">
+                          <div className="relative">
                             <input
                               name="headline"
                               value={formData.headline}
                               onChange={(e) => {
                                 handleChangeUpdate(e);
                               }}
-                              class="appearance-none block w-full text-gray-700 border border-black py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                              className="appearance-none block w-full text-gray-700 border border-black py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                               id="grid-first-name"
                               type="text"
-                              placeholder="Instructor at Udemy"
+                              placeholder={t("instructor")}
                               /*     value={bio}
                               onChange={handleChange} */
                             />
-                            <span className="absolute top-0 right-0 m-2 text-gray-500">
+                            <span
+                              className={`absolute top-1 ${
+                                locale === "en" ? "right-0" : "left-0"
+                              }  m-2 text-gray-500`}
+                            >
                               {remainingChars}
                             </span>
                           </div>
@@ -247,13 +240,13 @@ export default function Page() {
                         <div className="w-full md:w-1/2 px-3 mt-6 md:mb-0">
                           <label
                             for="grid-facebook-url"
-                            class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                            className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                           >
-                            Facebook
+                            {t("facebook")}
                           </label>
-                          <div class="relative mb-4 flex w-full items-stretch">
+                          <div className="relative mb-4 flex w-full items-stretch">
                             <span
-                              class="inline-flex items-center whitespace-nowrap text-black bg-gray-100 border border-black py-3 px-4 mb-3 text-center text-base font-normal leading-[1.6] text-surface dark:border-white/10 dark:text-white"
+                              className="inline-flex items-center whitespace-nowrap text-black bg-gray-100 border border-black py-3 px-4 mb-3 text-center text-base font-normal leading-[1.6] text-surface dark:border-white/10 dark:text-white"
                               id="basic-addon3"
                             >
                               http://www.facebook.com/
@@ -265,7 +258,7 @@ export default function Page() {
                                 handleChangeUpdate(e);
                               }}
                               type="text"
-                              class="relative m-0 block flex-auto  appearance-none  w-full  text-gray-700 border border-black py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                              className="relative m-0 block flex-auto  appearance-none  w-full  text-gray-700 border border-black py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                               id="grid-facebooke-url"
                               aria-describedby="basic-addon3"
                             />
@@ -273,29 +266,26 @@ export default function Page() {
                         </div>
                         <div className="w-full md:w-1/2 px-3 mt-6 md:mb-0">
                           <label
-                            class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                            className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                             for="grid-biography"
                           >
-                            Biography
+                            {t("biography")}
                           </label>
                           <RichText />
                           <div className="text-gray-400 font-normal text-xs mt-2">
-                            To help learners learn more about you, your bio
-                            should reflect your Credibility, Empathy, Passion,
-                            and Personality. Your biography should have at least
-                            50 words, links and coupon codes are not permitted.
+                            {t("biographydescription")}
                           </div>
                         </div>
                         <div className="w-full md:w-1/2 px-3 mt-6 md:mb-0">
                           <label
                             for="grid-linkedin-url"
-                            class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                            className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                           >
-                            LinkedIn
+                            {t("linkedin")}
                           </label>
-                          <div class="relative mb-4 flex w-full items-stretch">
+                          <div className="relative mb-4 flex w-full items-stretch">
                             <span
-                              class="inline-flex items-center whitespace-nowrap text-black bg-gray-100 border border-black py-3 px-4 mb-3 text-center text-base font-normal leading-[1.6] text-surface dark:border-white/10 dark:text-white"
+                              className="inline-flex items-center whitespace-nowrap text-black bg-gray-100 border border-black py-3 px-4 mb-3 text-center text-base font-normal leading-[1.6] text-surface dark:border-white/10 dark:text-white"
                               id="basic-addon3"
                             >
                               http://www.linkedin.com/
@@ -307,7 +297,7 @@ export default function Page() {
                                 handleChangeUpdate(e);
                               }}
                               type="text"
-                              class="relative m-0 block flex-auto  appearance-none  w-full  text-gray-700 border border-black py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                              className="relative m-0 block flex-auto  appearance-none  w-full  text-gray-700 border border-black py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                               id="grid-linkedin-url"
                               aria-describedby="basic-addon3"
                             />
@@ -315,13 +305,13 @@ export default function Page() {
 
                           <label
                             for="grid-youtube-url"
-                            class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                            className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                           >
-                            Youtube
+                            {t("youtube")}
                           </label>
-                          <div class="relative mb-4 flex w-full items-stretch">
+                          <div className="relative mb-4 flex w-full items-stretch">
                             <span
-                              class="inline-flex items-center whitespace-nowrap text-black bg-gray-100 border border-black py-3 px-4 mb-3 text-center text-base font-normal leading-[1.6] text-surface dark:border-white/10 dark:text-white"
+                              className="inline-flex items-center whitespace-nowrap text-black bg-gray-100 border border-black py-3 px-4 mb-3 text-center text-base font-normal leading-[1.6] text-surface dark:border-white/10 dark:text-white"
                               id="basic-addon3"
                             >
                               http://www.youtube.com/
@@ -333,7 +323,7 @@ export default function Page() {
                                 handleChangeUpdate(e);
                               }}
                               type="text"
-                              class="relative m-0 block flex-auto appearance-none  w-full  text-gray-700 border border-black py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                              className="relative m-0 block flex-auto appearance-none  w-full  text-gray-700 border border-black py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                               id="grid-youtube-url"
                               aria-describedby="basic-addon3"
                             />
@@ -343,17 +333,17 @@ export default function Page() {
                         <div className="w-full md:w-1/2 px-3 mt-6 md:mb-0">
                           <label
                             for="grid-youtube-url"
-                            class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                            className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                           >
-                            Language
+                            {t("language")}
                           </label>
                           <select
                             id="laguage"
-                            class=" border  border-black py-3 px-4 mb-3 text-gray-900 text-sm  block w-full h-12"
+                            className=" border  border-black py-3 px-4 mb-3 text-gray-900 text-sm  block w-full h-12"
                           >
                             <option className="  " selected>
                               {" "}
-                              Choose a Language
+                              {t("chooseLanguage")}
                             </option>
                             <option value="US">United States</option>
                             <option value="CA">Canada</option>
@@ -379,28 +369,28 @@ export default function Page() {
                           disabled={isLoading}
                           className="bg-black text-white hover:bg-gray-700 w-20 h-14 font-bold text-lg mt-4"
                         >
-                          {isLoading ? "Saving..." : "Save"}
+                          {isLoading ? t("...save") : t("save")}
                         </Button>
                       </div>
                     </form>
                   )}
-                  {activeTab === "Profile picture" && (
+                  {activeTab === t("profilePicture") && (
                     <div className="pt-3">
                       <p className="font-heading font-bold leading-tight tracking-normal text-xl">
-                        Image preview
+                        {t("imagePreview")}
                       </p>
                       <div className="text-gray-500 py-2 font-text font-normal leading-relaxed text-lg">
                         {" "}
-                        Minimum 200x200 pixels, Maximum 6000x6000 pixels
+                        {t("minimumRequirements")}
                       </div>
-                      <div class="flex items-center justify-center w-full">
+                      <div className="flex items-center justify-center w-full">
                         <label
                           for="dropzone-file"
-                          class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+                          className="flex flex-col items-center justify-center w-[50%] h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
                         >
-                          <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                          <div className="flex flex-col items-center justify-center pt-5 pb-6">
                             <svg
-                              class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
+                              className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
                               aria-hidden="true"
                               xmlns="http://www.w3.org/2000/svg"
                               fill="none"
@@ -414,30 +404,39 @@ export default function Page() {
                                 d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
                               />
                             </svg>
-                            <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                              <span class="font-semibold">Click to upload</span>{" "}
-                              or drag and drop
+                            <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                              <span className="font-semibold">
+                                {" "}
+                                {t("clickToUpload")}{" "}
+                              </span>{" "}
+                              {t("orDragAndDrop")}
                             </p>
-                            {/* <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p> */}
+                            <p className="text-xs text-gray-500 dark:text-gray-400">
+                              SVG, PNG, JPG or GIF (MAX. 800x400px)
+                            </p>
                           </div>
                           <input
                             id="dropzone-file"
                             type="file"
-                            class="hidden"
+                            className="hidden"
                           />
                         </label>
                       </div>
                       {/* button save */}
                       <div className="flex items-center space-x-2">
-                        <Button className="bg-zinc-800 text-white hover:bg-zinc-700 w-20 h-14 font-bold text-lg mt-6">
-                          Save
+                        <Button
+                          type="submit"
+                          disabled={isLoading}
+                          className="bg-zinc-800 text-white hover:bg-zinc-700 w-20 h-14 font-bold text-lg mt-6"
+                        >
+                          {isLoading ? t("...save") : t("save")}
                         </Button>
                       </div>
                     </div>
                   )}
-                  {activeTab === "Privicy settings" && (
-                    <div className="pt-6 max-w-5xl">
-                      <div className="flex items-center space-x-2 mb-3">
+                  {activeTab === t("privacySettings") && (
+                    <div className="pt-6 max-w-5xl h-screen">
+                      <div className="flex items-center gap-3 mb-3">
                         <Checkbox
                           id="terms"
                           className="checked:bg-black checked:text-white"
@@ -446,16 +445,16 @@ export default function Page() {
                           htmlFor="terms"
                           className="font-bold leading-tight tracking-tight text-lg  peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                         >
-                          Show your profile to logged-in users
+                          {t("showCourses")}
                         </label>
                       </div>
-                      <div className="flex items-center space-x-2 mb-3 ">
+                      <div className="flex items-center gap-3 mb-3 ">
                         <Checkbox id="terms" />
                         <label
                           htmlFor="terms"
                           className=" font-bold  text-lg leading-tight tracking-tight  peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                         >
-                          Show courses you're taking on your profile page
+                          {t("showProfile")}
                         </label>
                       </div>
                       <Button className="bg-black text-white hover:bg-zinc-700 mt-6 w-20 h-14 font-bold text-lg">

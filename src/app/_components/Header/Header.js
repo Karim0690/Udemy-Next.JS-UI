@@ -194,7 +194,7 @@ export default function Header({ locale }) {
                 </>
               )}
 
-              <UserControlles />
+              <UserControlles decodedToken={decodedToken} />
             </>
           ) : (
             <>
