@@ -6,8 +6,15 @@ import {
   CollapsibleTrigger,
   CollapsibleContent,
 } from "@/components/ui/collapsible"; // Import ShadCN's Collapsible
+import { IoChevronDownSharp } from "react-icons/io5";
+import Link from "next/link";
+import { PiMonitorPlayBold } from "react-icons/pi";
+import { FaRegQuestionCircle } from "react-icons/fa";
 
-const CourseContent = () => {
+const CourseContent = ({ sections, duration }) => {
+  //   console.log(sections);
+  //   console.log(sections);
+
   const [openSection, setOpenSection] = useState(null);
   const [showAllSections, setShowAllSections] = useState(false); // Toggle to show more/less sections
 
@@ -19,7 +26,123 @@ const CourseContent = () => {
     setShowAllSections(!showAllSections); // Toggle between showing limited sections and all sections
   };
 
-  const sections = [
+  // Determine the number of sections to display initially
+  const displayedSections = showAllSections ? sections : sections.slice(0, 3); // Show first 3 sections by default
+
+  const lecturesCount = sections
+    .flatMap((section) => section.items)
+    .filter((item) => item.type === "Lecture").length;
+
+  return (
+    <div className="max-w-7xl mx-auto p-6 bg-white  rounded-md">
+      <h2 className="text-2xl font-bold text-slate-800">Course content</h2>
+      <p className="text-slate-600 mt-2 mb-4">
+        {sections.length} sections • {lecturesCount} lectures • {duration} total
+        length
+      </p>
+
+      {/* Render the displayed sections */}
+      {displayedSections.map((section, index) => {
+        const lectureCount = section.items.filter(
+          (item) => item.type === "Lecture",
+        ).length;
+
+        return (
+          <Collapsible key={section.title} open={openSection === index}>
+            {/* Section Header */}
+            <CollapsibleTrigger asChild className="border">
+              <button
+                onClick={() => toggleSection(index)}
+                className="flex justify-between border items-center w-full text-left p-3 bg-[#F7F9FA] rounded-lg"
+              >
+                <div className="flex items-center ">
+                  <IoChevronDownSharp
+                    size={-3}
+                    color="black"
+                    className={`h-5 w-5 transform mr-2 ${
+                      openSection === index ? "rotate-180" : ""
+                    }`}
+                  />
+                  <h3 className="font-bold text-black">{section.title}</h3>
+                </div>
+
+                <div>
+                  <p className="text-slate-500 text-sm">
+                    {lectureCount} lectures •{" "}
+                    {/* Add other relevant info here */}
+                  </p>
+                </div>
+              </button>
+            </CollapsibleTrigger>
+
+            {/* Section Content */}
+            <CollapsibleContent>
+              <ul className="border border-t-0 p-3">
+                {section.items.map((item) => {
+                  if (item.type === "Lecture") {
+                    return (
+                      <li
+                        key={item._id}
+                        className="flex items-center flex-1 justify-between py-2"
+                      >
+                        <div className="flex items-center">
+                          <PiMonitorPlayBold className=" mr-3" />
+                          <Link
+                            href={`/lecture/${item._id}`}
+                            className="text-violet-700 underline hover:text-violet-900"
+                          >
+                            {item.item.title}
+                          </Link>
+                        </div>
+                        <span className="text-slate-500 text-sm ml-2">
+                          {Number(item.item.duration / 60).toFixed(2)}
+                        </span>
+                      </li>
+                    );
+                  } else if (item.type === "Quiz") {
+                    return (
+                      <li
+                        key={item._id}
+                        className="flex items-center flex-1 justify-between py-2"
+                      >
+                        <div className="flex items-center">
+                          <FaRegQuestionCircle className="mr-3" />
+                          <Link
+                            href={`/lecture/${item._id}`}
+                            className="text-gray-800 hover:underline"
+                          >
+                            {item.item.title}
+                          </Link>
+                        </div>
+                      </li>
+                    );
+                  }
+                })}
+              </ul>
+            </CollapsibleContent>
+          </Collapsible>
+        );
+      })}
+
+      {/* Show More / Show Less Button */}
+      <div className="mt-4">
+        {sections.length > 5 && (
+          <button
+            onClick={toggleShowAllSections}
+            className="px-4 w-full mb-9 py-4 border shadow-md	 bg-[#FFFFFF] hover:bg-[#E3E7EA]"
+            hidden={showAllSections}
+          >
+            {`${sections.length - 5} more sections`}
+          </button>
+        )}
+      </div>
+    </div>
+  );
+};
+export default CourseContent;
+
+{
+  /*  const sections = [
     {
       title: "Introduction to Tailwind CSS",
       duration: "10m",
@@ -134,80 +257,5 @@ const CourseContent = () => {
         { title: "Building Custom Components", duration: "30m" },
       ],
     },
-  ];
-
-  // Determine the number of sections to display initially
-  const displayedSections = showAllSections ? sections : sections.slice(0, 3); // Show first 3 sections by default
-
-  return (
-    <div className="max-w-7xl mx-auto p-6 bg-white  rounded-md">
-      <h2 className="text-2xl font-bold text-slate-800">Course content</h2>
-      <p className="text-slate-600 mt-2 mb-4">
-        {sections.length} sections •{" "}
-        {sections.reduce(
-          (total, section) => total + section.lectures.length,
-          0,
-        )}{" "}
-        lectures • 3h 15m total length
-      </p>
-
-      {/* Render the displayed sections */}
-      {displayedSections.map((section, index) => (
-        <Collapsible key={section.title} open={openSection === index}>
-          {/* Section Header */}
-          <CollapsibleTrigger asChild className="border">
-            <button
-              onClick={() => toggleSection(index)}
-              className="flex justify-between border-1 items-center w-full text-left p-4 bg-[#F7F9FA] rounded-lg"
-            >
-              <div className="flex items-center ">
-                <AiOutlineDown
-                  size={-3}
-                  color="black"
-                  className={`h-5 w-5 transform mr-2 ${openSection === index ? "rotate-180" : ""}`}
-                />
-                <h3 className="font-semibold text-slate-800">
-                  {section.title}
-                </h3>
-              </div>
-
-              <div>
-                <p className="text-slate-500 text-sm">
-                  {section.lectures.length} lectures • {section.duration}
-                </p>
-              </div>
-            </button>
-          </CollapsibleTrigger>
-
-          {/* Section Content */}
-          <CollapsibleContent>
-            <ul className="mt-3 pl-5 list-disc">
-              {section.lectures.map((lecture) => (
-                <li key={lecture.title} className="flex justify-between py-2">
-                  <span className="text-slate-700">{lecture.title}</span>
-                  <span className="text-slate-500 text-sm">
-                    {lecture.duration}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </CollapsibleContent>
-        </Collapsible>
-      ))}
-
-      {/* Show More / Show Less Button */}
-      <div className="mt-4">
-        {sections.length > 5 && (
-          <button
-            onClick={toggleShowAllSections}
-            className="px-4 w-full mb-9 py-4 border shadow-md	 bg-[#FFFFFF] hover:bg-[#E3E7EA]"
-            hidden={showAllSections}
-          >
-            {`${sections.length - 5} more sections`}
-          </button>
-        )}
-      </div>
-    </div>
-  );
-};
-export default CourseContent;
+  ];*/
+}

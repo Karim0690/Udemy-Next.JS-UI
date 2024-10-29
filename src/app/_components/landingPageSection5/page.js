@@ -1,8 +1,11 @@
 "use client";
 import React from "react";
 import CoursesSlider from "../CoursesSlider/CoursesSlider";
+import { useTranslations } from "next-intl";
 
 function LandingPageSection5() {
+  const t = useTranslations("LandingPage");
+
   const settings = {
     infinite: false,
     speed: 500,
@@ -41,7 +44,7 @@ function LandingPageSection5() {
       <div className="mx-10 mt-20">
         <div>
           <h1 className="text-3xl font-bold text-gray-700">
-            Learners are viewing
+            {t("learnersView")}
           </h1>
         </div>
       </div>

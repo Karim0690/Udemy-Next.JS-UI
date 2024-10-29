@@ -1,16 +1,16 @@
-"use client"
-import React, { useState } from 'react';
-import { FaThumbsUp, FaThumbsDown } from 'react-icons/fa';
+"use client";
+import React, { useState } from "react";
+import { FaThumbsUp, FaThumbsDown } from "react-icons/fa";
 
 const ReviewFeedback = () => {
   const [activeButton, setActiveButton] = useState(null); // null, 'like', or 'dislike'
 
   const handleLike = () => {
-    setActiveButton(activeButton === 'like' ? null : 'like');
+    setActiveButton(activeButton === "like" ? null : "like");
   };
 
   const handleDislike = () => {
-    setActiveButton(activeButton === 'dislike' ? null : 'dislike');
+    setActiveButton(activeButton === "dislike" ? null : "dislike");
   };
 
   return (
@@ -20,7 +20,7 @@ const ReviewFeedback = () => {
         <button
           style={{
             ...styles.button,
-            ...(activeButton === 'like' ? styles.activeButton : {}),
+            ...(activeButton === "like" ? styles.activeButton : {}),
           }}
           onClick={handleLike}
         >
@@ -29,7 +29,7 @@ const ReviewFeedback = () => {
         <button
           style={{
             ...styles.button,
-            ...(activeButton === 'dislike' ? styles.activeButton : {}),
+            ...(activeButton === "dislike" ? styles.activeButton : {}),
           }}
           onClick={handleDislike}
         >
@@ -43,42 +43,42 @@ const ReviewFeedback = () => {
 
 const styles = {
   container: {
-    display: 'flex',
-    alignItems: 'center',
-    fontFamily: 'Arial, sans-serif',
+    display: "flex",
+    alignItems: "center",
+    fontFamily: "Arial, sans-serif",
   },
   text: {
-    marginRight: '10px',
-    fontSize: '14px',
-    color: '#333',
+    marginRight: "10px",
+    fontSize: "14px",
+    color: "#333",
   },
   buttonsContainer: {
-    display: 'flex',
-    alignItems: 'center',
+    display: "flex",
+    alignItems: "center",
   },
   button: {
-    border: '1px solid #ccc',
-    borderRadius: '50%',
-    padding: '10px',
-    margin: '0 5px',
-    cursor: 'pointer',
-    backgroundColor: 'white',
-    transition: '0.3s',
+    border: "1px solid #ccc",
+    borderRadius: "50%",
+    padding: "10px",
+    margin: "0 5px",
+    cursor: "pointer",
+    backgroundColor: "white",
+    transition: "0.3s",
   },
   activeButton: {
-    backgroundColor: '#333',
-    color: 'white',
-    borderColor: '#333',
+    backgroundColor: "#333",
+    color: "white",
+    borderColor: "#333",
   },
   icon: {
-    fontSize: '16px',
+    fontSize: "16px",
   },
   reportText: {
-    marginLeft: '9px',
-    fontSize: '14px',
-    color: '#2F2F31',
-    cursor: 'pointer',
-    textDecoration: 'underline',
+    marginLeft: "9px",
+    fontSize: "14px",
+    color: "#2F2F31",
+    cursor: "pointer",
+    textDecoration: "underline",
   },
 };
 

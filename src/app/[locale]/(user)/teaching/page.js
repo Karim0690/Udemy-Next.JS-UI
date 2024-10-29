@@ -116,11 +116,7 @@ const Page = ({ params: { locale } }) => {
 
       <div className="flex flex-col justify-evenly items-center my-20 p-10 text-center">
         <h1 className="font-bold text-2xl md:text-5xl text-gray-800 mb-4">
-<<<<<<< HEAD:src/app/(user)/teaching/page.js
-          How to begin
-=======
           {t("Begin")}
->>>>>>> d3ee4e93ac14150d39d6cc5ab57fca8414c294d4:src/app/[locale]/(user)/teaching/page.js
         </h1>
         <div className="hidden lg:block">
           <LearningMenu />

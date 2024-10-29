@@ -61,14 +61,14 @@ export default function Page() {
       const response = await axios.put(
         `https://udemy-eosin-eight.vercel.app/user/669904f9ad62aaee0f072f8a`,
 
-        formData
+        formData,
       );
       setSuccess("User data updated successfully!");
     } catch (error) {
       console.error(error);
       setError(
         error.response?.data?.message ||
-          "An error occurred. Please try again later."
+          "An error occurred. Please try again later.",
       );
     } finally {
       setIsLoading(false);

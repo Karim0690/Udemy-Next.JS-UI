@@ -94,7 +94,7 @@ const page = () => {
     try {
       const { data } = await axios.put(
         `http://localhost:3001/user/change-password/6718e7e6d862afcf2b83f769`,
-        passwordData
+        passwordData,
       );
       if (data.message === "success") {
         setSuccess("Password updated successfully!");
@@ -110,7 +110,7 @@ const page = () => {
     } catch (error) {
       showToast(
         "Your changes have not been saved. Please address the issues.",
-        true
+        true,
       );
     } finally {
       setIsLoading(false);
@@ -137,7 +137,7 @@ const page = () => {
     try {
       const { data } = await axios.post(
         `http://127.0.0.1:3001/user/change-email/6718e7e6d862afcf2b83f769`,
-        emailData
+        emailData,
       );
       if (data.message === "success") {
         showToast("Your changes have been saved successfully");
@@ -148,7 +148,7 @@ const page = () => {
       console.error(error);
       setEmailError(
         error.response?.data?.message ||
-          "An error occurred. Please try again later."
+          "An error occurred. Please try again later.",
       );
     } finally {
       setIsLoading(false);

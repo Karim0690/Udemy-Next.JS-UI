@@ -1,12 +1,15 @@
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import React from "react";
 
 export default function Top_Categories() {
+  const t = useTranslations("LandingPage");
+
   return (
     <>
       <div className="px-10 mx-auto m-20">
         <h1 className="font-bold tracking-normal text-4xl mb-10">
-          Top Categories
+          {t("topcategory")}
         </h1>
         <div className="hidden md:grid grid-cols-2 md:grid-cols-4 gap-6">
           {[
@@ -28,12 +31,12 @@ export default function Top_Categories() {
             {
               href: "https://www.udemy.com/courses/it-and-software/",
               src: "https://s.udemycdn.com/home/top-categories/lohp-category-it-and-software-v2.jpg",
-              alt: "IT And Software",
+              alt: "IT",
             },
             {
               href: "https://www.udemy.com/courses/personal-development/",
               src: "https://s.udemycdn.com/home/top-categories/lohp-category-personal-development-v2.jpg",
-              alt: "Personal Development",
+              alt: "Personal",
             },
             {
               href: "https://www.udemy.com/courses/business/",
@@ -63,8 +66,8 @@ export default function Top_Categories() {
                   />
                 </div>
               </a>
-              <div className="mt-3 text-left font-bold">
-                <span>{category.alt}</span>
+              <div className="mt-3 font-bold">
+                <span>{t(category.alt)}</span>
               </div>
             </div>
           ))}
@@ -75,14 +78,15 @@ export default function Top_Categories() {
             "Design",
             "Development",
             "Marketing",
-            "Personal Development",
+            "Personal",
+            "IT",
             "Business",
             "Photography",
             "Music",
           ].map((category, index) => (
             <a href="https://www.example.com" className="mr-3 mb-3" key={index}>
               <button className="hover:bg-gray-200 border-black border-2 rounded-full border-solid h-16">
-                <span className="text-black font-bold px-4">{category}</span>
+                <span className="text-black font-bold px-4">{t(category)}</span>
               </button>
             </a>
           ))}

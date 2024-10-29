@@ -1,14 +1,17 @@
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 
 function LandingPageSection8() {
+  const t = useTranslations("LandingPage");
+
   return (
     <>
       <div>
         <div className="bg-gray-100 my-20 p-10 flex ">
           <div className="grid grid-cols-2 gap-4 w-full">
             <div className="p-20">
-              <div className="flex">
+              <div className={`flex [dir="ltr"]`}>
                 <Link href="/" className="-m-1.5 p-1.5">
                   <span className="sr-only">Your Company</span>
                   <Image
@@ -19,30 +22,27 @@ function LandingPageSection8() {
                     height={34}
                   />
                 </Link>
-                <h1 className="text-2xl font-bold text-[#a435f0]"> Busniss</h1>
+                <h1 className="text-2xl font-bold text-[#a435f0]">Busniss</h1>
               </div>
-              <h2 className="text-4xl font-bold mt-6">
-                Upskill your team with Udemy Business
-              </h2>
+              <h2 className="text-4xl font-bold mt-6">{t("Businessbaner1")}</h2>
               <ul className="mt-6 space-y-6 list-disc pl-6 ">
                 <li className="text-base text-xl font-large">
-                  Unlimited access to 27,000+ top Udemy courses, anytime,
-                  anywhere
+                  {t("Businessbaner2")}
                 </li>
                 <li className="text-base text-xl font-large">
-                  International course collection in 14 languages
+                  {t("Businessbaner3")}
                 </li>
                 <li className="text-base text-xl font-large">
-                  Top certifications in tech and business
+                  {t("Businessbaner4")}
                 </li>
               </ul>
 
               <div>
                 <button className="bg-black text-white font-bold p-2 py-2 mt-10 ">
-                  Get Udemy Business
+                  {t("BusinessbanerButton1")}
                 </button>
                 <button className=" border border-black font-bold px-4 py-2 mt-10 ml-2 rounded-md">
-                  Learn More
+                  {t("BusinessbanerButton2")}
                 </button>
               </div>
             </div>

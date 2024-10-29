@@ -62,11 +62,11 @@ const page = () => {
         {
           onUploadProgress: (progressEvent) => {
             const percentCompleted = Math.round(
-              (progressEvent.loaded * 100) / progressEvent.total
+              (progressEvent.loaded * 100) / progressEvent.total,
             );
             setUploadProgress(percentCompleted);
           },
-        }
+        },
       );
 
       setFormPhoto({ photo: data.secure_url });
@@ -82,19 +82,19 @@ const page = () => {
       try {
         let { data } = await axios.put(
           `http://localhost:3001/user/66aa2d5a201f806f92eebb25`,
-          formPhoto
+          formPhoto,
         );
         if (data.message === "success")
           showToast("Your changes have been saved successfully");
       } catch (error) {
         showToast(
           "Your changes have not been saved. Please address the issues.",
-          true
+          true,
         );
         console.error(error);
         setError(
           error.response?.data?.message ||
-            "An error occurred. Please try again later."
+            "An error occurred. Please try again later.",
         );
       }
     }

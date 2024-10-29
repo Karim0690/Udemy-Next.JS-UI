@@ -40,7 +40,7 @@ const LanguageSwitch = () => {
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px] flex flex-col bg-white items-start justify-start flex-1">
           <DialogHeader>
-            <DialogTitle className="m-3" >{t("lang")}</DialogTitle>
+            <DialogTitle className="m-3">{t("lang")}</DialogTitle>
           </DialogHeader>
           <button
             className={`w-full text-left p-2 ${

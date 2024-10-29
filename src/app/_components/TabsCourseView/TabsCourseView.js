@@ -7,7 +7,7 @@ import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { IoSearchSharp } from "react-icons/io5";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import ReviewFeedback from "../ReviewFeedback/ReviewFeedback";
 
 const TabsCourseView = () => {
@@ -159,19 +159,22 @@ const TabsCourseView = () => {
           </div>
           <div className="flex mt-11  border-b border-b-stone-300 w-[900px] p-5	">
             <Avatar className="w-[50px] h-[50px]">
-              <AvatarImage src="https://github.com/shadcn.png"  />
+              <AvatarImage src="https://github.com/shadcn.png" />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
-            <div className="flex items-start ml-5 flex-col" >
-                <p className="text-lg font-bold text-[#3B3D3F]">
-                  Shad Crowley
-                </p>
-                <div className="flex items-center gap-2"> 
+            <div className="flex items-start ml-5 flex-col">
+              <p className="text-lg font-bold text-[#3B3D3F]">Shad Crowley</p>
+              <div className="flex items-center gap-2">
                 <Rating ratingValue={4.5} readOnly={true} />
-                <p className = "font-thin text-sm text-stone-500"> a week ago </p>
-                </div>
-                <p className = "text-sm text-slate-800 w-9/12 mt-3"> Thank you very much for the great course! Definitely it's not a waste of time and it is really good and interesting. I've learned some new things and I am happy 😊</p>
-                <ReviewFeedback />
+                <p className="font-thin text-sm text-stone-500"> a week ago </p>
+              </div>
+              <p className="text-sm text-slate-800 w-9/12 mt-3">
+                {" "}
+                Thank you very much for the great course! Definitely it's not a
+                waste of time and it is really good and interesting. I've
+                learned some new things and I am happy 😊
+              </p>
+              <ReviewFeedback />
             </div>
           </div>
         </div>

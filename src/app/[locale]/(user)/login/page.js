@@ -22,22 +22,14 @@ const Page = () => {
 
     if (!email.includes("@gmail.com") || email.trim() === "") {
       setEmailError(
-<<<<<<< HEAD:src/app/(user)/login/page.js
         "Please include an '@' in the email address and ensure it is not empty.",
-=======
-        "Please include an '@' in the email address and ensure it is not empty."
->>>>>>> d3ee4e93ac14150d39d6cc5ab57fca8414c294d4:src/app/[locale]/(user)/login/page.js
       );
       return;
     }
 
     if (password.trim().length < 6) {
       setPasswordError(
-<<<<<<< HEAD:src/app/(user)/login/page.js
         "Please lengthen this text to at least 6 characters or more.",
-=======
-        "Please lengthen this text to at least 6 characters or more."
->>>>>>> d3ee4e93ac14150d39d6cc5ab57fca8414c294d4:src/app/[locale]/(user)/login/page.js
       );
       return;
     }
@@ -51,11 +43,7 @@ const Page = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ email, password }),
-<<<<<<< HEAD:src/app/(user)/login/page.js
         },
-=======
-        }
->>>>>>> d3ee4e93ac14150d39d6cc5ab57fca8414c294d4:src/app/[locale]/(user)/login/page.js
       );
 
       const data = await response.json();
@@ -164,11 +152,7 @@ const Page = () => {
                   type="submit"
                   className="mt-6 w-full bg-purple-500 text-white text-lg font-medium py-3 px-6 hover:bg-purple-800"
                 >
-<<<<<<< HEAD:src/app/(user)/login/page.js
-                  Log in
-=======
                   {t("login")}
->>>>>>> d3ee4e93ac14150d39d6cc5ab57fca8414c294d4:src/app/[locale]/(user)/login/page.js
                 </button>
               </form>
               <div className="flex justify-center items-center mt-6">

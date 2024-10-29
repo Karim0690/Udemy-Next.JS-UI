@@ -26,7 +26,7 @@ const useCourseStore = create((set) => ({
     set({ error: null, loading: true });
     try {
       const { data } = await axios.get(
-        `${process.env.NEXT_PUBLIC_PRODUCTION_API}/course/courseTitle/${title}`,
+        `${process.env.NEXT_PUBLIC_LOCAL_API}/course/courseTitle/${title}`,
       );
       console.log(data.data.course);
       set({ courseTitle: data.data.course });

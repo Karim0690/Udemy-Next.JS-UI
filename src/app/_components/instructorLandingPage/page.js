@@ -1,16 +1,20 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Spinner } from "@material-tailwind/react";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
-import { Spinner } from "@material-tailwind/react";
+import { useParams } from "next/navigation";
+import React, { useState, useEffect } from "react";
 
 function InstructorLandingPage() {
   const [courses, setCourses] = useState([]);
   const [searchKeyword, setSearchKeyword] = useState("");
   const [sort, setSort] = useState("-createdAt");
   const [isLoading, setIsLoading] = useState(false);
+  const { locale } = useParams();
 
   const fetchCourses = async (keyword = "", sort = "-createdAt") => {
     setIsLoading(true);
@@ -41,16 +45,23 @@ function InstructorLandingPage() {
     e.preventDefault();
     fetchCourses(searchKeyword, sort);
   };
+  const t = useTranslations("CoursesPage");
 
   return (
-    <div className="mx-5 md:ml-20 lg:ml-24 lg:mr-10">
+    <div
+      className={`mx-5 ${
+        locale === "en"
+          ? "md:ml-20 lg:ml-24 lg:mr-10"
+          : "md:mr-20 lg:mr-24 lg:ml-10"
+      }`}
+    >
       <div className="flex justify-between items-center my-10">
         <h1 className="font-serif text-4xl font-bold text-gray-700 mb-6">
-          Courses
+          {t("courses")}
         </h1>
         <Link href={"course/create/1"}>
           <button className="bg-[#a435f0] hover:bg-[#8b2dc9] text-white p-3 font-bold md:hidden">
-            New Course
+            {t("newCourse")}
           </button>
         </Link>
       </div>
@@ -59,7 +70,7 @@ function InstructorLandingPage() {
           <form onSubmit={handleSearch} className="flex min-w-[250px]">
             <input
               type="text"
-              placeholder="Search your courses"
+              placeholder={t("search")}
               className="border border-black p-3 outline-none"
               value={searchKeyword}
               onChange={(e) => setSearchKeyword(e.target.value)}
@@ -73,20 +84,20 @@ function InstructorLandingPage() {
               id="sort-options"
               name="sort"
               required
-              className="block w-full py-2 text-base focus:outline-none bg-transparent text-gray-800 font-bold"
+              className="block w-full py-1 text-base focus:outline-none bg-transparent text-gray-800 font-bold"
               value={sort}
               onChange={(e) => setSort(e.target.value)}
             >
-              <option value="-createdAt">Newest</option>
-              <option value="createdAt">Oldest</option>
-              <option value="title">A-Z</option>
-              <option value="-title">Z-A</option>
+              <option value="-createdAt">{t("newest")}</option>
+              <option value="createdAt">{t("oldest")}</option>
+              <option value="title">{t("A-Z")}</option>
+              <option value="-title">{t("Z-A")}</option>
             </select>
           </div>
         </div>
         <Link href={"course/create/1"}>
           <button className="bg-[#a435f0] hover:bg-[#8b2dc9] text-white p-3 font-bold hidden md:block">
-            New Course
+            {t("newCourse")}
           </button>
         </Link>
       </div>
@@ -114,15 +125,15 @@ function InstructorLandingPage() {
             />
             <div className="relative flex flex-1 group hover:cursor-pointer">
               <h1 className="invisible text-violet-800 group-hover:visible group-hover:opacity-100 absolute font-bold text-lg text-center m-auto top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                Edit/Manage Course
+                {t("edit/manage")}
               </h1>
 
               <div className="group-hover:opacity-5 w-full flex gap-10">
                 <div className="md:w-1/4 flex flex-col justify-between py-4">
                   <h1 className="font-bold">{course.title}</h1>
                   <div className="flex gap-4 ">
-                    <p className="text-xs font-bold">Draft</p>
-                    <p className="text-xs">Public</p>
+                    <p className="text-xs font-bold">{t("draft")}</p>
+                    <p className="text-xs">{t("public")}</p>
                   </div>
                 </div>
                 <div className="items-center my-auto flex-1 w-full hidden md:flex">
@@ -130,7 +141,7 @@ function InstructorLandingPage() {
                     href={`course/${course._id}/manage/goals`}
                     className="flex flex-1"
                   >
-                    <h1 className="font-bold">Finish your course</h1>
+                    <h1 className="font-bold">{t("finish")}</h1>
                     <div className="mt-2 mx-6 bg-gray-200 w-3/4 h-2">
                       <div
                         className="bg-[#5022C3] h-full"
@@ -144,7 +155,7 @@ function InstructorLandingPage() {
           </div>
         ))
       ) : (
-        <p className="mt-6 text-gray-700 text-center">No courses available.</p>
+        <p className="mt-6 text-gray-700 text-center">{t("noCourse")}</p>
       )}
     </div>
   );

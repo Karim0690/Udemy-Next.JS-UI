@@ -4,10 +4,6 @@ import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import React, { useState } from "react";
-<<<<<<< HEAD:src/app/(user)/signup/page.js
-import { useRouter } from "next/navigation";
-=======
->>>>>>> d3ee4e93ac14150d39d6cc5ab57fca8414c294d4:src/app/[locale]/(user)/signup/page.js
 import { BiSolidErrorAlt } from "react-icons/bi";
 import { MdError } from "react-icons/md";
 
@@ -31,33 +27,21 @@ const Page = () => {
 
     if (name.trim().length < 2) {
       setNameError(
-<<<<<<< HEAD:src/app/(user)/signup/page.js
         "Please lengthen this text to at least 2 characters or more.",
-=======
-        "Please lengthen this text to at least 2 characters or more."
->>>>>>> d3ee4e93ac14150d39d6cc5ab57fca8414c294d4:src/app/[locale]/(user)/signup/page.js
       );
       return;
     }
 
     if (!email.includes("@gmail.com") || email.trim() === "") {
       setEmailError(
-<<<<<<< HEAD:src/app/(user)/signup/page.js
         "Please include an '@' in the email address and ensure it is not empty.",
-=======
-        "Please include an '@' in the email address and ensure it is not empty."
->>>>>>> d3ee4e93ac14150d39d6cc5ab57fca8414c294d4:src/app/[locale]/(user)/signup/page.js
       );
       return;
     }
 
     if (password.trim().length < 6) {
       setPasswordError(
-<<<<<<< HEAD:src/app/(user)/signup/page.js
         "Please lengthen this text to at least 6 characters or more.",
-=======
-        "Please lengthen this text to at least 6 characters or more."
->>>>>>> d3ee4e93ac14150d39d6cc5ab57fca8414c294d4:src/app/[locale]/(user)/signup/page.js
       );
       return;
     }
@@ -71,11 +55,7 @@ const Page = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ name, email, password }),
-<<<<<<< HEAD:src/app/(user)/signup/page.js
         },
-=======
-        }
->>>>>>> d3ee4e93ac14150d39d6cc5ab57fca8414c294d4:src/app/[locale]/(user)/signup/page.js
       );
 
       const data = await response.json();

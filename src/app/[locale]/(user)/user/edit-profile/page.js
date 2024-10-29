@@ -86,7 +86,7 @@ export default function Page() {
     try {
       const response = await axios.put(
         `http://localhost:3001/user/${user._id}`,
-        formData
+        formData,
       );
       console.log(formData);
 
@@ -95,7 +95,7 @@ export default function Page() {
       console.error(error);
       setError(
         error.response?.data?.message ||
-          "An error occurred. Please try again later."
+          "An error occurred. Please try again later.",
       );
     }
   };

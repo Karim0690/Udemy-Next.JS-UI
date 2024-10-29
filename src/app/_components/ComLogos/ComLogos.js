@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React from "react";
 
-export default function Com_Logos() {
+export default function Com_Logos({ t }) {
   const logos = [
     {
       src: "https://cms-images.udemycdn.com/content/tqevknj7om/svg/volkswagen_logo.svg",
@@ -57,8 +57,7 @@ export default function Com_Logos() {
     <div className="bg-gray-100 mx-auto mt-10">
       <div className="py-16 px-16">
         <h1 className="text-gray-500 mb-8 max-w-full text-center font-semibold">
-          Trusted by over 16,000 companies and millions of learners around the
-          world
+          {t("combaner")}
         </h1>
         <div>
           <ul className="grid lg:grid-cols-8 md:grid-cols-4 sm:grid-cols-4 gap-6 justify-center">

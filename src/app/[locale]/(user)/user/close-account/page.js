@@ -59,7 +59,7 @@ const page = () => {
         `http://127.0.0.1:3001/user/close-account/6718e7e6d862afcf2b83f769`,
         {
           password,
-        }
+        },
       );
       if (data.message === "success") {
         showToast("Your changes have been saved successfully");
@@ -71,7 +71,7 @@ const page = () => {
       setError(error.response.data.message);
       showToast(
         "Your changes have not been saved. Please address the issues.",
-        true
+        true,
       );
     } finally {
       setIsLoading(false);

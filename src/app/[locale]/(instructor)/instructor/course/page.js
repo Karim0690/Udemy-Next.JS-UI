@@ -9,11 +9,7 @@ export default function Home({ params: { locale } }) {
     <>
       <InstructorHeader />
       <InstructorLandingPage />
-<<<<<<< HEAD:src/app/(instructor)/instructor/course/page.js
-      <InstructorSection2LandingPage />
-=======
       <InstructorSection2LandingPage locale={locale} />
->>>>>>> d3ee4e93ac14150d39d6cc5ab57fca8414c294d4:src/app/[locale]/(instructor)/instructor/course/page.js
       <InstructorFooter />
       <SideNav />
     </>
