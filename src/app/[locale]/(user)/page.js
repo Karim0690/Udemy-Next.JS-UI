@@ -17,7 +17,7 @@ export default function Home() {
   return (
     <>
       <LandingPage t={t} />
-      <Com_Logos t={t}/>
+      <Com_Logos t={t} />
       <BroadSelection />
       <LearnersAchieves />
       <LandingPageSection5 />

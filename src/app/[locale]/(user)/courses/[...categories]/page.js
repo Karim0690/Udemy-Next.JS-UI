@@ -15,7 +15,7 @@ import { useState } from "react";
 
 const Page = () => {
   const pathname = usePathname();
-  const category = pathname.split("/")[2];
+  const category = pathname.split("/")[3];
   const [isFilterVisible, setIsFilterVisible] = useState(true);
   const toggleFilter = () => {
     setIsFilterVisible(!isFilterVisible);

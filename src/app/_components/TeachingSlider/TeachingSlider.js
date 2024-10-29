@@ -1,4 +1,3 @@
-import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,
@@ -7,35 +6,39 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
+import React from "react";
 
 const TeachingSlider = () => {
+  const t = useTranslations("Teaching");
+
   const people = [
     {
       name: "Frank Kane",
       image: "https://s.udemycdn.com/teaching/instructors/en/frank-1x-v2.jpg",
-      title: "Data Science & IT Certifications",
-      description:
-        "I’m proud to wake up knowing my work is helping people around the world improve their careers and build great things. While being a full-time instructor is hard work, it lets you work when, where, and how you want.",
+      title: t("Ktitle"),
+      description: t("KDescription"),
     },
     {
       name: "Paulo Dichone",
       image: "https://s.udemycdn.com/teaching/instructors/en/paulo-1x.jpg",
-      title: "Developer (Android Speciality)",
-      description:
-        "Udemy has changed my life. It’s allowed me to follow my passion and become a teacher I love to see my students succeed and hear them say they’ve learned more, quicker, from my courses than they did in college. It’s so humbling.",
+      title: t("Ptitle"),
+      description: t("PDescription"),
     },
     {
       name: "Deborah Grayson Riege",
       image: "https://s.udemycdn.com/teaching/instructors/en/deborah-1x.jpg",
-      title: "Leadership, Communication",
-      description:
-        "Teaching on Udemy has provided me with two important elements: the opportunity to reach more learners than I ever would be able to on my own and a steady stream of extra income.",
+      title: t("Dtitle"),
+      description: t("DDescription"),
     },
   ];
   return (
     <>
-      <div className="w-full bg-[#f7f9fa] mt-[2.4rem] flex justify-center font-sans">
+      <div
+        className="w-full bg-[#f7f9fa] mt-[2.4rem] flex justify-center font-sans"
+        style={{ direction: "ltr" }}
+      >
         <Carousel className="w-[60%] p-0 relative top-[-1.6rem] lg:top-0">
           <CarouselContent className="p-0">
             {people.map((p, index) => (
