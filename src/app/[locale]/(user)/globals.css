@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+}
+
+.slick-next:before {
+  content: "" !important;
+}
+
+.slick-prev:before {
+  content: "" !important;
+}
+
+.swiper-slide {
+  height: 60px !important;
+}
