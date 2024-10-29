@@ -23,7 +23,7 @@ const CourseContentSideBar = () => {
                 </div>
             </div>
 
-            <SidebarProvider className={`${openSection ? "" : "hidden"} h-full `}>
+            <SidebarProvider className={`${openSection ? "" : "hidden"} h-fulleeeeee `}>
                 <div className="flex flex-col">
 
 

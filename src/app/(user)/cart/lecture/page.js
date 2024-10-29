@@ -96,9 +96,9 @@ const page = () => {
             </div>
             <div>
                 <div className="flex">
-                    <VideoCoursePlayer />
-                    <div className=" sm:hidden lg:block">
-                        <CourseContentSideBar />
+                    <VideoCoursePlayer  className="w-full"/>
+                    <div className=" sm:hidden  lg:block " >
+                        <CourseContentSideBar className="" />
                     </div>
                 </div>
 
