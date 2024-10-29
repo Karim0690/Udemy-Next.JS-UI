@@ -36,7 +36,11 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { FaRegBell } from "react-icons/fa";
 import { IoSearchOutline } from "react-icons/io5";
-import { MdOutlineOpenInNew, MdFavoriteBorder } from "react-icons/md";
+import {
+  MdOutlineOpenInNew,
+  MdFavoriteBorder,
+  MdOutlineShoppingCart,
+} from "react-icons/md";
 
 async function fetchTopics(subcategoryId) {
   const topicsRes = await fetch(
@@ -116,7 +120,7 @@ export default function Header({ locale }) {
         aria-label="Global"
         className="mx-auto flex items-center justify-between lg:justify-evenly p-3 lg:px-4 shadow-md z-10 relative"
       >
-        <div className="flex order-2 lg:order-0">
+        <div className="flex order-2 lg:order-0 lg:mx-4">
           <Link href="/" className="-m-1.5 p-1.5">
             <span className="sr-only">Your Company</span>
             <Image
@@ -141,7 +145,7 @@ export default function Header({ locale }) {
         <div className="hidden lg:flex lg:gap-x-12 lg:order-2">
           <MultiLevelDropdown />
         </div>
-        <div className="relative flex-1 mx-2 w-full max-w-[40rem] hidden lg:flex lg:order-3">
+        <div className="relative flex-1 mx-2 w-full max-w-full hidden lg:flex lg:order-3">
           <input
             type="text"
             placeholder={t("search")}
@@ -151,7 +155,7 @@ export default function Header({ locale }) {
           <IoSearchOutline className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
         </div>
 
-        <div className="hidden lg:flex lg:justify-end lg:order-3 items-center space-x-4">
+        <div className="hidden lg:flex lg:justify-end lg:order-3 items-center gap-3">
           <PopperComponent
             trigger={
               <a
@@ -174,7 +178,7 @@ export default function Header({ locale }) {
                     trigger={
                       <Link
                         href={`/${locale}/teaching`}
-                        className="text-sm text-gray-500 hover:text-violet-600"
+                        className="text-sm text-gray-500 hover:text-violet-600 mx-auto"
                       >
                         {t("teach")}
                       </Link>
@@ -194,7 +198,7 @@ export default function Header({ locale }) {
                 </>
               )}
 
-              <UserControlles decodedToken={decodedToken} />
+              <UserControlles locale={locale} decodedToken={decodedToken} />
             </>
           ) : (
             <>
@@ -215,20 +219,7 @@ export default function Header({ locale }) {
               <Link href={`/${locale}/cart`}>
                 <CartPopper
                   trigger={
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth="1.5"
-                      stroke="currentColor"
-                      className="h-6 w-6 text-gray-800 hover:text-violet-600 "
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.5 6.5M7 13l-1-4M10 16.5c.828 0 1.5.672 1.5 1.5S10.828 19.5 10 19.5 8.5 18.828 8.5 18s.672-1.5 1.5-1.5zm7.5 0c.828 0 1.5.672 1.5 1.5s-.672 1.5-1.5 1.5S16 18.828 16 18s.672-1.5 1.5-1.5z"
-                      />
-                    </svg>
+                    <MdOutlineShoppingCart className="h-6 w-6 text-gray-800 hover:text-violet-600 " />
                   }
                   content="Your cart is empty."
                   placement="bottom"
@@ -267,20 +258,7 @@ export default function Header({ locale }) {
               d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
             />
           </svg>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="h-6 w-6 cursor-pointer hover:text-violet-600"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
-            />
-          </svg>
+          <MdOutlineShoppingCart className="h-6 w-6 text-gray-800 hover:text-violet-600 " />
         </div>
       </nav>
       {/* sidebar */}

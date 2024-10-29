@@ -11,9 +11,13 @@ import { useTranslations } from "next-intl";
 import Link from "next/link";
 import React from "react";
 import { FaRegBell } from "react-icons/fa";
-import { MdFavoriteBorder, MdOutlineOpenInNew } from "react-icons/md";
+import {
+  MdFavoriteBorder,
+  MdOutlineOpenInNew,
+  MdOutlineShoppingCart,
+} from "react-icons/md";
 
-const UserControlles = ({ decodedToken }) => {
+const UserControlles = ({ decodedToken, locale }) => {
   const signOut = () => {
     localStorage.removeItem("token");
     window.location.reload();
@@ -22,7 +26,7 @@ const UserControlles = ({ decodedToken }) => {
 
   return (
     <>
-      <div className="hidden md:flex justify-start items-center flex-row-reverse gap-8 mx-10 ">
+      <div className="hidden md:flex justify-start items-center flex-row-reverse gap-8 mx-4 ">
         <HoverCard>
           <HoverCardTrigger asChild>
             <Avatar className="hover:cursor-pointer w-[35px] h-[35px]">
@@ -33,8 +37,12 @@ const UserControlles = ({ decodedToken }) => {
               </AvatarFallback>
             </Avatar>
           </HoverCardTrigger>
-          <HoverCardContent className="w-72 bg-white mt-4 mr-8">
-            <div className="flex items-center px-2 py-4 group">
+          <HoverCardContent
+            className={`w-72 bg-white mt-4 ${
+              locale === "en" ? "mr-8" : "ml-8"
+            }`}
+          >
+            <div className="flex items-center gap-3 px-2 py-4 group">
               <Avatar className="hover:cursor-pointer w-[60px] h-[60px]">
                 <AvatarImage />
                 <AvatarFallback className="bg-gray-900 text-white text-2xl font-bold">
@@ -66,36 +74,17 @@ const UserControlles = ({ decodedToken }) => {
             </h1>
 
             <hr />
-            <h1 className="p-2 hover:text-violet-700 cursor-pointer">
-              Notification
-            </h1>
-            <h1 className="p-2 hover:text-violet-700 cursor-pointer">
-              Messages
-            </h1>
-            <hr />
 
-            <h1 className="p-2 hover:text-violet-700 cursor-pointer pb-0">
+            <h1 className="p-2 hover:text-violet-700 cursor-pointer">
               Account settings
             </h1>
-            <h1 className="p-2 hover:text-violet-700 cursor-pointer">
-              Payout Methods
-            </h1>
-            <h1 className="p-2 hover:text-violet-700 cursor-pointer">
-              Subscriptions
-            </h1>
-            <h1 className="p-2 hover:text-violet-700 cursor-pointer">
-              Udemy credits
-            </h1>
-            <h1 className="p-2 hover:text-violet-700 cursor-pointer">
-              Purchase history
-            </h1>
             <hr />
 
-            <div className="flex items-center">
-              <h1 className="p-2 hover:text-violet-700 cursor-pointer">
+            <div className="flex justify-between items-center">
+              <h1 className="p-2 hover:text-violet-700 cursor-pointer flex-1">
                 Language
               </h1>
-              <div className=" flex ml-auto">
+              <div>
                 <LanguageSwitch />
               </div>
             </div>
@@ -153,24 +142,11 @@ const UserControlles = ({ decodedToken }) => {
         <Link href="/cart">
           <CartPopper
             trigger={
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                className="h-6 w-6 text-gray-800 hover:text-violet-600 "
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.5 6.5M7 13l-1-4M10 16.5c.828 0 1.5.672 1.5 1.5S10.828 19.5 10 19.5 8.5 18.828 8.5 18s.672-1.5 1.5-1.5zm7.5 0c.828 0 1.5.672 1.5 1.5s-.672 1.5-1.5 1.5S16 18.828 16 18s.672-1.5 1.5-1.5z"
-                />
-              </svg>
+              <MdOutlineShoppingCart className="h-6 w-6 text-gray-800 hover:text-violet-600 " />
             }
-            content="Your cart is empty."
+            content={t("cartContent")}
             placement="bottom"
-            buttonContent="Keep Shopping"
+            buttonContent={t("cartButton")}
           />
         </Link>
         <Link href="/wishlist">
@@ -178,15 +154,15 @@ const UserControlles = ({ decodedToken }) => {
             trigger={
               <MdFavoriteBorder className="w-6 h-6 text-gray-800 hover:text-violet-600" />
             }
-            content="Your Wishlist is empty."
+            content={t("wishlistContent")}
             placement="bottom"
-            buttonContent="Explore Courses"
+            buttonContent={t("wishlistButton")}
           />
         </Link>
         {/*  */}
         <HoverCard>
           <HoverCardTrigger asChild>
-            <h1 className="text-sm text-gray-500 hover:text-violet-600 hover:cursor-pointer">
+            <h1 className="text-sm text-gray-500 hover:text-violet-600 hover:cursor-pointer mx-auto">
               {t("learning")}
             </h1>
           </HoverCardTrigger>

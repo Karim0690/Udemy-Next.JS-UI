@@ -65,7 +65,7 @@ const LandingPageSection9 = () => {
         className="w-full bg-[#f7f9fa] mt-[2.4rem] flex justify-center font-sans"
         style={{ direction: "ltr" }}
       >
-        <Carousel className="w-[60%] p-0 relative top-[-1.6rem] lg:top-0">
+        <Carousel className="w-[90%] md:w-[80%] lg:w-[60%] p-0 relative top-[-1.6rem] lg:top-0">
           <CarouselContent className="p-0">
             {people.map((p, index) => (
               <CarouselItem key={index}>
@@ -76,8 +76,8 @@ const LandingPageSection9 = () => {
                       style={{ direction: locale === "ar" ? "rtl" : "ltr" }}
                     >
                       <div className="flex flex-col lg:flex-row items-center justify-center">
-                        <div className="grid grid-cols-2 w-full border border-gray-300 bg-white my-10">
-                          <div className="p-6">
+                        <div className="flex flex-col md:flex-row w-full border border-gray-300 bg-white my-10">
+                          <div className="p-6 flex-1">
                             <Image
                               src="https://s.udemycdn.com/browse_components/student-quote-unit/quote.svg"
                               width="18"
@@ -92,11 +92,11 @@ const LandingPageSection9 = () => {
                             </span>
                             <h1 className="font-bold mt-20 underline">
                               <Link href="/" className="text-[#5022c3]">
-                                {t('story')}
+                                {t("story")}
                               </Link>
                             </h1>
                           </div>
-                          <div className="m-auto text-center">
+                          <div className="flex-1 m-auto text-center">
                             <Image
                               src={p.image}
                               width={400}
@@ -107,7 +107,7 @@ const LandingPageSection9 = () => {
                             <h1 className="text-xl font-bold mt-6 ">
                               {p.name}
                             </h1>
-                            <h1 className="text-gray-500 px-20">{p.job}</h1>
+                            <h1 className="text-gray-500 px-10">{p.job}</h1>
                             <h1 className="mt-6 mb-6 ">{p.title}</h1>
                           </div>
                         </div>

@@ -54,7 +54,7 @@ const MultiLevelDropdown = () => {
 
   return (
     <div
-      className="relative"
+      className="relative mx-4"
       ref={dropdownRef}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}

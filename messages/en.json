@@ -12,7 +12,11 @@
     "signup": "Sign up",
     "Instructor": "Instructor",
     "learning": "My Learning",
-    "lt": "Switch to the student veiw here - get back to the courses you're taking."
+    "lt": "Switch to the student veiw here - get back to the courses you're taking.",
+    "wishlistContent": "Your Wishlist is empty.",
+    "wishlistButton": "Explore Courses",
+    "cartContent": "Your cart is empty.",
+    "caeButton": "Keep Shopping"
   },
   "LandingPage": {
     "baner": "Keep moving up",
@@ -284,8 +288,8 @@
     "orDragAndDrop": "or drag and drop",
     "showCourses": "Show courses you're taking on your profile page",
     "showProfile": "Show your profile to logged-in users",
-    "facebook":"Facebook",
-    "linkedin":"LinkedIn",
-    "youtube":"Youtube"
+    "facebook": "Facebook",
+    "linkedin": "LinkedIn",
+    "youtube": "Youtube"
   }
 }

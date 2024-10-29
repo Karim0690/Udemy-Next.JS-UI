@@ -36,3 +36,18 @@
   width: 3.2rem;
   height: 3.2rem;
 }
+
+@media (max-width: 768px) {
+  .achieves {
+    width: 320px !important;
+    height: 329px !important;
+    margin-left: 20px;
+  }
+}
+
+/* Media query for mobile devices */
+@media (max-width: 480px) {
+  .achieves {
+    width: 90%;
+  }
+}
