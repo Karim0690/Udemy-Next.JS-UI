@@ -1,6 +1,18 @@
 "use client";
-import { useEffect, useState } from "react";
+
+import CartPopper from "../CartPopper/CartPopper";
+import LanguageSwitch from "../LanguageSwitch/LanguageSwitch";
+import MultiLevelDropdown from "../MultiLevelDropdown/MultiLevelDropdown";
+import PopperComponent from "../Popper/Popper";
+import UserControlles from "../UserControlles/UserControlles";
 import styles from "./Header.module.css";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Dialog as D,
   DialogPanel,
@@ -17,61 +29,14 @@ import {
   SquaresPlusIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import Image from "next/image";
-import MultiLevelDropdown from "../MultiLevelDropdown/MultiLevelDropdown";
-import PopperComponent from "../Popper/Popper";
-import CartPopper from "../CartPopper/CartPopper";
-import Link from "next/link";
 import { jwtDecode } from "jwt-decode";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useTranslations } from "next-intl";
+import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 import { FaRegBell } from "react-icons/fa";
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/components/ui/hover-card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { IoSearchOutline } from "react-icons/io5";
 import { MdOutlineOpenInNew, MdFavoriteBorder } from "react-icons/md";
-import {
-  Dialog,
-  DialogTrigger,
-  DialogContent,
-  DialogTitle,
-  DialogHeader,
-} from "@/components/ui/dialog";
-
-const products = [
-  {
-    name: "Analytics",
-    description: "Get a better understanding of your traffic",
-    href: "#",
-    icon: ChartPieIcon,
-  },
-  {
-    name: "Engagement",
-    description: "Speak directly to your customers",
-    href: "#",
-    icon: CursorArrowRaysIcon,
-  },
-  {
-    name: "Security",
-    description: "Your customers’ data will be safe and secure",
-    href: "#",
-    icon: FingerPrintIcon,
-  },
-  {
-    name: "Integrations",
-    description: "Connect with third-party tools",
-    href: "#",
-    icon: SquaresPlusIcon,
-  },
-  {
-    name: "Automations",
-    description: "Build strategic funnels that will convert",
-    href: "#",
-    icon: ArrowPathIcon,
-  },
-];
 
 async function fetchTopics(subcategoryId) {
   const topicsRes = await fetch(
@@ -124,11 +89,8 @@ export async function getServerSideProps() {
   };
 }
 
-export default function Header() {
-  const signOut = () => {
-    localStorage.removeItem("token");
-    window.location.reload();
-  };
+export default function Header({ locale }) {
+  const t = useTranslations("Header");
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [decodedToken, setDecodedToken] = useState(null);
@@ -182,23 +144,11 @@ export default function Header() {
         <div className="relative flex-1 mx-2 w-full max-w-[40rem] hidden lg:flex lg:order-3">
           <input
             type="text"
-            placeholder="Search for anything"
+            placeholder={t("search")}
             className="w-full pl-14 pr-4 py-3 border border-black rounded-full bg-gray-100 text-sm focus:outline-none focus:ring-1 focus:ring-black focus:border-transparent"
           />
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth="2"
-            stroke="currentColor"
-            className="absolute left-3 top-3 h-5 w-5 text-gray-400"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M21 21l-4.35-4.35m0 0a7.5 7.5 0 1 0-10.61-10.61 7.5 7.5 0 0 0 10.61 10.61z"
-            />
-          </svg>
+
+          <IoSearchOutline className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
         </div>
 
         <div className="hidden lg:flex lg:justify-end lg:order-3 items-center space-x-4">
@@ -206,14 +156,14 @@ export default function Header() {
             trigger={
               <a
                 href="#"
-                className="text-sm text-gray-500 hover:text-violet-600 "
+                className="text-sm text-gray-500 hover:text-violet-600 mx-2"
               >
-                Udemy Business
+                {t("business")}
               </a>
             }
-            content="Get your team access to over 27,000 top Udemy courses, anytime, anywhere."
+            content={t("businessContent")}
             placement="bottom"
-            buttonContent="Try Udemy Business"
+            buttonContent={t("businessButton")}
           />
 
           {decodedToken ? (
@@ -223,260 +173,46 @@ export default function Header() {
                   <PopperComponent
                     trigger={
                       <Link
-                        href="/teaching"
+                        href={`/${locale}/teaching`}
                         className="text-sm text-gray-500 hover:text-violet-600"
                       >
-                        Teach on Udemy
+                        {t("teach")}
                       </Link>
                     }
-                    content="Become an instructor and share your knowledge with millions of students worldwide."
+                    content={t("teachContent")}
                     placement="bottom"
-                    buttonContent="Learn More"
+                    buttonContent={t("teachButton")}
                   />
                 </>
               ) : (
                 <>
-                  <Link href="/instructor/course">
+                  <Link href={`/${locale}/instructor/course`}>
                     <h1 className="text-sm text-gray-500 hover:text-violet-600 hover:cursor-pointer">
-                      Instructor
+                      {t("Instructor")}
                     </h1>
                   </Link>
                 </>
               )}
 
-              <div className="hidden md:flex justify-start items-center flex-row-reverse gap-8 mx-10 ">
-                <HoverCard>
-                  <HoverCardTrigger asChild>
-                    <Avatar className="hover:cursor-pointer w-[35px] h-[35px]">
-                      <AvatarImage />
-                      <AvatarFallback className="bg-gray-900 text-white font-bold">
-                        {decodedToken.name.charAt(0).toUpperCase() +
-                          decodedToken.name.charAt(1).toUpperCase()}
-                      </AvatarFallback>
-                    </Avatar>
-                  </HoverCardTrigger>
-                  <HoverCardContent className="w-72 bg-white mt-4 mr-8">
-                    <div className="flex items-center px-2 py-4 group">
-                      <Avatar className="hover:cursor-pointer w-[60px] h-[60px]">
-                        <AvatarImage />
-                        <AvatarFallback className="bg-gray-900 text-white text-2xl font-bold">
-                          {decodedToken.name.charAt(0).toUpperCase() +
-                            decodedToken.name.charAt(1).toUpperCase()}
-                        </AvatarFallback>
-                      </Avatar>
-
-                      <div className="ml-4">
-                        <h1 className="text-sm font-bold text-gray-900 group-hover:text-violet-800">
-                          {decodedToken.name}
-                        </h1>
-                        <p className="text-xs text-gray-500">
-                          {decodedToken.email}
-                        </p>
-                      </div>
-                    </div>
-
-                    <hr />
-                    <h1 className="p-2 hover:text-violet-700 cursor-pointer">
-                      My Learning
-                    </h1>
-                    <h1 className="p-2 hover:text-violet-700 cursor-pointer">
-                      My Cart
-                    </h1>
-                    <h1 className="p-2 hover:text-violet-700 cursor-pointer">
-                      Wishlist
-                    </h1>
-                    <h1 className="p-2 hover:text-violet-700 cursor-pointer">
-                      Teach on Udemy
-                    </h1>
-
-                    <hr />
-                    <h1 className="p-2 hover:text-violet-700 cursor-pointer">
-                      Notification
-                    </h1>
-                    <h1 className="p-2 hover:text-violet-700 cursor-pointer">
-                      Messages
-                    </h1>
-                    <hr />
-
-                    <h1 className="p-2 hover:text-violet-700 cursor-pointer pb-0">
-                      Account settings
-                    </h1>
-                    <h1 className="p-2 hover:text-violet-700 cursor-pointer">
-                      Payout Methods
-                    </h1>
-                    <h1 className="p-2 hover:text-violet-700 cursor-pointer">
-                      Subscriptions
-                    </h1>
-                    <h1 className="p-2 hover:text-violet-700 cursor-pointer">
-                      Udemy credits
-                    </h1>
-                    <h1 className="p-2 hover:text-violet-700 cursor-pointer">
-                      Purchase history
-                    </h1>
-                    <hr />
-
-                    <div className="flex items-center">
-                      <h1 className="p-2 hover:text-violet-700 cursor-pointer">
-                        Language
-                      </h1>
-                      <div className=" flex ml-auto">
-                        <Dialog>
-                          <DialogTrigger asChild>
-                            <div className="flex">
-                              <h1 className="p-2 hover:text-violet-700 cursor-pointer">
-                                English
-                              </h1>
-                              <div className="p-2 hover:bg-gray-200">
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                  strokeWidth={1.5}
-                                  stroke="currentColor"
-                                  className="size-5 mt-1"
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418"
-                                  />
-                                </svg>
-                              </div>
-                            </div>
-                          </DialogTrigger>
-                          <DialogContent className="sm:max-w-[425px] flex flex-col bg-white items-start justify-start flex-1">
-                            <DialogHeader>
-                              <DialogTitle>Choose a language</DialogTitle>
-                            </DialogHeader>
-                            <button className="w-full text-left p-2 border border-black">
-                              English
-                            </button>
-                            <button className="w-full text-left p-2">
-                              Arabic
-                            </button>
-                          </DialogContent>
-                        </Dialog>
-                      </div>
-                    </div>
-                    <hr />
-
-                    <h1 className="p-2 hover:text-violet-700 cursor-pointer pb-0">
-                      Public Profile
-                    </h1>
-                    <h1 className="p-2 hover:text-violet-700 cursor-pointer">
-                      Edit Profile
-                    </h1>
-
-                    <hr />
-
-                    <h1 className="p-2 hover:text-violet-700 cursor-pointer pb-0">
-                      Help and Support
-                    </h1>
-
-                    <Link href="/login" onClick={() => signOut()}>
-                      <h1 className="p-2 hover:text-violet-700 cursor-pointer">
-                        Log out
-                      </h1>
-                    </Link>
-                    <hr />
-                    <div className="flex w-full justify-between items-start px-2 py-4 group">
-                      <div className="flex flex-col justify-between">
-                        <h1 className="text-lg font-bold text-gray-900 group-hover:text-violet-800">
-                          Udemy Business
-                        </h1>
-                        <p className="text-xs text-gray-500">
-                          Bring learning to your company
-                        </p>
-                      </div>
-                      <MdOutlineOpenInNew className="text-2xl" />
-                    </div>
-                  </HoverCardContent>
-                </HoverCard>
-
-                {/*  */}
-                <HoverCard>
-                  <HoverCardTrigger asChild>
-                    <FaRegBell className="text-lg hover:text-violet-800 hover:cursor-pointer" />
-                  </HoverCardTrigger>
-                  <HoverCardContent className="w-80 bg-white mt-4 mr-20">
-                    <div className="flex flex-col justify-between space-x-4">
-                      <div className="flex justify-between items-center">
-                        <h1 className="font-bold text-xl">Notifications</h1>
-                        <p className="text-violet-700 cursor-pointer font-bold text-sm">
-                          Settings
-                        </p>
-                      </div>
-                    </div>
-                  </HoverCardContent>
-                </HoverCard>
-                <Link href="/cart">
-                  <CartPopper
-                    trigger={
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth="1.5"
-                        stroke="currentColor"
-                        className="h-6 w-6 text-gray-800 hover:text-violet-600 "
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.5 6.5M7 13l-1-4M10 16.5c.828 0 1.5.672 1.5 1.5S10.828 19.5 10 19.5 8.5 18.828 8.5 18s.672-1.5 1.5-1.5zm7.5 0c.828 0 1.5.672 1.5 1.5s-.672 1.5-1.5 1.5S16 18.828 16 18s.672-1.5 1.5-1.5z"
-                        />
-                      </svg>
-                    }
-                    content="Your cart is empty."
-                    placement="bottom"
-                    buttonContent="Keep Shopping"
-                  />
-                </Link>
-                <Link href="/wishlist">
-                  <CartPopper
-                    trigger={
-                      <MdFavoriteBorder className="w-6 h-6 text-gray-800 hover:text-violet-600" />
-                    }
-                    content="Your Wishlist is empty."
-                    placement="bottom"
-                    buttonContent="Explore Courses"
-                  />
-                </Link>
-                {/*  */}
-                <HoverCard>
-                  <HoverCardTrigger asChild>
-                    <h1 className="text-sm text-gray-500 hover:text-violet-600 hover:cursor-pointer">
-                      My Learning
-                    </h1>
-                  </HoverCardTrigger>
-                  <HoverCardContent className="w-80 bg-white mt-4 mr-36">
-                    <div className="flex items-center justify-center mx-4 p-2">
-                      <h1 className="text-sm text-gray-600 text-center">
-                        Switch to the student veiw here - get back to the
-                        courses you&apos;re taking.
-                      </h1>
-                    </div>
-                  </HoverCardContent>
-                </HoverCard>
-              </div>
+              <UserControlles decodedToken={decodedToken} />
             </>
           ) : (
             <>
               <PopperComponent
                 trigger={
                   <Link
-                    href="/teaching"
+                    href={`/${locale}/teaching`}
                     className="text-sm text-gray-500 hover:text-violet-600"
                   >
-                    Teach on Udemy
+                    {t("teach")}
                   </Link>
                 }
-                content="Become an instructor and share your knowledge with millions of students worldwide."
+                content={t("teachContent")}
                 placement="bottom"
-                buttonContent="Learn More"
+                buttonContent={t("teachButton")}
               />
 
-              <Link href="/cart">
+              <Link href={`/${locale}/cart`}>
                 <CartPopper
                   trigger={
                     <svg
@@ -500,47 +236,19 @@ export default function Header() {
                 />
               </Link>
               <Link
-                href="/login"
+                href={`/${locale}/login`}
                 className="px-5 py-3 border border-gray-400  text-sm font-bold text-gray-800 hover:bg-gray-200"
               >
-                Log in
+                {t("login")}
               </Link>
 
               <Link
-                href="/signup"
+                href={`/${locale}/signup`}
                 className="px-5 py-3 bg-gray-800 text-white text-sm font-bold hover:bg-gray-900"
               >
-                Sign up
+                {t("signup")}
               </Link>
-              <Dialog>
-                <DialogTrigger asChild>
-                  <div className="border border-gray-400 p-2 hover:bg-gray-200">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={1.5}
-                      stroke="currentColor"
-                      className="size-6 "
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418"
-                      />
-                    </svg>
-                  </div>
-                </DialogTrigger>
-                <DialogContent className="sm:max-w-[425px] flex flex-col bg-white items-start justify-start flex-1">
-                  <DialogHeader>
-                    <DialogTitle>Choose a language</DialogTitle>
-                  </DialogHeader>
-                  <button className="w-full text-left p-2 border border-black">
-                    English
-                  </button>
-                  <button className="w-full text-left p-2">Arabic</button>
-                </DialogContent>
-              </Dialog>
+              <LanguageSwitch />
             </>
           )}
         </div>

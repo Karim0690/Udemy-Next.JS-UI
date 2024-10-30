@@ -13,21 +13,21 @@ export const metadata = {
 
 export default async function RootLayout({ children, params: { locale } }) {
   if (!routing.locales.includes(locale)) {
-    notFound();
+    NotFound();
   }
   const messages = await getMessages();
   return (
     <html lang={locale} dir={`${locale === "ar" ? "rtl" : "ltr"}`}>
       <body className="font-sans">
-        <Header />
         <NextIntlClientProvider messages={messages}>
+          <Header locale={locale} />
           {children}
-        </NextIntlClientProvider>
 
-        <Toaster position="bottom-right" />
-        <div>
-          <InstructorFooter />
-        </div>
+          <Toaster position="bottom-right" />
+          <div>
+            <InstructorFooter />
+          </div>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

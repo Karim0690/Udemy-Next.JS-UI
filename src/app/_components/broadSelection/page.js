@@ -1,124 +1,75 @@
 "use client";
-import { useState } from "react";
+
 import CourseComponent from "../CourseComponent/CourseComponent";
 import CoursesSlider from "../CoursesSlider/CoursesSlider";
+import { useTranslations } from "next-intl";
+import { useState } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/navigation";
 
 function BroadSelection() {
-  const settings = {
-    infinite: true,
-    speed: 500,
-    slidesToShow: 5,
-    slidesToScroll: 4,
-    swipeToSlide: true,
-  };
+  const t = useTranslations("LandingPage");
   const [activeTab, setActiveTab] = useState("python");
+  const tabs = [
+    { id: "python", label: t("python") },
+    { id: "Microsoft Excel", label: t("excel") },
+    { id: "Web Development", label: t("web") },
+    { id: "JavaScript", label: t("js") },
+    { id: "Data Science", label: t("dataScience") },
+    { id: "Amazon AWS", label: t("aws") },
+    { id: "Drawing", label: t("drawing") },
+  ];
   return (
     <>
       <div className="mx-10 mt-20">
         <div>
           <h1 className="text-5xl font-bold pb-4 text-gray-700">
-            A broad selection of courses
+            {t("courseSelection")}
           </h1>
-          <p>
-            Choose from over 250,000 online video courses with new additions
-            published every month
-          </p>
+          <p>{t("coursedesc")}</p>
         </div>
       </div>
 
       <div className="mx-10 py-8">
         <div>
-          <div className="text-xl font-bold text-center text-gray-500">
-            <ul className="flex border-b border-gray-100">
-              {/* Plan your python tab */}
-              <li>
-                <div
-                  className={`inline-block p-4 rounded-t-lg hover:cursor-pointer ${
-                    activeTab === "python"
-                      ? "text-black border-black"
-                      : "border-transparent hover:text-black"
-                  }`}
-                  onClick={() => setActiveTab("python")}
-                >
-                  Python
-                </div>
-              </li>
+          <div className="font-bold text-center text-gray-500"></div>
+          <div className="font-bold text-center text-gray-500">
+            <ul className="flex border-b border-gray-100 lg:hidden">
+              <Swiper spaceBetween={10} slidesPerView="auto" className="w-full">
+                {tabs.map((tab) => (
+                  <SwiperSlide key={tab.id} className="!w-auto">
+                    <div
+                      className={`inline-block p-4 rounded-t-lg hover:cursor-pointer ${
+                        activeTab === tab.id
+                          ? "text-black border-black"
+                          : "border-transparent hover:text-black"
+                      }`}
+                      onClick={() => setActiveTab(tab.id)}
+                    >
+                      {tab.label}
+                    </div>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            </ul>
 
-              {/* Record your video tab */}
-              <li>
-                <div
-                  className={`inline-block p-4  rounded-t-lg hover:cursor-pointer ${
-                    activeTab === "Microsoft Excel"
-                      ? "text-black border-black"
-                      : "border-transparent hover:text-black"
-                  }`}
-                  onClick={() => setActiveTab("Microsoft Excel")}
-                >
-                  Microsoft Excel
-                </div>
-              </li>
-
-              {/* Launch your course tab */}
-              <li>
-                <div
-                  className={`inline-block p-4  rounded-t-lg hover:cursor-pointer ${
-                    activeTab === "Web Development"
-                      ? "text-black border-black"
-                      : "border-transparent hover:text-black"
-                  }`}
-                  onClick={() => setActiveTab("Web Development")}
-                >
-                  Web Development
-                </div>
-              </li>
-              <li>
-                <div
-                  className={`inline-block p-4  rounded-t-lg hover:cursor-pointer ${
-                    activeTab === "JavaScript"
-                      ? "text-black border-black"
-                      : "border-transparent hover:text-black"
-                  }`}
-                  onClick={() => setActiveTab("JavaScript")}
-                >
-                  JavaScript
-                </div>
-              </li>
-              <li>
-                <div
-                  className={`inline-block p-4 rounded-t-lg hover:cursor-pointer ${
-                    activeTab === "Data Science"
-                      ? "text-black border-black"
-                      : "border-transparent hover:text-black"
-                  }`}
-                  onClick={() => setActiveTab("Data Science")}
-                >
-                  Data Science
-                </div>
-              </li>
-              <li>
-                <div
-                  className={`inline-block p-4  rounded-t-lg hover:cursor-pointer ${
-                    activeTab === "Amazon AWS"
-                      ? "text-black border-black"
-                      : "border-transparent hover:text-black"
-                  }`}
-                  onClick={() => setActiveTab("Amazon AWS")}
-                >
-                  Amazon AWS
-                </div>
-              </li>
-              <li>
-                <div
-                  className={`inline-block p-4  rounded-t-lg hover:cursor-pointer ${
-                    activeTab === "Drawing"
-                      ? "text-black border-black"
-                      : "border-transparent hover:text-black"
-                  }`}
-                  onClick={() => setActiveTab("Drawing")}
-                >
-                  Drawing
-                </div>
-              </li>
+            {/* Standard layout for large screens */}
+            <ul className="hidden lg:flex border-b border-gray-100">
+              {tabs.map((tab) => (
+                <li key={tab.id}>
+                  <div
+                    className={`inline-block p-4 rounded-t-lg hover:cursor-pointer ${
+                      activeTab === tab.id
+                        ? "text-black border-black"
+                        : "border-transparent hover:text-black"
+                    }`}
+                    onClick={() => setActiveTab(tab.id)}
+                  >
+                    {tab.label}
+                  </div>
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -127,12 +78,12 @@ function BroadSelection() {
             {activeTab === "python" && (
               <div>
                 <CourseComponent
-                  title="Expand your career opportunities with Python"
-                  content="Take one of Udemy’s range of Python courses and learn how to code using this incredibly useful language. Its simple syntax and readability makes Python perfect for Flask, Django, data science, and machine learning. You’ll learn how to build everything from games to sites to apps. Choose from a range of courses that will appeal to"
-                  button="Explore Python"
+                  title={t("pythonH")}
+                  content={t("pythonP")}
+                  button={t("pythonButton")}
                 />
                 <div className="">
-                  <CoursesSlider settings={settings} />
+                  <CoursesSlider />
                 </div>
               </div>
             )}
@@ -140,12 +91,12 @@ function BroadSelection() {
             {activeTab === "Microsoft Excel" && (
               <div>
                 <CourseComponent
-                  title="Analyze and visualize data with Excel"
-                  content="Take a Microsoft Excel course from Udemy, and learn how to use this industry-standard software. Real-world experts will show you the basics like how to organize data into sheets, rows and columns, and advanced techniques like creating complex dynamic formulas. Both small businesses and large companies use Excel to..."
-                  button="Explore Microsoft Excel"
+                  title={t("excelH")}
+                  content={t("excelP")}
+                  button={t("excelButton")}
                 />
                 <div className="">
-                  <CoursesSlider settings={settings} />
+                  <CoursesSlider />
                 </div>
               </div>
             )}
@@ -153,12 +104,12 @@ function BroadSelection() {
             {activeTab === "Web Development" && (
               <div>
                 <CourseComponent
-                  title="Build websites and applications with Web Development"
-                  content="The world of web development is as wide as the internet itself. Much of our social and vocational lives play out on the internet, which prompts new industries aimed at creating, managing, and debugging the websites and applications that we increasingly rely on."
-                  button="Explore Web Development"
+                  title={t("webH")}
+                  content={t("webP")}
+                  button={t("webButton")}
                 />
                 <div className="">
-                  <CoursesSlider settings={settings} />
+                  <CoursesSlider />
                 </div>
               </div>
             )}
@@ -166,48 +117,48 @@ function BroadSelection() {
             {activeTab === "JavaScript" && (
               <div>
                 <CourseComponent
-                  title="Grow your software development skills with JavaScript"
-                  content="JavaScript is a text-based computer programming language used to make dynamic web pages. A must-learn for aspiring web developers or programmers, JavaScript can be used for features like image carousels, displaying countdowns and timers, and playing media on a webpage. With JavaScript online classes, you can learn to build"
-                  button="Explore JavaScript"
+                  title={t("jsH")}
+                  content={t("jsP")}
+                  button={t("jsButton")}
                 />
                 <div className="">
-                  <CoursesSlider settings={settings} />
+                  <CoursesSlider />
                 </div>
               </div>
             )}
             {activeTab === "Data Science" && (
               <div>
                 <CourseComponent
-                  title="Lead data-driven decisions with Data Science"
-                  content="Data science application is an in-demand skill in many industries worldwide — including finance, transportation, education, manufacturing, human resources, and banking. Explore data science courses with Python, statistics, machine learning, and more to grow your knowledge. Get data science training if you’re into research, statistics..."
-                  button="Explore Data Science"
+                  title={t("dataScienceH")}
+                  content={t("dataScienceP")}
+                  button={t("dataScienceButton")}
                 />
                 <div className="">
-                  <CoursesSlider settings={settings} />
+                  <CoursesSlider />
                 </div>
               </div>
             )}
             {activeTab === "Amazon AWS" && (
               <div>
                 <CourseComponent
-                  title="Become an expert in cloud computing with AWS Certification"
-                  content="Amazon Web Services (AWS) is a cloud computing platform with more than 200 featured services. Whether or not you aim for certification, an AWS course offers the theory and practical skills you need to land a job in cloud development, sales, engineering, networking, and more. The better you become at cloud computing, the more..."
-                  button="Explore Amazon AWS"
+                  title={t("awsH")}
+                  content={t("awsP")}
+                  button={t("awsButton")}
                 />
                 <div className="">
-                  <CoursesSlider settings={settings} />
+                  <CoursesSlider />
                 </div>
               </div>
             )}
             {activeTab === "Drawing" && (
               <div>
                 <CourseComponent
-                  title="Expand your creative skillset with Drawing"
-                  content="Want to start drawing for fun or take your craft to the next level? Explore our online drawing classes and learn pencil drawing, figure drawing, cartoon drawing, character drawing for cartoons and anime, illustration, sketching, shading and more. Take an overview course on the fundamentals of drawing or zero in on an area..."
-                  button="Explore Drawing"
+                  title={t("drawingH")}
+                  content={t("drawingP")}
+                  button={t("drawingButton")}
                 />
                 <div className="">
-                  <CoursesSlider settings={settings} />
+                  <CoursesSlider />
                 </div>
               </div>
             )}

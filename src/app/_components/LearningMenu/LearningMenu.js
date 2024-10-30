@@ -1,8 +1,12 @@
 "use client";
+
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { useState } from "react";
 
 export default function Home() {
+  const t = useTranslations("Teaching");
+
   const [activeTab, setActiveTab] = useState("plan-curriculum");
 
   return (
@@ -19,7 +23,7 @@ export default function Home() {
                 }`}
                 onClick={() => setActiveTab("plan-curriculum")}
               >
-                Plan your curriculum
+                {t("curriculum")}
               </div>
             </li>
 
@@ -32,7 +36,7 @@ export default function Home() {
                 }`}
                 onClick={() => setActiveTab("record-video")}
               >
-                Record your video
+                {t("video")}
               </div>
             </li>
 
@@ -45,7 +49,7 @@ export default function Home() {
                 }`}
                 onClick={() => setActiveTab("launch-course")}
               >
-                Launch your course
+                {t("course")}
               </div>
             </li>
           </ul>
@@ -55,21 +59,10 @@ export default function Home() {
             {activeTab === "plan-curriculum" && (
               <div className="flex justify-center items-center">
                 <div className="w-[24rem] mr-[50px]">
-                  <p className="text-lg">
-                    You start with your passion and knowledge. Then choose a
-                    promising topic with the help of our Marketplace Insights
-                    tool.
-                  </p>
-                  <p className="text-lg mt-2">
-                    The way that you teach — what you bring to it — is up to
-                    you.
-                  </p>
-                  <h3 className="text-base font-bold my-6">How we help you.</h3>
-                  <p className="text-lg mt-2">
-                    We offer plenty of resources on how to create your first
-                    course. And, our instructor dashboard and curriculum pages
-                    help keep you organized.
-                  </p>
+                  <p className="text-lg">{t("ct1")}</p>
+                  <p className="text-lg mt-2">{t("ct2")}</p>
+                  <h3 className="text-base font-bold my-6">{t("ct3")}</h3>
+                  <p className="text-lg mt-2">{t("ct4")}</p>
                 </div>
                 <div>
                   <Image
@@ -85,20 +78,10 @@ export default function Home() {
             {activeTab === "record-video" && (
               <div className="flex justify-center items-center">
                 <div className="w-[24rem] mr-[50px]">
-                  <p className="text-lg">
-                    Use basic tools like a smartphone or a DSLR camera. Add a
-                    good microphone and you’re ready to start.
-                  </p>
-                  <p className="text-lg mt-2">
-                    If you don’t like being on camera, just capture your screen.
-                    Either way, we recommend two hours or more of video for a
-                    paid course.
-                  </p>
-                  <h3 className="text-base font-bold my-6">How we help you</h3>
-                  <p className="text-lg mt-2">
-                    Our support team is available to help you throughout the
-                    process and provide feedback on test videos.
-                  </p>
+                  <p className="text-lg">{t("v1")}</p>
+                  <p className="text-lg mt-2">{t("v2")}</p>
+                  <h3 className="text-base font-bold my-6"> {t("v3")}</h3>
+                  <p className="text-lg mt-2">{t("v4")}</p>
                 </div>
                 <div>
                   <Image
@@ -114,21 +97,10 @@ export default function Home() {
             {activeTab === "launch-course" && (
               <div className="flex justify-center items-center">
                 <div className="w-[24rem] mr-[50px]">
-                  <p className="text-lg">
-                    Gather your first ratings and reviews by promoting your
-                    course through social media and your professional networks.
-                  </p>
-                  <p className="text-lg mt-2">
-                    Your course will be discoverable in our marketplace where
-                    you earn revenue from each paid enrollment.
-                  </p>
-                  <h3 className="text-base font-bold my-6">How we help you</h3>
-                  <p className="text-lg mt-2">
-                    Our custom coupon tool lets you offer enrollment incentives
-                    while our global promotions drive traffic to courses.
-                    There’s even more opportunity for courses chosen for Udemy
-                    Business.
-                  </p>
+                  <p className="text-lg">{t("c1")}</p>
+                  <p className="text-lg mt-2">{t("c2")}</p>
+                  <h3 className="text-base font-bold my-6"> {t("c3")}</h3>
+                  <p className="text-lg mt-2">{t("c4")}</p>
                 </div>
                 <div>
                   <Image

@@ -1,7 +1,10 @@
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import React from "react";
 
 export default function Become_Instractor() {
+  const t = useTranslations("LandingPage");
+
   return (
     <>
       <div className="mt-[6.4rem] mb-[4rem]">
@@ -25,15 +28,14 @@ export default function Become_Instractor() {
             </div>
             <div className="flex flex-col items-center lg:items-start justify-center text-center lg:text-left w-full max-w-[560px] lg:max-w-[430px]">
               <h3 className="font-bold text-3xl text-gray-800 mb-4">
-                Become an instructor
+                {t("becomeInstructor")}
               </h3>
               <div className="mb-4 text-[16px] lg:text-lg text-gray-600">
-                Instructors from around the world teach millions of learners on
-                Udemy.We provide the tools and skills to teach what you love.
+                {t("becomeInstructor1")}
               </div>
               <button className="bg-[#2D2F31] border-black border-2 border-solid h-12 w-[90%] lg:w-[45%]">
                 <span className="text-white font-bold px-2">
-                  Start teaching today
+                  {t("becomeInstructorButton")}
                 </span>
               </button>
             </div>

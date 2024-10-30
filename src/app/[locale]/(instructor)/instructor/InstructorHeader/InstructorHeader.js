@@ -1,19 +1,24 @@
 "use client";
-import React, { useEffect } from "react";
+
+import useUserStore from "@/app/store/userStore";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { FaRegBell } from "react-icons/fa";
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { MdOutlineOpenInNew } from "react-icons/md";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import useUserStore from "@/app/store/userStore";
+import { useParams, useRouter } from "next/navigation";
+import React, { useEffect } from "react";
+import { FaRegBell } from "react-icons/fa";
+import { MdOutlineOpenInNew } from "react-icons/md";
 
 const InstructorHeader = () => {
+  const t = useTranslations("InstructorHearder");
+  const { locale } = useParams();
+
   const router = useRouter();
   let avatar;
   const { user, setUser } = useUserStore();
@@ -41,7 +46,9 @@ const InstructorHeader = () => {
             </AvatarFallback>
           </Avatar>
         </HoverCardTrigger>
-        <HoverCardContent className="w-72 bg-white mt-4 mr-8">
+        <HoverCardContent
+          className={`w-72 bg-white mt-4 ${locale === "ar" ? "ml-8" : "mr-8"} `}
+        >
           <div className="flex items-center px-2 py-4 group">
             <Avatar className="hover:cursor-pointer w-[60px] h-[60px]">
               <AvatarImage />
@@ -59,39 +66,30 @@ const InstructorHeader = () => {
           </div>
 
           <hr />
-          <button className="p-2 hover:text-violet-700">Student</button>
-          <hr />
-          <button className="p-2 hover:text-violet-700">Notification</button>
+          <button className="p-2 hover:text-violet-700">{t("student")}</button>
           <hr />
 
-          <button className="p-2 hover:text-violet-700 pb-0">
-            Account settings
-          </button>
-
-          <button className="p-2 hover:text-violet-700">
-            Payout & tax settings
-          </button>
-
+          <button className="p-2 hover:text-violet-700">{t("settings")}</button>
           <hr />
           <div className="flex flex-col flex-1 justify-start items-start">
             <button className="p-2 hover:text-violet-700 pb-0">
-              Public Profile
+              {t("public")}
             </button>
-            <button className="p-2 hover:text-violet-700">Edit Profile</button>
+            <button className="p-2 hover:text-violet-700">{t("edit")}</button>
           </div>
 
           <hr />
 
           <div className="flex flex-col flex-1 justify-start items-start">
             <button className="p-2 hover:text-violet-700 pb-0">
-              Help & Support
+              {t("help")}
             </button>
 
             <button
               className="p-2 hover:text-violet-700"
               onClick={() => signOut()}
             >
-              Log out
+              {t("logout")}
             </button>
           </div>
 
@@ -99,11 +97,9 @@ const InstructorHeader = () => {
           <div className="flex w-full justify-between items-start px-2 py-4 group">
             <div className="flex flex-col justify-between">
               <h1 className="text-lg font-bold text-gray-900 group-hover:text-violet-800">
-                Udemy Business
+                {t("business")}
               </h1>
-              <p className="text-xs text-gray-500">
-                Bring learning to your company
-              </p>
+              <p className="text-xs text-gray-500">{t("ub")}</p>
             </div>
             <MdOutlineOpenInNew className="text-2xl" />
           </div>
@@ -157,14 +153,17 @@ const InstructorHeader = () => {
         <HoverCard>
           <HoverCardTrigger asChild>
             <h1 className="text-sm hover:text-violet-800 hover:cursor-pointer">
-              Student
+              {t("student")}
             </h1>
           </HoverCardTrigger>
-          <HoverCardContent className="w-80 bg-white mt-4 mr-36">
+          <HoverCardContent
+            className={`w-80 bg-white mt-4 ${
+              locale === "ar" ? "ml-36" : "mr-36"
+            }`}
+          >
             <div className="flex items-center justify-center mx-4">
               <h1 className="text-sm text-gray-600 text-center">
-                Switch to the student veiw here - get back to the courses
-                you&apos;re taking.
+                {t("switch")}
               </h1>
             </div>
           </HoverCardContent>

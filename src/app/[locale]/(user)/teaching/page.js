@@ -1,28 +1,28 @@
 import LearningMenu from "../../../_components/LearningMenu/LearningMenu";
 import { TeachingAccordion } from "../../../_components/TeachingAccordion/TeachingAccordion";
 import TeachingSlider from "../../../_components/TeachingSlider/TeachingSlider";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import React from "react";
 
-const Page = () => {
+const Page = ({ params: { locale } }) => {
+  const t = useTranslations("Teaching");
+
   const reasons = [
     {
       icon: "https://s.udemycdn.com/teaching/value-prop-teach-v3.jpg",
-      title: "Teach your way",
-      description:
-        "Publish the course you want, in the way you want, and always have control of your own content.",
+      title: t("reasons11"),
+      description: t("reasons12"),
     },
     {
       icon: "https://s.udemycdn.com/teaching/value-prop-inspire-v3.jpg",
-      title: "Inspire learners",
-      description:
-        "Teach what you know and help learners explore their interests, gain new skills, and advance their careers.",
+      title: t("reasons21"),
+      description: t("reasons22"),
     },
     {
       icon: "https://s.udemycdn.com/teaching/value-prop-get-rewarded-v3.jpg",
-      title: "Get rewarded",
-      description:
-        "Expand your professional network, build your expertise, and earn money on each paid enrollment.",
+      title: t("reasons31"),
+      description: t("reasons32"),
     },
   ];
   return (
@@ -42,22 +42,26 @@ const Page = () => {
           alt=""
           className="block md:hidden w-full align-middle"
         />
-        <div className="relative md:absolute md:ml-10 lg:ml-20 md:top-1/2 transform md:-translate-y-1/2 p-4 sm:w-full md:w-[18rem] lg:w-[23rem]">
+        <div
+          className={`relative md:absolute flex-1 ${
+            locale === "ar" ? "left-0 md:ml-0 lg:ml-0" : "md:ml-10 lg:ml-20"
+          }  md:top-1/2 transform md:-translate-y-1/2 p-4 sm:w-full md:w-[18rem] lg:w-[23rem]`}
+        >
           <h1 className="font-bold text-3xl md:text-4xl lg:text-5xl text-gray-800 mb-2">
-            Come teach with us
+            {t("banner1")}
           </h1>
           <p className="text-gray-700 text-sm md:text-base lg:text-xl">
-            Become an instructor and change lives — including your own
+            {t("banner2")}
           </p>
           <button className="py-3 px-6 mt-3 w-full bg-[#2D2F31] text-white text-sm md:text-xs lg:text-sm font-extrabold hover:bg-gray-700">
-            Get started
+            {t("bannerButton")}
           </button>
         </div>
       </div>
       {/*  */}
       <div className="flex flex-col justify-center items-center my-28">
         <h1 className="font-bold text-xl lg:text-5xl text-gray-800 mb-4">
-          So many reasons to start
+          {t("reasons")}
         </h1>
         <div className="flex flex-col md:flex-row justify-center lg:justify-between text-center w-full px-10 md:px-0 lg:px-20">
           {reasons.map((reason, index) => (
@@ -89,30 +93,30 @@ const Page = () => {
       {/*  */}
       <div className="font-sans	flex flex-wrap justify-evenly items-center my-20 bg-[#5022c3] px-1 py-10 sm:py-12 sm:px-0 lg:p-16 text-white text-center gap-6">
         <div className="flex flex-col justify-center items-center">
-          <h1 className="font-bold text-4xl sm:text-4xl mb-2">73M</h1>
-          <h2 className="text-sm sm:text-base">Students</h2>
+          <h1 className="font-bold text-4xl sm:text-4xl mb-2">73{t("M")}</h1>
+          <h2 className="text-sm sm:text-base">{t("Students")}</h2>
         </div>
         <div className="flex flex-col justify-center items-center">
           <h1 className="font-bold text-4xl sm:text-4xl mb-2">75+</h1>
-          <h2 className="text-sm sm:text-base">Languages</h2>
+          <h2 className="text-sm sm:text-base">{t("Languages")}</h2>
         </div>
         <div className="flex flex-col justify-center items-center">
-          <h1 className="font-bold text-4xl sm:text-4xl mb-2">1B</h1>
-          <h2 className="text-sm sm:text-base">Enrollments</h2>
+          <h1 className="font-bold text-4xl sm:text-4xl mb-2">1{t("B")}</h1>
+          <h2 className="text-sm sm:text-base">{t("Enrollments")}</h2>
         </div>
         <div className="flex flex-col justify-center items-center">
           <h1 className="font-bold text-4xl sm:text-4xl mb-2">180+</h1>
-          <h2 className="text-sm sm:text-base">Countries</h2>
+          <h2 className="text-sm sm:text-base">{t("Countries")}</h2>
         </div>
         <div className="flex flex-col justify-center items-center">
           <h1 className="font-bold text-4xl sm:text-4xl mb-2">16,000+</h1>
-          <h2 className="text-sm sm:text-base">Enterprise Customers</h2>
+          <h2 className="text-sm sm:text-base">{t("Enterprise")}</h2>
         </div>
       </div>
 
       <div className="flex flex-col justify-evenly items-center my-20 p-10 text-center">
         <h1 className="font-bold text-2xl md:text-5xl text-gray-800 mb-4">
-          How to begin
+          {t("Begin")}
         </h1>
         <div className="hidden lg:block">
           <LearningMenu />
@@ -134,19 +138,19 @@ const Page = () => {
         />
 
         <div className="flex flex-col justify-center items-center w-full px-5">
-          <h3 className="mb-6 text-lg md:text-4xl font-bold text-gray-800">
-            You won’t have to do it alone
-          </h3>
-          <p className="text-sm md:text-lg mb-6 md:mx-10 ">
-            Our <strong>Instructor Support Team</strong> is here to answer your
-            questions and review your test video, while our{" "}
-            <strong>Teaching Center</strong> gives you plenty of resources to
-            help you through the process. Plus, get the support of experienced
-            instructors in our <strong>online community</strong>.
-          </p>
-          <span className="text-sm md:text-md font-bold underline text-[#5022c3] hover:text-purple-950 decoration-purple-800 decoration-1 underline-offset-4">
-            Need more details before you start? Learn more.
-          </span>
+          <div className="w-1/2">
+            <h3 className="mb-6 text-lg md:text-4xl font-bold text-gray-800">
+              {t("doAlone")}
+            </h3>
+            <p className="text-sm md:text-lg mb-6 md:mx-10 ">
+              {t("doAlonet1")} <strong>{t("doAlonet2")}</strong>{" "}
+              {t("doAlonet3")} <strong>{t("doAlonet4")}</strong>{" "}
+              {t("doAlonet5")} <strong>{t("doAlonet6")}</strong>.
+            </p>
+            <span className="text-sm md:text-md font-bold underline text-[#5022c3] hover:text-purple-950 decoration-purple-800 decoration-1 underline-offset-4">
+              {t("doAlonet7")}
+            </span>
+          </div>
         </div>
 
         <Image
@@ -160,14 +164,12 @@ const Page = () => {
 
       <div className="bg-[#f7f9fa]">
         <div className="flex flex-col justify-center items-center px-[2.4rem] py-[6rem] text-gray-800 text-center ">
-          <h2 className="font-bold md:text-4xl text-2xl mb-4">
-            Become an instructor today
-          </h2>
+          <h2 className="font-bold md:text-4xl text-2xl mb-4">{t("become")}</h2>
           <p className="text-[12px] md:text-2xl  mb-1 md:w-[580px] text-gray-700">
-            Join one of the world’s largest online learning marketplaces.
+            {t("join")}
           </p>
           <button className="py-4 px-6 mt-5 w-[350px] bg-[#2D2F31] text-white text-sm font-extrabold hover:bg-gray-700">
-            Get started
+            {t("bannerButton")}
           </button>
         </div>
       </div>

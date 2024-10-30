@@ -1,5 +1,8 @@
 "use client";
+
+import { useTranslations } from "next-intl";
 import Image from "next/image";
+import { useParams } from "next/navigation";
 import React, { useState } from "react";
 import { BiSolidErrorAlt } from "react-icons/bi";
 import { MdError } from "react-icons/md";
@@ -17,30 +20,36 @@ const Page = () => {
     setEmailError("");
     setPasswordError("");
 
-
     if (!email.includes("@gmail.com") || email.trim() === "") {
-      setEmailError("Please include an '@' in the email address and ensure it is not empty.");
+      setEmailError(
+        "Please include an '@' in the email address and ensure it is not empty."
+      );
       return;
     }
 
     if (password.trim().length < 6) {
-      setPasswordError("Please lengthen this text to at least 6 characters or more.");
+      setPasswordError(
+        "Please lengthen this text to at least 6 characters or more."
+      );
       return;
     }
 
     try {
-      const response = await fetch('https://udemy-eosin-eight.vercel.app/auth/signin', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
+      const response = await fetch(
+        "https://udemy-eosin-eight.vercel.app/auth/signin",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
+        }
+      );
 
       const data = await response.json();
 
       if (response.ok) {
-        localStorage.setItem('token', data.token);
+        localStorage.setItem("token", data.token);
         window.location.href = "/";
         setEmail("");
         setPassword("");
@@ -60,6 +69,9 @@ const Page = () => {
     setPassword(e.target.value);
     if (passwordError) setPasswordError("");
   };
+
+  const t = useTranslations("Login");
+  const { locale } = useParams();
 
   return (
     <>
@@ -85,9 +97,14 @@ const Page = () => {
           <div className="flex justify-center items-center mt-12">
             <div className="text-center w-full lg:w-[65%]">
               <h1 className="text-3xl font-bold mb-6 text-gray-950">
-                Log in to your Udemy account
+                {t("title")}
               </h1>
-              {generalError && <div className="bg-[#fcbca0] p-4 text-start mb-4"><BiSolidErrorAlt className="inline mr-2 text-2xl text-black-500" />{generalError}</div>}
+              {generalError && (
+                <div className="bg-[#fcbca0] p-4 text-start mb-4">
+                  <BiSolidErrorAlt className="inline mr-2 text-2xl text-black-500" />
+                  {generalError}
+                </div>
+              )}
               <form onSubmit={handleLogin}>
                 <div className="relative">
                   <input
@@ -101,10 +118,15 @@ const Page = () => {
                     htmlFor="email"
                     className="absolute text-sm font-bold text-black-500 duration-300 transform -translate-y-4 scale-75 top-5 z-10 origin-[0] start-4 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
                   >
-                    Email
+                    {t("email")}
                   </label>
                 </div>
-                {emailError && <div className="text-black-500 mt-2 border border-gray-500 p-2 absolute rounded z-20 w-auto text-center bg-white"><MdError className="inline text-2xl mr-2 text-orange-500" />{emailError}</div>}
+                {emailError && (
+                  <div className="text-black-500 mt-2 border border-gray-500 p-2 absolute rounded z-20 w-auto text-center bg-white">
+                    <MdError className="inline text-2xl mr-2 text-orange-500" />
+                    {emailError}
+                  </div>
+                )}
                 <div className="relative">
                   <input
                     type="password"
@@ -117,27 +139,35 @@ const Page = () => {
                     htmlFor="password"
                     className="absolute text-sm font-bold text-black-500 duration-300 transform -translate-y-4 scale-75 top-5 z-10 origin-[0] start-4 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
                   >
-                    Password
+                    {t("pass")}
                   </label>
                 </div>
-                {passwordError && <div className="text-black-500 mt-2 border border-gray-500 p-2 absolute rounded z-10 w-auto text-center bg-white"><MdError className="inline text-2xl mr-2 text-orange-500" />{passwordError}</div>}
-                <button type="submit" className="mt-6 w-full bg-purple-500 text-white text-lg font-medium py-3 px-6 hover:bg-purple-800">
-                  Log in
+                {passwordError && (
+                  <div className="text-black-500 mt-2 border border-gray-500 p-2 absolute rounded z-10 w-auto text-center bg-white">
+                    <MdError className="inline text-2xl mr-2 text-orange-500" />
+                    {passwordError}
+                  </div>
+                )}
+                <button
+                  type="submit"
+                  className="mt-6 w-full bg-purple-500 text-white text-lg font-medium py-3 px-6 hover:bg-purple-800"
+                >
+                  {t("login")}
                 </button>
               </form>
               <div className="flex justify-center items-center mt-6">
-                <p>or</p>
+                <p>{t("or")}</p>
                 <a
                   href="/forget-password"
                   className="text-md font-bold underline text-purple-800 hover:text-purple-950 ml-1 decoration-purple-800 decoration-1 underline-offset-4"
                 >
-                  Forgot Password
+                  {t("forget")}
                 </a>
               </div>
               <div className="flex justify-center items-center mt-9 relative">
                 <hr className="w-full" />
                 <h1 className="absolute bg-white px-2 text-sm text-gray-500">
-                  Other log in options
+                  {t("other")}
                 </h1>
               </div>
               <div className="flex justify-center items-center mt-10">
@@ -168,7 +198,7 @@ const Page = () => {
                     ></path>
                   </svg>
                 </button>
-                <button className="border border-black p-2 hover:bg-gray-200 mr-6">
+                <button className="border border-black p-2 hover:bg-gray-200 mx-6">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     x="0px"
@@ -201,12 +231,12 @@ const Page = () => {
                 </button>
               </div>
               <div className="flex justify-center items-center mt-12 bg-slate-50 p-4">
-                <p>Don&apos;t have an account?</p>
+                <p> {t("noAccount")}</p>
                 <a
-                  href="/signup"
+                  href={`/${locale}/signup`}
                   className="text-md font-bold underline text-purple-800 hover:text-purple-950 ml-1 decoration-purple-800 decoration-1 underline-offset-4"
                 >
-                  Sign up
+                  {t("signup")}
                 </a>
               </div>
               <hr className="w-full border-gray-300" />
@@ -215,7 +245,7 @@ const Page = () => {
                   href="#"
                   className="text-md font-bold underline text-purple-800 hover:text-purple-950 ml-1 decoration-purple-800 decoration-1 underline-offset-4"
                 >
-                  Log in with your organization
+                  {t("org")}
                 </a>
               </div>
             </div>
