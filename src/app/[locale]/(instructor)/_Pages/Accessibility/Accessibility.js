@@ -1,5 +1,3 @@
-import React from "react";
-import { IoMdInformationCircle } from "react-icons/io";
 import {
   Accordion,
   AccordionContent,
@@ -7,92 +5,60 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useTranslations } from "next-intl";
+import React from "react";
+import { IoMdInformationCircle } from "react-icons/io";
 
 const Accessibility = () => {
+  const t = useTranslations("Accessibility");
   return (
     <>
       <div className="py-4 px-7 lg:px-10">
         <div className="border border-gray-300 my-10 p-4 flex lg:gap-5">
           <IoMdInformationCircle className="text-4xl text-gray-800 w-full  md:w-[20%] lg:w-[10%]" />
           <div className=" px-4">
-            <h2 className="font-bold">Create accessible learning content</h2>
+            <h2 className="font-bold">
+              {t("create_accessible_learning_content")}
+            </h2>
+            <p className="mb-2">{t("accessibility_description")}</p>
+            <p className="mb-2">{t("broaden_reach")}</p>
             <p className=" mb-2">
-              Accessibility provides a person with a disability access to — and
-              benefits of — the same information, interactions, and services as
-              a person without a disability in a way that’s sensible,
-              meaningful, and usable. In short, it’s the inclusive practice of
-              ensuring there are no barriers to learning for as many people as
-              possible.
-            </p>
-            <p className=" mb-2">
-              Some may think that accessibility is primarily aimed at helping
-              people with physical disabilities, such as those with hearing or
-              vision loss. However, making content accessible to everyone isn’t
-              just the equitable thing to do, it also helps to broaden your
-              reach so that more learners can benefit from your courses.
-            </p>
-            <p className=" mb-2">
-              Learn more about{" "}
+              {t("learn_more")}
               <span className="text-[#5022c3] hover:text-[#3b198f]">
-                creating accessible content
+                {t("creating_accessible")}
               </span>{" "}
-              in Udemy’s Teaching Center.
+              {t("teaching_center")}
             </p>
           </div>
         </div>
-        <div >
+        <div>
           <h2 className="font-bold text-2xl text-gray-800">
-            Accessibility checklists
+            {t("accessibility_checklists")}
           </h2>
-          <p className="my-2">
-            To help you create accessible course content, we’ve provided
-            Instructors with recommendations and best practices to consider
-            while creating new courses or updating existing content. Please
-            review these accessibility recommendations and checklists to
-            indicate whether your course meets the guidelines.
-          </p>
-          <p className="my-2">
-            Note: while these accessibility guidelines are strongly recommended,
-            they are not a requirement prior to publishing your course. Though
-            content that does meet these accessibility guidelines may benefit
-            from a greater number of learners who could take your course.
-          </p>
+          <p className="my-2">{t("checklist_description")}</p>
+          <p className="my-2">{t("guidelines_note")}</p>
         </div>
         <div className="my-10 text-xs">
           <div className="border-t">
             <Accordion type="single" collapsible>
               <AccordionItem value="item-1">
                 <AccordionTrigger className="text-left">
-                  Close captions accessibility checklists
+                  {t("close_captions_accessibility_checklists")}
                 </AccordionTrigger>
                 <AccordionContent>
                   <ul className="list-disc text-base pl-5">
-                    <li className="my-2">
-                      All auto-generated captions should be reviewed to check
-                      for accuracy. Captions must meet a 99% rate of accuracy.
-                    </li>
-                    <li className="my-2">
-                      Any relevant sound effects pertinent to the course must be
-                      noted in the captions, example: (Beeps).
-                    </li>
-                    <li className="my-2">
-                      Any non-speech elements such as music are captured in the
-                      captions, example: (Jazzy music).
-                    </li>
-                    <li className="my-2">
-                      Verbal delivery style indicators are captured in the
-                      captions, example: (Exclaims).
-                    </li>
-                    <li className="my-2">
-                      Captions identify speakers on and off camera.
-                    </li>
+                    <li className="my-2">{t("caption_accuracy")}</li>
+                    <li className="my-2">{t("sound_effects")}</li>
+                    <li className="my-2">{t("non_speech_elements")}</li>
+                    <li className="my-2">{t("verbal_delivery_indicators")}</li>
+                    <li className="my-2">{t("identify_speakers")}</li>
                   </ul>
                   <p className="text-base mt-4">
-                    Learn more about providing{" "}
+                    {t("learnMoreAboutProviding")}
                     <span className="text-[#5022c3] hover:text-[#3b198f]">
-                      accessible closed captions
+                      {t("accessibleClosedCaptions")}
                     </span>{" "}
-                    in the Udemy Teaching Center.
+                    {t("udemyTeachingCenter")}
                   </p>
                 </AccordionContent>
               </AccordionItem>
@@ -104,7 +70,7 @@ const Accessibility = () => {
               htmlFor="terms1"
               className="font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
             >
-              Captions in this course meet these guidelines
+              {t("captionsGuidelines")}
             </label>
           </div>
         </div>
@@ -113,41 +79,23 @@ const Accessibility = () => {
             <Accordion type="single" collapsible>
               <AccordionItem value="item-1">
                 <AccordionTrigger className="text-left">
-                  Audio content accessibility checklist
+                  {t("audioContentChecklist")}
                 </AccordionTrigger>
                 <AccordionContent>
                   <ul className="list-disc text-base pl-5">
-                    <li className="my-2">
-                      Audio can stand on its own, like an audiobook.
-                    </li>
-                    <li className="my-2">
-                      Visual content (when not just for decoration) is
-                      explained.
-                    </li>
-                    <li className="my-2">
-                      Interactions shown on screen are fully explained, without
-                      skipping steps.
-                    </li>
-                    <li className="my-2">
-                      Spoken content uses plain language, at a measured (not too
-                      quick) pace.
-                    </li>
-                    <li className="my-2">
-                      Figures of speech, idioms, jargon, or slang are avoided,
-                      and unfamiliar terms or acronyms are defined.
-                    </li>
-                    <li className="my-2">
-                      Captions for all spoken content have been reviewed for
-                      accuracy - especially proper names, acronyms,
-                      abbreviations, and technical terms.
-                    </li>
+                    <li className="my-2">{t("audioCanStandAlone")}</li>
+                    <li className="my-2">{t("visualContentExplained")}</li>
+                    <li className="my-2">{t("interactionsExplained")}</li>
+                    <li className="my-2">{t("spokenContentPlainLanguage")}</li>
+                    <li className="my-2">{t("avoidFiguresOfSpeech")}</li>
+                    <li className="my-2">{t("captionsReviewedForAccuracy")}</li>
                   </ul>
                   <p className="mt-4">
-                    Learn more about{" "}
+                    {t("learn_more")}
                     <span className="text-[#5022c3] hover:text-[#3b198f]">
-                      accessible audio content
+                      {t("accessibleAudioContent")}
                     </span>{" "}
-                    in the Udemy Teaching Center.
+                    {t("teaching_center")}
                   </p>
                 </AccordionContent>
               </AccordionItem>
@@ -168,39 +116,25 @@ const Accessibility = () => {
             <Accordion type="single" collapsible>
               <AccordionItem value="item-1">
                 <AccordionTrigger className="text-left">
-                  Course materials accessibility checklist
+                  {t("courseMaterialsAccessibilityChecklist")}
                 </AccordionTrigger>
                 <AccordionContent>
                   <ul className="list-disc text-base pl-5">
+                    <li className="my-2">{t("tableOfContentsProvided")}</li>
+                    <li className="my-2">{t("semanticMarkupApplied")}</li>
                     <li className="my-2">
-                      A table of contents for long documents and a glossary of
-                      terms are provided.
+                      {t("contentOrganizedShortParagraphs")}
                     </li>
-                    <li className="my-2">
-                      Semantic markup for headings, bulleted lists, or numbered
-                      lists has been applied to all documents.
-                    </li>
-                    <li className="my-2">
-                      Content is organized in short paragraphs and/or simple
-                      tables.
-                    </li>
-                    <li className="my-2">
-                      Links to external resources use descriptive language.
-                    </li>
-                    <li className="my-2">
-                      Alternative text is provided for all images in documents
-                      or slide presentations.
-                    </li>
-                    <li className="my-2">
-                      Strong color contrast has been used for text and images.
-                    </li>
+                    <li className="my-2">{t("descriptiveLinks")}</li>
+                    <li className="my-2">{t("alternativeTextProvided")}</li>
+                    <li className="my-2">{t("strongColorContrast")}</li>
                   </ul>
                   <p className="text-base mt-4">
-                    Learn more about{" "}
+                    {t("learn_more")}
                     <span className="text-[#5022c3] hover:text-[#3b198f]">
-                      accessible course materials
+                      {t("accessibleCourseMaterials")}
                     </span>{" "}
-                    in the Udemy Teaching Center.
+                    {t("teaching_center")}
                   </p>
                 </AccordionContent>
               </AccordionItem>
@@ -212,32 +146,32 @@ const Accessibility = () => {
               htmlFor="terms1"
               className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
             >
-              Materials attached to this course meet these guidelines
+              {t("materialsMeetGuidelines")}
             </label>
           </div>
         </div>
         <div>
           <h2 className="font-bold text-2xl text-gray-800">
-            Accessibility resources
+            {t("accessibilityResources")}
           </h2>
           <div className=" text-[#5022c3]">
             <p className="my-2 cursor-pointer hover:text-[#3b198f]">
-              Creating accessible learning content
+              {t("creatingAccessibleLearningContent")}
             </p>
             <p className="my-2 cursor-pointer hover:text-[#3b198f]">
-              Audio content for accessible learning
+              {t("audioContentForAccessibleLearning")}
             </p>
             <p className="my-2 cursor-pointer hover:text-[#3b198f]">
-              Visual content for accessible learning
+              {t("visualContentForAccessibleLearning")}
             </p>
             <p className="my-2 cursor-pointer hover:text-[#3b198f]">
-              Planning your course accessibility considerations
+              {t("planningCourseAccessibility")}
             </p>
             <p className="my-2 cursor-pointer hover:text-[#3b198f]">
-              Creating accessible resource documents
+              {t("creatingAccessibleResourceDocs")}
             </p>
             <p className="my-2 cursor-pointer hover:text-[#3b198f]">
-              Marking your course as accessible
+              {t("markingCourseAsAccessible")}
             </p>
           </div>
         </div>
