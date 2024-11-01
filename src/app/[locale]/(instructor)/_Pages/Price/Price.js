@@ -1,16 +1,22 @@
 "use client";
+
 import axios from "axios";
+import { useTranslations } from "next-intl";
 import React, { useState } from "react";
 
 const Price = ({ id, price }) => {
+  const t = useTranslations("Price");
   const [priceTier, setPriceTier] = useState(price || "");
   const [priceModified, setPriceModified] = useState(false);
 
   const handleAddPrice = async () => {
     if (priceTier) {
-      const response = await axios.patch(`${process.env.NEXT_PUBLIC_LOCAL_API}/course/${id}`, {
-        price: priceTier,
-      });
+      const response = await axios.patch(
+        `${process.env.NEXT_PUBLIC_LOCAL_API}/course/${id}`,
+        {
+          price: priceTier,
+        }
+      );
       setPriceModified(false);
     }
   };
@@ -24,12 +30,12 @@ const Price = ({ id, price }) => {
     <>
       <div className="py-9 px-7 lg:px-12">
         <div className="my-5">
-          <h2 className="font-bold text-base">Set a price for your course</h2>
+          <h2 className="font-bold text-base">
+            {" "}
+            {t("set_a_price_for_your_course")}
+          </h2>
           <p className="w-[90%] lg:w-[70%]">
-            Please select the currency and the price tier for your course. If
-            you’d like to offer your course for free, it must have a total video
-            length of less than 2 hours. Also, courses with practice tests can
-            not be free.
+            {t("please_select_currency_and_price_tier")}
           </p>
         </div>
         {/* Add Price Form */}
@@ -44,23 +50,23 @@ const Price = ({ id, price }) => {
               </div>
             </div>
             <div>
-              <h3 className="font-bold text-base">Price tier</h3>
+              <h3 className="font-bold text-base">{t("price_tier")} </h3>
               <div className="relative">
                 <select
                   className="border border-black w-40 py-3 flex justify-between outline-none"
                   value={priceTier}
                   onChange={handlePriceChange}
                 >
-                  <option value="">Select</option>
-                  <option value="0">Free</option>
-                  <option value="19.99">$19.99 (tire 1)</option>
-                  <option value="22.99">$22.99 (tire 2)</option>
-                  <option value="24.99">$24.99 (tire 3)</option>
-                  <option value="27.99">$27.99 (tire 4)</option>
-                  <option value="29.99">$29.99 (tire 5)</option>
-                  <option value="34.99">$34.99 (tire 6)</option>
-                  <option value="39.99">$39.99 (tire 7)</option>
-                  <option value="44.99">$44.99 (tire 8)</option>
+                  <option value="">{t("select")}</option>
+                  <option value="0">{t("free")}</option>
+                  <option value="19.99">{t("tier1")}</option>
+                  <option value="22.99">{t("tier2")}</option>
+                  <option value="24.99">{t("tier3")}</option>
+                  <option value="27.99">{t("tier4")}</option>
+                  <option value="29.99">{t("tier5")}</option>
+                  <option value="34.99">{t("tier6")}</option>
+                  <option value="39.99">{t("tier7")}</option>
+                  <option value="44.99">{t("tier8")}</option>
                 </select>
               </div>
             </div>
@@ -74,7 +80,7 @@ const Price = ({ id, price }) => {
           onClick={handleAddPrice}
           disabled={!priceTier}
         >
-          Save
+          {t("save")}
         </button>
       </div>
     </>

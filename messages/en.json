@@ -354,7 +354,6 @@
         "promotions": "Promotions",
         "course_messages": "Course messages"
     },
-
     "CreateCourse": {
         "dismiss": "Dismiss",
         "busy_now": "I’m very busy right now (0-2 hours)",
@@ -517,12 +516,13 @@
         "question": "Question",
         "curriculumItem": "Curriculum item",
         "lecture": "Lecture",
-        "section": "Section",
+        "section": "Section"
+    },
+    "FilmnEdit": {
         "readyToShareKnowledge": "You’re ready to share your knowledge.",
         "thisIsYourMoment": "This is your moment! If you’ve structured your course and used our guides, you’re well prepared for the actual shoot. Pace yourself, take time to make it just right, and fine-tune when you edit.",
         "youAreInGoodCompany": "You’re in good company.",
         "chatAndGetProductionHelp": "Chat and get production help with other Udemy instructors.",
-
         "joinTheCommunity": "Join the community",
         "tips": "Tips",
         "take_breaks_review": "Take breaks and review frequently.",
@@ -548,5 +548,21 @@
         "filmAndEditWithConfidence": "Film and edit with confidence",
         "udemyTrustAndSafety": "Udemy trust & safety",
         "ourPoliciesForInstructorsAndStudents": "Our policies for instructors and students"
+    },
+    "Price": {
+        "set_a_price_for_your_course": "Set a price for your course",
+        "please_select_currency_and_price_tier": "Please select the currency and the price tier for your course. If you’d like to offer your course for free, it must have a total video length of less than 2 hours. Also, courses with practice tests cannot be free.",
+        "price_tier": "Price tier",
+        "select": "Select",
+        "free": "Free",
+        "tier1": "$19.99 (tier 1)",
+        "tier2": "$22.99 (tier 2)",
+        "tier3": "$24.99 (tier 3)",
+        "tier4": "$27.99 (tier 4)",
+        "tier5": "$29.99 (tier 5)",
+        "tier6": "$34.99 (tier 6)",
+        "tier7": "$39.99 (tier 7)",
+        "tier8": "$44.99 (tier 8)",
+        "save": "Save"
     }
 }
