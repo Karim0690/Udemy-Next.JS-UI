@@ -505,5 +505,48 @@
         "planningCourseAccessibility": "Planning your course accessibility considerations",
         "creatingAccessibleResourceDocs": "Creating accessible resource documents",
         "markingCourseAsAccessible": "Marking your course as accessible"
+    },
+    "Curriculum": {
+        "start_putting_together_your_course": "Start putting together your course by creating sections, lectures, and practice (quizzes, coding exercises, and assignments).",
+        "use_your": "Use your",
+
+        "course_outline": "course outline",
+
+        "structure_content": "to structure your content and label your sections and lectures clearly. If you’re intending to offer your course for free, the total length of video content must be less than 2 hours.",
+        "content": "Content",
+        "question": "Question",
+        "curriculumItem": "Curriculum item",
+        "lecture": "Lecture",
+        "section": "Section",
+        "readyToShareKnowledge": "You’re ready to share your knowledge.",
+        "thisIsYourMoment": "This is your moment! If you’ve structured your course and used our guides, you’re well prepared for the actual shoot. Pace yourself, take time to make it just right, and fine-tune when you edit.",
+        "youAreInGoodCompany": "You’re in good company.",
+        "chatAndGetProductionHelp": "Chat and get production help with other Udemy instructors.",
+
+        "joinTheCommunity": "Join the community",
+        "tips": "Tips",
+        "take_breaks_review": "Take breaks and review frequently.",
+        "check_for_changes": "Check often for any changes such as new noises. Be aware of your own energy levels--filming can tire you out and that translates to the screen.",
+        "build_rapport": "Build rapport.",
+        "students_want_to_know": "Students want to know who’s teaching them. Even for a course that is mostly screencasts, film yourself for your introduction. Or go the extra mile and film yourself introducing each section!",
+        "being_on_camera": "Being on camera takes practice.",
+        "make_eye_contact": "Make eye contact with the camera and speak clearly. Do as many retakes as you need to get it right.",
+        "set_up_for_editing_success": "Set yourself up for editing success.",
+        "edit_out_unwanted_parts": "You can edit out long pauses, mistakes, and ums or ahs. Film a few extra activities or images that you can add in later to cover those cuts.",
+        "create_audio_marks": "Create audio marks.",
+        "clap_for_audio_spike": "Clap when you start each take to easily locate the audio spike during editing. Use our guides to manage your recording day efficiently.",
+        "for_screencasts_clean_up": "For screencasts, clean up.",
+        "clean_up_screencasts": "Move unrelated files and folders off your desktop and open any tabs in advance. Make on-screen text at least 24pt and use zooming to highlight.",
+        "requirements": "Requirements",
+        "film_hd": "Film and export in HD to create videos of at least 720p, or 1080p if possible",
+        "audio_channels": "Audio should come out of both the left and right channels and be synced to your video",
+        "audio_quality": "Audio should be free of echo and background noise so as not to be distracting to students",
+        "resources": "Resources",
+        "createTestVideo": "Create a test video",
+        "getFeedbackBeforeFilming": "Get feedback before filming your whole course",
+        "teachingCenterGuideToQualityAV": "Teaching Center: Guide to quality A/V",
+        "filmAndEditWithConfidence": "Film and edit with confidence",
+        "udemyTrustAndSafety": "Udemy trust & safety",
+        "ourPoliciesForInstructorsAndStudents": "Our policies for instructors and students"
     }
 }

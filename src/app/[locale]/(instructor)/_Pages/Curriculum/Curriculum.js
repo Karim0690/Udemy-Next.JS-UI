@@ -1,29 +1,31 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { MdOutlineInsertDriveFile } from "react-icons/md";
-import { FaPen, FaPlayCircle, FaTrash } from "react-icons/fa";
-import { IoIosMenu, IoIosCheckmarkCircle } from "react-icons/io";
-import { FaPlus } from "react-icons/fa6";
-import ExpandedSection from "../../_components/ExpandedSection/ExpandedSection";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { GoQuestion } from "react-icons/go";
-import NewSectionForm from "../../_components/NewSectionForm/NewSectionForm";
-import EditItemForm from "../../_components/EditItemForm/EditItemForm";
-import NewLectureForm from "../../_components/NewLectureForm/NewLectureForm";
-import NewQuizForm from "../../_components/NewQuizForm/NewQuizForm";
+
 import AddContentForm from "../../_components/AddContentForm/AddContentForm";
 import AddQuestionForm from "../../_components/AddQuestionForm/AddQuestionForm";
-import axios from "axios";
-import { useParams } from "next/navigation";
-import { Spinner } from "@material-tailwind/react";
-import { IoChevronDown } from "react-icons/io5";
+import EditItemForm from "../../_components/EditItemForm/EditItemForm";
+import ExpandedSection from "../../_components/ExpandedSection/ExpandedSection";
 import LectureContentExpanded from "../../_components/LectureContentExpanded/LectureContentExpanded";
+import NewLectureForm from "../../_components/NewLectureForm/NewLectureForm";
+import NewQuizForm from "../../_components/NewQuizForm/NewQuizForm";
+import NewSectionForm from "../../_components/NewSectionForm/NewSectionForm";
 import QuizContentExpanded from "../../_components/QuizContentExpanded/QuizContentExpanded";
 import useCourseStore from "@/app/store/courseStore";
+import { Spinner } from "@material-tailwind/react";
+import axios from "axios";
+import { useTranslations } from "next-intl";
+import { useParams } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { FaPen, FaPlayCircle, FaTrash } from "react-icons/fa";
+import { FaPlus } from "react-icons/fa6";
+import { GoQuestion } from "react-icons/go";
+import { IoIosMenu, IoIosCheckmarkCircle } from "react-icons/io";
+import { IoChevronDown } from "react-icons/io5";
+import { MdOutlineInsertDriveFile } from "react-icons/md";
 
 const Curriculum = () => {
   const params = useParams();
-
+  const t = useTranslations("Curriculum");
   const [isFormVisible, setFormVisible] = useState(false);
   const [addContent, setAddContent] = useState(null);
   const [addQuestion, setAddQuestion] = useState(null);
@@ -253,18 +255,13 @@ const Curriculum = () => {
   return (
     <div className="py-4 px-7 lg:px-10">
       <div>
-        <p className="my-2">
-          Start putting together your course by creating sections, lectures, and
-          practice (quizzes, coding exercises, and assignments).
-        </p>
+        <p className="my-2">{t("start_putting_together_your_course")}</p>
         <p>
-          Use your{" "}
+          {t("use_your")}
           <span className="text-[#5022c3] underline underline-offset-4 cursor-pointer hover:text-[#3b198f]">
-            course outline
+            {t("course_outline")}
           </span>{" "}
-          to structure your content and label your sections and lectures
-          clearly. If you’re intending to offer your course for free, the total
-          length of video content must be less than 2 hours.
+          {t("structure_content")}
         </p>
       </div>
 
@@ -440,7 +437,7 @@ const Curriculum = () => {
                                                             }
                                                           >
                                                             <FaPlus className="text-sm" />
-                                                            Content
+                                                            {t("content")}
                                                           </button>
                                                         </>
                                                       )}
@@ -461,7 +458,7 @@ const Curriculum = () => {
                                                           }}
                                                         >
                                                           <FaPlus className="text-sm" />{" "}
-                                                          Question
+                                                          {t("question")}
                                                         </button>
                                                       </>
                                                     ) : (
@@ -624,7 +621,7 @@ const Curriculum = () => {
                                               : "opacity-100"
                                           }`}
                                         >
-                                          Curriculum item
+                                          {t("curriculumItem")}
                                         </span>
                                       </button>
 
@@ -643,7 +640,7 @@ const Curriculum = () => {
                                             >
                                               <FaPlus />
                                               <p className="font-bold">
-                                                Lecture
+                                                {t("lecture")}
                                               </p>
                                             </button>
 
@@ -713,7 +710,7 @@ const Curriculum = () => {
                   isFormVisible ? "opacity-0 hidden" : "opacity-100"
                 }`}
               >
-                Section
+                {t("section")}
               </span>
             </button>
           </div>

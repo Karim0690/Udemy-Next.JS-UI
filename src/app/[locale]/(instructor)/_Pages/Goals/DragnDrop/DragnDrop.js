@@ -1,9 +1,10 @@
 "use client";
+
 import React, { useState, useEffect } from "react";
-import { HiOutlinePlus } from "react-icons/hi";
-import { FaTrash } from "react-icons/fa";
-import { IoMdMenu } from "react-icons/io";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import { FaTrash } from "react-icons/fa";
+import { HiOutlinePlus } from "react-icons/hi";
+import { IoMdMenu } from "react-icons/io";
 
 const DragnDrop = ({ course, formData, setFormData }) => {
   const [inputs, setInputs] = useState(
