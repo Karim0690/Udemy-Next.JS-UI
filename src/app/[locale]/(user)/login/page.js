@@ -1,8 +1,10 @@
 "use client";
 
+import useAuthStore from "@/app/store/AuthStore";
+import { signIn } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
-import { useParams } from "next/navigation";
+import { redirect, useParams, useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { BiSolidErrorAlt } from "react-icons/bi";
 import { MdError } from "react-icons/md";
@@ -13,6 +15,8 @@ const Page = () => {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [generalError, setGeneralError] = useState("");
+  const router = useRouter();
+  const { setUser } = useAuthStore();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -20,10 +24,8 @@ const Page = () => {
     setEmailError("");
     setPasswordError("");
 
-    if (!email.includes("@gmail.com") || email.trim() === "") {
-      setEmailError(
-        "Please include an '@' in the email address and ensure it is not empty."
-      );
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setEmailError("Please enter a valid email address.");
       return;
     }
 
@@ -34,32 +36,42 @@ const Page = () => {
       return;
     }
 
-    try {
-      const response = await fetch(
-        "https://udemy-eosin-eight.vercel.app/auth/signin",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email, password }),
-        }
-      );
-
-      const data = await response.json();
-
-      if (response.ok) {
-        localStorage.setItem("token", data.token);
-        window.location.href = "/";
-        setEmail("");
-        setPassword("");
-      }
-      if (!response.ok) {
-        setGeneralError(data.message);
-      }
-    } catch (err) {
-      setGeneralError(err.message);
+    const res = await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+    });
+    if (res?.error) {
+      setGeneralError(res.error);
+    } else {
+      router.push("/");
     }
+    // try {
+    //   const response = await fetch(
+    //     "https://udemy-eosin-eight.vercel.app/auth/signin",
+    //     {
+    //       method: "POST",
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //       body: JSON.stringify({ email, password }),
+    //     }
+    //   );
+
+    //   const data = await response.json();
+
+    //   if (response.ok) {
+    //     localStorage.setItem("token", data.token);
+    //     window.location.href = "/";
+    //     setEmail("");
+    //     setPassword("");
+    //   }
+    //   if (!response.ok) {
+    //     setGeneralError(data.message);
+    //   }
+    // } catch (err) {
+    //   setGeneralError(err.message);
+    // }
   };
   const handleEmailChange = (e) => {
     setEmail(e.target.value);

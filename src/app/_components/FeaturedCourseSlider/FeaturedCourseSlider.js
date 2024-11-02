@@ -1,87 +1,64 @@
+"use client";
+
 import StarRating from "@/app/_components/RatingStars/RatingStars";
 import Image from "next/image";
-import React, { Component } from "react";
-import Slider from "react-slick";
+import React, { Component, useRef, useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-function SampleNextArrow(props) {
-  const { className, style, onClick } = props;
-  return (
-    <div
-      className={`${className} custom-next-arrow`}
-      style={{
-        ...style,
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        right: "-30px",
-        backgroundColor: "#252525",
-        position: "absolute",
-        zIndex: "10",
-        width: "50px",
-        height: "50px",
-        borderRadius: "50%",
-      }}
-      onClick={onClick}
-    >
-      <FaChevronRight style={{ color: "white", fontSize: "16px" }} />
-    </div>
-  );
-}
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import { useParams } from "next/navigation";
+import { Navigation, Autoplay } from "swiper/modules";
 
-function SamplePrevArrow(props) {
-  const { className, style, onClick } = props;
-  return (
-    <div
-      className={`${className} custom-prev-arrow`}
-      style={{
-        ...style,
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        left: "-30px",
-        backgroundColor: "#252525",
-        position: "absolute",
-        zIndex: "10",
-        width: "50px",
-        height: "50px",
-        borderRadius: "50%",
-      }}
-      onClick={onClick}
-    >
-      <FaChevronLeft style={{ color: "white", fontSize: "16px" }} />
-    </div>
-  );
-}
+const SampleNextArrow = ({ onClick, isHidden }) => (
+  <div
+    className={`custom-next-arrow ${isHidden ? "hidden" : "hidden lg:flex"}`}
+    style={{
+      // display: isHidden ? "none" : "none lg:flex",
+      justifyContent: "center",
+      alignItems: "center",
+      top: "130px",
+      right: "-10px",
+      backgroundColor: "#252525",
+      position: "absolute",
+      zIndex: "10",
+      width: "50px",
+      height: "50px",
+      borderRadius: "50%",
+    }}
+    onClick={onClick}
+  >
+    <FaChevronRight style={{ color: "white", fontSize: "16px" }} />
+  </div>
+);
+
+// Custom Previous Arrow
+const SamplePrevArrow = ({ onClick, isHidden }) => (
+  <div
+    className={`custom-prev-arrow ${isHidden ? "hidden" : "hidden lg:flex"}`}
+    style={{
+      // display: isHidden ? "none" : "none lg:flex",
+      justifyContent: "center",
+      alignItems: "center",
+      top: "130px",
+      left: "-30px",
+      backgroundColor: "#252525",
+      position: "absolute",
+      zIndex: "10",
+      width: "50px",
+      height: "50px",
+      borderRadius: "50%",
+    }}
+    onClick={onClick}
+  >
+    <FaChevronLeft style={{ color: "white", fontSize: "16px" }} />
+  </div>
+);
 
 const FeaturedCourseSlider = () => {
-  var settings = {
-    infinite: true,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    nextArrow: <SampleNextArrow />,
-    prevArrow: <SamplePrevArrow />,
-    autoplay: true,
-    autoplaySpeed: 5000,
-    pauseOnHover: true,
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          arrows: false,
-          autoplay: false,
-        },
-      },
-      {
-        breakpoint: 600, 
-        settings: {
-          arrows: false,
-        },
-      },
-    ],
-  };
-
+  const swiperRef = useRef(null);
+  const [isBeginning, setIsBeginning] = useState(true);
+  const [isEnd, setIsEnd] = useState(false);
+  const { locale } = useParams();
   const courses = [
     {
       title: "Learn Generative AI in Software Testing",
@@ -128,69 +105,108 @@ const FeaturedCourseSlider = () => {
     },
   ];
   return (
-    <>
-      <Slider {...settings} className="flex">
+    <div className="relative">
+      <SamplePrevArrow
+        onClick={() => {
+          if (locale === "ar") {
+            if (swiperRef.current) swiperRef.current.slideNext();
+          } else {
+            if (swiperRef.current) swiperRef.current.slidePrev();
+          }
+        }}
+        isHidden={locale === "ar" ? isEnd : isBeginning} // Update isHidden based on locale
+      />
+      <SampleNextArrow
+        onClick={() => {
+          if (locale === "ar") {
+            if (swiperRef.current) swiperRef.current.slidePrev();
+          } else {
+            if (swiperRef.current) swiperRef.current.slideNext();
+          }
+        }}
+        isHidden={locale === "ar" ? isBeginning : isEnd} // Update isHidden based on locale
+      />
+      <Swiper
+        ref={swiperRef}
+        slidesPerView={1}
+        className="mx-auto bg-gray-100"
+        modules={[Navigation, Autoplay]}
+        onSwiper={(swiper) => {
+          swiperRef.current = swiper;
+        }}
+        onSlideChange={({ isBeginning, isEnd }) => {
+          setIsBeginning(isBeginning);
+          setIsEnd(isEnd);
+        }}
+        autoplay={{
+          delay: 3000,
+          disableOnInteraction: true,
+        }}
+      >
         {courses.map((course, index) => (
-          <div key={index + 1} className="flex p-6 justify-start">
-            <div className="flex">
-              <div className="w-1/2 lg:w-[40%] lg:mr-10">
-                <Image
-                  src={course.image}
-                  width={480}
-                  height={270}
-                  alt={course.title}
-                  className="mr-10"
-                />
-              </div>
-              <div className="w-[50%] flex ml-5 lg:ml-0">
-                <div className="flex flex-col lg:justify-between">
-                  <div>
-                    <h1 className="font-bold text-lg lg:text-2xl">
-                      {course.title}
-                    </h1>
-                    <p className="text-sm lg:text-base text-gray-700 mb-1">
-                      {course.description}
-                    </p>
-                    <p className="text-xs text-gray-500 mb-1">
-                      By {course.instructor}
-                    </p>
-                    <div className="flex flex-wrap gap-1">
-                      <div className="text-xs text-green-800">
-                        Updated <strong>{course.updated}</strong>
+          <SwiperSlide key={index}>
+            <div className="flex p-6 justify-start">
+              <div className="flex gap-5">
+                <div className="w-1/2 lg:w-[40%] lg:mr-10">
+                  <Image
+                    src={course.image}
+                    width={480}
+                    height={270}
+                    alt={course.title}
+                    className="mr-10"
+                  />
+                </div>
+                <div className="w-[50%] flex ml-5 lg:ml-0">
+                  <div className="flex flex-col lg:justify-between">
+                    <div>
+                      <h1 className="font-bold text-lg lg:text-2xl">
+                        {course.title}
+                      </h1>
+                      <p className="text-sm lg:text-base text-gray-700 mb-1">
+                        {course.description}
+                      </p>
+                      <p className="text-xs text-gray-500 mb-1">
+                        By {course.instructor}
+                      </p>
+                      <div className="flex flex-wrap gap-1">
+                        <div className="text-xs text-green-800">
+                          Updated <strong>{course.updated}</strong>
+                        </div>
+                        <div className="lg:ml-2 text-xs text-gray-500">
+                          <p>
+                            {course.duration} . {course.lecture} .{" "}
+                            {course.level}
+                          </p>
+                        </div>
                       </div>
-                      <div className="lg:ml-2 text-xs text-gray-500">
-                        <p>
-                          {course.duration} . {course.lecture} . {course.level}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex flex-wrap lg:gap-1 lg:mb-1">
-                      <div className="flex items-center gap-1 lg:gap-2">
-                        <p className="text-sm font-bold text-black">
-                          {course.stars}
-                        </p>
-                        <StarRating rating={course.stars} />
-                        <p className="text-xs text-gray-500">
-                          ({course.persons})
-                        </p>
-                        <div className="bg-[#fcbca0] px-1">
-                          <span className="text-xs font-bold text-[#612012]">
-                            Hot & New
-                          </span>
+                      <div className="flex flex-wrap lg:gap-1 lg:mb-1">
+                        <div className="flex items-center gap-1 lg:gap-2">
+                          <p className="text-sm font-bold text-black">
+                            {course.stars}
+                          </p>
+                          <StarRating rating={course.stars} />
+                          <p className="text-xs text-gray-500">
+                            ({course.persons})
+                          </p>
+                          <div className="bg-[#fcbca0] px-1">
+                            <span className="text-xs font-bold text-[#612012]">
+                              Hot & New
+                            </span>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div className="text-base lg:text-2xl font-bold text-gray-900 ">
-                    E£{course.price}
+                    <div className="text-base lg:text-2xl font-bold text-gray-900 ">
+                      E£{course.price}
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+          </SwiperSlide>
         ))}
-      </Slider>
-    </>
+      </Swiper>
+    </div>
   );
 };
 

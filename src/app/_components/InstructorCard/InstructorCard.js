@@ -5,7 +5,7 @@ import Image from "next/image";
 const InstructorCard = ({ image, name, lable, rating, courses, students }) => {
   return (
     <>
-      <div className="flex border border-gray-100 p-4 w-[305px] h-[160px] hover:bg-slate-50">
+      <div className="flex border border-gray-100 p-4 w-[305px] h-[160px] hover:bg-slate-50 gap-3">
         <div className="w-[30%]">
           <Image
             src={image}
@@ -15,7 +15,7 @@ const InstructorCard = ({ image, name, lable, rating, courses, students }) => {
             className="rounded-full"
           />
         </div>
-        <div className="ml-4 w-full">
+        <div className="w-full">
           <h1 className="font-bold ">{name}</h1>
           <p className="text-gray-800 text-sm">{lable}</p>
           <div className="flex items-center">

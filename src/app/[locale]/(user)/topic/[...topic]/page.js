@@ -4,6 +4,7 @@ import FilterAccordion from "@/app/_components/FilterAccordion/FilterAccordion";
 import FilterSlider from "@/app/_components/FilterSlider/FilterSlider";
 import InstructorSlider from "@/app/_components/InstructorSlider/InstructorSlider";
 import TopicsSlider from "@/app/_components/TopicsSlider/TopicsSlider";
+import { useTranslations } from "next-intl";
 import React from "react";
 import { IoIosInformationCircle } from "react-icons/io";
 import { IoFilterOutline } from "react-icons/io5";
@@ -11,6 +12,7 @@ import { IoFilterOutline } from "react-icons/io5";
 const Page = ({ params }) => {
   let { topic } = params;
   topic = topic ? topic[0] : null;
+  const t = useTranslations("Categories");
 
   return (
     <>
@@ -127,7 +129,7 @@ const Page = ({ params }) => {
         </div>
         <div className="flex mt-2 mb-12">
           <div className="w-[25%] hidden lg:block pt-4">
-            <FilterAccordion />
+            <FilterAccordion t={t} />
           </div>
           <div className="w-full lg:ml-6">
             {Array.from({ length: 16 }, (_, i) => (

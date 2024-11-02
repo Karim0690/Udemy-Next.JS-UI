@@ -1,4 +1,4 @@
-import React from "react";
+import StarRating from "../RatingStars/RatingStars";
 import {
   Accordion,
   AccordionContent,
@@ -6,9 +6,9 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { RadioGroup } from "@/components/ui/radio-group";
-import StarRating from "../RatingStars/RatingStars";
+import React from "react";
 
-const FilterAccordion = () => {
+const FilterAccordion = ({ t }) => {
   return (
     <>
       <Accordion
@@ -17,7 +17,7 @@ const FilterAccordion = () => {
         className="w-full font-sans"
       >
         <AccordionItem value="item-1" className="border-t border-gray-200">
-          <AccordionTrigger>Ratings</AccordionTrigger>
+          <AccordionTrigger>{t("ratings")}</AccordionTrigger>
           <AccordionContent>
             <RadioGroup className="gap-0">
               <div className="flex items-center space-x-2">
@@ -80,84 +80,7 @@ const FilterAccordion = () => {
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="item-2">
-          <AccordionTrigger>Video Duration</AccordionTrigger>
-          <AccordionContent>
-            <div className="flex flex-col">
-              <div className="flex items-center mb-2">
-                <input
-                  type="checkbox"
-                  id="video-duration-0-1"
-                  className="h-4 w-4"
-                />
-                <label
-                  htmlFor="video-duration-0-1"
-                  className="text-sm font-medium leading-none ml-2 cursor-pointer"
-                >
-                  <span className="font-normal">0-1 Hour</span>
-                  <span className="text-sm text-gray-700 ml-1">(892)</span>
-                </label>
-              </div>
-              <div className="flex items-center mb-2">
-                <input
-                  type="checkbox"
-                  id="video-duration-1-3"
-                  className="h-4 w-4"
-                />
-                <label
-                  htmlFor="video-duration-1-3"
-                  className="text-sm font-medium leading-none ml-2 cursor-pointer"
-                >
-                  <span className="font-normal">1-3 Hour</span>
-                  <span className="text-sm text-gray-700 ml-1">(3,331)</span>
-                </label>
-              </div>
-              <div className="flex items-center mb-2">
-                <input
-                  type="checkbox"
-                  id="video-duration-3-6"
-                  className="h-4 w-4"
-                />
-                <label
-                  htmlFor="video-duration-3-6"
-                  className="text-sm font-medium leading-none ml-2 cursor-pointer"
-                >
-                  <span className="font-normal">3-6 Hour</span>
-                  <span className="text-sm text-gray-700 ml-1">(3,126)</span>
-                </label>
-              </div>
-              <div className="flex items-center mb-2">
-                <input
-                  type="checkbox"
-                  id="video-duration-6-17"
-                  className="h-4 w-4"
-                />
-                <label
-                  htmlFor="video-duration-6-17"
-                  className="text-sm font-medium leading-none ml-2 cursor-pointer"
-                >
-                  <span className="font-normal">6-17 Hour</span>
-                  <span className="text-sm text-gray-700 ml-1">(4,745)</span>
-                </label>
-              </div>
-              <div className="flex items-center mb-2">
-                <input
-                  type="checkbox"
-                  id="video-duration-17-plus"
-                  className="h-4 w-4"
-                />
-                <label
-                  htmlFor="video-duration-17-plus"
-                  className="text-sm font-medium leading-none ml-2 cursor-pointer"
-                >
-                  <span className="font-normal">17+ Hour</span>
-                  <span className="text-sm text-gray-700 ml-1">(2,327)</span>
-                </label>
-              </div>
-            </div>
-          </AccordionContent>
-        </AccordionItem>
-        <AccordionItem value="item-3">
-          <AccordionTrigger>Topic</AccordionTrigger>
+          <AccordionTrigger>{t("topics")}</AccordionTrigger>
           <AccordionContent>
             <div className="flex flex-col">
               <div className="flex items-center mb-2">
@@ -217,8 +140,8 @@ const FilterAccordion = () => {
             </div>
           </AccordionContent>
         </AccordionItem>
-        <AccordionItem value="item-4">
-          <AccordionTrigger>Subcategory</AccordionTrigger>
+        <AccordionItem value="item-3">
+          <AccordionTrigger>{t("subcategory")}</AccordionTrigger>
           <AccordionContent>
             <div className="flex flex-col">
               <div className="flex items-center mb-2">
@@ -290,8 +213,8 @@ const FilterAccordion = () => {
             </div>
           </AccordionContent>
         </AccordionItem>
-        <AccordionItem value="item-5">
-          <AccordionTrigger>Level</AccordionTrigger>
+        <AccordionItem value="item-4">
+          <AccordionTrigger>{t("level")}</AccordionTrigger>
           <AccordionContent>
             <div className="flex flex-col">
               <div className="flex items-center mb-2">
@@ -337,65 +260,8 @@ const FilterAccordion = () => {
             </div>
           </AccordionContent>
         </AccordionItem>
-        <AccordionItem value="item-6">
-          <AccordionTrigger>Language</AccordionTrigger>
-          <AccordionContent>
-            <div className="flex flex-col">
-              <div className="flex items-center mb-2">
-                <input type="checkbox" id="en" className="h-4 w-4" />
-                <label
-                  htmlFor="en"
-                  className="text-sm font-medium leading-none ml-2 cursor-pointer"
-                >
-                  <span className="font-normal">English</span>
-                  <span className="text-sm text-gray-700 ml-1">(892)</span>
-                </label>
-              </div>
-              <div className="flex items-center mb-2">
-                <input type="checkbox" id="ar" className="h-4 w-4" />
-                <label
-                  htmlFor="ar"
-                  className="text-sm font-medium leading-none ml-2 cursor-pointer"
-                >
-                  <span className="font-normal">العربية</span>
-                  <span className="text-sm text-gray-700 ml-1">(3,331)</span>
-                </label>
-              </div>
-              <div className="flex items-center mb-2">
-                <input type="checkbox" id="português" className="h-4 w-4" />
-                <label
-                  htmlFor="português"
-                  className="text-sm font-medium leading-none ml-2 cursor-pointer"
-                >
-                  <span className="font-normal">Português</span>
-                  <span className="text-sm text-gray-700 ml-1">(3,126)</span>
-                </label>
-              </div>
-              <div className="flex items-center mb-2">
-                <input type="checkbox" id="es" className="h-4 w-4" />
-                <label
-                  htmlFor="es"
-                  className="text-sm font-medium leading-none ml-2 cursor-pointer"
-                >
-                  <span className="font-normal">Español</span>
-                  <span className="text-sm text-gray-700 ml-1">(4,745)</span>
-                </label>
-              </div>
-              <div className="flex items-center mb-2">
-                <input type="checkbox" id="tr" className="h-4 w-4" />
-                <label
-                  htmlFor="tr"
-                  className="text-sm font-medium leading-none ml-2 cursor-pointer"
-                >
-                  <span className="font-normal">Türkçe</span>
-                  <span className="text-sm text-gray-700 ml-1">(2,327)</span>
-                </label>
-              </div>
-            </div>
-          </AccordionContent>
-        </AccordionItem>
-        <AccordionItem value="item-7">
-          <AccordionTrigger>Price</AccordionTrigger>
+        <AccordionItem value="item-5">
+          <AccordionTrigger>{t("price")}</AccordionTrigger>
           <AccordionContent>
             <div className="flex flex-col">
               <div className="flex items-center mb-2">
@@ -416,110 +282,6 @@ const FilterAccordion = () => {
                 >
                   <span className="font-normal">Free</span>
                   <span className="text-sm text-gray-700 ml-1">(3,331)</span>
-                </label>
-              </div>
-            </div>
-          </AccordionContent>
-        </AccordionItem>
-        <AccordionItem value="item-8">
-          <AccordionTrigger>Features</AccordionTrigger>
-          <AccordionContent>
-            <div className="flex flex-col">
-              <div className="flex items-center mb-2">
-                <input type="checkbox" id="subs" className="h-4 w-4" />
-                <label
-                  htmlFor="subs"
-                  className="text-sm font-medium leading-none ml-2 cursor-pointer"
-                >
-                  <span className="font-normal">Subtitles</span>
-                  <span className="text-sm text-gray-700 ml-1">(892)</span>
-                </label>
-              </div>
-              <div className="flex items-center mb-2">
-                <input type="checkbox" id="quizzes" className="h-4 w-4" />
-                <label
-                  htmlFor="quizzes"
-                  className="text-sm font-medium leading-none ml-2 cursor-pointer"
-                >
-                  <span className="font-normal">Quizzes</span>
-                  <span className="text-sm text-gray-700 ml-1">(3,331)</span>
-                </label>
-              </div>
-              <div className="flex items-center mb-2">
-                <input type="checkbox" id="ce" className="h-4 w-4" />
-                <label
-                  htmlFor="ce"
-                  className="text-sm font-medium leading-none ml-2 cursor-pointer"
-                >
-                  <span className="font-normal">Coding Exerciese</span>
-                  <span className="text-sm text-gray-700 ml-1">(3,126)</span>
-                </label>
-              </div>
-              <div className="flex items-center mb-2">
-                <input type="checkbox" id="pt" className="h-4 w-4" />
-                <label
-                  htmlFor="pt"
-                  className="text-sm font-medium leading-none ml-2 cursor-pointer"
-                >
-                  <span className="font-normal">Practice Tests</span>
-                  <span className="text-sm text-gray-700 ml-1">(4,745)</span>
-                </label>
-              </div>
-            </div>
-          </AccordionContent>
-        </AccordionItem>
-        <AccordionItem value="item-9">
-          <AccordionTrigger>Subtitles</AccordionTrigger>
-          <AccordionContent>
-            <div className="flex flex-col">
-              <div className="flex items-center mb-2">
-                <input type="checkbox" id="en" className="h-4 w-4" />
-                <label
-                  htmlFor="en"
-                  className="text-sm font-medium leading-none ml-2 cursor-pointer"
-                >
-                  <span className="font-normal">English</span>
-                  <span className="text-sm text-gray-700 ml-1">(892)</span>
-                </label>
-              </div>
-              <div className="flex items-center mb-2">
-                <input type="checkbox" id="ar" className="h-4 w-4" />
-                <label
-                  htmlFor="ar"
-                  className="text-sm font-medium leading-none ml-2 cursor-pointer"
-                >
-                  <span className="font-normal">العربية</span>
-                  <span className="text-sm text-gray-700 ml-1">(3,331)</span>
-                </label>
-              </div>
-              <div className="flex items-center mb-2">
-                <input type="checkbox" id="português" className="h-4 w-4" />
-                <label
-                  htmlFor="português"
-                  className="text-sm font-medium leading-none ml-2 cursor-pointer"
-                >
-                  <span className="font-normal">Português</span>
-                  <span className="text-sm text-gray-700 ml-1">(3,126)</span>
-                </label>
-              </div>
-              <div className="flex items-center mb-2">
-                <input type="checkbox" id="es" className="h-4 w-4" />
-                <label
-                  htmlFor="es"
-                  className="text-sm font-medium leading-none ml-2 cursor-pointer"
-                >
-                  <span className="font-normal">Español</span>
-                  <span className="text-sm text-gray-700 ml-1">(4,745)</span>
-                </label>
-              </div>
-              <div className="flex items-center mb-2">
-                <input type="checkbox" id="tr" className="h-4 w-4" />
-                <label
-                  htmlFor="tr"
-                  className="text-sm font-medium leading-none ml-2 cursor-pointer"
-                >
-                  <span className="font-normal">Türkçe</span>
-                  <span className="text-sm text-gray-700 ml-1">(2,327)</span>
                 </label>
               </div>
             </div>

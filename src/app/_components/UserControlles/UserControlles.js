@@ -1,5 +1,8 @@
+"use client";
+
 import CartPopper from "../CartPopper/CartPopper";
 import LanguageSwitch from "../LanguageSwitch/LanguageSwitch";
+import useCartStore from "@/app/store/cartStore";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   HoverCard,
@@ -9,6 +12,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 import React from "react";
 import { FaRegBell } from "react-icons/fa";
 import {
@@ -139,7 +143,7 @@ const UserControlles = ({ decodedToken, locale }) => {
             </div>
           </HoverCardContent>
         </HoverCard>
-        <Link href="/cart">
+        <Link href={`/${locale}/cart`}>
           <CartPopper
             trigger={
               <MdOutlineShoppingCart className="h-6 w-6 text-gray-800 hover:text-violet-600 " />

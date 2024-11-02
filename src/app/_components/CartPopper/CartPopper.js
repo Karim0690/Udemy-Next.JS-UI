@@ -1,3 +1,7 @@
+"use client";
+
+import useCartStore from "@/app/store/cartStore";
+import Image from "next/image";
 import Link from "next/link";
 import React, { useState, useRef, useEffect } from "react";
 import { usePopper } from "react-popper";
@@ -12,6 +16,7 @@ const CartPopper = ({
   const triggerRef = useRef();
   const [popperElement, setPopperElement] = useState(null);
   const timeoutRef = useRef(null);
+  const { cart, fetchUsersCart, totalPrice } = useCartStore();
 
   const { styles, attributes } = usePopper(triggerRef.current, popperElement, {
     placement: placement,
@@ -37,12 +42,8 @@ const CartPopper = ({
   };
 
   useEffect(() => {
-    return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
-    };
-  }, []);
+    fetchUsersCart();
+  }, [fetchUsersCart]);
 
   return (
     <div
@@ -57,18 +58,56 @@ const CartPopper = ({
           ref={setPopperElement}
           style={styles.popper}
           {...attributes.popper}
-          className="bg-white shadow-lg border w-[300px] max-w-[300px]"
+          className="bg-white shadow-lg border w-[320px] max-w-[320px]"
         >
-          <div className="px-6 py-4 w-full flex flex-col items-center z-10">
-            <div className="text-base font-sans text-gray-500	mb-1 text-center font-semibold">
-              {content}
-            </div>
-            <Link
-              href="/"
-              className="py-3 w-full text-violet-600 text-sm font-bold hover:text-violet-900 text-center	"
-            >
-              {buttonContent}
-            </Link>
+          <div className="p-3 w-full flex flex-col z-10">
+            {cart ? (
+              <>
+                {cart.items.map((item) => (
+                  <div className="flex gap-2 items-center my-1" key={item.id}>
+                    <div>
+                      <Image
+                        src={item.course.courseImage} // Ensure item has a valid imageUrl
+                        width={350}
+                        height={350}
+                        alt={item.title}
+                        className="w-[80px] h-[80px]"
+                      />
+                    </div>
+                    <div className="flex-1">
+                      <h4 className="text-sm font-bold overflow-hidden line-clamp-2 mb-1">
+                        {item.course.title}
+                      </h4>
+                      <p className="text-xs text-gray-500 overflow-hidden line-clamp-1 mb-1">
+                        {item.course.instructor
+                          ? item.course.instructor.name
+                          : "No instructor"}
+                      </p>
+                      <p className="font-bold">{`E£${item.price}`}</p>
+                    </div>
+                  </div>
+                ))}
+                <hr className="border-b-1 border-gray-200 w-full my-3" />
+                <div className="flex flex-col gap-3">
+                  <h3 className="font-bold text-xl">{`Total: E£${totalPrice.toFixed(
+                    2
+                  )}`}</h3>
+                  <button className="bg-gray-900 text-white font-bold w-full p-3 hover:bg-[#3e4143] z-20">
+                    Go to cart
+                  </button>
+                </div>
+              </>
+            ) : (
+              <div className="flex flex-col text-base font-sans text-gray-500 mb-1 text-center font-semibold">
+                {content}
+                <Link
+                  href="/"
+                  className="py-3 w-full text-violet-600 text-sm font-bold hover:text-violet-900 text-center"
+                >
+                  {buttonContent}
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       )}

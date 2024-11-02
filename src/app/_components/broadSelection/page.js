@@ -3,7 +3,7 @@
 import CourseComponent from "../CourseComponent/CourseComponent";
 import CoursesSlider from "../CoursesSlider/CoursesSlider";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -20,18 +20,20 @@ function BroadSelection() {
     { id: "Amazon AWS", label: t("aws") },
     { id: "Drawing", label: t("drawing") },
   ];
+
+
   return (
     <>
-      <div className="mx-10 mt-20">
+      <div className="mx-20 mt-20">
         <div>
-          <h1 className="text-5xl font-bold pb-4 text-gray-700">
+          <h1 className="text-2xl md:text-4xl font-bold pb-4 text-gray-700">
             {t("courseSelection")}
           </h1>
           <p>{t("coursedesc")}</p>
         </div>
       </div>
 
-      <div className="mx-10 py-8">
+      <div className="mx-16 py-8 relative">
         <div>
           <div className="font-bold text-center text-gray-500"></div>
           <div className="font-bold text-center text-gray-500">

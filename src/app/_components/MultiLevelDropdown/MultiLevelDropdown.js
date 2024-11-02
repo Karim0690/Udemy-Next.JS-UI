@@ -1,3 +1,5 @@
+"use client";
+
 import styles from "./MultiLevelDropdown.module.css";
 import axios from "axios";
 import { useTranslations } from "next-intl";
@@ -63,10 +65,10 @@ const MultiLevelDropdown = () => {
         {t("Categories")}
       </a>
       {isOpen && (
-        <div className="absolute flex top-14 ">
+        <div className="absolute flex top-14">
           <div className="absolute top-full z-10 bg-white shadow-lg">
             <div className="flex px-3 py-2 border border-gray-300">
-              <ul className="ud-unstyled-list ud-block-list w-[215px] h-[30rem]">
+              <ul className="ud-unstyled-list ud-block-list w-[215px] h-[85vh]">
                 {categories.map((category) => (
                   <Link
                     key={category._id}
@@ -108,7 +110,7 @@ const MultiLevelDropdown = () => {
               } top-full z-10 bg-white shadow-lg`}
             >
               <div className="flex px-3 py-2 border border-gray-300">
-                <ul className="ud-unstyled-list ud-block-list w-[215px] h-[30rem]">
+                <ul className="ud-unstyled-list ud-block-list w-[215px] h-[85vh]">
                   {categories
                     .find((c) => c._id === activeCategory)
                     ?.subcategories?.map((subcategory) => (
@@ -155,9 +157,9 @@ const MultiLevelDropdown = () => {
                 locale == "ar" ? "-left-[710px]" : "left-[480px]"
               }  top-full z-10 bg-white shadow-lg`}
             >
-              <div className="flex flex-col px-3 py-3 text-sm border border-gray-300">
+              <div className="flex flex-col px-3 pt-3 text-sm border border-gray-300">
                 <h2 className={styles.popular}>Popular Topics</h2>
-                <ul className="ud-unstyled-list ud-block-list w-[215px] h-[452px]">
+                <ul className="ud-unstyled-list ud-block-list w-[215px] h-[85vh]">
                   {categories
                     .find((c) => c._id === activeCategory)
                     ?.subcategories?.find((sc) => sc._id === activeSubcategory)

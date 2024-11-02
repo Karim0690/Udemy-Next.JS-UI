@@ -16,7 +16,7 @@
     "wishlistContent": "Your Wishlist is empty.",
     "wishlistButton": "Explore Courses",
     "cartContent": "Your cart is empty.",
-    "caeButton": "Keep Shopping"
+    "cartButton": "Keep Shopping"
   },
   "LandingPage": {
     "baner": "Keep moving up",
@@ -291,5 +291,30 @@
     "facebook": "Facebook",
     "linkedin": "LinkedIn",
     "youtube": "Youtube"
+  },
+  "Categories": {
+    "courses": "Courses",
+    "coursesStart": "Courses to get you started",
+    "coursesStarts": "Explore courses from experienced, real-world experts.",
+    "popular": "Most Popular",
+    "new": "New",
+    "trending": "Trending",
+    "featured": "Featured Courses",
+    "featureds": "Many learners enjoyed this highly rated course for its engaging content.",
+    "popularInstructor": "Popular Instructor",
+    "popularInstructors": "Many learners enjoyed this highly rated course for its engaging content.",
+    "all": "All",
+    "money": "Not sure? All courses have a 30-day money-back guarantee",
+    "filter": "Filter",
+    "sort": "Sort by",
+    "high": "Heighest Rated",
+    "newest": "Newest",
+    "ratings": "Ratings",
+    "topics": "Topics",
+    "subcategory": "Subcategory",
+    "level": "Level",
+    "price": "Price",
+    "popTopics": "Popular Topics",
+    "addtocart": "Add to cart"
   }
 }

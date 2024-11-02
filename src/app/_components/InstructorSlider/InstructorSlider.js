@@ -1,118 +1,131 @@
 "use client";
-import React, { useState } from "react";
-import Slider from "react-slick";
+
 import InstructorCard from "../InstructorCard/InstructorCard";
+import React, { useRef, useState } from "react";
+import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import { useParams } from "next/navigation";
+import { Navigation } from "swiper/modules";
 
 const InstructorSlider = () => {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const inssettings = {
-    className: "center",
-    infinite: false,
-    speed: 500,
-    slidesToShow: 4,
-    slidesToScroll: 2,
-    nextArrow: (
-      <SampleNextArrow
-        isHidden={currentSlide >= (instructors.length - 1) / 4}
-      />
-    ),
-    prevArrow: <SamplePrevArrow isHidden={currentSlide === 0} />,
-
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 3,
-        },
-      },
-      {
-        breakpoint: 800,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-          initialSlide: 2,
-        },
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        },
-      },
-    ],
-    afterChange: (current) => setCurrentSlide(current),
-  };
+  const swiperRef = useRef(null);
+  const [isBeginning, setIsBeginning] = useState(true);
+  const [isEnd, setIsEnd] = useState(false);
+  const { locale } = useParams();
 
   return (
-    <>
-      <Slider {...inssettings} className="flex mt-4">
+    <div className="relative">
+      <SamplePrevArrow
+        onClick={() => {
+          if (locale === "ar") {
+            if (swiperRef.current) swiperRef.current.slideNext();
+          } else {
+            if (swiperRef.current) swiperRef.current.slidePrev();
+          }
+        }}
+        isHidden={locale === "ar" ? isEnd : isBeginning} // Update isHidden based on locale
+      />
+      <SampleNextArrow
+        onClick={() => {
+          if (locale === "ar") {
+            if (swiperRef.current) swiperRef.current.slidePrev();
+          } else {
+            if (swiperRef.current) swiperRef.current.slideNext();
+          }
+        }}
+        isHidden={locale === "ar" ? isBeginning : isEnd} // Update isHidden based on locale
+      />
+      <Swiper
+        ref={swiperRef}
+        spaceBetween={5}
+        slidesPerView={4}
+        slidesPerGroup={3}
+        className="h-[150px] lg:h-[200px] mx-auto "
+        modules={[Navigation]}
+        breakpoints={{
+          320: {
+            slidesPerView: 1,
+          },
+          640: {
+            slidesPerView: 2,
+          },
+          768: {
+            slidesPerView: 2,
+          },
+          1024: {
+            slidesPerView: 3,
+          },
+          1280: {
+            slidesPerView: 4,
+          },
+        }}
+        onSwiper={(swiper) => {
+          swiperRef.current = swiper;
+        }}
+        onSlideChange={({ isBeginning, isEnd }) => {
+          setIsBeginning(isBeginning);
+          setIsEnd(isEnd);
+        }}
+      >
         {instructors.map((instructor, index) => (
-          <InstructorCard key={index} {...instructor} />
+          <SwiperSlide key={index}>
+            <InstructorCard {...instructor} />
+          </SwiperSlide>
         ))}
-      </Slider>
-    </>
+      </Swiper>
+    </div>
   );
 };
 
 export default InstructorSlider;
-const SampleNextArrow = (props) => {
-  const { className, style, onClick, isHidden } = props;
-  return (
-    !isHidden && ( // Only render if not hidden
-      <div
-        className={`${className} custom-next-arrow`}
-        style={{
-          ...style,
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          right: "-30px",
-          backgroundColor: "#252525",
-          position: "absolute",
-          zIndex: "10",
-          width: "50px",
-          height: "50px",
-          borderRadius: "50%",
-        }}
-        onClick={onClick}
-      >
-        <FaChevronRight style={{ color: "white", fontSize: "16px" }} />
-      </div>
-    )
-  );
-};
+const SampleNextArrow = ({ onClick, isHidden }) => (
+  <div
+    className={`custom-next-arrow ${isHidden ? "hidden" : "hidden lg:flex"}`}
+    style={{
+      // display: isHidden ? "none" : "none lg:flex",
+      justifyContent: "center",
+      alignItems: "center",
+      top: "50px",
+      right: "-10px",
+      backgroundColor: "#252525",
+      position: "absolute",
+      zIndex: "10",
+      width: "50px",
+      height: "50px",
+      borderRadius: "50%",
+    }}
+    onClick={onClick}
+  >
+    <FaChevronRight style={{ color: "white", fontSize: "16px" }} />
+  </div>
+);
 
-function SamplePrevArrow(props) {
-  const { className, style, onClick, isHidden } = props;
-  return (
-    !isHidden && (
-      <div
-        className={`${className} custom-prev-arrow`}
-        style={{
-          ...style,
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          left: "-30px",
-          backgroundColor: "#252525",
-          position: "absolute",
-          zIndex: "10",
-          width: "50px",
-          height: "50px",
-          borderRadius: "50%",
-        }}
-        onClick={onClick}
-      >
-        <FaChevronLeft style={{ color: "white", fontSize: "16px" }} />
-      </div>
-    )
-  );
-}
+// Custom Previous Arrow
+const SamplePrevArrow = ({ onClick, isHidden }) => (
+  <div
+    className={`custom-prev-arrow ${isHidden ? "hidden" : "hidden lg:flex"}`}
+    style={{
+      // display: isHidden ? "none" : "none lg:flex",
+      justifyContent: "center",
+      alignItems: "center",
+      top: "50px",
+      left: "-30px",
+      backgroundColor: "#252525",
+      position: "absolute",
+      zIndex: "10",
+      width: "50px",
+      height: "50px",
+      borderRadius: "50%",
+    }}
+    onClick={onClick}
+  >
+    <FaChevronLeft style={{ color: "white", fontSize: "16px" }} />
+  </div>
+);
 
 const instructors = [
   {
