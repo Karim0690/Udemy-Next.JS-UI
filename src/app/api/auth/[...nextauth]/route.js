@@ -7,18 +7,18 @@ export const authOptions = {
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        email: { label: "Email", type: "text" },
-        password: { label: "Password", type: "password" }
+        email: { label: "email", type: "text" },
+        password: { label: "password", type: "password" }
       },
       async authorize(credentials) {
         try {
-          const response = await axios.post("http://localhost:5000/api/auth/login", {
+          const response = await axios.post("https://udemy-eosin-eight.vercel.app/auth/login", {
             email: credentials.email,
             password: credentials.password
           });
 
-          if (response.data && response.data.user) {
-            return response.data.user; // Returns the user object to NextAuth
+          if (response.data && response.data.token) {
+            return { ...response.data, accessToken: response.data.token };
           }
           return null;
         } catch (error) {
@@ -39,10 +39,10 @@ export const authOptions = {
       return token;
     },
     async session({ session, token }) {
-      session.user = token;
-      return session;
+        session.user = { ...session.user, accessToken: token.accessToken };
+        return session;
+      }
     },
-  },
   pages: {
     signIn: "/auth/login",
   }
