@@ -1,6 +1,5 @@
 "use client"
 import Navbar from "./Navbar/Navbar";
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   HoverCard,
@@ -43,6 +42,7 @@ import PopperComponent from "../Popper/Popper";
 import CartPopper from "../CartPopper/CartPopper";
 import LanguageSwitch from "../LanguageSwitch/LanguageSwitch";
 import Image from "next/image";
+import UserControlles from "../UserControlles/UserControlles";
 
 
 export default function Header({ locale }) {
@@ -172,14 +172,12 @@ export default function Header({ locale }) {
                   />
                 </Link>
                 {/* href={`/${locale}/login`} */}
-                <button
+                <Link
                   className="px-5 py-3 border border-gray-400  text-sm font-bold text-gray-800 hover:bg-gray-200"
-                  onClick={() => {
-                    signIn();
-                  }}
+                  href={`/${locale}/login`}
                 >
                   {t("login")}
-                </button>
+                </Link>
 
                 <Link
                   href={`/${locale}/signup`}
