@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { useSession, signOut } from "next-auth/react";
 
 import CartPopper from "../CartPopper/CartPopper";
@@ -15,18 +15,15 @@ import Link from "next/link";
 import React from "react";
 import { FaRegBell } from "react-icons/fa";
 import { MdFavoriteBorder, MdOutlineOpenInNew } from "react-icons/md";
+import { useMemo } from "react";
+const UserControllers = () => {
+  const session = useSession();
+  const user = useMemo(() => session?.data?.user, [session]);
 
-const UserControlles = ({ decodedToken }) => {
-  const { data: session } = useSession();
-  console.log(
-    session
-  );
-  
   const handleSignOut = () => {
     localStorage.removeItem("token");
     window.location.reload();
-    signOut()
-
+    signOut();
   };
   const t = useTranslations("Header");
 
@@ -38,8 +35,8 @@ const UserControlles = ({ decodedToken }) => {
             <Avatar className="hover:cursor-pointer w-[35px] h-[35px]">
               <AvatarImage />
               <AvatarFallback className="bg-gray-900 text-white font-bold">
-                {decodedToken.name.charAt(0).toUpperCase() +
-                  decodedToken.name.charAt(1).toUpperCase()}
+                {user.name.charAt(0).toUpperCase() +
+                  user.name.charAt(1).toUpperCase()}
               </AvatarFallback>
             </Avatar>
           </HoverCardTrigger>
@@ -48,16 +45,16 @@ const UserControlles = ({ decodedToken }) => {
               <Avatar className="hover:cursor-pointer w-[60px] h-[60px]">
                 <AvatarImage />
                 <AvatarFallback className="bg-gray-900 text-white text-2xl font-bold">
-                  {decodedToken.name.charAt(0).toUpperCase() +
-                    decodedToken.name.charAt(1).toUpperCase()}
+                  {user.name.charAt(0).toUpperCase() +
+                    name.charAt(1).toUpperCase()}
                 </AvatarFallback>
               </Avatar>
 
               <div className="ml-4">
                 <h1 className="text-sm font-bold text-gray-900 group-hover:text-violet-800">
-                  {decodedToken.name}
+                  {user.name}
                 </h1>
-                <p className="text-xs text-gray-500">{decodedToken.email}</p>
+                <p className="text-xs text-gray-500">{user.email}</p>
               </div>
             </div>
 
@@ -211,4 +208,4 @@ const UserControlles = ({ decodedToken }) => {
   );
 };
 
-export default UserControlles;
+export default UserControllers;

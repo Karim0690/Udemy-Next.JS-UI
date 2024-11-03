@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import Navbar from "./Navbar/Navbar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -42,22 +42,15 @@ import PopperComponent from "../Popper/Popper";
 import CartPopper from "../CartPopper/CartPopper";
 import LanguageSwitch from "../LanguageSwitch/LanguageSwitch";
 import Image from "next/image";
-import UserControlles from "../UserControlles/UserControlles";
-
-
+import UserControllers from "../UserControlles/UserControlles";
+import { useMemo } from "react";
 export default function Header({ locale }) {
-  let decodedToken;
-  const { data: session, status } = useSession();
-  if (session) {
-    const token = session.accessToken;
-    decodedToken = jwtDecode(token);
-  } else {
-    console.log("No session found");
-  }
+  const session = useSession();
+  const role = useMemo(() => session?.data?.user?.role, [session]);
+
   const t = useTranslations("Header");
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
   return (
     <>
       <header className="bg-white shadow-md font-sans relative z-10">
@@ -66,7 +59,7 @@ export default function Header({ locale }) {
           className="mx-auto flex items-center justify-between lg:justify-evenly p-3 lg:px-4 shadow-md z-10 relative"
         >
           <div className="flex order-2 lg:order-0 lg:mx-4">
-            <Link  href="/" className="-m-1.5 p-1.5">
+            <Link href="/" className="-m-1.5 p-1.5">
               <span className="sr-only">Your Company</span>
               <Image
                 alt=""
@@ -115,9 +108,9 @@ export default function Header({ locale }) {
               buttonContent={t("businessButton")}
             />
 
-            {decodedToken ? (
+            {role ? (
               <>
-                {decodedToken.role.length === 1 ? (
+                {role.length === 1 ? (
                   <>
                     <PopperComponent
                       trigger={
@@ -143,7 +136,7 @@ export default function Header({ locale }) {
                   </>
                 )}
 
-                <UserControlles locale={locale} decodedToken={decodedToken} />
+                <UserControllers />
               </>
             ) : (
               <>
