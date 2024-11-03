@@ -12,7 +12,7 @@ import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { IoSearchOutline } from "react-icons/io5";
 import {
   MdOutlineOpenInNew,
@@ -20,15 +20,11 @@ import {
   MdOutlineShoppingCart,
 } from "react-icons/md";
 
-const Navbar = () => {
-  let decodedToken;
-  const { data: session, status } = useSession();
-  if (session) {
-    const token = session.accessToken;
-    decodedToken = jwtDecode(token);
-  } else {
-    console.log("No session found");
-  }
+const Navbar = ({ session }) => {
+  // const { data: session, status } = useSession();
+  // console.log(session);
+  // const user = useMemo(() => session?.user, [session]);
+
   const t = useTranslations("Header");
   const { locale } = useParams();
 
@@ -91,9 +87,9 @@ const Navbar = () => {
               buttonContent={t("businessButton")}
             />
 
-            {decodedToken ? (
+            {session ? (
               <>
-                {decodedToken.role.length === 1 ? (
+                {!session.user.role.includes("instructor") ? (
                   <>
                     <PopperComponent
                       trigger={
@@ -119,7 +115,7 @@ const Navbar = () => {
                   </>
                 )}
 
-                <UserControlles locale={locale} decodedToken={decodedToken} />
+                <UserControlles locale={locale} user={session.user} />
               </>
             ) : (
               <>
@@ -147,15 +143,12 @@ const Navbar = () => {
                     buttonContent="Keep Shopping"
                   />
                 </Link>
-                {/* href={`/${locale}/login`} */}
-                <button
+                <Link
+                  href={`/${locale}/login`}
                   className="px-5 py-3 border border-gray-400  text-sm font-bold text-gray-800 hover:bg-gray-200"
-                  onClick={() => {
-                    signIn();
-                  }}
                 >
                   {t("login")}
-                </button>
+                </Link>
 
                 <Link
                   href={`/${locale}/signup`}

@@ -1,5 +1,5 @@
 import Navbar from "./Navbar/Navbar";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   HoverCard,
@@ -24,13 +24,16 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { jwtDecode } from "jwt-decode";
-import { getServerSession } from "next-auth";
+import { getServerSession } from "next-auth/next";
 import { getSession, signIn, useSession } from "next-auth/react";
 
-export default function Header({ locale }) {
+export default async function Header() {
+  const session = await getServerSession(authOptions);
+  console.log("session " + session);
+
   return (
     <>
-      <Navbar />
+      <Navbar session={session} />
     </>
   );
 }

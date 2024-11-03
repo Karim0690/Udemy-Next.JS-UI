@@ -44,7 +44,7 @@ const Page = () => {
     if (res?.error) {
       setGeneralError(res.error);
     } else {
-      router.push("/");
+      window.location.href = "/";
     }
     // try {
     //   const response = await fetch(

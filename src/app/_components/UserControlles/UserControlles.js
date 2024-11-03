@@ -10,6 +10,7 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { signOut } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -21,11 +22,7 @@ import {
   MdOutlineShoppingCart,
 } from "react-icons/md";
 
-const UserControlles = ({ decodedToken, locale }) => {
-  const signOut = () => {
-    localStorage.removeItem("token");
-    window.location.reload();
-  };
+const UserControlles = ({ user, locale }) => {
   const t = useTranslations("Header");
 
   return (
@@ -36,8 +33,8 @@ const UserControlles = ({ decodedToken, locale }) => {
             <Avatar className="hover:cursor-pointer w-[35px] h-[35px]">
               <AvatarImage />
               <AvatarFallback className="bg-gray-900 text-white font-bold">
-                {decodedToken.name.charAt(0).toUpperCase() +
-                  decodedToken.name.charAt(1).toUpperCase()}
+                {user.name.charAt(0).toUpperCase() +
+                  user.name.charAt(1).toUpperCase()}
               </AvatarFallback>
             </Avatar>
           </HoverCardTrigger>
@@ -50,16 +47,16 @@ const UserControlles = ({ decodedToken, locale }) => {
               <Avatar className="hover:cursor-pointer w-[60px] h-[60px]">
                 <AvatarImage />
                 <AvatarFallback className="bg-gray-900 text-white text-2xl font-bold">
-                  {decodedToken.name.charAt(0).toUpperCase() +
-                    decodedToken.name.charAt(1).toUpperCase()}
+                  {user.name.charAt(0).toUpperCase() +
+                    user.name.charAt(1).toUpperCase()}
                 </AvatarFallback>
               </Avatar>
 
-              <div className="ml-4">
+              <div>
                 <h1 className="text-sm font-bold text-gray-900 group-hover:text-violet-800">
-                  {decodedToken.name}
+                  {user.name}
                 </h1>
-                <p className="text-xs text-gray-500">{decodedToken.email}</p>
+                <p className="text-xs text-gray-500">{user.email}</p>
               </div>
             </div>
 
