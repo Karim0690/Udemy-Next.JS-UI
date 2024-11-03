@@ -107,7 +107,7 @@ const Page = () => {
 
   const translatedOptions = options.map((option) => ({
     key: option.key,
-    translatedText: t(option.key), // يجب أن تعود الترجمة المناسبة
+    translatedText: t(option.key), 
   }));
 
   // karim options __________________

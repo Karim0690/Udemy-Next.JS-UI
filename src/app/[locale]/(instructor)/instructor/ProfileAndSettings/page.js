@@ -94,8 +94,10 @@ export default function Page() {
         <div className="hidden md:block">
           <SideNav />
         </div>
-        <div className={`flex-1 ${locale === "en" ? "ml-24" : " mr-24"}`}>
-          <h1 className="mb-10 font-semibold text-5xl leading-tight tracking-tighter max-w-3xl">
+        <div
+          className={`flex-1 ${locale === "en" ? "ml-24 p-6" : " mr-24 p-6"}`}
+        >
+          <h1 className="mb-10 font-semibold text-4xl leading-tight tracking-tighter max-w-3xl">
             {t("title")}
           </h1>
           <div className="container flex w-full">
