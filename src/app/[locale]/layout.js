@@ -1,11 +1,12 @@
 import AuthProvider from "@/app/context/AuthProvider";
 import { routing } from "@/i18n/routing";
-import { getSession } from "next-auth/react";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
+
 import { Toaster } from "sonner";
 import { notFound } from "next/navigation";
 import "./globals.css";
+import { getSession } from "@/lib/auth";
 
 export const metadata = {
   title: "Online Courses - Learn Anything, On Your Schedule | Udemy",
@@ -18,6 +19,7 @@ export default async function RootLayout({ children, params: { locale } }) {
   }
   const messages = await getMessages();
   const session = await getSession();
+
   return (
     <html lang={locale} dir={`${locale === "ar" ? "rtl" : "ltr"}`}>
       <body className="font-sans">
