@@ -1,3 +1,6 @@
+"use client"
+import { useSession, signOut } from "next-auth/react";
+
 import CartPopper from "../CartPopper/CartPopper";
 import LanguageSwitch from "../LanguageSwitch/LanguageSwitch";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -14,9 +17,16 @@ import { FaRegBell } from "react-icons/fa";
 import { MdFavoriteBorder, MdOutlineOpenInNew } from "react-icons/md";
 
 const UserControlles = ({ decodedToken }) => {
-  const signOut = () => {
+  const { data: session } = useSession();
+  console.log(
+    session
+  );
+  
+  const handleSignOut = () => {
     localStorage.removeItem("token");
     window.location.reload();
+    signOut()
+
   };
   const t = useTranslations("Header");
 
@@ -114,7 +124,7 @@ const UserControlles = ({ decodedToken }) => {
               Help and Support
             </h1>
 
-            <Link href="/login" onClick={() => signOut()}>
+            <Link href="/login" onClick={() => handleSignOut()}>
               <h1 className="p-2 hover:text-violet-700 cursor-pointer">
                 Log out
               </h1>

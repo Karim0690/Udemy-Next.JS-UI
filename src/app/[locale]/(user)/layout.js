@@ -1,6 +1,8 @@
 import "./globals.css";
 import InstructorFooter from "../(instructor)/instructor/instractorFooter/page";
+import NotFound from "./[...not-found]/page";
 import Header from "@/app/_components/Header/Header";
+import AuthProvider from "@/app/context/AuthProvider";
 import { routing } from "@/i18n/routing";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
@@ -20,13 +22,15 @@ export default async function RootLayout({ children, params: { locale } }) {
     <html lang={locale} dir={`${locale === "ar" ? "rtl" : "ltr"}`}>
       <body className="font-sans">
         <NextIntlClientProvider messages={messages}>
-          <Header locale={locale} />
-          {children}
+          <AuthProvider>
+            <Header locale={locale} />
+            {children}
 
-          <Toaster position="bottom-right" />
-          <div>
-            <InstructorFooter />
-          </div>
+            <Toaster position="bottom-right" />
+            <div>
+              <InstructorFooter />
+            </div>
+          </AuthProvider>
         </NextIntlClientProvider>
       </body>
     </html>
