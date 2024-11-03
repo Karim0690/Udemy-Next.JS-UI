@@ -1,9 +1,9 @@
 import React from "react";
 
 import Image from "next/image";
-import InstructorHeader from "../../InstructorHeader/InstructorHeader";
-import SideNav from "../../InstructorSidenav/SideNav";
-import InstructorFooter from "../../instractorFooter/page";
+import InstructorHeader from "../../../_components/InstructorHeader/InstructorHeader";
+import SideNav from "../../../_components/InstructorSidenav/SideNav";
+import InstructorFooter from "../../../_components/instractorFooter/InstructorFooter";
 
 const Page = () => {
   return (

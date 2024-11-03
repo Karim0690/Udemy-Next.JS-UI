@@ -1,9 +1,9 @@
 "use client";
 
 import RichText from "../../_components/RichText/RichText";
-import InstructorHeader from "../InstructorHeader/InstructorHeader";
-import SideNav from "../InstructorSidenav/SideNav";
-import InstructorFooter from "../instractorFooter/page";
+import InstructorHeader from "../../_components/InstructorHeader/InstructorHeader";
+import SideNav from "../../_components/InstructorSidenav/SideNav";
+import InstructorFooter from "../../_components/instractorFooter/InstructorFooter";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import axios from "axios";
