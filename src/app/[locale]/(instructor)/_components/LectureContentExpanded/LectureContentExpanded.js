@@ -1,8 +1,11 @@
 "use client";
-import React, { useState } from "react";
-import { FaPen, FaPlus } from "react-icons/fa";
+
 import RichText from "../RichText/RichText";
 import axios from "axios";
+import { useTranslations } from "next-intl";
+import { useParams } from "next/navigation";
+import React, { useState } from "react";
+import { FaPen, FaPlus } from "react-icons/fa";
 
 const LectureContentExpanded = ({
   item,
@@ -17,6 +20,9 @@ const LectureContentExpanded = ({
   const [descriptionInput, setDescriptionInput] = useState(
     item.description || ""
   );
+  const [descriptionInput_ar, setDescriptionInput_ar] = useState(
+    item.description_ar || ""
+  );
   const minutes = Math.floor(item.duration / 60);
   const remainingSeconds = item.duration % 60;
 
@@ -29,6 +35,7 @@ const LectureContentExpanded = ({
         `${process.env.NEXT_PUBLIC_LOCAL_API}/lectures/${item._id}`,
         {
           description: descriptionInput,
+          description_ar: descriptionInput_ar,
         }
       );
       data.message === "success" && setDescription(false);
@@ -36,9 +43,17 @@ const LectureContentExpanded = ({
       console.error("Failed to add description:", e);
     }
   };
+
+  const { locale } = useParams();
+  const t = useTranslations("Curriculum");
+
   return (
     <>
-      <div className="bg-white gap-2 border border-black border-t-0 p-2 ml-20 mr-2">
+      <div
+        className={`bg-white gap-2 border border-black border-t-0 p-2 ${
+          locale === "en" ? "ml-20 mr-2" : "mr-20 ml-2"
+        }`}
+      >
         {item.resource && (
           <div className="flex flex-1 border-b pb-6 gap-4">
             <div className="w-32 py-1 h-auto">
@@ -58,7 +73,7 @@ const LectureContentExpanded = ({
                 }}
               >
                 <FaPen className="text-sm" />
-                Edit item
+                {t("edit-item")}
               </button>
             </div>
           </div>
@@ -71,38 +86,52 @@ const LectureContentExpanded = ({
             setDescription(true);
           }}
         >
-          <FaPlus className="text-sm" /> Description
+          <FaPlus className="text-sm" /> {t("description")}
         </button>
 
         {description && (
-          <div className="border-b pb-4 my-2 text-gray-800">
-            <h3 className="font-bold text-sm my-2">Lecture Description</h3>
-            <RichText
-              placeholder={
-                "Add a description. Include what students will be able to do after completing the lecture."
-              }
-              content={descriptionInput}
-              onChange={setDescriptionInput}
-            />
-            <div className="flex flex-1 my-2  items-center justify-end">
-              <button
-                className="py-1 px-6 font-bold"
-                onClick={() => {
-                  setDescription(false);
-                }}
-              >
-                Cancel
-              </button>
-              <button
-                className="py-1 px-6 font-bold bg-black text-white"
-                onClick={() => {
-                  handelAddDescription();
-                }}
-              >
-                Save
-              </button>
+          <>
+            {" "}
+            <div className="pb-4 my-2 text-gray-800">
+              <h3 className="font-bold text-sm my-2">
+                {t("lecture-description")}
+              </h3>
+              <RichText
+                placeholder={t("add-description")}
+                content={descriptionInput}
+                onChange={setDescriptionInput}
+              />
             </div>
-          </div>
+            {/* Ar Description */}
+            <div className="border-b pb-4 my-2 text-gray-800">
+              <h3 className="font-bold text-sm my-2">
+                {t("lecture-description_ar")}
+              </h3>
+              <RichText
+                placeholder={t("add-description")}
+                content={descriptionInput_ar}
+                onChange={setDescriptionInput_ar}
+              />
+              <div className="flex flex-1 my-2  items-center justify-end">
+                <button
+                  className="py-1 px-6 font-bold"
+                  onClick={() => {
+                    setDescription(false);
+                  }}
+                >
+                  {t("cancle")}
+                </button>
+                <button
+                  className="py-1 px-6 font-bold bg-black text-white"
+                  onClick={() => {
+                    handelAddDescription();
+                  }}
+                >
+                  {t("save")}
+                </button>
+              </div>
+            </div>
+          </>
         )}
       </div>
     </>

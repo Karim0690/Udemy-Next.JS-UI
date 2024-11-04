@@ -1,6 +1,8 @@
 "use client";
 
 import useCartStore from "@/app/store/cartStore";
+import axios from "axios";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState, useRef, useEffect } from "react";
@@ -16,7 +18,26 @@ const CartPopper = ({
   const triggerRef = useRef();
   const [popperElement, setPopperElement] = useState(null);
   const timeoutRef = useRef(null);
-  const { cart, fetchUsersCart, totalPrice } = useCartStore();
+  const { data: session } = useSession();
+  const [cart, setCart] = useState(null);
+  useEffect(async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_LOCAL_API}/cart`,
+        {
+          headers: {
+            Authorization: session?.accessToken,
+          },
+        }
+      );
+      if(response.data.message==="success"){
+
+        setCart(response.data.cart)
+      }
+    } catch (err) {
+      console.error("Error fetching cart:", err);
+    }
+  }, []);
 
   const { styles, attributes } = usePopper(triggerRef.current, popperElement, {
     placement: placement,
@@ -40,10 +61,6 @@ const CartPopper = ({
       setShowPopper(false);
     }, 100);
   };
-
-  useEffect(() => {
-    fetchUsersCart();
-  }, [fetchUsersCart]);
 
   return (
     <div

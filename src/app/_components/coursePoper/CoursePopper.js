@@ -3,6 +3,7 @@
 import HeartButton from "../HeartButton/HeartButton";
 import useCartStore from "@/app/store/cartStore";
 import axios from "axios";
+import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import React from "react";
 import { IoMdCheckmark, IoMdCheckmarkCircle } from "react-icons/io";
@@ -42,7 +43,7 @@ const CoursePopper = ({ courseTitle, courseId }) => {
     });
   };
   const t = useTranslations("Categories");
-  let token = localStorage.getItem("token");
+  const { data: session } = useSession();
 
   const addToCart = async () => {
     try {
@@ -53,11 +54,10 @@ const CoursePopper = ({ courseTitle, courseId }) => {
         },
         {
           headers: {
-            Authorization: `${token}`,
+            Authorization: session.accessToken,
           },
         }
       );
-      console.log(data);
       if (data.message === "success") {
         showToast("Course added to cart successfully", false);
         fetchUsersCart();

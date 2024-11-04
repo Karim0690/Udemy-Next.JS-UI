@@ -1,5 +1,5 @@
-
 import axios from "axios";
+import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import React, { useState } from "react";
 
@@ -8,9 +8,10 @@ const NewLectureForm = ({
   sectionId,
   setLectureFormVisible,
   handleAddItem,
-}) => {  
+}) => {
   const [newLecture, setNewLecture] = useState({
     title: "",
+    title_ar: "",
   });
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -51,15 +52,21 @@ const NewLectureForm = ({
     setNewLecture({ title: "" });
     setLectureFormVisible(null); // Close the form after adding
   };
+  const t = useTranslations("Curriculum");
+  const { locale } = useParams();
 
   return (
-    <div className="flex p-4 border border-black mr-2 bg-white">
-      <p>New Lecture:</p>
-      <div className="flex-1 ml-3">
+    <div
+      className={`flex p-4 border border-black ${
+        locale === "en" ? "mr-2" : "ml-2"
+      }  bg-white`}
+    >
+      <p>{t("new-lecture")}</p>
+      <div className={`flex-1 ${locale === "en" ? "ml-3" : "mr-3"} `}>
         <div className="relative">
           <input
             type="text"
-            placeholder="Enter title"
+            placeholder={t("enter-title")}
             name="title"
             value={newLecture.title}
             onChange={handleLectureChange}
@@ -68,8 +75,35 @@ const NewLectureForm = ({
               errorMessage ? "border-2 border-orange-300" : "border-black"
             }`}
           />
-          <span className="text-gray-500 absolute right-3 top-1">
+          <span
+            className={`text-gray-500 absolute  ${
+              locale === "en" ? "right-3" : "left-3"
+            } top-1`}
+          >
             {80 - newLecture.title.length}
+          </span>
+        </div>
+        {errorMessage && (
+          <p className="text-red-900 text-xs mt-2">{errorMessage}</p>
+        )}
+        <div className="relative my-2">
+          <input
+            type="text"
+            placeholder={t("enter-title")}
+            name="title_ar"
+            value={newLecture.title_ar}
+            onChange={handleLectureChange}
+            maxLength={80}
+            className={`border pl-4 pr-8 py-1 w-full outline-none ${
+              errorMessage ? "border-2 border-orange-300" : "border-black"
+            }`}
+          />
+          <span
+            className={`text-gray-500 absolute  ${
+              locale === "en" ? "right-3" : "left-3"
+            } top-1`}
+          >
+            {80 - newLecture.title_ar.length}
           </span>
         </div>
         {errorMessage && (
@@ -80,13 +114,13 @@ const NewLectureForm = ({
             onClick={() => setLectureFormVisible(null)}
             className="font-medium text-black px-3 py-1"
           >
-            Cancel
+            {t("cancle")}
           </button>
           <button
             onClick={validateAndAddLecture}
             className="bg-black font-medium text-white px-3 py-1"
           >
-            Add Lecture
+            {t("add-lecture")}
           </button>
         </div>
       </div>

@@ -1,8 +1,9 @@
 "use client";
-import React from "react";
-import Tiptap from "./Tiptap";
 
-const RichText3 = ({ content, onChange }) => {
+import Tiptap from "./Tiptap";
+import React from "react";
+
+const RichText3 = ({ content, onChange, placeholder }) => {
   const handleContentChange = (newContent) => {
     if (onChange) {
       onChange(newContent); // Call onChange only if it's passed as a prop
@@ -13,6 +14,7 @@ const RichText3 = ({ content, onChange }) => {
     <Tiptap
       content={content}
       onChange={handleContentChange} // Pass handleContentChange to Tiptap
+      placeholder={placeholder}
     />
   );
 };

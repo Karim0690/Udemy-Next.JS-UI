@@ -453,8 +453,10 @@
 
   "CourseMessages": {
     "welcome_message": "Write messages to your students (optional) that will be sent automatically when they join or complete your course to encourage students to engage with course content. If you do not wish to send a welcome or congratulations message, leave the text box blank.",
-    "welcome": "Welcome message",
-    "congratulations_message": "Congratulations message"
+    "welcome": "Welcome message in English",
+    "welcome_ar": "Welcome message in Arabic",
+    "congratulations_message": "Congratulations message in English",
+    "congratulations_message_ar": "Congratulations message in Arabic"
   },
   "CourseStructure": {
     "course_plan": "There's a course in you. Plan it out.",
@@ -542,7 +544,8 @@
     "visualContentForAccessibleLearning": "Visual content for accessible learning",
     "planningCourseAccessibility": "Planning your course accessibility considerations",
     "creatingAccessibleResourceDocs": "Creating accessible resource documents",
-    "markingCourseAsAccessible": "Marking your course as accessible"
+    "markingCourseAsAccessible": "Marking your course as accessible",
+    "audio-content": "Audio content in this course meet these guidelines"
   },
   "Curriculum": {
     "start_putting_together_your_course": "Start putting together your course by creating sections, lectures, and practice (quizzes, coding exercises, and assignments).",
@@ -553,7 +556,53 @@
     "question": "Question",
     "curriculumItem": "Curriculum item",
     "lecture": "Lecture",
-    "section": "Section"
+    "section": "Section",
+    "quiz": "Quiz",
+    "edit-item": "Edit item",
+    "description": "Description",
+    "lecture-description": "Lecture Description in English",
+    "lecture-description_ar": "Lecture Description in Arabic",
+    "add-description": "Add a description. Include what students will be able to do after completing the lecture.",
+    "save": "Save",
+    "cancle": "Cancel",
+    "content-type": "Select content type",
+    "add-video": "Add Video",
+    "add-video-des1": "Select the main type of content. Files and links can be added as resources.",
+    "add-video-des2": "Learn about content types.",
+    "video": "Video",
+    "upload-video": "Upload Video",
+    "no-file-selected": "No file selected",
+    "select-video": "Select Video",
+    "note": "Note",
+    "all-files": ": All files should be at least 720p and less than 4.0 GB.",
+    "filename": "Filename",
+    "type": "Type",
+    "status": "Status",
+    "date": "Date",
+    "new-lecture": "New Lecture:",
+    "enter-title": "Enter Title in English",
+    "enter-title_ar": "Enter Title in Arabic",
+    "add-lecture": "Add Lecture",
+    "ability": "What will students be able to do at the end of this section?",
+    "save-section": "Save Section",
+    "save-lecture": "Save Lecture",
+    "save-quiz": "Save Quiz",
+    "new-quiz": "New Quiz:",
+    "add-quiz": "Add Quiz",
+    "quiz-description": "Quiz Description in English.",
+    "quiz-description_ar": "Quiz Description in Arabic.",
+    "select-question-type": "Select question type",
+    "add-multiple": "Add Multiple Choice",
+    "add-quiz-1": "Select the main type of content. Files and links can be added as resources.",
+    "add-quiz-2": "Learn about content types.",
+    "multiple": "Multiple Choice",
+    "answers": "Answers",
+    "add-quiz-3": " Write up to 15 possible answers and indicate which one is the best.",
+    "related-lecture": "Related Lecture",
+    "select-one": "--Select One--",
+    "select-related": "Select a related video lecture to help students answer this question.",
+    "add-answer": "Add an answer.",
+    "add-explain": "Explain why this is or isn't the best answer."
   },
   "FilmnEdit": {
     "readyToShareKnowledge": "You’re ready to share your knowledge.",
@@ -648,8 +697,8 @@
     "create_multiple_coupons": "Create multiple coupons",
     "no_coupon_found": "No coupon found",
     "expired_coupons": "Expired coupons",
-    "refer-students":"Refer students",
-    "search":"Search coupon code"
+    "refer-students": "Refer students",
+    "search": "Search coupon code"
   },
   "SidebarCourse": {
     "plan-your-course": "Plan your course",
@@ -685,15 +734,26 @@
     "another": "Propose another topic...",
     "representative": "From the topics you have selected, which is the most representative topic?",
     "popper": "Which topic do you spend the most time covering in your course? If you believe two topics are equally representative, select either one. All topics will still count as being taught in your course.",
-    "learn-more":"Learn more",
+    "learn-more": "Learn more",
     "placeholder": "e.g. Landscape Photography",
-    "primary":"Select a primary topic"
+    "primary": "Select a primary topic"
   },
-  "CourseHeader":{
-    "back-to-course":"Back to courses",
-    "draft":"DRAFT",
-    "Public":"Public",
-    "uploaded":"min of video content uploaded",
-    "save":"Save"
+  "CourseHeader": {
+    "back-to-course": "Back to courses",
+    "draft": "DRAFT",
+    "public": "Public",
+    "uploaded": "min of video content uploaded",
+    "save": "Save"
+  },
+  "expanded-section": {
+    "new-section": "New section:",
+    "enter-title": "Enter a Title in English",
+    "enter-title_ar": "Enter a Title in Arabic",
+    "students-able": "What will students be able to do at the end of this section?",
+    "learning-objectives": "Enter a Learning Objective in English",
+    "learning-objectives_ar": "Enter a Learning Objective in Arabic",
+    "add-section": "Add Section",
+    "cancle": "Cancle",
+    "blank": "This field may not be blank."
   }
 }

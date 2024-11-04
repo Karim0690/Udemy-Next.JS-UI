@@ -211,7 +211,7 @@ const CourseManagmentContent = ({
         ) : (
           ""
         )}
-        {path == "communications" ? (
+        {path == "messages" ? (
           <div>
             <div className="border-b border-gray-200 py-9 px-7 lg:px-14 flex gap-4 items-center">
               <h2 className="text-2xl text-gray-800 font-bold font-serif">

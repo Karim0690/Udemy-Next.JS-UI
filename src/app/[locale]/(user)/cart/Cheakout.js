@@ -1,26 +1,31 @@
 "use client";
 
 import axios from "axios";
+import { useSession } from "next-auth/react";
 import React from "react";
 
-const handleCheckout = async () => {
-  let { data } = await axios.get(`http://127.0.0.1:3001/cart`, {
-    headers: {
-      Authorization: `${localStorage.getItem("token")}`,
-    },
-  });
-  if (data.message === "success") {
-    const response = await axios.post(
-      `http://127.0.0.1:3001/paypal/pay/${data.cart._id}`,
-      null
-    );    
-    if (response.data.message === "success") {
-      window.location.href = response.data.link;
-    }
-  }
-};
 
 const Cheakout = () => {
+  const {data:session}=useSession()
+  console.log(session);
+  
+  const handleCheckout = async () => {
+    let { data } = await axios.get(`http://127.0.0.1:3001/cart`, {
+      headers: {
+        Authorization: session.accessToken,
+      },
+    });
+    if (data.message === "success") {
+      const response = await axios.post(
+        `http://127.0.0.1:3001/paypal/pay/${data.cart._id}`,
+        null
+      );    
+      if (response.data.message === "success") {
+        window.location.href = response.data.link;
+      }
+    }
+  };
+  
   return (
     <>
       <button

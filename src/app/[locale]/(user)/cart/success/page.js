@@ -1,17 +1,21 @@
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import axios from "axios";
+import { getServerSession } from "next-auth";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import React from "react";
 import { IoMdCheckmarkCircle } from "react-icons/io";
 
 const Page = async ({ searchParams: { token } }) => {
+  const session = await getServerSession(authOptions);
+
   const { data } = await axios.post(`http://127.0.0.1:3001/paypal/cheakout`, {
     token,
-  });
+  });  
   if (data.data.status === "COMPLETED") {
     let { data } = await axios.get(`http://127.0.0.1:3001/cart`, {
       headers: {
-        Authorization: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmFhMmQ1YTIwMWY4MDZmOTJlZWJiMjUiLCJuYW1lIjoiS2FyaW0gQWJkZWxrYXJlZW0iLCJlbWFpbCI6IkthcmltQXltYW4zNjBAZ21haWwuY29tIiwicm9sZSI6WyJzdHVkZW50IiwiaW5zdHJ1Y3RvciJdLCJpYXQiOjE3MzA0OTM4MjIsImV4cCI6MTc2MjA1MTQyMn0.m4Uc8Dy0TSbbeh5oJ072n1fxMf6kzd-_egSyEzKYXq0`,
+        Authorization: session.accessToken,
       },
     });
     if (data.message === "success") {
@@ -20,7 +24,7 @@ const Page = async ({ searchParams: { token } }) => {
         {},
         {
           headers: {
-            Authorization: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmFhMmQ1YTIwMWY4MDZmOTJlZWJiMjUiLCJuYW1lIjoiS2FyaW0gQWJkZWxrYXJlZW0iLCJlbWFpbCI6IkthcmltQXltYW4zNjBAZ21haWwuY29tIiwicm9sZSI6WyJzdHVkZW50IiwiaW5zdHJ1Y3RvciJdLCJpYXQiOjE3MzA0OTM4MjIsImV4cCI6MTc2MjA1MTQyMn0.m4Uc8Dy0TSbbeh5oJ072n1fxMf6kzd-_egSyEzKYXq0`,
+            Authorization: session.accessToken,
           },
         }
       );

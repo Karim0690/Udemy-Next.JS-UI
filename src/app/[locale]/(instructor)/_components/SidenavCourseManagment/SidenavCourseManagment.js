@@ -1,9 +1,18 @@
 "use client";
 
+import useCourseStore from "@/app/store/courseStore";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import axios from "axios";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { BsCircle } from "react-icons/bs";
 import { BsCheckCircle } from "react-icons/bs";
@@ -12,6 +21,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 const SidenavCourseManagment = ({ path, course }) => {
   const t = useTranslations("SidebarCourse");
   const { locale } = useParams();
+  const { fetchCourse } = useCourseStore();
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const objectives =
@@ -78,6 +88,24 @@ const SidenavCourseManagment = ({ path, course }) => {
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+
+  const router = useRouter();
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const submitCourse = async () => {
+    fetchCourse(course._id);
+    if (course.progress === 100) {
+      const { data } = await axios.patch(
+        `${process.env.NEXT_PUBLIC_LOCAL_API}/course/public/${course._id}`
+      );
+      if (data.message === "success") {
+        router.push(`/${locale}/instructor/course`);
+      }
+    } else {
+      setIsDialogOpen(true);
+    }
+  };
+
   return (
     <>
       <div className="px-2 flex justify-between flex-wrap lg:block mb-4 lg:mb-0">
@@ -380,7 +408,7 @@ const SidenavCourseManagment = ({ path, course }) => {
               </li>
               <li
                 className={`py-1 hover:bg-gray-50 ${
-                  path === "communications"
+                  path === "messages"
                     ? locale === "ar"
                       ? "border-r-4 border-black"
                       : "border-l-4 border-black"
@@ -388,7 +416,7 @@ const SidenavCourseManagment = ({ path, course }) => {
                 }`}
               >
                 <Link
-                  href="communications/messages"
+                  href="messages"
                   className="flex items-center gap-3 py-1 px-4"
                 >
                   <span
@@ -408,11 +436,36 @@ const SidenavCourseManagment = ({ path, course }) => {
           </li>
         </ul>
         <div className="flex justify-end flex-1 order-2 lg:order-3">
-          <button className="bg-[#a435f0] hover:bg-[#8710d8] font-bold lg:w-full py-1 px-2 md:p-2 text-white text-base">
-            {t("submit-for-review")}
-          </button>
+          {course.courseState === "draft" && (
+            <button
+              className="bg-[#a435f0] hover:bg-[#8710d8] font-bold lg:w-full py-1 px-2 md:p-2 text-white text-base"
+              onClick={() => {
+                submitCourse();
+              }}
+            >
+              {t("submit-for-review")}
+            </button>
+          )}
         </div>
       </div>
+      {isDialogOpen && (
+        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+          <DialogContent className="bg-white">
+            <DialogHeader>
+              <DialogTitle>Your Course isn&apos;t complete</DialogTitle>
+              <DialogDescription className="text-gray-400 my-6">
+                You Didn&apos;t finished your coures yet to publish it
+              </DialogDescription>
+              <button
+                onClick={() => setIsDialogOpen(false)}
+                className="text-violet-700"
+              >
+                Back to your course
+              </button>
+            </DialogHeader>
+          </DialogContent>
+        </Dialog>
+      )}
     </>
   );
 };

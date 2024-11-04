@@ -61,9 +61,11 @@ const UserControlles = ({ user, locale }) => {
             </div>
 
             <hr />
-            <h1 className="p-2 hover:text-violet-700 cursor-pointer">
-              My Learning
-            </h1>
+            <Link href={`${locale}/home/my-courses/learning`}>
+              <h1 className="p-2 hover:text-violet-700 cursor-pointer">
+                My Learning
+              </h1>
+            </Link>
             <h1 className="p-2 hover:text-violet-700 cursor-pointer">
               My Cart
             </h1>
@@ -90,10 +92,11 @@ const UserControlles = ({ user, locale }) => {
               </div>
             </div>
             <hr />
-
-            <h1 className="p-2 hover:text-violet-700 cursor-pointer pb-0">
-              Public Profile
-            </h1>
+            <Link href={`${locale}/user/${user.name}`}>
+              <h1 className="p-2 hover:text-violet-700 cursor-pointer pb-0">
+                Public Profile
+              </h1>
+            </Link>
             <h1 className="p-2 hover:text-violet-700 cursor-pointer">
               Edit Profile
             </h1>
@@ -163,9 +166,11 @@ const UserControlles = ({ user, locale }) => {
         {/*  */}
         <HoverCard>
           <HoverCardTrigger asChild>
-            <h1 className="text-sm text-gray-500 hover:text-violet-600 hover:cursor-pointer mx-auto">
-              {t("learning")}
-            </h1>
+            <Link href={`/${locale}/home/my-courses/learning`}>
+              <h1 className="text-sm text-gray-500 hover:text-violet-600 hover:cursor-pointer mx-auto">
+                {t("learning")}
+              </h1>
+            </Link>
           </HoverCardTrigger>
           <HoverCardContent className="w-80 bg-white mt-4 mr-36">
             <div className="flex items-center justify-center mx-4 p-2">

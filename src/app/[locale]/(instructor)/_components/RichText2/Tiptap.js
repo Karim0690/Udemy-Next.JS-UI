@@ -8,7 +8,7 @@ import OrderedList from "@tiptap/extension-ordered-list";
 import Placeholder from "@tiptap/extension-placeholder";
 import CodeBlock from "@tiptap/extension-code-block";
 
-const Tiptap = ({ onChange, content }) => {
+const Tiptap = ({ onChange, content,placeholder }) => {
   const maxChars = 1000;
 
   const editor = useEditor({
@@ -23,7 +23,7 @@ const Tiptap = ({ onChange, content }) => {
         },
       }),
       Placeholder.configure({
-        placeholder: "Insert your course description.",
+        placeholder: placeholder,
         defaultNode: "paragraph",
       }),
     ],

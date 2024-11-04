@@ -64,7 +64,7 @@ const Accessibility = () => {
               </AccordionItem>
             </Accordion>
           </div>
-          <div className="flex items-center space-x-2 my-10">
+          <div className="flex items-center gap-2 space-x-2 my-10">
             <Checkbox id="terms1" />
             <label
               htmlFor="terms1"
@@ -101,13 +101,13 @@ const Accessibility = () => {
               </AccordionItem>
             </Accordion>
           </div>
-          <div className="flex items-center space-x-2 my-10">
+          <div className="flex items-center gap-2 space-x-2 my-10">
             <Checkbox id="terms1" />
             <label
               htmlFor="terms1"
-              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              className="text-xs font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
             >
-              Audio content in this course meet these guidelines
+              {t("audio-content")}
             </label>
           </div>
         </div>
@@ -140,11 +140,11 @@ const Accessibility = () => {
               </AccordionItem>
             </Accordion>
           </div>
-          <div className="flex items-center space-x-2 my-10">
+          <div className="flex items-center gap-2 space-x-2 my-10">
             <Checkbox id="terms1" />
             <label
               htmlFor="terms1"
-              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              className="text-xs font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
             >
               {t("materialsMeetGuidelines")}
             </label>

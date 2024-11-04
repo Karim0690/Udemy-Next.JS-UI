@@ -306,7 +306,7 @@ const Curriculum = () => {
                                 >
                                   <div className="flex gap-2">
                                     <h2 className="font-bold">
-                                      Section {sectionIndex + 1}:
+                                      {t("section")} {sectionIndex + 1}:
                                     </h2>
                                     <div className="flex items-center gap-2">
                                       <MdOutlineInsertDriveFile />
@@ -370,14 +370,14 @@ const Curriculum = () => {
                                                   ref={provided.innerRef}
                                                   {...provided.draggableProps}
                                                   {...provided.dragHandleProps}
-                                                  className="relative mt-4 ml-20 mr-2 p-3 flex items-center border border-gray-600 bg-white group cursor-move"
+                                                  className={`relative mt-4 ${params.locale==="en"?"ml-20 mr-2":"mr-20 ml-2"} p-3 flex items-center border border-gray-600 bg-white group cursor-move`}
                                                 >
                                                   <div className=" flex items-center gap-4 flex-1">
                                                     <IoIosCheckmarkCircle className="text-gray-800" />
                                                     <h3 className="font-medium">
                                                       {item.type === "Lecture"
-                                                        ? "Lecture"
-                                                        : "Quiz"}{" "}
+                                                        ? t("lecture")
+                                                        : t("quiz")}{" "}
                                                       {getItemNumber(
                                                         sectionIndex,
                                                         itemIndex
@@ -594,7 +594,13 @@ const Curriculum = () => {
                                     {provided.placeholder}
 
                                     {/* Add new curriculum item button */}
-                                    <div className="my-4 ml-20">
+                                    <div
+                                      className={`my-4 ${
+                                        params.locale === "en"
+                                          ? "ml-20"
+                                          : " mr-20"
+                                      }`}
+                                    >
                                       <button
                                         className={`flex items-center gap-2 border border-gray-800 py-[6px] px-3 font-medium transition-all ${
                                           visibleSectionIndex === sectionIndex
@@ -609,9 +615,13 @@ const Curriculum = () => {
                                       >
                                         <FaPlus
                                           className={`transition-transform duration-900 text-xl ${
-                                            visibleSectionIndex === sectionIndex
-                                              ? "rotate-45 -translate-x-11 -translate-y-3"
-                                              : ""
+                                            visibleSectionIndex ===
+                                              sectionIndex &&
+                                            `${
+                                              params.locale === "en"
+                                                ? "rotate-45 -translate-x-11 -translate-y-3"
+                                                : "-rotate-45 translate-x-11 -translate-y-3"
+                                            }`
                                           }`}
                                         />
                                         <span
@@ -629,7 +639,13 @@ const Curriculum = () => {
                                       {visibleSectionIndex === sectionIndex &&
                                         lectureFormVisible !== sectionIndex &&
                                         quizFormVisible !== sectionIndex && (
-                                          <div className="flex gap-4 border border-black border-dashed bg-white mr-2 p-4">
+                                          <div
+                                            className={`flex gap-4 border border-black border-dashed bg-white ${
+                                              params.locale === "en"
+                                                ? "mr-2"
+                                                : "ml-2"
+                                            }  p-4`}
+                                          >
                                             <button
                                               className="flex items-center text-violet-800 hover:text-violet-950 gap-2"
                                               onClick={() =>
@@ -653,7 +669,9 @@ const Curriculum = () => {
                                               }
                                             >
                                               <FaPlus />
-                                              <p className="font-bold">Quiz</p>
+                                              <p className="font-bold">
+                                                {t("quiz")}
+                                              </p>
                                             </button>
                                           </div>
                                         )}
@@ -702,7 +720,13 @@ const Curriculum = () => {
             >
               <FaPlus
                 className={`transition-transform duration-300 ${
-                  isFormVisible ? "-rotate-45 -translate-x-4" : ""
+                  isFormVisible
+                    ? `${
+                        params.locale === "en"
+                          ? "-rotate-45 -translate-x-4"
+                          : "rotate-45 translate-x-4"
+                      }`
+                    : ""
                 }`}
               />
               <span

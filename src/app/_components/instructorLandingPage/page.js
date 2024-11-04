@@ -3,6 +3,7 @@
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Spinner } from "@material-tailwind/react";
+import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
@@ -15,18 +16,18 @@ function InstructorLandingPage() {
   const [sort, setSort] = useState("-createdAt");
   const [isLoading, setIsLoading] = useState(false);
   const { locale } = useParams();
+  const { data: session } = useSession();
 
   const fetchCourses = async (keyword = "", sort = "-createdAt") => {
     setIsLoading(true);
-    console.log(keyword);
 
     try {
       const response = await fetch(
-        `${
-          process.env.NEXT_PUBLIC_LOCAL_API
-        }/course/66aa2d5a201f806f92eebb25/instructor?${
-          keyword ? `keyword=${keyword}` : ""
-        }&${sort ? `sort=${sort}` : ""}`
+        `${process.env.NEXT_PUBLIC_LOCAL_API}/course/${
+          session.user._id
+        }/instructor?${keyword ? `keyword=${keyword}` : ""}&${
+          sort ? `sort=${sort}` : ""
+        }`
       );
       const data = await response.json();
       setCourses(data.data || []);
@@ -134,8 +135,20 @@ function InstructorLandingPage() {
                     {locale === "en" ? course.title : course.title_Ar}
                   </h1>
                   <div className="flex gap-4 ">
-                    <p className="text-xs font-bold">{t("draft")}</p>
-                    <p className="text-xs">{t("public")}</p>
+                    <p
+                      className={`text-xs ${
+                        course.courseState === "draft" && "font-bold"
+                      }`}
+                    >
+                      {t("draft")}
+                    </p>
+                    <p
+                      className={`text-xs ${
+                        course.courseState === "public" && "font-bold"
+                      }`}
+                    >
+                      {t("public")}
+                    </p>
                   </div>
                 </div>
                 <div className="items-center my-auto flex-1 w-full hidden md:flex">

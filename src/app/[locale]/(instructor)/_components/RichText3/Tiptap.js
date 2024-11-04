@@ -5,13 +5,13 @@ import Placeholder from "@tiptap/extension-placeholder";
 import Toolbar from "./Toolbar";
 import { useEffect } from "react";
 
-const Tiptap = ({ onChange, content }) => {
+const Tiptap = ({ onChange, content,placeholder }) => {
   // Initialize the editor with content
   const editor = useEditor({
     extensions: [
       StarterKit,
       Placeholder.configure({
-        placeholder: "Quiz description.",
+        placeholder: placeholder,
         defaultNode: "paragraph",
       }),
     ],

@@ -83,7 +83,7 @@ const ManageCourseHeader = ({
                 : course?.title_Ar || "Loading..."}
             </h1>
             <span className="bg-[#6a6f73] px-2 py-[1px] md:px-2 md:py-1 text-[9px] md:text-xs text-white font-bold text-center">
-              {t("draft")}
+              {course?.courseState === "draft" ? t("draft") : t("public")}
             </span>
             <span className="text-xs md:text-base font-medium">
               {Math.round(course?.duration || 0)}
@@ -121,7 +121,7 @@ const ManageCourseHeader = ({
                 </button>
               </form>
             )}
-            {path === "communications" && (
+            {path === "messages" && (
               <form onSubmit={messagesSave}>
                 <button
                   type="submit"
