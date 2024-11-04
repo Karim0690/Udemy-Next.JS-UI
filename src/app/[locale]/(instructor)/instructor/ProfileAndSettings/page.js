@@ -78,8 +78,10 @@ export default function Page() {
   const MAX_CHARS = 60;
   const [remainingChars, setRemainingChars] = useState(MAX_CHARS);
 
-  const handleChange = () => {
+  const handleChange = (e) => {
+    const value = e.target.value;
     if (MAX_CHARS - value.length >= 0) {
+      setBio(value);
       setRemainingChars(MAX_CHARS - value.length);
     }
   };
@@ -217,6 +219,7 @@ export default function Page() {
                           <div className="relative">
                             <input
                               name="headline"
+                              placeholder={t("headlineDescription")}
                               value={formData.headline}
                               onChange={(e) => {
                                 handleChangeUpdate(e);
@@ -224,7 +227,7 @@ export default function Page() {
                               className="appearance-none block w-full text-gray-700 border border-black py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                               id="grid-first-name"
                               type="text"
-                              placeholder={t("instructor")}
+
                               /*     value={bio}
                               onChange={handleChange} */
                             />
@@ -345,29 +348,33 @@ export default function Page() {
                               {" "}
                               {t("chooseLanguage")}
                             </option>
-                            <option value="US">United States</option>
-                            <option value="CA">Canada</option>
-                            <option value="FR">France</option>
-                            <option value="DE">Germany</option>
-                            <option value="ES">Spain</option>
-                            <option value="IT">Italy</option>
-                            <option value="UK">United Kingdom</option>
-                            <option value="NL">Netherlands</option>
-                            <option value="AU">Australia</option>
-                            <option value="NZ">New Zealand</option>
-                            <option value="IN">India</option>
-                            <option value="BR">Brazil</option>
-                            <option value="MX">Mexico</option>
-                            <option value="CN">China</option>
-                            <option value="RU">Russia</option>
+                            <option value="US">{t("US")}</option>
+                            <option value="CA">{t("CA")}</option>
+                            <option value="FR">{t("FR")}</option>
+                            <option value="DE">{t("DE")}</option>
+                            <option value="ES">{t("ES")}</option>
+                            <option value="IT">{t("IT")}</option>
+                            <option value="UK">{t("UK")}</option>
+                            <option value="NL">{t("NL")}</option>
+                            <option value="AU">{t("AU")}</option>
+                            <option value="NZ">{t("NZ")}</option>
+                            <option value="IN">{t("IN")}</option>
+                            <option value="BR">{t("BR")}</option>
+                            <option value="MX">{t("MX")}</option>
+                            <option value="CN">{t("CN")}</option>
+                            <option value="RU">{t("RU")}</option>
                           </select>
                         </div>
                       </div>
-                      <div className="flex items-center space-x-2">
+                      <div
+                        className={`flex items-center mt-4 ${
+                          locale === "ar" ? "justify-end" : "justify-start"
+                        }`}
+                      >
                         <Button
                           type="submit"
                           disabled={isLoading}
-                          className="bg-black text-white hover:bg-gray-700 w-20 h-14 font-bold text-lg mt-4"
+                          className="bg-black text-white hover:bg-gray-700 w-20 h-14 font-bold text-lg"
                         >
                           {isLoading ? t("...save") : t("save")}
                         </Button>
@@ -383,7 +390,7 @@ export default function Page() {
                         {" "}
                         {t("minimumRequirements")}
                       </div>
-                      <div className="flex items-center justify-center w-full">
+                      <div className="flex  w-full">
                         <label
                           for="dropzone-file"
                           className="flex flex-col items-center justify-center w-[50%] h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
@@ -423,11 +430,15 @@ export default function Page() {
                         </label>
                       </div>
                       {/* button save */}
-                      <div className="flex items-center space-x-2">
+                      <div
+                        className={`flex items-center mt-4 ${
+                          locale === "ar" ? "justify-end" : "justify-start"
+                        }`}
+                      >
                         <Button
                           type="submit"
                           disabled={isLoading}
-                          className="bg-zinc-800 text-white hover:bg-zinc-700 w-20 h-14 font-bold text-lg mt-6"
+                          className="bg-black text-white hover:bg-gray-700 w-20 h-14 font-bold text-lg"
                         >
                           {isLoading ? t("...save") : t("save")}
                         </Button>
@@ -457,9 +468,18 @@ export default function Page() {
                           {t("showProfile")}
                         </label>
                       </div>
-                      <Button className="bg-black text-white hover:bg-zinc-700 mt-6 w-20 h-14 font-bold text-lg">
-                        Save
-                      </Button>
+                      <div
+                        className={`flex items-center mt-16 ${
+                          locale === "ar" ? "justify-end" : "justify-start"
+                        }`}
+                      >
+                        <Button
+                          disabled={isLoading}
+                          className="bg-black text-white hover:bg-gray-700 w-20 h-14 font-bold text-lg"
+                        >
+                          {isLoading ? t("...save") : t("save")}
+                        </Button>
+                      </div>
                     </div>
                   )}
                 </div>

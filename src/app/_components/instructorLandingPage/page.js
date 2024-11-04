@@ -66,7 +66,7 @@ function InstructorLandingPage() {
         </Link>
       </div>
       <div className="flex justify-between items-center">
-        <div className="flex flex-1 items-center justify-between md:justify-normal">
+        <div className="flex flex-1 items-center gap-6 justify-between md:justify-normal">
           <form onSubmit={handleSearch} className="flex min-w-[250px]">
             <input
               type="text"
@@ -79,7 +79,7 @@ function InstructorLandingPage() {
               <FontAwesomeIcon icon={faMagnifyingGlass} className="w-8 h-6" />
             </button>
           </form>
-          <div className="flex items-center border text-3xl border-black font-sans hover:cursor-pointer hover:bg-gray-200 ml-4 w-28 p-2">
+          <div className="flex items-center border text-3xl border-black font-sans hover:cursor-pointer hover:bg-gray-200 w-28 p-2">
             <select
               id="sort-options"
               name="sort"
@@ -130,7 +130,9 @@ function InstructorLandingPage() {
 
               <div className="group-hover:opacity-5 w-full flex gap-10">
                 <div className="md:w-1/4 flex flex-col justify-between py-4">
-                  <h1 className="font-bold">{course.title}</h1>
+                  <h1 className="font-bold">
+                    {locale === "en" ? course.title : course.title_Ar}
+                  </h1>
                   <div className="flex gap-4 ">
                     <p className="text-xs font-bold">{t("draft")}</p>
                     <p className="text-xs">{t("public")}</p>

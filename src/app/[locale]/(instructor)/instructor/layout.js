@@ -13,8 +13,8 @@ export const metadata = {
 export default async function InstructorLayout({ children }) {
   return (
     <>
-        {children}
-        <Toaster position="bottom-right" />
+      {children}
+      <Toaster position="bottom-right" />
     </>
   );
 }

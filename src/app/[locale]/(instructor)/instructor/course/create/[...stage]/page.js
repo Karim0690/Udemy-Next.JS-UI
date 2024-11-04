@@ -1,17 +1,20 @@
 "use client";
-import Image from "next/image";
-import { usePathname, useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
-import { LuMonitorPlay } from "react-icons/lu";
-import Link from "next/link";
+
 import useCourseStore from "@/app/store/courseStore";
 import axios from "axios";
-import { toast } from "sonner";
 import { jwtDecode } from "jwt-decode";
+import { useTranslations } from "next-intl";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
 import { IoMdCheckmarkCircle } from "react-icons/io";
+import { LuMonitorPlay } from "react-icons/lu";
 import { TbAlertOctagonFilled } from "react-icons/tb";
+import { toast } from "sonner";
 
 const Page = () => {
+  const t = useTranslations("CreateCourse");
   const path = usePathname();
   const router = useRouter();
   const page = parseInt(path.split("/")[4]);
@@ -42,7 +45,7 @@ const Page = () => {
             className="mt-5 mx-14 bg-gray-800 text-white w-20 p-3"
             onClick={() => toast.dismiss(toastId)}
           >
-            Dismiss
+            {t(dismiss)}
           </button>
         </div>
       ),
@@ -73,7 +76,6 @@ const Page = () => {
       console.log("No token found in local storage.");
     }
   };
-
   useEffect(() => {
     fetchCategories();
     decodeToken();
@@ -85,11 +87,36 @@ const Page = () => {
   }, []);
 
   const options = [
-    "I’m very busy right now (0-2 hours)",
-    "I’ll work on this on the side (2-4 hours)",
-    "I have lots of flexibility (5+ hours)",
-    "I haven’t yet decided if I have time",
+    {
+      key: "busy_now",
+      text: "I’m very busy right now (0-2 hours)",
+    },
+    {
+      key: "work_on_side",
+      text: "I’ll work on this on the side (2-4 hours)",
+    },
+    {
+      key: "lots_of_flexibility",
+      text: "I have lots of flexibility (5+ hours)",
+    },
+    {
+      key: "undecided_time",
+      text: "I haven’t yet decided if I have time",
+    },
   ];
+
+  const translatedOptions = options.map((option) => ({
+    key: option.key,
+    translatedText: t(option.key), // يجب أن تعود الترجمة المناسبة
+  }));
+
+  // karim options __________________
+  // const options = [
+  //   "I’m very busy right now (0-2 hours)",
+  //   "I’ll work on this on the side (2-4 hours)",
+  //   "I have lots of flexibility (5+ hours)",
+  //   "I haven’t yet decided if I have time",
+  // ];
 
   const handleTitleChange = (e) => {
     const newTitle = e.target.value;
@@ -158,7 +185,9 @@ const Page = () => {
             </div>
           </div>
           <Link href={"/instructor/course"}>
-            <button className="text-[#5022c3] font-semibold">Exit</button>
+            <button className="text-[#5022c3] font-semibold">
+              {t("exit")}
+            </button>
           </Link>
         </div>
         <div className="bg-gray-300 h-1">
@@ -174,13 +203,12 @@ const Page = () => {
           {page == 1 && (
             <div>
               <h1 className="text-3xl font-bold text-gray-700 font-serif">
-                First, let&apos;s find out what type of course you&apos;re
-                making.
+                {t("first_question")}
               </h1>
               <form className="mt-20">
                 <fieldset className="mx-auto">
                   <legend className="flex items-center pb-1 absolute h-[1px] w-[1px] overflow-hidden">
-                    Type of course
+                    {t("type_of_course")}
                   </legend>
                   <div className="flex justify-center">
                     {/* First Option: Course */}
@@ -202,11 +230,10 @@ const Page = () => {
                       <span className="flex flex-col items-center mt-6 text-center">
                         <LuMonitorPlay className="text-3xl" />
                         <span className="block mt-4 font-bold text-gray-700">
-                          Course
+                          {t("course")}
                         </span>
                         <span className="block mt-2 text-gray-800 text-sm">
-                          Create rich learning experiences with the help of
-                          video lectures, quizzes, coding exercises, etc.
+                          {t("create_learning_experiences")}
                         </span>
                       </span>
                     </label>
@@ -248,11 +275,10 @@ const Page = () => {
             <div>
               <div className="flex flex-col items-center justify-center text-center">
                 <h1 className="text-3xl font-bold text-gray-700 font-serif">
-                  How about a working title?
+                  {t("working_title")}
                 </h1>
                 <p className="text-base text-gray-700 mt-4">
-                  It&apos;s ok if you can&apos;t think of a good title now. You
-                  can change it later.
+                  {t("good_title_message")}
                 </p>
               </div>
               <div className="relative px-3 mt-20 w-[600px]">
@@ -275,11 +301,10 @@ const Page = () => {
             <div className="flex flex-col justify-center items-center">
               <div className="flex flex-col items-center justify-center text-center">
                 <h1 className="text-3xl font-bold text-gray-700 font-serif">
-                  What category best fits the knowledge you&apos;ll share?
+                  {t("best_fit_category")}
                 </h1>
                 <p className="text-base text-gray-700 mt-4">
-                  If you&apos;re not sure about the right category, you can
-                  change it later.
+                  {t("category_change_message")}
                 </p>
               </div>
               <div className="px-2 mt-20 w-[600px] border border-black">
@@ -297,7 +322,7 @@ const Page = () => {
                     setStep(3);
                   }}
                 >
-                  <option value="">Choose a Category</option>
+                  <option value="">{t("choose_category")} </option>
                   {categories?.map((category) => (
                     <option key={category._id} value={category._id}>
                       {category.name}
@@ -312,14 +337,35 @@ const Page = () => {
             <div className="flex flex-col justify-center items-center">
               <div className="flex flex-col items-center justify-center text-center">
                 <h1 className="text-3xl font-bold text-gray-700 font-serif">
-                  How much time can you spend creating your course per week?
+                  {t("time_commitment")}
                 </h1>
                 <p className="text-base text-gray-700 mt-4">
-                  There&apos;s no wrong answer. We can help you achieve your
-                  goals even if you don&apos;t have much time.
+                  {t("time_commitment_message")}
                 </p>
               </div>
               <div className="flex flex-col space-y-4 mt-20 w-[60%]">
+                {translatedOptions.map((option, index) => (
+                  <label
+                    key={index}
+                    className={`flex items-center p-3 border border-black cursor-pointer transition-colors `}
+                  >
+                    <input
+                      type="radio"
+                      name="time-commitment"
+                      value={option.key}
+                      checked={selectedOption === option.key}
+                      onChange={() => setSelectedOption(option.key)}
+                      className="mr-4 cursor-pointer"
+                    />
+                    <span className="text-gray-900 font-bold">
+                      {option.translatedText}
+                    </span>{" "}
+                  </label>
+                ))}
+              </div>
+
+              {/* karim options___________________ */}
+              {/* <div className="flex flex-col space-y-4 mt-20 w-[60%]">
                 {options.map((option, index) => (
                   <label
                     key={index}
@@ -336,7 +382,7 @@ const Page = () => {
                     <span className="text-gray-900 font-bold">{option}</span>
                   </label>
                 ))}
-              </div>
+              </div> */}
             </div>
           )}
         </div>
@@ -363,14 +409,14 @@ const Page = () => {
               disabled={!isValidStep}
               onClick={handleContinue}
             >
-              Continue
+              {t("continue")}
             </button>
           ) : (
             <button
               className={`bg-[#2d2f31] text-white font-bold p-4 text-center`}
               onClick={handleSubmit}
             >
-              Finish
+              {t("finish")}
             </button>
           )}
         </div>

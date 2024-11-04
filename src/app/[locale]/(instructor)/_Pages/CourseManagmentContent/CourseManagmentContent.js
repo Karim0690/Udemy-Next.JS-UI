@@ -1,15 +1,16 @@
-import React from "react";
-import DragnDrop from "../Goals/DragnDrop/DragnDrop";
-import CourseStructure from "../CourseStructure/CourseStructure";
-import SetupnTest from "../SetupnTest/SetupnTest";
-import FilmnEdit from "../FilmnEdit/FilmnEdit";
-import { IoMdInformationCircle } from "react-icons/io";
 import Accessibility from "../Accessibility/Accessibility";
 import CourseLandingPage from "../CourseLandingPage/CourseLandingPage";
+import CourseMessages from "../CourseMessages/CourseMessages";
+import CourseStructure from "../CourseStructure/CourseStructure";
+import Curriculum from "../Curriculum/Curriculum";
+import FilmnEdit from "../FilmnEdit/FilmnEdit";
+import DragnDrop from "../Goals/DragnDrop/DragnDrop";
 import Price from "../Price/Price";
 import Promotions from "../Promotions/Promotions";
-import CourseMessages from "../CourseMessages/CourseMessages";
-import Curriculum from "../Curriculum/Curriculum";
+import SetupnTest from "../SetupnTest/SetupnTest";
+import { useTranslations } from "next-intl";
+import React from "react";
+import { IoMdInformationCircle } from "react-icons/io";
 
 const CourseManagmentContent = ({
   path,
@@ -19,6 +20,7 @@ const CourseManagmentContent = ({
   setBasics,
   setMessages,
 }) => {
+  const t = useTranslations("CourseManagmentContent");
   return (
     <>
       <div className="bg-white shadow-2xl w-full flex-1">
@@ -27,19 +29,17 @@ const CourseManagmentContent = ({
             <div className="border-b border-gray-200 py-9 px-4 lg:px-14">
               <div>
                 <h2 className="text-2xl text-gray-800 font-bold font-serif">
-                  Intended learners
+                  {t("intended_learners")}
                 </h2>
               </div>
             </div>
             <div className="py-9 px-4 lg:px-14 max-w-[56rem]">
               <p className="mb-20">
-                The following descriptions will be publicly visible on your{" "}
+                {t("public_descriptions")}
                 <span className="text-[#5022c3] underline underline-offset-4 hover:text-[#3b198f] cursor-pointer">
-                  Course Landing Page
-                </span>{" "}
-                and will have a direct impact on your course performance. These
-                descriptions will help learners decide if your course is right
-                for them.
+                  {t("course_landing_page")}
+                </span>
+                {t("course_impact_description")}
               </p>
               <DragnDrop
                 course={course}
@@ -56,7 +56,7 @@ const CourseManagmentContent = ({
             <div className="border-b border-gray-200 py-9 px-7 lg:px-14">
               <div>
                 <h2 className="text-2xl text-gray-800 font-bold font-serif">
-                  Course structure
+                  {t("course_structure")}
                 </h2>
               </div>
             </div>
@@ -70,7 +70,7 @@ const CourseManagmentContent = ({
             <div className="border-b border-gray-200 py-9 px-7 lg:px-14">
               <div>
                 <h2 className="text-2xl text-gray-800 font-bold font-serif">
-                  Setup & test video
+                  {t("setup_test_video")}
                 </h2>
               </div>
             </div>
@@ -84,7 +84,7 @@ const CourseManagmentContent = ({
             <div className="border-b border-gray-200 py-9 px-7 md:px-14">
               <div>
                 <h2 className="text-2xl text-gray-800 font-bold font-serif">
-                  Film & Edit
+                  {t("film_edit")}
                 </h2>
               </div>
             </div>
@@ -98,7 +98,7 @@ const CourseManagmentContent = ({
             <div className="border-b border-gray-200 py-9 px-14">
               <div>
                 <h2 className="text-2xl text-gray-800 font-bold font-serif">
-                  Curriculum
+                  {t("curriculum")}
                 </h2>
               </div>
             </div>
@@ -113,7 +113,7 @@ const CourseManagmentContent = ({
               <div className="flex flex-1 gap-2 flex-wrap items-center">
                 <div>
                   <h2 className="text-2xl text-gray-800 font-bold font-serif">
-                    Captions
+                    {t("captions")}
                   </h2>
                 </div>
                 <div className="flex gap-4">
@@ -124,42 +124,38 @@ const CourseManagmentContent = ({
                       required
                       className="block w-[130px] border border-black py-3 text-base focus:outline-none bg-transparent text-gray-800 font-bold"
                     >
-                      <option value="en">English (US)</option>
-                      <option value="ar">Arabic</option>
+                      <option value="en"> {t("english_us")} </option>
+                      <option value="ar"> {t("arabic")} </option>
                     </select>
                   </div>
                   <div className="hidden lg:flex items-center gap-1">
-                    0/0 Published lectures captions{" "}
+                    {t("published_lectures_captions")}
                     <IoMdInformationCircle className="text-xl" />
                   </div>
                 </div>
               </div>
               <div className="mt-4 md:mt-0">
                 <button className="border font-bold border-black text-base p-3">
-                  Disable
+                  {t("disable")}
                 </button>
               </div>
             </div>
             <div className="text-base py-4 lg:py-9 px-7 lg:px-10">
               <p className="text-gray-800">
-                Learners of all levels of language proficiency highly value
-                subtitles as it helps follow, understand and memorize the
-                content. Also having subtitles to ensure the content is
-                accessible for those that are deaf or hard of hearing is
-                crucial.{" "}
+                {t("subtitles_importance")}
                 <span className="text-[#5022c3] hover:text-[#3b198f]">
-                  Learn more
+                  {t("learn_more")}
                 </span>
                 .
               </p>
               <div className="border border-gray-300 my-10 p-2 md:p-4 flex items-start md:items-center gap-2">
                 <IoMdInformationCircle className="text-4xl w-[10%]" />
                 <p className="font-bold w-[80%]">
-                  When you add video lectures to your course via the{" "}
+                  {t("add_video_lectures")}
                   <span className="text-[#5022c3] hover:text-[#3b198f] underline underline-offset-4">
-                    Curriculum
-                  </span>{" "}
-                  you will be able to add captions to those videos here.
+                    {" "}{t("curriculum")}{" "}
+                  </span>
+                  {t("add_captions_info")}
                 </p>
               </div>
             </div>
@@ -171,7 +167,7 @@ const CourseManagmentContent = ({
           <div>
             <div className="border-b border-gray-200 py-9 px-7 lg:px-14 flex gap-4 items-center">
               <h2 className="text-2xl text-gray-800 font-bold font-serif">
-                Accessibility
+                {t("accessibility")}
               </h2>
             </div>
             <Accessibility />
@@ -183,13 +179,10 @@ const CourseManagmentContent = ({
           <div>
             <div className="border-b border-gray-200 py-9 px-7 md:px-14 flex gap-4 items-center">
               <h2 className="text-2xl text-gray-800 font-bold font-serif">
-                Course Landing Page
+                {t("course_landing_page")}
               </h2>
             </div>
-            <CourseLandingPage
-              course={course}
-              setBasics={setBasics}
-            />
+            <CourseLandingPage course={course} setBasics={setBasics} />
           </div>
         ) : (
           ""
@@ -198,7 +191,7 @@ const CourseManagmentContent = ({
           <div>
             <div className="border-b border-gray-200 py-9 px-7 lg:px-14 flex gap-4 items-center">
               <h2 className="text-2xl text-gray-800 font-bold font-serif">
-                Pricing
+                {t("pricing")}
               </h2>
             </div>
             <Price id={course._id} price={course.price} />
@@ -210,7 +203,7 @@ const CourseManagmentContent = ({
           <div>
             <div className="border-b border-gray-200 py-9 px-7 lg:px-14 flex gap-4 items-center">
               <h2 className="text-2xl text-gray-800 font-bold font-serif">
-                Promotions
+                {t("promotions")}
               </h2>
             </div>
             <Promotions />
@@ -222,7 +215,7 @@ const CourseManagmentContent = ({
           <div>
             <div className="border-b border-gray-200 py-9 px-7 lg:px-14 flex gap-4 items-center">
               <h2 className="text-2xl text-gray-800 font-bold font-serif">
-                Course messages
+                {t("course_messages")}
               </h2>
             </div>
             <CourseMessages course={course} setMessages={setMessages} />
