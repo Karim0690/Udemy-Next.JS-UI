@@ -13,6 +13,7 @@ const Page = ({ params }) => {
   const t = useTranslations("Topics");
   let { topic } = params;
   topic = topic ? topic[0] : null;
+  const t = useTranslations("Categories");
 
   return (
     <>
@@ -127,8 +128,8 @@ const Page = ({ params }) => {
         </div>{" "}
         <div className="flex mt-2 mb-12">
           <div className="w-[25%] hidden lg:block pt-4">
-            <FilterAccordion />
-          </div>{" "}
+            <FilterAccordion t={t} />
+          </div>
           <div className="w-full lg:ml-6">
             {" "}
             {Array.from({ length: 16 }, (_, i) => (

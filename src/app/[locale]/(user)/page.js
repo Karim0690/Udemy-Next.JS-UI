@@ -9,6 +9,7 @@ import LandingPageSection5 from "@/app/_components/landingPageSection5/page";
 import LandingPageSection8 from "@/app/_components/landingPageSection8/page";
 import LandingPageSection9 from "@/app/_components/landingPageSection9/page";
 import { Link } from "@/i18n/routing";
+import axios from "axios";
 import { useTranslations } from "next-intl";
 
 export default function Home() {

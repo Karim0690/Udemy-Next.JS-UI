@@ -1,6 +1,5 @@
 "use client";
 
-import useUserStore from "@/app/store/userStore";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   HoverCard,
@@ -8,31 +7,24 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { signOut } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
-import { useParams, useRouter } from "next/navigation";
-import React, { useEffect } from "react";
 import { FaRegBell } from "react-icons/fa";
 import { MdOutlineOpenInNew } from "react-icons/md";
 
-const InstructorHeader = () => {
+const InstructorHeader = ({ session, locale }) => {
   const t = useTranslations("InstructorHearder");
-  const { locale } = useParams();
 
-  const router = useRouter();
   let avatar;
-  const { user, setUser } = useUserStore();
-  useEffect(() => {
-    setUser();
-  }, [setUser]);
-
-  if (user) {
-    avatar = (user.name.charAt(0) + user.name.charAt(1)).toUpperCase();
+  if (session?.user) {
+    avatar = (
+      session.user.name.charAt(0) + session.user.name.charAt(1)
+    ).toUpperCase();
   }
 
-  const signOut = () => {
-    localStorage.removeItem("token");
-    router.push("/");
+  const handleSignOut = async () => {
+    await signOut({ redirect: true, callbackUrl: "/" });
   };
 
   return (
@@ -59,9 +51,9 @@ const InstructorHeader = () => {
 
             <div className="ml-4">
               <h1 className="text-sm font-bold text-gray-900 group-hover:text-violet-800">
-                {user?.name}
+                {session?.user.name}
               </h1>
-              <p className="text-xs text-gray-500">{user?.email}</p>
+              <p className="text-xs text-gray-500">{session?.user.email}</p>
             </div>
           </div>
 
@@ -87,7 +79,7 @@ const InstructorHeader = () => {
 
             <button
               className="p-2 hover:text-violet-700"
-              onClick={() => signOut()}
+              onClick={handleSignOut}
             >
               {t("logout")}
             </button>

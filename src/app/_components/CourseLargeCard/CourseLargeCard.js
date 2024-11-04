@@ -6,7 +6,7 @@ const CourseLargeCard = () => {
   return (
     <>
       <div className="flex border-b border-gray-200">
-        <div className="flex w-full">
+        <div className="flex w-full gap-3">
           <div className="w-[50%] lg:w-[50%] xl:w-[15] py-4">
             <Image
               src="https://img-c.udemycdn.com/course/240x135/567828_67d0.jpg"

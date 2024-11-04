@@ -5,6 +5,7 @@ import React from "react";
 const EmptyCart = () => {
   return (
     <>
+    
       <div className="border border-gray-200 flex flex-col justify-center items-center py-9">
         <div className="mb-5">
           <Image

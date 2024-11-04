@@ -12,7 +12,11 @@
         "signup": "Sign up",
         "Instructor": "Instructor",
         "learning": "My Learning",
-        "lt": "Switch to the student veiw here - get back to the courses you're taking."
+        "lt": "Switch to the student veiw here - get back to the courses you're taking.",
+        "wishlistContent": "Your Wishlist is empty.",
+        "wishlistButton": "Explore Courses",
+        "cartContent": "Your cart is empty.",
+        "cartButton": "Keep Shopping"
     },
     "LandingPage": {
         "baner": "Keep moving up",

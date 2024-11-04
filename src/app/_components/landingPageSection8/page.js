@@ -8,9 +8,9 @@ function LandingPageSection8() {
   return (
     <>
       <div>
-        <div className="bg-gray-100 my-20 p-10 flex ">
-          <div className="grid grid-cols-2 gap-4 w-full">
-            <div className="p-20">
+        <div className="bg-gray-100 my-20 p-10 flex">
+          <div className="flex flex-col lg:flex-row gap-4 w-full">
+            <div className="flex-1">
               <div className={`flex [dir="ltr"]`}>
                 <Link href="/" className="-m-1.5 p-1.5">
                   <span className="sr-only">Your Company</span>
@@ -26,15 +26,9 @@ function LandingPageSection8() {
               </div>
               <h2 className="text-4xl font-bold mt-6">{t("Businessbaner1")}</h2>
               <ul className="mt-6 space-y-6 list-disc pl-6 ">
-                <li className="text-base text-xl font-large">
-                  {t("Businessbaner2")}
-                </li>
-                <li className="text-base text-xl font-large">
-                  {t("Businessbaner3")}
-                </li>
-                <li className="text-base text-xl font-large">
-                  {t("Businessbaner4")}
-                </li>
+                <li className="text-base font-large">{t("Businessbaner2")}</li>
+                <li className="text-base font-large">{t("Businessbaner3")}</li>
+                <li className="text-base font-large">{t("Businessbaner4")}</li>
               </ul>
 
               <div>
@@ -47,7 +41,7 @@ function LandingPageSection8() {
               </div>
             </div>
 
-            <div className="flex justify-center items-center">
+            <div className="flex flex-1 justify-center items-center">
               <Image
                 alt=""
                 src="https://s.udemycdn.com/home/non-student-cta/UB_Promo_800x800.jpg"

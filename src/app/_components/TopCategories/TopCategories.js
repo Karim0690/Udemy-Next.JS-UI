@@ -11,7 +11,7 @@ export default function Top_Categories() {
         <h1 className="font-bold tracking-normal text-4xl mb-10">
           {t("topcategory")}
         </h1>
-        <div className="hidden md:grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div className="hidden mx-auto md:grid grid-cols-2 md:grid-cols-4 gap-6">
           {[
             {
               href: "https://www.udemy.com/courses/design/",
@@ -54,9 +54,9 @@ export default function Top_Categories() {
               alt: "Music",
             },
           ].map((category, index) => (
-            <div className="relative mb-6" key={index}>
+            <div className="relative mx-auto mb-6" key={index}>
               <a href={category.href}>
-                <div className="relative w-[168px] h-[168px] lg:w-[300px] lg:h-[300px] overflow-hidden">
+                <div className="relative w-[168px] h-[168px] lg:w-[280px] lg:h-[280px] overflow-hidden">
                   <Image
                     className="transition duration-200 transform hover:scale-105"
                     src={category.src}

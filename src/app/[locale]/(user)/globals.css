@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+/* app/globals.css */
+
 body {
   font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
 }
@@ -14,6 +16,4 @@ body {
   content: "" !important;
 }
 
-.swiper-slide {
-  height: 60px !important;
-}
+

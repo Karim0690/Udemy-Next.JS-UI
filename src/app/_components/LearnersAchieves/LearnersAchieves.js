@@ -90,9 +90,7 @@ const LearnersAchieves = () => {
         />
         <Swiper
           ref={swiperRef}
-          spaceBetween={-50}
-          slidesPerView={3}
-          className="h-[350px] mx-auto "
+          className="h-[350px] mx-auto"
           modules={[Navigation]}
           onSwiper={(swiper) => {
             swiperRef.current = swiper;
@@ -100,6 +98,20 @@ const LearnersAchieves = () => {
           onSlideChange={({ isBeginning, isEnd }) => {
             setIsBeginning(isBeginning);
             setIsEnd(isEnd);
+          }}
+          breakpoints={{
+            640: {
+              slidesPerView: 1,
+              spaceBetween: 20,
+            },
+            768: {
+              slidesPerView: 2,
+              spaceBetween: 10,
+            },
+            1024: {
+              slidesPerView: 3,
+              spaceBetween: -50,
+            },
           }}
         >
           <SwiperSlide>

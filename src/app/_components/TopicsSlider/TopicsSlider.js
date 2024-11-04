@@ -1,11 +1,14 @@
 "use client";
+
 import React, { useRef, useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/grid";
 import "swiper/css/navigation";
+import { useParams } from "next/navigation";
 import { Grid, Navigation } from "swiper/modules";
+import styles from "./topicsSlider.module.css"
 
 // Custom Next Arrow
 const SampleNextArrow = ({ onClick, isHidden }) => (
@@ -57,22 +60,30 @@ const TopicsSlider = () => {
   const swiperRef = useRef(null);
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
+  const { locale } = useParams();
 
   return (
     <div className="relative">
       <SamplePrevArrow
         onClick={() => {
-          if (swiperRef.current) swiperRef.current.slidePrev();
+          if (locale === "ar") {
+            if (swiperRef.current) swiperRef.current.slideNext();
+          } else {
+            if (swiperRef.current) swiperRef.current.slidePrev();
+          }
         }}
-        isHidden={isBeginning}
+        isHidden={locale === "ar" ? isEnd : isBeginning} // Update isHidden based on locale
       />
       <SampleNextArrow
         onClick={() => {
-          if (swiperRef.current) swiperRef.current.slideNext();
+          if (locale === "ar") {
+            if (swiperRef.current) swiperRef.current.slidePrev();
+          } else {
+            if (swiperRef.current) swiperRef.current.slideNext();
+          }
         }}
-        isHidden={isEnd}
+        isHidden={locale === "ar" ? isBeginning : isEnd} // Update isHidden based on locale
       />
-
       <Swiper
         spaceBetween={10}
         slidesPerView={5}
@@ -119,7 +130,7 @@ const TopicsSlider = () => {
         {topics.map((topic, index) => (
           <SwiperSlide
             key={index}
-            className="border border-gray-300 py-4 mb-2 flex items-center justify-center h-[60px]"
+            className={`border border-gray-300 py-4 mb-2 flex items-center justify-center ${styles.height}`}
           >
             <h1 className="font-bold text-base text-gray-800">{topic}</h1>
           </SwiperSlide>
