@@ -6,9 +6,12 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { RadioGroup } from "@/components/ui/radio-group";
+import { useTranslations } from "next-intl";
 import React from "react";
 
-const FilterAccordion = ({ t }) => {
+const FilterAccordion = () => {
+  const t = useTranslations("Categories");
+
   return (
     <>
       <Accordion

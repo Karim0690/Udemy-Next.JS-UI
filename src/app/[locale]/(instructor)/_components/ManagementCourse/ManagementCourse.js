@@ -1,9 +1,9 @@
 "use client";
 
+import InstructorFooter from "../../instructor/instractorFooter/page";
 import CourseManagmentContent from "@/app/[locale]/(instructor)/_Pages/CourseManagmentContent/CourseManagmentContent";
 import ManageCourseHeader from "@/app/[locale]/(instructor)/_components/ManageCourseHeader/ManageCourseHeader";
 import SidenavCourseManagment from "@/app/[locale]/(instructor)/_components/SidenavCourseManagment/SidenavCourseManagment";
-import Footer from "@/app/_components/Footer/Footer";
 import useCourseStore from "@/app/store/courseStore";
 import { Spinner } from "@material-tailwind/react";
 import axios from "axios";
@@ -50,12 +50,18 @@ const ManagementCourse = ({ id, path }) => {
     learningObjective: [],
     requirements: [],
     courseFor: [],
+    learningObjective_Ar: [],
+    requirements_Ar: [],
+    courseFor_Ar: [],
   });
 
   const [basics, setBasics] = useState({
     title: "",
+    title_Ar: "",
     subtitle: "",
+    subtitle_Ar: "",
     description: "",
+    description_Ar: "",
     language: "",
     category: "",
     subcategory: "",
@@ -90,6 +96,9 @@ const ManagementCourse = ({ id, path }) => {
         learningObjective: course.learningObjective,
         requirements: course.requirements,
         courseFor: course.courseFor,
+        learningObjective_Ar: course.learningObjective_Ar,
+        requirements_Ar: course.requirements_Ar,
+        courseFor_Ar: course.courseFor_Ar,
       };
 
       const newBasics = {
@@ -209,7 +218,7 @@ const ManagementCourse = ({ id, path }) => {
         isMessagesModified={isMessagesModified}
         setIsMessagesModified={setIsMessagesModified}
       />
-      <div className="lg:container flex flex-col lg:flex-row pt-2 lg:pt-8 px-4 pb-24 mx-auto">
+      <div className="lg:container flex gap-3 flex-col lg:flex-row pt-2 lg:pt-8 px-4 pb-24 mx-auto">
         <SidenavCourseManagment
           path={path}
           course={course}
@@ -225,7 +234,7 @@ const ManagementCourse = ({ id, path }) => {
           setMessages={setMessages}
         />
       </div>
-      <Footer />
+      <InstructorFooter />
     </>
   );
 };

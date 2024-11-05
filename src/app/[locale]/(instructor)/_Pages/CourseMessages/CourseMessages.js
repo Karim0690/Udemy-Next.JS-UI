@@ -12,29 +12,65 @@ const CourseMessages = ({ course, setMessages }) => {
           <label className="block text-gray-700 font-bold mb-2">
             {t("welcome")}
           </label>
-          <RichText2
-            content={course.welcomeMessage || ""}
-            onChange={(content) =>
-              setMessages((prevData) => ({
-                ...prevData,
-                welcomeMessage: content,
-              }))
-            }
-          />
+          <div className="max-w-[850px]">
+            <RichText2
+              content={course.welcomeMessage || ""}
+              onChange={(content) =>
+                setMessages((prevData) => ({
+                  ...prevData,
+                  welcomeMessage: content,
+                }))
+              }
+            />
+          </div>
+        </div>
+        <div className="my-4">
+          <label className="block text-gray-700 font-bold mb-2">
+            {t("welcome_ar")}
+          </label>
+          <div className="max-w-[850px]">
+            <RichText2
+              content={course.welcomeMessage || ""}
+              onChange={(content) =>
+                setMessages((prevData) => ({
+                  ...prevData,
+                  welcomeMessage: content,
+                }))
+              }
+            />
+          </div>
         </div>
         <div className="my-4">
           <label className="block text-gray-700 font-bold mb-2">
             {t("congratulations_message")}
           </label>
-          <RichText2
-            content={course.congratesMessage || ""}
-            onChange={(content) =>
-              setMessages((prevData) => ({
-                ...prevData,
-                congratesMessage: content,
-              }))
-            }
-          />
+          <div className="max-w-[850px]">
+            <RichText2
+              content={course.congratesMessage || ""}
+              onChange={(content) =>
+                setMessages((prevData) => ({
+                  ...prevData,
+                  congratesMessage: content,
+                }))
+              }
+            />
+          </div>
+        </div>
+        <div className="my-4">
+          <label className="block text-gray-700 font-bold mb-2">
+            {t("congratulations_message_ar")}
+          </label>
+          <div className="max-w-[850px]">
+            <RichText2
+              content={course.congratesMessage || ""}
+              onChange={(content) =>
+                setMessages((prevData) => ({
+                  ...prevData,
+                  congratesMessage: content,
+                }))
+              }
+            />
+          </div>
         </div>
       </div>
     </>

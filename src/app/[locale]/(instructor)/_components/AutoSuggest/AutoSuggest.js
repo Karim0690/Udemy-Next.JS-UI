@@ -1,6 +1,9 @@
 "use client";
+
 import useCourseStore from "@/app/store/courseStore";
-import React, { useEffect, useState, useMemo } from "react";
+import { useTranslations } from "next-intl";
+import { useParams } from "next/navigation";
+import React, { useEffect, useState, useMemo, useTransition } from "react";
 import { IoMdInformationCircle } from "react-icons/io";
 
 const AutoSuggest = ({ courseTopics, relatedTopic, setFormData }) => {
@@ -9,6 +12,8 @@ const AutoSuggest = ({ courseTopics, relatedTopic, setFormData }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isProposeMode, setIsProposeMode] = useState(false);
   const { topics, fetchTopics } = useCourseStore();
+  const { locale } = useParams();
+  const t = useTranslations("SelectTopics");
 
   useEffect(() => {
     const loadTopicsData = async () => {
@@ -34,7 +39,9 @@ const AutoSuggest = ({ courseTopics, relatedTopic, setFormData }) => {
 
     if (value && topics) {
       const filteredSuggestions = topics.filter((topic) =>
-        topic.name.toLowerCase().includes(value.toLowerCase())
+        locale === "en"
+          ? topic.name.toLowerCase().includes(value.toLowerCase())
+          : topic.nameAr.toLowerCase().includes(value.toLowerCase())
       );
       setSuggestions(filteredSuggestions);
       setIsExpanded(true);
@@ -81,7 +88,7 @@ const AutoSuggest = ({ courseTopics, relatedTopic, setFormData }) => {
         className="p-2 my-2 cursor-pointer text-sm font-medium border border-black rounded-3xl hover:bg-gray-200"
         onClick={() => handleSuggestionClick(suggestion)}
       >
-        {suggestion.name}
+        {locale === "en" ? suggestion.name : suggestion.nameAr}
       </div>
     ));
   }, [suggestions]);
@@ -102,7 +109,7 @@ const AutoSuggest = ({ courseTopics, relatedTopic, setFormData }) => {
             key={topic._id}
             className="flex items-center justify-between px-3 py-2 text-sm font-semibold text-white bg-gray-800 rounded-full"
           >
-            {topic.name}
+            {locale === "en" ? topic.name : topic.nameAr}
             <button
               onClick={() => handleRemoveTopic(topic._id)}
               className="ml-2 text-white"
@@ -116,7 +123,7 @@ const AutoSuggest = ({ courseTopics, relatedTopic, setFormData }) => {
       {isProposeMode ? (
         <input
           aria-invalid="false"
-          placeholder="e.g. Landscape Photography"
+          placeholder={t("placeholder")}
           autoComplete="off"
           aria-expanded={isExpanded}
           aria-haspopup="listbox"
@@ -131,7 +138,7 @@ const AutoSuggest = ({ courseTopics, relatedTopic, setFormData }) => {
       ) : (
         <div className="cursor-pointer" onClick={handleProposeAnotherTopic}>
           <span className="text-gray-600 text-xs underline">
-            Propose another topic...
+            {t("another")}
           </span>
         </div>
       )}
@@ -148,10 +155,7 @@ const AutoSuggest = ({ courseTopics, relatedTopic, setFormData }) => {
       {courseTopics.length > 1 && (
         <>
           <div className="flex items-center gap-2 my-4">
-            <h2 className="font-bold text-base">
-              From the topics you have selected, which is the most
-              representative topic?
-            </h2>
+            <h2 className="font-bold text-base">{t("representative")}</h2>
             <button
               type="button"
               onMouseEnter={() => setTooltipVisible(true)}
@@ -166,15 +170,12 @@ const AutoSuggest = ({ courseTopics, relatedTopic, setFormData }) => {
                 role="tooltip"
                 className="absolute z-10 left-[600px] w-[300px] inline-block p-6 text-sm text-gray-600 bg-white border border-gray-200"
               >
-                Which topic do you spend the most time covering in your course?
-                If you believe two topics are equally representative, select
-                either one. All topics will still count as being taught in your
-                course.
+                {t("popper")}
                 <a
                   href="#"
                   className="text-violet-700 underline underline-offset-2"
                 >
-                  Learn more.
+                  {t("learn-more")}
                 </a>
               </div>
             )}
@@ -188,10 +189,10 @@ const AutoSuggest = ({ courseTopics, relatedTopic, setFormData }) => {
               className="block w-full text-base focus:outline-none bg-transparent text-gray-800"
               onChange={handleSelectRelatedTopic}
             >
-              <option value="">Select a primary topic</option>
+              <option value="">{t("primary")}</option>
               {courseTopics.map((topic) => (
                 <option key={topic._id} value={topic._id}>
-                  {topic.name}
+                  {locale === "en" ? topic.name : topic.nameAr}
                 </option>
               ))}
             </select>

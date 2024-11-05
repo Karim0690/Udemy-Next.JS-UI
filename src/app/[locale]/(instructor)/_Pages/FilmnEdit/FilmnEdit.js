@@ -6,7 +6,7 @@ const FilmnEdit = () => {
   const t = useTranslations("FilmnEdit");
   return (
     <>
-      <div className="bg-[#f7f9fa] py-4 p-4 lg:pr-6 lg:pl-12 flex flex-col lg:flex-row lg:items-center">
+      <div className="bg-[#f7f9fa] py-4 p-4 lg:gap-6 flex flex-col lg:flex-row lg:items-center">
         <div className="flex-[8]">
           <h2 className="text-2xl mb-4 font-bold text-[#1a1d23]">
             {t("readyToShareKnowledge")}
@@ -76,9 +76,9 @@ const FilmnEdit = () => {
             {t("requirements")}
           </h2>
           <ul className="list-disc mt-8 ml-6 text-gray-800">
-            <li className="my-1">{t("requirements_list.film_hd")},</li>
-            <li className="my-1">{t("requirements_list.audio_channels")},</li>
-            <li className="my-1">{t("requirements_list.audio_quality")}</li>
+            <li className="my-1">{t("film_hd")},</li>
+            <li className="my-1">{t("audio_channels")},</li>
+            <li className="my-1">{t("audio_quality")}</li>
           </ul>
         </div>
         {/* ****************************** */}

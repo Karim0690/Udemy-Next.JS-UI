@@ -1,8 +1,9 @@
 "use client";
-import React, { useState } from "react";
-import Tiptap from "./Tiptap";
 
-const RichText2 = ({ content, onChange }) => {
+import Tiptap from "./Tiptap";
+import React, { useState } from "react";
+
+const RichText2 = ({ content, onChange, placeholder }) => {
   const maxChars = 1000;
 
   const handleContentChange = (newContent) => {
@@ -17,6 +18,7 @@ const RichText2 = ({ content, onChange }) => {
         content={content}
         onChange={handleContentChange}
         maxChars={maxChars}
+        placeholder={placeholder}
       />
     </>
   );

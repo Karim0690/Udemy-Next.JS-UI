@@ -1,10 +1,11 @@
 "use client";
-import { useEditor, EditorContent } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
+
 import Toolbar from "./Toolbar";
 import BulletList from "@tiptap/extension-bullet-list";
 import OrderedList from "@tiptap/extension-ordered-list";
 import Placeholder from "@tiptap/extension-placeholder";
+import { useEditor, EditorContent } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
 
 const Tiptap = ({ onChange, content, placeholder }) => {
   // Handle editor content change
@@ -19,7 +20,7 @@ const Tiptap = ({ onChange, content, placeholder }) => {
       BulletList,
       OrderedList,
       Placeholder.configure({
-        placeholder: placeholder || "Insert your course description.",
+        placeholder: placeholder,
         defaultNode: "paragraph",
       }),
     ],

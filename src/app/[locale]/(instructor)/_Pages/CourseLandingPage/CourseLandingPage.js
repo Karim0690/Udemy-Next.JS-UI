@@ -7,20 +7,25 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import axios from "axios";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
+import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { IoMdInformationCircle } from "react-icons/io";
 import { IoPerson } from "react-icons/io5";
 
 const CourseLandingPage = ({ course, setBasics }) => {
   const t = useTranslations("CourseLandingPage");
+  const { locale } = useParams();
   const { categories, fetchCategories } = useCourseStore();
 
   const [formData, setFormData] = useState({
     title: course.title || "",
+    title_Ar: course.title_Ar || "",
     subtitle: course.subtitle || "",
+    subtitle_Ar: course.subtitle_Ar || "",
     description: course.description || "",
-    category: course.category || "",
-    subcategory: course.subcategory || "",
+    description_Ar: course.description_Ar || "",
+    category: course.category._id || "",
+    subcategory: course.subcategory ? course.subcategory._id : "",
     topics: course.topics || [],
     relatedTopic: course.relatedTopic || null,
     language: course.language || "",
@@ -194,25 +199,55 @@ const CourseLandingPage = ({ course, setBasics }) => {
         <span className="text-[#5022c3] underline underline-offset-4 hover:text-[#3b198f]">
           {t("creating_course_landing_page")}
         </span>{" "}
-        and{" "}
+        {t("and")}{" "}
         <span className="text-[#5022c3] underline underline-offset-4 hover:text-[#3b198f]">
           {t("course_title_standards")}
         </span>
       </p>
       {/* Course Title */}
       <div className="my-5">
-        <h2 className="font-bold text-base"> {t("course_title")}</h2>
+        <h2 className="font-bold text-base"> {t("course_title_en")}</h2>
         <div className="relative mt-4 w-full">
           <input
             name="title"
-            className="appearance-none block w-full text-gray-700 border border-black py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+            className={`appearance-none block w-full text-gray-700 border border-black py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white ${
+              locale === "en" ? "pr-10" : "pl-10"
+            }`}
             type="text"
-            placeholder="Insert your course title"
+            placeholder={t("coures-insert-title")}
             value={formData.title}
             onChange={handleInputChange}
           />
-          <span className="absolute right-2 bottom-3 pr-1 text-gray-600">
+          <span
+            className={`absolute ${
+              locale === "en" ? "right-2 pr-1" : "left-2 pl-1"
+            }  bottom-3  text-gray-600`}
+          >
             {`${MAX_TITLE_LENGTH - formData.title.length}`}
+          </span>
+        </div>
+        <span className="text-xs text-gray-500">{t("title_guidelines")}</span>
+      </div>
+      {/* title Arabic */}
+      <div className="my-5">
+        <h2 className="font-bold text-base"> {t("course_title_ar")}</h2>
+        <div className="relative mt-4 w-full">
+          <input
+            name="title_Ar"
+            className={`appearance-none block w-full text-gray-700 border border-black py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white ${
+              locale === "en" ? "pr-10" : "pl-10"
+            }`}
+            type="text"
+            placeholder={t("coures-insert-title")}
+            value={formData.title_Ar}
+            onChange={handleInputChange}
+          />
+          <span
+            className={`absolute ${
+              locale === "en" ? "right-2 pr-1" : "left-2 pl-1"
+            }  bottom-3  text-gray-600`}
+          >
+            {`${MAX_TITLE_LENGTH - formData.title_Ar.length}`}
           </span>
         </div>
         <span className="text-xs text-gray-500">{t("title_guidelines")}</span>
@@ -220,18 +255,50 @@ const CourseLandingPage = ({ course, setBasics }) => {
 
       {/* Course Subtitle */}
       <div className="my-5">
-        <h2 className="font-bold text-base"> {t("course_subtitle")}</h2>
+        <h2 className="font-bold text-base"> {t("course_subtitle_en")}</h2>
         <div className="relative mt-4 w-full">
           <input
             name="subtitle"
-            className="appearance-none block w-full text-gray-700 border border-black py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white pr-12" // Add padding to the right side
+            className={`appearance-none block w-full text-gray-700 border border-black py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white ${
+              locale === "en" ? "pr-12" : "pl-12"
+            } `}
             type="text"
-            placeholder="Insert your course Subtitle"
+            placeholder={t("coures-insert-subtitle")}
             value={formData.subtitle}
             onChange={handleInputChange}
           />
-          <span className="absolute right-4 bottom-3 pr-1 text-gray-600">
+          <span
+            className={`absolute ${
+              locale === "en" ? "right-4 pr-1" : "left-4 pl-1"
+            }  bottom-3  text-gray-600`}
+          >
             {`${MAX_SUBTITLE_LENGTH - formData.subtitle.length}`}
+          </span>
+        </div>
+        <span className="text-xs text-gray-500">
+          {t("subtitle_guidelines")}
+        </span>
+      </div>
+      {/* Course Subtitle Arabic */}
+      <div className="my-5">
+        <h2 className="font-bold text-base"> {t("course_subtitle_ar")}</h2>
+        <div className="relative mt-4 w-full">
+          <input
+            name="subtitle_Ar"
+            className={`appearance-none block w-full text-gray-700 border border-black py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white ${
+              locale === "en" ? "pr-12" : "pl-12"
+            } `}
+            type="text"
+            placeholder={t("coures-insert-subtitle")}
+            value={formData.subtitle_Ar}
+            onChange={handleInputChange}
+          />
+          <span
+            className={`absolute ${
+              locale === "en" ? "right-4 pr-1" : "left-4 pl-1"
+            }  bottom-3  text-gray-600`}
+          >
+            {`${MAX_SUBTITLE_LENGTH - formData.subtitle_Ar.length}`}
           </span>
         </div>
         <span className="text-xs text-gray-500">
@@ -241,13 +308,39 @@ const CourseLandingPage = ({ course, setBasics }) => {
 
       {/* Course Description */}
       <div className="my-5">
-        <h2 className="font-bold text-base mb-4"> {t("course_description")}</h2>
-        <div className="w-[900px]">
+        <h2 className="font-bold text-base mb-4">
+          {" "}
+          {t("course_description_en")}
+        </h2>
+        <div className="max-w-[900px]">
           <RichText
             onChange={(content) =>
               setBasics((prevData) => ({ ...prevData, description: content }))
             }
             content={formData.description}
+            placeholder={t("coures-insert-description")}
+          />
+        </div>
+        <span className="text-xs text-gray-500">
+          {t("description_guideline")}
+        </span>
+      </div>
+      {/* Course Description Arabic */}
+      <div className="my-5">
+        <h2 className="font-bold text-base mb-4">
+          {" "}
+          {t("course_description_ar")}
+        </h2>
+        <div className="max-w-[900px]">
+          <RichText
+            onChange={(content) =>
+              setBasics((prevData) => ({
+                ...prevData,
+                description_Ar: content,
+              }))
+            }
+            content={formData.description_Ar}
+            placeholder={t("coures-insert-description")}
           />
         </div>
         <span className="text-xs text-gray-500">
@@ -312,7 +405,7 @@ const CourseLandingPage = ({ course, setBasics }) => {
                 {categories &&
                   categories.map((category) => (
                     <option key={category._id} value={category._id}>
-                      {category.name}
+                      {locale === "en" ? category.name : category.nameAr}
                     </option>
                   ))}
               </select>
@@ -332,7 +425,9 @@ const CourseLandingPage = ({ course, setBasics }) => {
                     {subcategories.length > 0 &&
                       subcategories.map((subcategory) => (
                         <option key={subcategory._id} value={subcategory._id}>
-                          {subcategory.name}
+                          {locale === "en"
+                            ? subcategory.name
+                            : subcategory.nameAr}
                         </option>
                       ))}
                   </select>
@@ -382,7 +477,7 @@ const CourseLandingPage = ({ course, setBasics }) => {
       {/* Course image */}
       <div className="my-5">
         <h2 className="font-bold text-base">{t("course_image")} </h2>
-        <div className="mt-2 w-full flex flex-col md:flex-row">
+        <div className="mt-2 w-full gap-4 flex flex-col md:flex-row">
           <div className="border border-gray-200 flex-1 relative">
             {imageLoading && (
               <div className="absolute w-full h-full flex justify-center items-center">
@@ -486,7 +581,7 @@ const CourseLandingPage = ({ course, setBasics }) => {
       {/* Course Video */}
       <div className="my-5">
         <h2 className="font-bold text-base"> {t("promotional_video")}</h2>
-        <div className="mt-2 w-full flex flex-col md:flex-row">
+        <div className="mt-2 w-full gap-4 flex flex-col md:flex-row">
           <div className="border border-gray-200 flex-1 relative">
             {videoLoading && (
               <div className="absolute w-full h-full flex justify-center items-center">

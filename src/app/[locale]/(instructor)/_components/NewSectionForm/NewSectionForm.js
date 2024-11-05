@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useTranslations } from "next-intl";
 import React, { useState } from "react";
 
 const NewSectionForm = ({
@@ -9,7 +10,9 @@ const NewSectionForm = ({
 }) => {
   const [section, setSection] = useState({
     title: currentSection.title,
+    title_Ar: currentSection.title_Ar,
     objective: currentSection.objective,
+    objective_Ar: currentSection.objective_Ar,
   });
 
   const handleInputChange = (e) => {
@@ -31,9 +34,13 @@ const NewSectionForm = ({
       });
   };
 
+  const t = useTranslations("Curriculum");
+
   return (
     <div className="flex gap-3 border border-black p-4 bg-white m-2 items-start">
-      <div className="bold">Section {sectionIndex + 1}:</div>
+      <div className="bold">
+        {t("section")} {sectionIndex + 1}:
+      </div>
 
       <div className="flex-1">
         <input
@@ -43,14 +50,26 @@ const NewSectionForm = ({
           onChange={handleInputChange}
           className="border border-black pl-2 px-4 py-1 w-full"
         />
+        <input
+          type="text"
+          name="title_Ar"
+          value={section.title_Ar}
+          onChange={handleInputChange}
+          className="border border-black pl-2 px-4 py-1 my-2 w-full"
+        />
         <div className="mt-4">
-          <p className="font-bold text-sm">
-            What will students be able to do at the end of this section?
-          </p>
+          <p className="font-bold text-sm">{t("ability")}</p>
           <input
             type="text"
             name="objective"
             value={section.objective}
+            onChange={handleInputChange}
+            className="border border-black pl-2 px-4 py-1 my-2 w-full"
+          />
+          <input
+            type="text"
+            name="objective_Ar"
+            value={section.objective_Ar}
             onChange={handleInputChange}
             className="border border-black pl-2 px-4 py-1 my-2 w-full"
           />
@@ -60,7 +79,7 @@ const NewSectionForm = ({
             className="font-bold text-black"
             onClick={() => setEditSectionIndex(null)} // Close the form without saving
           >
-            Cancel
+            {t("cancle")}
           </button>
           <button
             className="bg-gray-900 font-bold text-white px-4 py-1"
@@ -69,7 +88,7 @@ const NewSectionForm = ({
               setEditSectionIndex(null); // Close the form after saving
             }}
           >
-            Save Section
+            {t("save-section")}
           </button>
         </div>
       </div>

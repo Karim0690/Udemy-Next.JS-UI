@@ -1,10 +1,13 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { FaRegQuestionCircle, FaTrash } from "react-icons/fa";
+
 import RichText4 from "../RichText4/RichText";
 import { Radio } from "@material-tailwind/react";
-import { GoDotFill } from "react-icons/go";
 import axios from "axios";
+import { useTranslations } from "next-intl";
+import { useParams } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import { FaRegQuestionCircle, FaTrash } from "react-icons/fa";
+import { GoDotFill } from "react-icons/go";
 import { IoMdClose } from "react-icons/io";
 
 const AddQuestionForm = ({
@@ -134,11 +137,17 @@ const AddQuestionForm = ({
     setQuestion({ ...question, relatedLecture: e.target.value });
   };
 
+  const { locale } = useParams();
+  const t = useTranslations("Curriculum");
   return (
     <div className="relative">
-      <div className="absolute right-14 -top-[28px] text-sm bg-white flex items-center gap-2 border border-black border-b-0 p-1 cursor-default">
+      <div
+        className={`absolute ${
+          locale === "en" ? "right-14" : "left-14"
+        } -top-[28px] text-sm bg-white flex items-center gap-2 border border-black border-b-0 p-1 cursor-default`}
+      >
         <p className="font-bold">
-          {addQuestions ? "Select question type" : "Add Multiple Choice"}
+          {addQuestions ? t("select-question-type") : t("add-multiple")}
         </p>
         <IoMdClose
           className="text-lg cursor-pointer"
@@ -151,12 +160,16 @@ const AddQuestionForm = ({
         />
       </div>
       {addQuestions ? (
-        <div className="bg-white text-center gap-2 border border-black border-t-0 p-2 ml-20 mr-2">
+        <div
+          className={`bg-white text-center gap-2 border border-black border-t-0 p-2 ${
+            locale === "en" ? "ml-20 mr-2" : "mr-20 ml-2"
+          }`}
+        >
           <p>
-            Select the main type of content. Files and links can be added as
-            resources.
+            {t("add-quiz-1")}
+
             <span className="text-[#5022c3] cursor-pointer underline underline-offset-4 hover:text-[#3b198f]">
-              Learn about content types.
+              {t("add-quiz-2")}
             </span>
           </p>
           <button
@@ -166,15 +179,19 @@ const AddQuestionForm = ({
             <FaRegQuestionCircle className="text-3xl mt-2 text-gray-200 transition-all duration-300 transform group-hover:translate-y-[-100%] group-hover:opacity-0" />
             <FaRegQuestionCircle className="text-3xl absolute top-full mt-2 text-white transition-all duration-300 transform group-hover:translate-y-[-230%]" />
             <span className="text-gray-800 text-[10px] w-full relative z-10 bg-gray-200 py-1 px-2 group-hover:bg-gray-950 group-hover:text-white">
-              Multiple Choice
+              {t("multiple")}
             </span>
           </button>
         </div>
       ) : (
-        <div className="bg-white border border-black border-t-0 p-2 ml-20 mr-2">
+        <div
+          className={`bg-white border border-black border-t-0 p-2 ${
+            locale === "en" ? "ml-20 mr-2" : "mr-20 ml-2"
+          } `}
+        >
           <div>
             <div>
-              <p className="font-bold text-sm pb-3">Question</p>
+              <p className="font-bold text-sm pb-3"> {t("question")}</p>
               <RichText4
                 content={question?.question}
                 onChange={(newContent) =>
@@ -183,7 +200,7 @@ const AddQuestionForm = ({
               />
             </div>
             <div className="mt-2">
-              <p className="font-bold text-sm pb-3">Answers</p>
+              <p className="font-bold text-sm pb-3"> {t("answers")}</p>
               <div className="flex flex-col gap-2">
                 {question.answers.map((answerObj, index) => (
                   <div key={index} className="flex items-start radio group">
@@ -198,7 +215,7 @@ const AddQuestionForm = ({
                     <div className="flex-1">
                       <div className="border border-black">
                         <input
-                          placeholder="Add an answer."
+                          placeholder={t("add-answer")}
                           className="px-4 pt-2 pb-8 w-full outline-none"
                           value={answerObj.answer}
                           onChange={(e) =>
@@ -208,7 +225,7 @@ const AddQuestionForm = ({
                       </div>
                       <div className="border border-black ml-10 my-2">
                         <input
-                          placeholder="Explain why this is or isn't the best answer."
+                          placeholder={t("add-explain")}
                           className="p-3 w-full outline-none"
                           value={answerObj.explanation}
                           onChange={(e) =>
@@ -229,17 +246,14 @@ const AddQuestionForm = ({
                     </div>
                   </div>
                 ))}
-                <p className="text-xs text-gray-500">
-                  Write up to 15 possible answers and indicate which one is the
-                  best.
-                </p>
+                <p className="text-xs text-gray-500">{t("add-quiz-3")}</p>
               </div>
             </div>
           </div>
 
           {/* Related Lecture Section */}
           <div className="my-4">
-            <p className="font-bold text-sm">Related Lecture</p>
+            <p className="font-bold text-sm"> {t("related-lecture")}</p>
             <div className="flex-1">
               <select
                 name="lecture"
@@ -247,19 +261,16 @@ const AddQuestionForm = ({
                 value={question.relatedLecture}
                 onChange={handleSelectLecture}
               >
-                <option value="0">--Select One--</option>
+                <option value="0"> {t("select-one")}</option>
                 {lectures &&
                   lectures.map((lecture) => (
                     <option key={lecture._id} value={lecture._id}>
-                      {lecture.title}
+                      {locale === "en" ? lecture.title : lecture.title_ar}
                     </option>
                   ))}
               </select>
             </div>
-            <p className="text-xs text-gray-500">
-              Select a related video lecture to help students answer this
-              question.
-            </p>
+            <p className="text-xs text-gray-500">{t("select-related")}</p>
           </div>
 
           {/* Save Button */}
@@ -268,7 +279,7 @@ const AddQuestionForm = ({
               className="bg-gray-800 font-bold text-white px-6 py-2"
               onClick={questionId ? handelUpdata : handleSave}
             >
-              Save
+              {t("save")}
             </button>
           </div>
         </div>

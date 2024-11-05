@@ -7,6 +7,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { useTranslations } from "next-intl";
+import { useParams } from "next/navigation";
 import React from "react";
 import { IoMdCheckmarkCircle, IoMdInformationCircle } from "react-icons/io";
 import { IoMdSearch } from "react-icons/io";
@@ -14,6 +15,7 @@ import { toast } from "sonner";
 
 const Promotions = () => {
   const t = useTranslations("Promotions");
+  const{locale}= useParams()
   const referralLink =
     "http://localhost:3000/course/draft/6079509/?referralCode=6FA73D998B855DC87F56";
 
@@ -79,7 +81,7 @@ const Promotions = () => {
               readOnly
             />
             <button
-              className="border border-l-0 border-black px-5 py-[10px] -top-[6px] relative font-bold hover:bg-gray-100"
+              className={`border ${locale==="en"?"border-l-0":"border-r-0"} border-black px-5 py-[10px] -top-[6px] relative font-bold hover:bg-gray-100`}
               onClick={handleCopyClick}
             >
               {t("copy")}

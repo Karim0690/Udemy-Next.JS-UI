@@ -6,7 +6,7 @@ const CourseStructure = () => {
   const t = useTranslations("CourseStructure");
   return (
     <>
-      <div className="bg-[#f7f9fa] py-4 p-4 lg:pr-6 lg:pl-12 flex flex-col lg:flex-row lg:items-center">
+      <div className="bg-[#f7f9fa] py-4 p-4 lg:gap-5 flex flex-col lg:flex-row lg:items-center">
         <div className="flex-[8] ">
           <h2 className="text-2xl mb-4 font-bold text-[#1a1d23]">
             {t("course_plan")}
@@ -116,7 +116,7 @@ const CourseStructure = () => {
         </div>
         {/* ****************************** */}
         <div className="mt-12 text-base">
-          <h2 className="text-2xl mb-4 font-bold text-[#1a1d23]">Resources</h2>
+          <h2 className="text-2xl mb-4 font-bold text-[#1a1d23]">{t("resources")}</h2>
           <div className="my-8">
             <h3 className=" font-bold text-[#1a1d23] mb-1">
               <span className="text-[#5022c3] underline underline-offset-4 hover:text-[#3b198f] cursor-pointer">
