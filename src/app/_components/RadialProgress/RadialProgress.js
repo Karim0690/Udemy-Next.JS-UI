@@ -1,4 +1,3 @@
-// CircularProgress.js
 import React from "react";
 import { CiTrophy } from "react-icons/ci"; // Ensure you have react-icons installed
 

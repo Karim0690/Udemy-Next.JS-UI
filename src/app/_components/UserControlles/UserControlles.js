@@ -23,6 +23,7 @@ const UserControllers = () => {
   const handleSignOut = () => {
     localStorage.removeItem("token");
     window.location.reload();
+    
     signOut();
   };
   const t = useTranslations("Header");
@@ -35,8 +36,7 @@ const UserControllers = () => {
             <Avatar className="hover:cursor-pointer w-[35px] h-[35px]">
               <AvatarImage />
               <AvatarFallback className="bg-gray-900 text-white font-bold">
-                {user.name.charAt(0).toUpperCase() +
-                  user.name.charAt(1).toUpperCase()}
+                {user.name.charAt(0).toUpperCase() }
               </AvatarFallback>
             </Avatar>
           </HoverCardTrigger>
