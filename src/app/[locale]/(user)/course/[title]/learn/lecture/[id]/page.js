@@ -8,6 +8,7 @@ import { IoIosArrowDown } from "react-icons/io";
 import { FaShare } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import { CldVideoPlayer } from "next-cloudinary";
+import { FaStar } from "react-icons/fa";
 
 import {
   Popover,
@@ -30,6 +31,8 @@ import VideoCoursePlayer from "@/app/_components/VideoCoursePlayer/VideoCoursePl
 import CourseContentSideBar from "@/app/_components/CourseContentSideBar/CourseContentSideBar";
 import TabsCourseView from "@/app/_components/TabsCourseView/TabsCourseView";
 import axios from "axios";
+import Rating from "@/app/_components/Rating/Rating";
+import RatingComponent from "@/app/_components/RatingComponent/RatingComponent";
 
 function CourseHeader({ course }) {
   // <div className="w-full  mx-auto   bg-[#2D2F31] text-white shadow-sm h-14 flex items-center">
@@ -57,6 +60,21 @@ function CourseHeader({ course }) {
         </Link>
       </div>
       <div className=" items-center justify-center sm:hidden md:flex gap-2">
+      <AlertDialog>
+      <AlertDialogTrigger asChild>
+        <div className="flex items-center justify-center bg-[#2D2F31] hover:bg-[#3D3F41]  p-2 gap-2"> <FaStar />   leave a rating   </div>
+      </AlertDialogTrigger>
+      <AlertDialogContent className="bg-white ">
+        <AlertDialogHeader>
+          <AlertDialogDescription className="text-center text-lg text-bold mx-auto">
+          {/* Select Rating
+          <Rating className="w-2/4"/> */}
+          <RatingComponent  className="w-full "/>
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+      
+      </AlertDialogContent>
+    </AlertDialog>
         <Popover>
           <PopoverTrigger>
             <div className="flex items-center justify-center gap-2">
