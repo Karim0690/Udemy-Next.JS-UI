@@ -9,18 +9,20 @@ import { IoMdCheckmarkCircle } from "react-icons/io";
 const Page = async ({ searchParams: { token } }) => {
   const session = await getServerSession(authOptions);
 
-  const { data } = await axios.post(`http://127.0.0.1:3001/paypal/cheakout`, {
+  const { data } = await axios.post(`${process.env.NEXT_PUBLIC_LOCAL_API}/paypal/cheakout`, {
     token,
   });  
   if (data.data.status === "COMPLETED") {
-    let { data } = await axios.get(`http://127.0.0.1:3001/cart`, {
+    let { data } = await axios.get(`${process.env.NEXT_PUBLIC_LOCAL_API}/cart`, {
       headers: {
         Authorization: session.accessToken,
       },
     });
     if (data.message === "success") {
+      console.log(data);
+      
       await axios.post(
-        `http://127.0.0.1:3001/orders/${data.cart._id}`,
+        `${process.env.NEXT_PUBLIC_LOCAL_API}/orders/${data.cart._id}`,
         {},
         {
           headers: {

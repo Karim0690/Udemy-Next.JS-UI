@@ -11,7 +11,7 @@ function CourseComponentCard({ image, title, instractour, rate, price }) {
             width={220}
             height={130}
             alt="Descriptive text about the image"
-            className="w-full h-[130px]"
+            className="w-[280px] h-[130px]"
           />
           <div className="hidden group-hover:block absolute inset-0 p-2 w-full h-full text-white bg-gray-800 opacity-20 transition-opacity duration-300"></div>{" "}
         </div>

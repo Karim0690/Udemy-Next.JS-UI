@@ -87,7 +87,7 @@ const DisplayCourse = async ({ slug }) => {
         </div>
       </div>
       <div className="bg-[#2D2F31] hidden lg:block">
-        <div className="ml-36 pb-10">
+        <div className="ml-36 pb-10 w-[50%]">
           <CourseHeader
             title={courseTitle.title}
             description={courseTitle.subtitle}

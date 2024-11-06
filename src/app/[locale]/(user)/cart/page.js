@@ -25,11 +25,15 @@ const Page = async () => {
   }
 
   return (
-    <div className="p-10 h-screen">
-      <div className="mx-20">
-        <h1 className="font-bold text-4xl mb-4">Shopping Cart</h1>
-        <div className="my-8">
-          {cart && cart.items ? <CartItems data={cart} /> : <EmptyCart />}
+    <div className="p-0 md:p-10">
+      <div className="container">
+        <h1 className="font-bold text-4xl mb-4 p-6 md:p-0">Shopping Cart</h1>
+        <div className="lg:my-8">
+          {cart && cart.items ? (
+            <CartItems data={cart} session={session} />
+          ) : (
+            <EmptyCart />
+          )}
         </div>
       </div>
     </div>

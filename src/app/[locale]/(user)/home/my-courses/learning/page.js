@@ -1,7 +1,8 @@
-import axios from "axios";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import axios from "axios";
 import { getServerSession } from "next-auth";
 import Image from "next/image";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import React from "react";
 import { IoPlayCircleOutline } from "react-icons/io5";
@@ -28,7 +29,7 @@ const Page = async ({ params: { locale } }) => {
   return (
     <>
       <div className="bg-[#2d2f31] text-white pt-6">
-        <div className="container mx-auto">
+        <div className="container mx-auto px-4 lg:px-0">
           <h1 className="text-4xl my-6 font-bold">My Learning</h1>
           <p className="w-fit pr-1 py-2 border-b-8 border-gray-200 font-bold">
             All courses
@@ -36,32 +37,48 @@ const Page = async ({ params: { locale } }) => {
         </div>
       </div>
       <div className="h-screen container mx-auto p-6">
-        <div className="flex flex-wrap justify-start gap-x-6 gap-y-6">
-          {courses.map((course) => (
-            <div key={course._id} className="group cursor-pointer">
-              <div className="relative">
-                <div className="hidden w-full h-full bg-black opacity-25 absolute group-hover:block"></div>
-                <div className="hidden absolute w-full h-full justify-center items-center group-hover:flex">
-                  <IoPlayCircleOutline className="text-white text-6xl" />
+        {courses.length > 0 ? (
+          <div className="flex flex-wrap justify-start gap-x-6 gap-y-6">
+            {courses.map((course) => (
+              <div key={course._id} className="group cursor-pointer">
+                <div className="relative">
+                  <div className="hidden w-full h-full bg-black opacity-25 absolute group-hover:block"></div>
+                  <div className="hidden absolute w-full h-full justify-center items-center group-hover:flex">
+                    <IoPlayCircleOutline className="text-white text-6xl" />
+                  </div>
+                  <Image
+                    src={course.courseImage}
+                    width={350}
+                    height={100}
+                    alt={course.title}
+                    className="border-2 w-60 h-40"
+                  />
                 </div>
-                <Image
-                  src={course.courseImage}
-                  width={350}
-                  height={100}
-                  alt={course.title}
-                  className="border-2 w-60 h-40"
-                />
+                <h2 className="font-semibold my-2">
+                  {locale === "en" ? course.title : course.title_Ar}
+                </h2>
+                <p className="text-xs text-gray-500 pb-3 border-b-4">
+                  {course.instructor ? course.instructor.name : "No instructor"}
+                </p>
+                <p>START COURSE</p>
               </div>
-              <h2 className="font-semibold my-2">
-                {locale === "en" ? course.title : course.title_Ar}
-              </h2>
-              <p className="text-xs text-gray-500 pb-3 border-b-4">
-                {course.instructor ? course.instructor.name : "No instructor"}
-              </p>
-              <p>START COURSE</p>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <div className="flex flex-col my-20 justify-center items-center">
+            <h2 className="font-bold text-lg">
+              Start learning from over 250,000 courses today.
+            </h2>
+            <p>
+              when you purchase a course, it will appear here.
+              <Link href="/">
+              <span className="text-[#5022c3] underline underline-offset-4 hover:text-[#3b198f]">
+                Browse now.
+              </span>
+              </Link>
+            </p>
+          </div>
+        )}
       </div>
     </>
   );
