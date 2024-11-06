@@ -31,6 +31,71 @@ import CourseContentSideBar from "@/app/_components/CourseContentSideBar/CourseC
 import TabsCourseView from "@/app/_components/TabsCourseView/TabsCourseView";
 import axios from "axios";
 
+function CourseHeader({ course }) {
+  // <div className="w-full  mx-auto   bg-[#2D2F31] text-white shadow-sm h-14 flex items-center">
+
+  return (
+    <div className="flex justify-between items-center w-ful h-14 bg-[#2D2F31] text-white px-4">
+      <div className="flex items-center gap-2 justify-center">
+        <Image
+          className="sm:hidden md:block"
+          alt="Udemy"
+          src={
+            "https://www.udemy.com/staticx/udemy/images/v7/logo-udemy-inverted.svg"
+          }
+          height={40}
+          width={80}
+        />
+        <Separator
+          orientation="vertical"
+          className="h-7 w-[1px] sm:hidden md:block bg-gray-400"
+        />
+        <Link href="#" className="text-sm hover:text-gray-400 ">
+          <h1 className="md:text-lg sm:text-base  hover:text-gray-400 ">
+            {course.title}
+          </h1>
+        </Link>
+      </div>
+      <div className=" items-center justify-center sm:hidden md:flex gap-2">
+        <Popover>
+          <PopoverTrigger>
+            <div className="flex items-center justify-center gap-2">
+              <RadialProgress percentage={100} />
+              <div className="flex items-center hover:text-stone-300">
+                <p>progress</p>
+                <IoIosArrowDown />
+              </div>
+            </div>
+          </PopoverTrigger>
+          <PopoverContent className="bg-white text-base font-semibold">
+            15 of 32 complete.
+          </PopoverContent>
+        </Popover>
+        <AlertDialog>
+          <AlertDialogTrigger>
+            <div className="flex items-center justify-center bg-[#2D2F31] hover:bg-[#3D3F41] border-2 p-2 gap-2">
+              <p>Share</p> <FaShare />
+            </div>
+          </AlertDialogTrigger>
+          <AlertDialogContent className="bg-white">
+            <AlertDialogHeader>
+              <AlertDialogTitle>Share this course</AlertDialogTitle>
+              <AlertDialogDescription>
+                This action cannot be undone. This will permanently delete your
+                account and remove your data from our servers.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              {/* <AlertDialogAction>Continue</AlertDialogAction> */}
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      </div>
+    </div>
+  );
+}
+
 const page = async ({ params }) => {
   const { title, id } = params;
   let course;
@@ -54,68 +119,7 @@ const page = async ({ params }) => {
 
   return (
     <>
-      <div className="w-full  mx-auto   bg-[#2D2F31] text-white shadow-sm h-14 flex items-center">
-        <div className="px-2 py-3 w-full">
-          <div className="flex justify-between items-center	">
-            <div className="flex items-center">
-              <Image
-                className="mr-3 mb-2  sm:hidden md:block"
-                alt="Udemy"
-                src={
-                  "https://www.udemy.com/staticx/udemy/images/v7/logo-udemy-inverted.svg"
-                }
-                height={40}
-                width={80}
-              />
-              <Separator
-                orientation="vertical"
-                className="h-7 w-[1px] sm:hidden md:block bg-gray-400"
-              />
-              <Link href="#" className="text-sm hover:text-gray-400 ">
-                <h1 className="ml-3 mt-1  md:text-lg sm:text-base  hover:text-gray-400 ">
-                  {course.title}
-                </h1>
-              </Link>
-            </div>
-            <div className="flex items-center sm:hidden md:block">
-              <Popover>
-                <PopoverTrigger>
-                  <div className="flex items-center">
-                    <RadialProgress percentage={100} />
-                    <div className="flex items-center ml-3 mb-2 hover:text-stone-300">
-                      <p className="mt-1 mx-3">progress</p>
-                      <IoIosArrowDown className="mt-3" />
-                    </div>
-                  </div>
-                </PopoverTrigger>
-                <PopoverContent className="bg-white text-base font-semibold">
-                  15 of 32 complete.
-                </PopoverContent>
-              </Popover>
-              <AlertDialog>
-                <AlertDialogTrigger>
-                  <div className="flex items-center justify-center w-20 h-8 mx-5  bg-[#2D2F31] hover:bg-[#3D3F41] border-2">
-                    <p className="mr-3 ">Share</p> <FaShare />
-                  </div>
-                </AlertDialogTrigger>
-                <AlertDialogContent className="bg-white">
-                  <AlertDialogHeader>
-                    <AlertDialogTitle>Share this course</AlertDialogTitle>
-                    <AlertDialogDescription>
-                      This action cannot be undone. This will permanently delete
-                      your account and remove your data from our servers.
-                    </AlertDialogDescription>
-                  </AlertDialogHeader>
-                  <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    {/* <AlertDialogAction>Continue</AlertDialogAction> */}
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
-            </div>
-          </div>
-        </div>
-      </div>
+      <CourseHeader course={course} />
       <div>
         <div>
           <VideoCoursePlayer className="w-full" sections={sections} />
