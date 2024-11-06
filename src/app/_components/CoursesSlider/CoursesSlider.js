@@ -8,6 +8,7 @@ import "swiper/css";
 import CoursePopper from "../coursePoper/CoursePopper";
 import styles from "./CourseSlider.module.css";
 import axios from "axios";
+import Link from "next/link";
 import { useParams } from "next/navigation";
 import { Navigation } from "swiper/modules";
 
@@ -56,31 +57,31 @@ const SamplePrevArrow = ({ onClick, isHidden }) => (
   </div>
 );
 
-const CoursesSlider = () => {
+const CoursesSlider = ({ courses }) => {
   const { locale } = useParams();
   const swiperRef = useRef(null);
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
-  const [course, setCourse] = useState([]);
+  console.log(courses);
 
-  const fetchCourses = async () => {
-    console.log("Fetching courses...");
-    try {
-      const { data } = await axios.get(
-        `${process.env.NEXT_PUBLIC_LOCAL_API}/course`
-      );
-      if (data.status === "success") {
-        setCourse(data.data.courses); // Save the fetched data
-      }
-      console.log(data.data.courses);
-    } catch (err) {
-      console.error("Error fetching courses:", err);
-    }
-  };
+  // const [course, setCourse] = useState([]);
 
-  useEffect(() => {
-    fetchCourses(); // Call the fetch function
-  }, []);
+  // const fetchCourses = async () => {
+  //   try {
+  //     const { data } = await axios.get(
+  //       `${process.env.NEXT_PUBLIC_LOCAL_API}/course/public/courses`
+  //     );
+  //     if (data.status === "success") {
+  //       setCourse(data.data.courses); // Save the fetched data
+  //     }
+  //   } catch (err) {
+  //     console.error("Error fetching courses:", err);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   fetchCourses(); // Call the fetch function
+  // }, []);
 
   return (
     <div className={`my-10 p-4`}>
@@ -114,12 +115,15 @@ const CoursesSlider = () => {
           breakpoints={{
             320: {
               slidesPerView: 1,
+              slidesPerGroup: 1,
             },
             640: {
               slidesPerView: 2,
+              slidesPerGroup: 1,
             },
             768: {
               slidesPerView: 3,
+              slidesPerGroup: 1,
             },
             1024: {
               slidesPerView: 4,
@@ -136,29 +140,34 @@ const CoursesSlider = () => {
             setIsEnd(isEnd);
           }}
         >
-          {course.map((course, index) => (
-            <SwiperSlide key={course._id}>
-              <div className="group flex">
-                <CourseComponentCard
-                  image={course.courseImage}
-                  title={course.title}
-                  instructor={course.instructor}
-                  rate={course.rating.average}
-                  price={course.price}
-                />
-                <div
-                  className={`absolute z-50 -top-24 w-[350px] ${
-                    locale === "en" ? "left-full" : "right-full"
-                  }  hidden group-hover:block`}
-                >
-                  <CoursePopper
-                    courseTitle={course.title}
-                    courseId={course._id}
-                  />
+          {courses &&
+            courses.map((course, index) => (
+              <SwiperSlide key={course._id}>
+                <div className="group flex">
+                  <div className="relative z-10">
+                    <Link href={`/${locale}/course/${course.slug}`}>
+                      <CourseComponentCard
+                        image={course.courseImage}
+                        title={course.title}
+                        instructor={course.instructor}
+                        rate={course.rating.average}
+                        price={course.price}
+                      />
+                    </Link>
+                  </div>
+                  <div
+                    className={`absolute z-50 -top-24 w-[350px] ${
+                      locale === "en" ? "left-full" : "right-full"
+                    }  hidden group-hover:block`}
+                  >
+                    <CoursePopper
+                      courseTitle={course.title}
+                      courseId={course._id}
+                    />
+                  </div>
                 </div>
-              </div>
-            </SwiperSlide>
-          ))}
+              </SwiperSlide>
+            ))}
         </Swiper>
       </div>
     </div>

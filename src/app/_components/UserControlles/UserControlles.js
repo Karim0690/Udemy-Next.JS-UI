@@ -97,9 +97,18 @@ const UserControlles = ({ user, locale }) => {
                 Public Profile
               </h1>
             </Link>
-            <h1 className="p-2 hover:text-violet-700 cursor-pointer">
-              Edit Profile
-            </h1>
+
+            <Link
+              href={
+                user.role.includes("student")
+                  ? `${locale}/user/edit-accout`
+                  : `${locale}/instructor/profileandsettings`
+              }
+            >
+              <h1 className="p-2 hover:text-violet-700 cursor-pointer">
+                Edit Profile
+              </h1>
+            </Link>
 
             <hr />
 

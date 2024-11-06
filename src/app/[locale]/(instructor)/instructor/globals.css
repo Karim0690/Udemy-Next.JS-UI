@@ -14,10 +14,6 @@ body {
   content: "" !important;
 }
 
-.swiper-slide {
-  height: 60px !important;
-}
-
 .sidenav li div::after {
   transition: opacity 200ms ease-in-out;
 }

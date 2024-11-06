@@ -50,7 +50,7 @@ const CourseHeader = ({
       </div>
 
       <h1 className="text-3xl font-bold">{title}</h1>
-      <p className="text-2xl mt-7">{description}</p>
+      <p className="text-lg mt-7">{description}</p>
 
       <div className="flex items-center mt-5 ">
         <span className="bg-[#ECEB98] px-3 py-1 font-semibold text-[#3D3C0A]  mr-4 text-sm">
