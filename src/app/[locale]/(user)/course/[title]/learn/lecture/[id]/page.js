@@ -1,4 +1,3 @@
-// src/app/[locale]/(user)/course/[title]/learn/lecture/[id]/page.js
 import RadialProgress from "@/app/_components/RadialProgress/RadialProgress";
 import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
@@ -64,7 +63,7 @@ const page = async ({params}) => {
               <Image
                 className="mr-3 mb-2  sm:hidden md:block"
                 src={
-                  "https://w...content-available-to-author-only...y.com/staticx/udemy/images/v7/logo-udemy-inverted.svg"
+                  "https://www.udemy.com/staticx/udemy/images/v7/logo-udemy-inverted.svg"
                 }
                 height={40}
                 width={80}

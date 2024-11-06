@@ -1,4 +1,3 @@
-// src/app/_components/TabsCourseView/TabsCourseView.js
 import React from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FaStar } from "react-icons/fa";
@@ -160,7 +159,7 @@ const TabsCourseView = () => {
           </div>
           <div className="flex mt-11  border-b border-b-stone-300 w-[900px] p-5	">
             <Avatar className="w-[50px] h-[50px]">
-              <AvatarImage src="https://g...content-available-to-author-only...b.com/shadcn.png" />
+              <AvatarImage src="https://github.com/shadcn.png" />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
             <div className="flex items-start ml-5 flex-col">

@@ -1,4 +1,3 @@
-// src/app/_components/VideoCoursePlayer/VideoCoursePlayer.js
 "use client";
 // import { CldVideoPlayer } from 'next-cloudinary';
 import React, { useState } from "react";
@@ -35,7 +34,7 @@ const VideoCoursePlayer = ({ sections }) => {
   const [openSection, setOpenSection] = useState(true);
   console.log(sections);
   const [currentVideo, setCurrentVideo] = useState(
-    "https://r...content-available-to-author-only...y.com/djtjlvuvb/video/upload/v1729528307/kgguerjurmdpvz9ysv2z.mp4"
+    "https://res.cloudinary.com/djtjlvuvb/video/upload/v1729528307/kgguerjurmdpvz9ysv2z.mp4"
   );
   const [selectedItemIndex, setSelectedItemIndex] = useState(null); // Track selected item
 
