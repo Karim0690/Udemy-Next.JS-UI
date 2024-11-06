@@ -31,29 +31,27 @@ import CourseContentSideBar from "@/app/_components/CourseContentSideBar/CourseC
 import TabsCourseView from "@/app/_components/TabsCourseView/TabsCourseView";
 import axios from "axios";
 
-const page = async ({params}) => {
-  const {  title, id} = params;
-  let courseTitle ;
-  let sections ;
-  console.log(title, id);
-  
+const page = async ({ params }) => {
+  const { title, id } = params;
+  let course;
+  let sections;
+
   try {
     const { data } = await axios.get(
-      `${process.env.NEXT_PUBLIC_LOCAL_API}/course/courseTitle/${title}`,
+      `${process.env.NEXT_PUBLIC_LOCAL_API}/course/courseTitle/${title}`
     );
     // console.log(data.data.course);
 
     if (data.status === "success") {
-      courseTitle = data.data.course;
-      sections = courseTitle.sections;
+      course = data.data.course;
+      sections = course.sections;
       // console.log(sections);
-      
     }
   } catch (error) {
     console.error(error);
   }
   // console.log();
-  
+
   return (
     <>
       <div className="w-full  mx-auto   bg-[#2D2F31] text-white shadow-sm h-14 flex items-center">
@@ -62,6 +60,7 @@ const page = async ({params}) => {
             <div className="flex items-center">
               <Image
                 className="mr-3 mb-2  sm:hidden md:block"
+                alt="Udemy"
                 src={
                   "https://www.udemy.com/staticx/udemy/images/v7/logo-udemy-inverted.svg"
                 }
@@ -74,7 +73,7 @@ const page = async ({params}) => {
               />
               <Link href="#" className="text-sm hover:text-gray-400 ">
                 <h1 className="ml-3 mt-1  md:text-lg sm:text-base  hover:text-gray-400 ">
-                  {courseTitle.title}
+                  {course.title}
                 </h1>
               </Link>
             </div>
@@ -118,7 +117,7 @@ const page = async ({params}) => {
         </div>
       </div>
       <div>
-        <div >
+        <div>
           <VideoCoursePlayer className="w-full" sections={sections} />
         </div>
       </div>
