@@ -1,5 +1,4 @@
 "use client";
-// import { CldVideoPlayer } from 'next-cloudinary';
 import React, { useState } from "react";
 import dynamic from "next/dynamic";
 import { IoIosCloseCircle } from "react-icons/io";
@@ -26,37 +25,44 @@ import {
 } from "@/components/ui/collapsible";
 import { PiMonitorPlay } from "react-icons/pi";
 
-const CldVideoPlayer = dynamic(
-  () => import("next-cloudinary").then((m) => m.CldVideoPlayer),
-  { ssr: false }
-);
+import { CldVideoPlayer } from "next-cloudinary";
+// const CldVideoPlayer = dynamic(
+//   () => import("next-cloudinary").then((m) => m.CldVideoPlayer),
+//   { ssr: false }
+// );
+
+function CldVideoPlayerWrapper({ src }) {
+  return (
+    <CldVideoPlayer
+      className="w-full h-full"
+      width="1920"
+      height="1080"
+      src={src}
+      colors={{
+        accent: "#A435F0",
+        base: "#000",
+        text: "#FFF",
+      }}
+    />
+  );
+}
 const VideoCoursePlayer = ({ sections }) => {
   const [openSection, setOpenSection] = useState(true);
-  console.log(sections);
   const [currentVideo, setCurrentVideo] = useState(
     "https://res.cloudinary.com/djtjlvuvb/video/upload/v1729528307/kgguerjurmdpvz9ysv2z.mp4"
   );
   const [selectedItemIndex, setSelectedItemIndex] = useState(null); // Track selected item
 
   const handleItemClick = (resource, index) => {
+    console.log({ resource, index });
     setCurrentVideo(resource);
     setSelectedItemIndex(index); // Update selected item index
-    console.log(currentVideo)
   };
+  console.log({ currentVideo });
   return (
     <>
       <div className="relative h-full flex">
-        <CldVideoPlayer
-          className="w-full h-full"
-          width="1920"
-          height="1080"
-          src={currentVideo}
-          colors={{
-            accent: "#A435F0",
-            base: "#000",
-            text: "#FFF",
-          }}
-        />
+        <CldVideoPlayerWrapper key={currentVideo} src={currentVideo} />
 
         <div className=" sm:hidden  lg:block ">
           {!openSection && (
@@ -110,10 +116,13 @@ const VideoCoursePlayer = ({ sections }) => {
                               <SidebarMenuSubItem
                                 key={itemindex}
                                 className={`flex items-center space-x-2 py-2 text-gray-700 ${
-                                  selectedItemIndex === itemindex ? "bg-gray-200" : ""
+                                  selectedItemIndex === itemindex
+                                    ? "bg-gray-200"
+                                    : ""
                                 } `}
-                                onClick={() => handleItemClick(item.item.resource, itemindex)}
-
+                                onClick={() =>
+                                  handleItemClick(item.item.resource, itemindex)
+                                }
                               >
                                 <input type="checkbox" className="mr-2" />
                                 <div className="flex flex-col gap-1 items-start">
