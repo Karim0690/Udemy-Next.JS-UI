@@ -29,7 +29,7 @@ import { getSession, signIn, useSession } from "next-auth/react";
 
 export default async function Header() {
   const session = await getServerSession(authOptions);
-  console.log("session " + session);
+  // console.log("session " + session);
 
   return (
     <>

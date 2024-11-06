@@ -19,25 +19,15 @@ const CartPopper = ({
   const [popperElement, setPopperElement] = useState(null);
   const timeoutRef = useRef(null);
   const { data: session } = useSession();
-  const [cart, setCart] = useState(null);
-  useEffect(async () => {
-    try {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_LOCAL_API}/cart`,
-        {
-          headers: {
-            Authorization: session?.accessToken,
-          },
-        }
-      );
-      if(response.data.message==="success"){
+  const fetchUsersCart = useCartStore((state) => state.fetchUsersCart);
+  const cart = useCartStore((state) => state.cart); // Access cart directly from Zustand store
 
-        setCart(response.data.cart)
-      }
-    } catch (err) {
-      console.error("Error fetching cart:", err);
+  useEffect(() => {
+    if (session?.accessToken) {
+      fetchUsersCart(session.accessToken); // Pass the access token to fetchUsersCart
     }
-  }, []);
+  }, [session, fetchUsersCart]);
+
 
   const { styles, attributes } = usePopper(triggerRef.current, popperElement, {
     placement: placement,
@@ -106,7 +96,7 @@ const CartPopper = ({
                 ))}
                 <hr className="border-b-1 border-gray-200 w-full my-3" />
                 <div className="flex flex-col gap-3">
-                  <h3 className="font-bold text-xl">{`Total: E£${totalPrice.toFixed(
+                  <h3 className="font-bold text-xl">{`Total: E£${cart.totalPrice.toFixed(
                     2
                   )}`}</h3>
                   <button className="bg-gray-900 text-white font-bold w-full p-3 hover:bg-[#3e4143] z-20">

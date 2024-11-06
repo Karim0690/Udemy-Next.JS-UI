@@ -1,12 +1,42 @@
+"use client";
+
+import axios from "axios";
 import LearningMenu from "../../../_components/LearningMenu/LearningMenu";
 import { TeachingAccordion } from "../../../_components/TeachingAccordion/TeachingAccordion";
 import TeachingSlider from "../../../_components/TeachingSlider/TeachingSlider";
+import { useSession, signOut } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 const Page = ({ params: { locale } }) => {
   const t = useTranslations("Teaching");
+  const { data: session } = useSession();
+  const router = useRouter();
+  const addRole = async () => {
+    if (!session) {
+      router.push(`/${locale}/login`);
+    }
+    try {
+      const { data } = await axios.put(
+        `${process.env.NEXT_PUBLIC_LOCAL_API}/user/role/${session.user._id}`,
+        {},
+        {
+          headers: {
+            Authorization: session.accessToken,
+          },
+        }
+      );
+      console.log(data);
+      
+      if (data.message === "success") {
+        signOut();
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   const reasons = [
     {
@@ -53,7 +83,12 @@ const Page = ({ params: { locale } }) => {
           <p className="text-gray-700 text-sm md:text-base lg:text-xl">
             {t("banner2")}
           </p>
-          <button className="py-3 px-6 mt-3 w-full bg-[#2D2F31] text-white text-sm md:text-xs lg:text-sm font-extrabold hover:bg-gray-700">
+          <button
+            className="py-3 px-6 mt-3 w-full bg-[#2D2F31] text-white text-sm md:text-xs lg:text-sm font-extrabold hover:bg-gray-700"
+            onClick={() => {
+              addRole();
+            }}
+          >
             {t("bannerButton")}
           </button>
         </div>
@@ -168,7 +203,12 @@ const Page = ({ params: { locale } }) => {
           <p className="text-[12px] md:text-2xl  mb-1 md:w-[580px] text-gray-700">
             {t("join")}
           </p>
-          <button className="py-4 px-6 mt-5 w-[350px] bg-[#2D2F31] text-white text-sm font-extrabold hover:bg-gray-700">
+          <button
+            className="py-4 px-6 mt-5 w-[350px] bg-[#2D2F31] text-white text-sm font-extrabold hover:bg-gray-700"
+            onClick={() => {
+              addRole();
+            }}
+          >
             {t("bannerButton")}
           </button>
         </div>
