@@ -14,9 +14,6 @@ body {
   content: "" !important;
 }
 
-.swiper-slide {
-  height: 60px !important;
-}
 
 /* app/globals.css */
 @import "flowbite/dist/flowbite.css";

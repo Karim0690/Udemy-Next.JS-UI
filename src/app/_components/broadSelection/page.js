@@ -7,6 +7,8 @@ import { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
+import { Skeleton } from "@/components/ui/skeleton";
+import axios from "axios";
 
 function BroadSelection() {
   const t = useTranslations("LandingPage");
@@ -20,7 +22,48 @@ function BroadSelection() {
     { id: "Amazon AWS", label: t("aws") },
     { id: "Drawing", label: t("drawing") },
   ];
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [PythonCourse, setPythonCourse] = useState([]);
+  const [JSCourse, setJSCourse] = useState([]);
 
+  const fetchPython = async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const { data } = await axios.get(
+        `${process.env.NEXT_PUBLIC_LOCAL_API}/course/public/courses?relatedTopic=672b9f751377fcd73804100f`
+      );
+      if (data.status === "success") {
+        setPythonCourse(data.data.courses);
+      } else {
+        setPythonCourse([]);
+      }
+    } catch (err) {
+      console.error("Error fetching courses:", err);
+      setError("Failed to fetch Python courses, please try again later.");
+    } finally {
+      setLoading(false);
+    }
+  };
+  const fetchJs = async () => {
+    try {
+      const { data } = await axios.get(
+        `${process.env.NEXT_PUBLIC_LOCAL_API}/course/public/courses?relatedTopic=671ad10145e395ac7f4bec6b`
+      );
+      if (data.status === "success") {
+        setJSCourse(data.data.courses);
+      }
+    } catch (err) {
+      console.error("Error fetching courses:", err);
+    }
+  };
+
+  useEffect(() => {
+    fetchPython();
+    fetchJs();
+  }, []);
 
   return (
     <>
@@ -84,8 +127,21 @@ function BroadSelection() {
                   content={t("pythonP")}
                   button={t("pythonButton")}
                 />
+                {console.log(PythonCourse)}
                 <div className="">
-                  <CoursesSlider />
+                  {loading ? (
+                    <div className="flex flex-col space-y-3">
+                      <Skeleton className="h-[125px] w-[250px] rounded-xl" />
+                      <div className="space-y-2">
+                        <Skeleton className="h-4 w-[250px]" />
+                        <Skeleton className="h-4 w-[200px]" />
+                      </div>
+                    </div>
+                  ) : PythonCourse && PythonCourse.length > 0 ? (
+                    <CoursesSlider courses={PythonCourse} />
+                  ) : (
+                    <div className="py-3 font-bold"> No Available Courses</div>
+                  )}
                 </div>
               </div>
             )}
@@ -124,7 +180,9 @@ function BroadSelection() {
                   button={t("jsButton")}
                 />
                 <div className="">
-                  <CoursesSlider />
+                  {JSCourse && JSCourse.length > 0 && (
+                    <CoursesSlider courses={JSCourse} />
+                  )}
                 </div>
               </div>
             )}

@@ -26,7 +26,9 @@ function InstructorLandingPage({ session }) {
         `${process.env.NEXT_PUBLIC_LOCAL_API}/course/${
           session.user._id
         }/instructor?${keyword && `keyword=${keyword}`}&${
-          sort && `sort=${sort}`
+          sort === "draft" || sort === "public"
+            ? `courseState=${sort}`
+            : `sort=${sort}`
         }`,
         {
           headers: {
@@ -34,8 +36,6 @@ function InstructorLandingPage({ session }) {
           },
         }
       );
-      console.log(data.message);
-
       if (data.message === "success") {
         setCourses(data.data);
       } else {
@@ -49,7 +49,7 @@ function InstructorLandingPage({ session }) {
   };
 
   useEffect(() => {
-    fetchCourses(searchKeyword,sort);
+    fetchCourses(searchKeyword, sort);
   }, [sort]);
 
   const handleSearch = () => {
@@ -108,6 +108,8 @@ function InstructorLandingPage({ session }) {
               <option value="createdAt">{t("oldest")}</option>
               <option value="title">{t("A-Z")}</option>
               <option value="-title">{t("Z-A")}</option>
+              <option value="public">Public</option>
+              <option value="draft">Draft</option>
             </select>
           </div>
         </div>
@@ -146,9 +148,12 @@ function InstructorLandingPage({ session }) {
 
               <div className="group-hover:opacity-5 w-full flex gap-10">
                 <div className="md:w-1/4 flex flex-col justify-between py-4">
-                  <h1 className="font-bold">
-                    {locale === "en" ? course.title : course.title_Ar}
-                  </h1>
+                  <Link href={`course/${course._id}/manage/goals`}>
+                    <h1 className="font-bold">
+                      {locale === "en" ? course.title : course.title_Ar}
+                    </h1>
+                  </Link>
+
                   <div className="flex gap-4 ">
                     <p
                       className={`text-xs ${
