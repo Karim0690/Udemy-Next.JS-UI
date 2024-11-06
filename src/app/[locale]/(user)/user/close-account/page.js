@@ -1,5 +1,7 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 "use client";
-import React, { useState } from "react";
+
+import AccountSidenav from "../accountSidenav/AccountSidenav";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -9,10 +11,10 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import axios from "axios";
-import { TbAlertOctagonFilled } from "react-icons/tb";
+import React, { useState } from "react";
 import { IoMdCheckmarkCircle } from "react-icons/io";
+import { TbAlertOctagonFilled } from "react-icons/tb";
 import { toast } from "sonner";
-import AccountSidenav from "../accountSidenav/AccountSidenav";
 
 const page = () => {
   const showToast = (message, isError = false) => {
@@ -20,19 +22,20 @@ const page = () => {
       description: (
         <div className="flex flex-col">
           <div className="flex items-center gap-5">
+            {" "}
             {isError ? (
               <TbAlertOctagonFilled className="text-6xl" />
             ) : (
               <IoMdCheckmarkCircle className="text-4xl" />
-            )}
-            <span className={`font-bold "text-black"`}>{message}</span>
-          </div>
+            )}{" "}
+            <span className={`font-bold "text-black"`}> {message} </span>{" "}
+          </div>{" "}
           <button
             className="mt-5 mx-14 bg-gray-800 text-white w-20 p-3"
             onClick={() => toast.dismiss(toastId)}
           >
-            Dismiss
-          </button>
+            Dismiss{" "}
+          </button>{" "}
         </div>
       ),
       style: {
@@ -45,6 +48,7 @@ const page = () => {
       },
     });
   };
+
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -86,13 +90,13 @@ const page = () => {
             <div className="flex border-b border-gray-300 py-4">
               <div className="mx-auto max-w-7xl px-6 text-center">
                 <h1 className="font-heading font-bold leading-tight tracking-normal text-lg sm:text-xl md:text-2xl max-w-3xl">
-                  Close Account
-                </h1>
+                  Close Account{" "}
+                </h1>{" "}
                 <p className="font-text mt-2 leading-6 ">
-                  Close your account permanently
-                </p>
-              </div>
-            </div>
+                  Close your account permanently{" "}
+                </p>{" "}
+              </div>{" "}
+            </div>{" "}
             <div className="flex-1">
               <div className="px-4 max-w-[700px] mx-auto mt-4">
                 <p>
@@ -101,28 +105,27 @@ const page = () => {
                   of your courses and will lose access to your account and data
                   associated with your account forever, even if you choose to
                   create a new account using the same email address in the
-                  future.
-                  <br />
+                  future. <br />
                   <br />
                   Please note, if you want to reinstate your account after
                   submitting a deletion request, you will have 14 days after the
-                  initial submission date to reach out to privacy@udemy.com to
-                  cancel this request.
-                </p>
+                  initial submission date to reach out to privacy @udemy.com to
+                  cancel this request.{" "}
+                </p>{" "}
                 <div className="flex items-center mb-80 space-x-2">
                   <Dialog>
                     <DialogTrigger asChild>
                       <Button className="bg-zinc-800 text-white hover:bg-zinc-700 h-12 font-semibold text-lg mt-6">
-                        Close account
-                      </Button>
-                    </DialogTrigger>
+                        Close account{" "}
+                      </Button>{" "}
+                    </DialogTrigger>{" "}
                     <DialogContent className="sm:max-w-[600px] bg-white">
                       <DialogHeader>
-                        <DialogTitle>Close Your Account</DialogTitle>
-                      </DialogHeader>
+                        <DialogTitle> Close Your Account </DialogTitle>{" "}
+                      </DialogHeader>{" "}
                       <div className="pt-3">
-                        <b>Are you sure you want to close your account?</b>
-                      </div>
+                        <b> Are you sure you want to close your account ? </b>{" "}
+                      </div>{" "}
                       <div className="grid gap-4">
                         <div className="items-center gap-4">
                           <input
@@ -134,14 +137,13 @@ const page = () => {
                             className="border border-black w-full p-2"
                             placeholder="Enter your password"
                           />
-                        </div>
+                        </div>{" "}
                         {error && (
                           <div className="p-3 bg-[#fcbca0] text-gray-800 flex items-center gap-4">
                             <TbAlertOctagonFilled className="text-3xl text-black" />
-                            <p className="font-semibold">{error}</p>
+                            <p className="font-semibold"> {error} </p>{" "}
                           </div>
                         )}
-
                         <div className="mt-4 ">
                           <div className="flex justify-end ">
                             <button
@@ -150,19 +152,19 @@ const page = () => {
                               disabled={isLoading}
                               onClick={handleCloseAccount}
                             >
-                              {isLoading ? "Close account..." : "Close account"}
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </DialogContent>
-                  </Dialog>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+                              {isLoading ? "Close account..." : "Close account"}{" "}
+                            </button>{" "}
+                          </div>{" "}
+                        </div>{" "}
+                      </div>{" "}
+                    </DialogContent>{" "}
+                  </Dialog>{" "}
+                </div>{" "}
+              </div>{" "}
+            </div>{" "}
+          </div>{" "}
+        </div>{" "}
+      </div>{" "}
     </>
   );
 };
