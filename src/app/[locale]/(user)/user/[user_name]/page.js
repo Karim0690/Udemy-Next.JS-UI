@@ -2,11 +2,14 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import axios from "axios";
 import { getServerSession } from "next-auth";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import React from "react";
 import { IoPlayCircleOutline } from "react-icons/io5";
 
-const Page = async ({params:{locale}}) => {
+const Page = async ({ params: { locale } }) => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const t = useTranslations("userenrolledCourse");
   const session = await getServerSession(authOptions);
   if (!session) {
     return redirect("/");
@@ -43,36 +46,34 @@ const Page = async ({params:{locale}}) => {
         </Avatar>
       </div>
       <div className="flex flex-col items-center bg-gray-50 p-4">
-        <h1 className="font-semibold text-lg my-3">
-          Courses you&apos;re enrolled in
-        </h1>
-      <div className="flex flex-wrap justify-center gap-x-6 gap-y-6 mb-10">
-        {courses.map((course) => (
-          <div key={course._id} className="group cursor-pointer">
-            <div className="relative">
-              <div className="hidden w-full h-full bg-black opacity-25 absolute group-hover:block"></div>
-              <div className="hidden absolute w-full h-full justify-center items-center group-hover:flex">
-                <IoPlayCircleOutline className="text-white text-6xl" />
+        <h1 className="font-semibold text-lg my-3">{t("courses_enrolled")}</h1>
+        <div className="flex flex-wrap justify-center gap-x-6 gap-y-6 mb-10">
+          {courses.map((course) => (
+            <div key={course._id} className="group cursor-pointer">
+              <div className="relative">
+                <div className="hidden w-full h-full bg-black opacity-25 absolute group-hover:block"></div>
+                <div className="hidden absolute w-full h-full justify-center items-center group-hover:flex">
+                  <IoPlayCircleOutline className="text-white text-6xl" />
+                </div>
+                <Image
+                  src={course.courseImage}
+                  width={350}
+                  height={100}
+                  alt={course.title}
+                  className="border-2 w-60 h-40"
+                />
               </div>
-              <Image
-                src={course.courseImage}
-                width={350}
-                height={100}
-                alt={course.title}
-                className="border-2 w-60 h-40"
-              />
+              <h2 className="font-semibold my-2">
+                {locale === "en" ? course.title : course.title_Ar}
+              </h2>
+              <p className="text-xs text-gray-500 pb-3 border-b-4">
+                {course.instructor ? course.instructor.name : "No instructor"}
+              </p>
+              <p>{t("start_course")} </p>
             </div>
-            <h2 className="font-semibold my-2">
-              {locale === "en" ? course.title : course.title_Ar}
-            </h2>
-            <p className="text-xs text-gray-500 pb-3 border-b-4">
-              {course.instructor ? course.instructor.name : "No instructor"}
-            </p>
-            <p>START COURSE</p>
-          </div>
-        ))}
-      </div>
+          ))}
         </div>
+      </div>
     </div>
   );
 };
