@@ -2,6 +2,7 @@
 
 import useCartStore from "@/app/store/cartStore";
 import axios from "axios";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { IoMdCheckmarkCircle } from "react-icons/io";
@@ -11,6 +12,7 @@ import { toast } from "sonner";
 const ApplyCoupon = ({ discount }) => {
   const [code, setCode] = useState("");
   const { fetchUsersCart } = useCartStore();
+  const { data: session } = useSession();
 
   const showToast = (message, isError = false) => {
     const toastId = toast("", {
@@ -50,7 +52,7 @@ const ApplyCoupon = ({ discount }) => {
         { code: code },
         {
           headers: {
-            Authorization: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmFhMmQ1YTIwMWY4MDZmOTJlZWJiMjUiLCJuYW1lIjoiS2FyaW0gQWJkZWxrYXJlZW0iLCJlbWFpbCI6IkthcmltQXltYW4zNjBAZ21haWwuY29tIiwicm9sZSI6WyJzdHVkZW50IiwiaW5zdHJ1Y3RvciJdLCJpYXQiOjE3MzAyMTgxNjYsImV4cCI6MTc2MTc3NTc2Nn0.F-HpJoI6sNENg8pkuWqZ0qlJ-y-WScNJcOGgQi98SFM`, // Replace with your actual token or handle it securely
+            Authorization: session.accessToken,
           },
         }
       );
@@ -76,7 +78,7 @@ const ApplyCoupon = ({ discount }) => {
         {},
         {
           headers: {
-            Authorization: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmFhMmQ1YTIwMWY4MDZmOTJlZWJiMjUiLCJuYW1lIjoiS2FyaW0gQWJkZWxrYXJlZW0iLCJlbWFpbCI6IkthcmltQXltYW4zNjBAZ21haWwuY29tIiwicm9sZSI6WyJzdHVkZW50IiwiaW5zdHJ1Y3RvciJdLCJpYXQiOjE3MzAyMTgxNjYsImV4cCI6MTc2MTc3NTc2Nn0.F-HpJoI6sNENg8pkuWqZ0qlJ-y-WScNJcOGgQi98SFM`, // Replace with your actual token or handle it securely
+            Authorization: session.accessToken,
           },
         }
       );
@@ -94,7 +96,7 @@ const ApplyCoupon = ({ discount }) => {
     }
   };
   return (
-    <div>
+    <div className="w-fit">
       <div className="flex">
         <input
           type="text"

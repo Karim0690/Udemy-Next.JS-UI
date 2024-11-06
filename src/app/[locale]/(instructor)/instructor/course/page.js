@@ -1,3 +1,4 @@
+import TopNav from "../../_components/TopNav/TopNav";
 import InstructorHeader from "../InstructorHeader/InstructorHeader";
 import SideNav from "../InstructorSidenav/SideNav";
 import InstructorFooter from "../instractorFooter/page";
@@ -11,8 +12,11 @@ export default async function Home({ params: { locale } }) {
 
   return (
     <>
+      <div className="block md:hidden">
+        <TopNav session={session} locale={locale} />
+      </div>
       <InstructorHeader session={session} locale={locale} />
-      <InstructorLandingPage />
+      <InstructorLandingPage session={session} />
       <InstructorSection2LandingPage locale={locale} />
       <InstructorFooter />
       <SideNav />

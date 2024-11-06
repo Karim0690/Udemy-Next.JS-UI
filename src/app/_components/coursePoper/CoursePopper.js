@@ -11,7 +11,6 @@ import { TbAlertOctagonFilled } from "react-icons/tb";
 import { toast } from "sonner";
 
 const CoursePopper = ({ courseTitle, courseId }) => {
-  const { fetchUsersCart } = useCartStore();
   const showToast = (message, isError = false) => {
     const toastId = toast("", {
       description: (
@@ -44,6 +43,7 @@ const CoursePopper = ({ courseTitle, courseId }) => {
   };
   const t = useTranslations("Categories");
   const { data: session } = useSession();
+  const fetchUsersCart = useCartStore((state) => state.fetchUsersCart);
 
   const addToCart = async () => {
     try {
@@ -60,7 +60,9 @@ const CoursePopper = ({ courseTitle, courseId }) => {
       );
       if (data.message === "success") {
         showToast("Course added to cart successfully", false);
-        fetchUsersCart();
+        if (session?.accessToken) {
+          fetchUsersCart(session.accessToken);
+        }
       }
     } catch (e) {
       console.log(e);

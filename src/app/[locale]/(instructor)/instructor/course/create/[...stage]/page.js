@@ -2,11 +2,11 @@
 
 import useCourseStore from "@/app/store/courseStore";
 import axios from "axios";
-import { jwtDecode } from "jwt-decode";
+import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { IoMdCheckmarkCircle } from "react-icons/io";
 import { LuMonitorPlay } from "react-icons/lu";
@@ -14,18 +14,21 @@ import { TbAlertOctagonFilled } from "react-icons/tb";
 import { toast } from "sonner";
 
 const Page = () => {
+  const { data: session } = useSession();
   const t = useTranslations("CreateCourse");
+  const { locale } = useParams();
   const path = usePathname();
   const router = useRouter();
-  const page = parseInt(path.split("/")[4]);
+  const page = parseInt(path.split("/")[5]);
   const progress = (page - 1) * 0.25 + 0.25;
-  const [decodedToken, setDecodedToken] = useState({});
   let [steps, setStep] = useState(0);
   const [courseDetails, setCourseDetails] = useState({
     title: "",
+    title_Ar: "",
     instructor: "",
     category: "",
   });
+
   const [selectedOption, setSelectedOption] = useState("");
   const { categories, fetchCategories } = useCourseStore();
 
@@ -45,7 +48,7 @@ const Page = () => {
             className="mt-5 mx-14 bg-gray-800 text-white w-20 p-3"
             onClick={() => toast.dismiss(toastId)}
           >
-            {t(dismiss)}
+            {t("dismiss")}
           </button>
         </div>
       ),
@@ -59,69 +62,53 @@ const Page = () => {
       },
     });
   };
-  const decodeToken = () => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      try {
-        const decoded = jwtDecode(token);
-        setDecodedToken(decoded);
-        setCourseDetails((prevData) => ({
-          ...prevData,
-          instructor: decoded._id,
-        }));
-      } catch (error) {
-        console.error("Failed to decode token:", error);
-      }
-    } else {
-      console.log("No token found in local storage.");
-    }
-  };
+
   useEffect(() => {
     fetchCategories();
-    decodeToken();
 
     const savedCourseDetails = localStorage.getItem("courseDetails");
     if (savedCourseDetails) {
       setCourseDetails(JSON.parse(savedCourseDetails));
     }
-  }, []);
+
+    // Update instructor when session changes
+    if (session && session.user) {
+      setCourseDetails((prevDetails) => ({
+        ...prevDetails,
+        instructor: session.user._id,
+      }));
+    }
+  }, [session]); // Add session as a dependency
 
   const options = [
     {
       key: "busy_now",
-      text: "I’m very busy right now (0-2 hours)",
+      translatedText: t("busy_now"),
     },
     {
       key: "work_on_side",
-      text: "I’ll work on this on the side (2-4 hours)",
+      translatedText: t("work_on_side"),
     },
     {
       key: "lots_of_flexibility",
-      text: "I have lots of flexibility (5+ hours)",
+      translatedText: t("lots_of_flexibility"),
     },
     {
       key: "undecided_time",
-      text: "I haven’t yet decided if I have time",
+      translatedText: t("undecided_time"),
     },
   ];
 
-  const translatedOptions = options.map((option) => ({
-    key: option.key,
-    translatedText: t(option.key), // يجب أن تعود الترجمة المناسبة
-  }));
-
-  // karim options __________________
-  // const options = [
-  //   "I’m very busy right now (0-2 hours)",
-  //   "I’ll work on this on the side (2-4 hours)",
-  //   "I have lots of flexibility (5+ hours)",
-  //   "I haven’t yet decided if I have time",
-  // ];
-
   const handleTitleChange = (e) => {
-    const newTitle = e.target.value;
-    if (newTitle.length <= 60) {
-      setCourseDetails({ ...courseDetails, title: newTitle });
+    const { name, value } = e.target;
+    if (name === "title") {
+      if (value.length <= 60) {
+        setCourseDetails({ ...courseDetails, title: value });
+      }
+    } else if (name === "title_Ar") {
+      if (value.length <= 60) {
+        setCourseDetails({ ...courseDetails, title_Ar: value });
+      }
     }
     setStep(2);
   };
@@ -130,29 +117,35 @@ const Page = () => {
     if (validateCurrentStep()) {
       localStorage.setItem("courseDetails", JSON.stringify(courseDetails));
       if (page < 4) {
-        router.push(`/instructor/course/create/${page + 1}`);
+        router.push(`/${locale}/instructor/course/create/${page + 1}`);
       }
     }
   };
 
   const handleSubmit = async () => {
-    // Save course details to database
-    const { data } = await axios.post(
-      `${process.env.NEXT_PUBLIC_LOCAL_API}/course`,
-      courseDetails,
-      {
-        headers: {
-          Authorization: `${localStorage.getItem("token")}`,
-        },
+    try {
+      const { data } = await axios.post(
+        `${process.env.NEXT_PUBLIC_LOCAL_API}/course`,
+        courseDetails,
+        {
+          headers: {
+            Authorization: session.accessToken,
+          },
+        }
+      );
+      if (data.message === "success") {
+        router.push(`/${locale}/instructor/course`);
+        showToast("Your changes have been saved successfully");
+        localStorage.removeItem("courseDetails");
+      } else {
+        showToast("Failed to save course", true);
       }
-    );
-    // Redirect to course page
-    if (data.message === "success") {
-      router.push(`/instructor/course`);
-      showToast("Your changes have been saved successfully");
-      localStorage.removeItem("courseDetails");
-    } else {
-      showToast("Failed to save course", true);
+    } catch (error) {
+      console.error("Error submitting course:", error);
+      showToast(
+        "An error occurred while saving the course. Please try again.",
+        true
+      );
     }
   };
 
@@ -282,17 +275,43 @@ const Page = () => {
                 </p>
               </div>
               <div className="relative px-3 mt-20 w-[600px]">
+                <p className="my-2 font-semibold">{t("title_en")}</p>
                 <input
                   className="appearance-none block w-full text-gray-700 border border-black py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                  id="grid-title"
+                  id="grid-title-en"
+                  name="title"
                   type="text"
-                  placeholder="e.g. Learn Photoshop CS6 from Scratch"
+                  placeholder={t("placeholder")}
                   value={courseDetails.title}
                   onChange={handleTitleChange}
                 />
-                <span className="absolute right-4 bottom-3 pr-4 text-gray-600">{`${
-                  60 - courseDetails.title.length
-                }`}</span>
+                <span
+                  className={`absolute ${
+                    locale === "en" ? "right-4 pr-4" : "left-4 pl-4"
+                  } bottom-3 text-gray-600`}
+                >{`${60 - courseDetails.title.length}`}</span>
+              </div>
+              <div className="relative px-3 mt-20 w-[600px]">
+                <p className="my-2 font-semibold">{t("title_ar")}</p>
+                <input
+                  className="appearance-none block w-full text-gray-700 border border-black py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                  id="grid-title-ar"
+                  name="title_Ar"
+                  type="text"
+                  placeholder={t("placeholder")}
+                  value={courseDetails.title_Ar}
+                  onChange={handleTitleChange} // Use the single handler
+                />
+                <span
+                  className={`absolute ${
+                    locale === "en" ? "right-4 pr-4" : "left-4 pl-4"
+                  } bottom-3 text-gray-600`}
+                >
+                  {" "}
+                  {courseDetails.title_Ar
+                    ? `${60 - courseDetails.title_Ar.length}`
+                    : "60"}
+                </span>
               </div>
             </div>
           )}
@@ -325,7 +344,7 @@ const Page = () => {
                   <option value="">{t("choose_category")} </option>
                   {categories?.map((category) => (
                     <option key={category._id} value={category._id}>
-                      {category.name}
+                      {locale === "en" ? category.name : category.nameAr}
                     </option>
                   ))}
                 </select>
@@ -344,10 +363,10 @@ const Page = () => {
                 </p>
               </div>
               <div className="flex flex-col space-y-4 mt-20 w-[60%]">
-                {translatedOptions.map((option, index) => (
+                {options.map((option, index) => (
                   <label
                     key={index}
-                    className={`flex items-center p-3 border border-black cursor-pointer transition-colors `}
+                    className={`flex items-center p-1 py-3 border border-black cursor-pointer transition-colors`}
                   >
                     <input
                       type="radio"
@@ -355,11 +374,11 @@ const Page = () => {
                       value={option.key}
                       checked={selectedOption === option.key}
                       onChange={() => setSelectedOption(option.key)}
-                      className="mr-4 cursor-pointer"
+                      className="mr-4 cursor-pointer mx-2"
                     />
                     <span className="text-gray-900 font-bold">
                       {option.translatedText}
-                    </span>{" "}
+                    </span>
                   </label>
                 ))}
               </div>
@@ -393,10 +412,10 @@ const Page = () => {
             <button
               className="bg-white text-gray-700 border border-black font-bold p-4 text-center hover:bg-gray-200"
               onClick={() =>
-                router.push(`/instructor/course/create/${page - 1}`)
+                router.push(`/${locale}/instructor/course/create/${page - 1}`)
               }
             >
-              Previous
+              {t("previous")}
             </button>
           )}
           {page !== 4 ? (

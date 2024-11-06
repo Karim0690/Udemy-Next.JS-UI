@@ -3,6 +3,7 @@
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Spinner } from "@material-tailwind/react";
+import axios from "axios";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
@@ -10,40 +11,48 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import React, { useState, useEffect } from "react";
 
-function InstructorLandingPage() {
-  const [courses, setCourses] = useState([]);
+function InstructorLandingPage({ session }) {
+  const [courses, setCourses] = useState(null);
   const [searchKeyword, setSearchKeyword] = useState("");
   const [sort, setSort] = useState("-createdAt");
   const [isLoading, setIsLoading] = useState(false);
   const { locale } = useParams();
-  const { data: session } = useSession();
 
   const fetchCourses = async (keyword = "", sort = "-createdAt") => {
     setIsLoading(true);
 
     try {
-      const response = await fetch(
+      const { data } = await axios.get(
         `${process.env.NEXT_PUBLIC_LOCAL_API}/course/${
           session.user._id
-        }/instructor?${keyword ? `keyword=${keyword}` : ""}&${
-          sort ? `sort=${sort}` : ""
-        }`
+        }/instructor?${keyword && `keyword=${keyword}`}&${
+          sort && `sort=${sort}`
+        }`,
+        {
+          headers: {
+            Authorization: session.accessToken,
+          },
+        }
       );
-      const data = await response.json();
-      setCourses(data.data || []);
+      console.log(data.message);
+
+      if (data.message === "success") {
+        setCourses(data.data);
+      } else {
+        setCourses(null);
+      }
     } catch (error) {
-      console.error("Error fetching instructor courses:", error);
+      setCourses(null);
     } finally {
       setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchCourses(searchKeyword, sort);
-  }, [sort, searchKeyword]);
+    fetchCourses(searchKeyword,sort);
+  }, [sort]);
 
-  const handleSearch = (e) => {
-    e.preventDefault();
+  const handleSearch = () => {
     fetchCourses(searchKeyword, sort);
   };
   const t = useTranslations("CoursesPage");
@@ -68,7 +77,7 @@ function InstructorLandingPage() {
       </div>
       <div className="flex justify-between items-center">
         <div className="flex flex-1 items-center gap-6 justify-between md:justify-normal">
-          <form onSubmit={handleSearch} className="flex min-w-[250px]">
+          <div className="flex min-w-[250px]">
             <input
               type="text"
               placeholder={t("search")}
@@ -76,10 +85,16 @@ function InstructorLandingPage() {
               value={searchKeyword}
               onChange={(e) => setSearchKeyword(e.target.value)}
             />
-            <button type="submit" className="bg-black text-white p-3">
+            <button
+              type="submit"
+              className="bg-black text-white p-3"
+              onClick={() => {
+                handleSearch();
+              }}
+            >
               <FontAwesomeIcon icon={faMagnifyingGlass} className="w-8 h-6" />
             </button>
-          </form>
+          </div>
           <div className="flex items-center border text-3xl border-black font-sans hover:cursor-pointer hover:bg-gray-200 w-28 p-2">
             <select
               id="sort-options"
@@ -108,7 +123,7 @@ function InstructorLandingPage() {
         <div className="flex-1 flex justify-center items-center">
           <Spinner className="h-16 w-16 text-gray-900/50" />
         </div>
-      ) : courses.length > 0 ? (
+      ) : courses ? (
         courses.map((course) => (
           <div
             key={course._id}
