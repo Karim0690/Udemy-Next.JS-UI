@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { IoSearchSharp } from "react-icons/io5";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import ReviewFeedback from "../ReviewFeedback /ReviewFeedback";
+import RatingsProgress from "../RatingsProgress/RatingsProgress";
 
 const TabsCourseView = () => {
   return (
@@ -92,63 +93,8 @@ const TabsCourseView = () => {
                 Course Rating
               </p>
             </div>
-            <div className="flex items-center flex-col gap-5 ">
-              <div className="flex gap-12">
-                {" "}
-                <div>
-                  <Progress value={62} className="w-[500px]" />
-                </div>{" "}
-                <div className="flex">
-                  {" "}
-                  <Rating className="mb" ratingValue={5} readOnly={true} />{" "}
-                  <p className="text-sm ml-4 text-indigo-600"> 62% </p>{" "}
-                </div>{" "}
-              </div>
-              <div className="flex gap-12">
-                {" "}
-                <div>
-                  <Progress value={30} className="w-[500px]" />
-                </div>{" "}
-                <div className="flex">
-                  {" "}
-                  <Rating className="mb" ratingValue={4} readOnly={true} />{" "}
-                  <p className="text-sm ml-4 text-indigo-600"> 62% </p>{" "}
-                </div>{" "}
-              </div>
-              <div className="flex gap-12">
-                {" "}
-                <div>
-                  <Progress value={6} className="w-[500px]" />
-                </div>{" "}
-                <div className="flex">
-                  {" "}
-                  <Rating className="mb" ratingValue={3} readOnly={true} />{" "}
-                  <p className="text-sm ml-4 text-indigo-600"> 62% </p>{" "}
-                </div>{" "}
-              </div>
-              <div className="flex gap-12">
-                {" "}
-                <div>
-                  <Progress value={1} className="w-[500px]" />
-                </div>{" "}
-                <div className="flex">
-                  {" "}
-                  <Rating className="mb" ratingValue={2} readOnly={true} />{" "}
-                  <p className="text-sm ml-4 text-indigo-600"> 62% </p>{" "}
-                </div>{" "}
-              </div>
-              <div className="flex gap-12">
-                {" "}
-                <div>
-                  <Progress value={1} className="w-[500px]" />
-                </div>{" "}
-                <div className="flex">
-                  {" "}
-                  <Rating className="mb" ratingValue={1} readOnly={true} />{" "}
-                  <p className="text-sm ml-4 text-indigo-600"> 62% </p>{" "}
-                </div>{" "}
-              </div>
-            </div>
+            <RatingsProgress/>
+            
           </div>
           <h2 className="text-2xl font-extrabold mt-16">Reviews</h2>
           <div className="flex w-full max-w-md items-center mt-5 ">
