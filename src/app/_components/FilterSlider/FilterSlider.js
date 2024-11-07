@@ -4,9 +4,11 @@ import CoursesSlider from "../CoursesSlider/CoursesSlider";
 import { useTranslations } from "next-intl";
 import React, { useState } from "react";
 
-const FilterSlider = () => {
+const FilterSlider = ({courses}) => {
   const [activeTab, setActiveTab] = useState("MostPopular");
   const t = useTranslations("Categories");
+  console.log(courses);
+  
 
   return (
     <>
@@ -55,11 +57,11 @@ const FilterSlider = () => {
           </ul>
         </div>
         <div className=" text-black mt-10">
-          {activeTab === "MostPopular" && <CoursesSlider />}
+          {activeTab === "MostPopular" && <CoursesSlider courses={courses}/>}
 
-          {activeTab === "New" && <CoursesSlider />}
+          {activeTab === "New" && <CoursesSlider courses={courses}/>}
 
-          {activeTab === "Trending" && <CoursesSlider />}
+          {activeTab === "Trending" && <CoursesSlider courses={courses}/>}
         </div>
       </div>
     </>

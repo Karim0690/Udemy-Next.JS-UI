@@ -10,7 +10,7 @@ import FilterAccordion from "@/app/_components/FilterAccordion/FilterAccordion";
 import InstructorSlider from "@/app/_components/InstructorSlider/InstructorSlider";
 import TopicsSlider from "@/app/_components/TopicsSlider/TopicsSlider";
 import { useTranslations } from "next-intl";
-import { usePathname } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import { useState } from "react";
 import { IoIosInformationCircle } from "react-icons/io";
 import { IoFilterOutline } from "react-icons/io5";
@@ -18,20 +18,23 @@ import { IoFilterOutline } from "react-icons/io5";
 const Page = () => {
   const pathname = usePathname();
   const category = pathname.split("/")[3];
+  const subCategory = pathname.split("/")[4];
   const [isFilterVisible, setIsFilterVisible] = useState(true);
   const toggleFilter = () => {
     setIsFilterVisible(!isFilterVisible);
   };
   const t = useTranslations("Categories");
+  const{locale}=useParams()
+
 
   return (
     <>
       <div className="hidden lg:block bg-white border border-b-gray-300 font-sans ">
-        <BreadcrumbDemo category={category} />
+        <BreadcrumbDemo category={category} locale={locale} />
       </div>
       <div className="mx-12 mt-12">
         <h1 className="font-bold text-3xl text-gray-800">
-          <span className="capitalize">{category}</span> {t("courses")}
+          <span className="capitalize">{subCategory}</span> {t("courses")}
         </h1>
         <div className="mt-16">
           <h3 className="font-bold text-2xl text-gray-800 mb-2">

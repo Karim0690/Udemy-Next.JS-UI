@@ -62,26 +62,6 @@ const CoursesSlider = ({ courses }) => {
   const swiperRef = useRef(null);
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
-  console.log(courses);
-
-  // const [course, setCourse] = useState([]);
-
-  // const fetchCourses = async () => {
-  //   try {
-  //     const { data } = await axios.get(
-  //       `${process.env.NEXT_PUBLIC_LOCAL_API}/course/public/courses`
-  //     );
-  //     if (data.status === "success") {
-  //       setCourse(data.data.courses); // Save the fetched data
-  //     }
-  //   } catch (err) {
-  //     console.error("Error fetching courses:", err);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   fetchCourses(); // Call the fetch function
-  // }, []);
 
   return (
     <div className={`my-10 p-4`}>
@@ -123,13 +103,15 @@ const CoursesSlider = ({ courses }) => {
             },
             768: {
               slidesPerView: 3,
-              slidesPerGroup: 1,
+              slidesPerGroup: 4,
             },
             1024: {
               slidesPerView: 4,
+              slidesPerGroup: 4,
             },
             1280: {
               slidesPerView: 5,
+              slidesPerGroup: 4,
             },
           }}
           onSwiper={(swiper) => {
@@ -142,10 +124,10 @@ const CoursesSlider = ({ courses }) => {
         >
           {courses &&
             courses.map((course, index) => (
-              <SwiperSlide key={course._id}>
+              <SwiperSlide key={course._id} className={`${styles.custom2}`}>
                 <div className="group flex">
-                  <div className="relative z-10">
-                    <Link href={`/${locale}/course/${course.slug}`}>
+                  <>
+                    <Link className="static z-10" href={`/${locale}/course/${course.slug}`}>
                       <CourseComponentCard
                         image={course.courseImage}
                         title={course.title}
@@ -154,9 +136,9 @@ const CoursesSlider = ({ courses }) => {
                         price={course.price}
                       />
                     </Link>
-                  </div>
+                  </>
                   <div
-                    className={`absolute z-50 -top-24 w-[350px] ${
+                    className={`absolute z-40 -top-24 w-[350px] ${
                       locale === "en" ? "left-full" : "right-full"
                     }  hidden group-hover:block`}
                   >
