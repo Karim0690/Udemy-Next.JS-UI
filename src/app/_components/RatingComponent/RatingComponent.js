@@ -1,5 +1,6 @@
 "use client"
 import React, { useState } from "react";
+import axios from 'axios';
 
 import { FaStar } from "react-icons/fa";
 import {
@@ -13,38 +14,58 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+// import { useToast } from "@/components/hooks/use-toast"
 
-const RatingComponent = () => {
+
+const RatingComponent = (courseId , userId) => {
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(null);
   const [feedback, setFeedback] = useState("");
 
   const ratingLabels = ["Poor", "Fair", "Average", "Good", "Excellent"];
 
-  const handleSubmit = async () => {
-    // Define the data to send
-    const data = {
-      rating,
-      feedback,
-    };
 
-    try {
-      // Send a POST request to the backend
-      const response = await fetch("https://your-backend-url.com/api/rating", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-
+  // const handleSubmit = async () => {
+  //   const { toast } = useToast();
+  
+  //   // Check if rating is 0, if so, show a toast and exit the function
+  //   if (rating === 0) {
+  //     toast({
+  //       title: 'Error',
+  //       description: 'Please select a rating before submitting your review.',
+  //       status: 'error',
+  //     });
+  //     return; // Exit the function if rating is 0
+  //   }
+  
+  //   // If rating is valid, proceed to create the review
+  //   try {
+  //     await createReview(courseId, userId, rating, feedback);
+  //     toast({
+  //       title: 'Success',
+  //       description: 'Your review was submitted successfully!',
+  //       status: 'success',
+  //     });
+  //   } catch (error) {
+  //     toast({
+  //       title: 'Error',
+  //       description: error.response ? error.response.data.message : 'An error occurred while submitting your review.',
+  //       status: 'error',
+  //     });
+  //   }
+  // };
+  
+  // const createReview = async (courseId, userId, rating, comment) => {
+  //   const response = await axios.post('http://yourserver.com/api/reviews', {
+  //     course: courseId,
+  //     user: userId,
+  //     rating,
+  //     comment,
+  //   });
+  
+  //   return response.data;
+  // };    
     
-    } catch (error) {
-      // Handle network or other errors
-      console.error("Error submitting feedback:", error);
-      alert("An error occurred. Please try again later.");
-    }
-  };
 
   return (
     <div style={styles.container}>

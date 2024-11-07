@@ -113,7 +113,7 @@ const Navbar = ({ session }) => {
                       </h1>
                     </Link>
                   </>
-                )}
+                )} 
 
                 <UserControlles locale={locale} user={session.user} />
               </>

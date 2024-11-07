@@ -11,7 +11,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import ReviewFeedback from "../ReviewFeedback /ReviewFeedback";
 import RatingsProgress from "../RatingsProgress/RatingsProgress";
 
-const TabsCourseView = () => {
+const TabsCourseView = ({session}) => {
   return (
     <Tabs defaultValue="reviews" className="w-full">
       <TabsList>

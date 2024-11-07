@@ -26,15 +26,16 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-
+import { getServerSession } from "next-auth/next";
 import VideoCoursePlayer from "@/app/_components/VideoCoursePlayer/VideoCoursePlayer";
 import CourseContentSideBar from "@/app/_components/CourseContentSideBar/CourseContentSideBar";
 import TabsCourseView from "@/app/_components/TabsCourseView/TabsCourseView";
 import axios from "axios";
 import Rating from "@/app/_components/Rating/Rating";
 import RatingComponent from "@/app/_components/RatingComponent/RatingComponent";
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 
-function CourseHeader({ course }) {
+function CourseHeader({ course , session }) {
   // <div className="w-full  mx-auto   bg-[#2D2F31] text-white shadow-sm h-14 flex items-center">
 
   return (
@@ -69,7 +70,7 @@ function CourseHeader({ course }) {
           <AlertDialogDescription className="text-center text-lg text-bold mx-auto">
           {/* Select Rating
           <Rating className="w-2/4"/> */}
-          <RatingComponent  className="w-full "/>
+          <RatingComponent courseId={course.id} userId={session.userid}  className="w-full "/>
           </AlertDialogDescription>
         </AlertDialogHeader>
       
@@ -119,6 +120,10 @@ const page = async ({ params }) => {
   let course;
   let sections;
 
+  const session = await getServerSession(authOptions);
+  console.log(session);
+  
+
   try {
     const { data } = await axios.get(
       `${process.env.NEXT_PUBLIC_LOCAL_API}/course/courseTitle/${title}`
@@ -137,14 +142,14 @@ const page = async ({ params }) => {
 
   return (
     <>
-      <CourseHeader course={course} />
+      <CourseHeader course={course}  session={session}/>
       <div>
         <div>
           <VideoCoursePlayer className="w-full" sections={sections} />
         </div>
       </div>
       <div>
-        <TabsCourseView />
+        <TabsCourseView session={session}/>
       </div>
     </>
   );
