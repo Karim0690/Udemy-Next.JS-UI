@@ -5,14 +5,16 @@ import LanguageSwitch from "../../LanguageSwitch/LanguageSwitch";
 import MultiLevelDropdown from "../../MultiLevelDropdown/MultiLevelDropdown";
 import PopperComponent from "../../Popper/Popper";
 import UserControlles from "../../UserControlles/UserControlles";
+import Search from "./Search";
+import Sidebar from "./Sidebar";
 import { Bars3Icon } from "@heroicons/react/24/outline";
-import { jwtDecode } from "jwt-decode";
-import { signIn, useSession } from "next-auth/react";
+import axios from "axios";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { IoIosSearch } from "react-icons/io";
 import { IoSearchOutline } from "react-icons/io5";
 import {
   MdOutlineOpenInNew,
@@ -21,14 +23,40 @@ import {
 } from "react-icons/md";
 
 const Navbar = ({ session }) => {
-  // const { data: session, status } = useSession();
-  // console.log(session);
-  // const user = useMemo(() => session?.user, [session]);
-
   const t = useTranslations("Header");
   const { locale } = useParams();
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchedCourses, setSearchedCourses] = useState(null);
+  const handleSearch = async () => {
+    if (searchQuery.length > 2) {
+      try {
+        const { data } = await axios.get(
+          `${process.env.NEXT_PUBLIC_LOCAL_API}/course/public/courses?keyword=${searchQuery}`
+        );
+        if (data.status === "success") {
+          setSearchedCourses(data.data.courses);
+        } else {
+          setSearchedCourses([]);
+        }
+      } catch (error) {
+        console.error("Error fetching courses:", error);
+        setSearchedCourses([]);
+      }
+    } else {
+      setSearchedCourses([]);
+    }
+  };
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      handleSearch();
+    }, 300);
+
+    return () => clearTimeout(timeoutId);
+  }, [searchQuery]);
 
   return (
     <>
@@ -63,13 +91,60 @@ const Navbar = ({ session }) => {
             <MultiLevelDropdown />
           </div>
           <div className="relative flex-1 mx-2 w-full max-w-full hidden lg:flex lg:order-3">
-            <input
-              type="text"
-              placeholder={t("search")}
-              className="w-full pl-14 pr-4 py-3 border border-black rounded-full bg-gray-100 text-sm focus:outline-none focus:ring-1 focus:ring-black focus:border-transparent"
-            />
+            <div className="relative flex-1 mx-2 w-full max-w-full hidden lg:flex">
+              <input
+                type="text"
+                placeholder={t("search")}
+                className="w-full pl-14 pr-4 py-3 border border-black rounded-full bg-gray-100 text-sm focus:outline-none focus:ring-1 focus:ring-black focus:border-transparent"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
 
-            <IoSearchOutline className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+              <IoSearchOutline className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+            </div>
+            {searchQuery.length > 2 && (
+              <div className="absolute bg-white z-20 w-full h-screen top-16">
+                {searchedCourses.length === 0 ? (
+                  <p>No results found</p>
+                ) : (
+                  <ul>
+                    {searchedCourses.map((course) => (
+                      <li key={course._id} className="py-3 hover:bg-gray-100">
+                        <Link
+                          href={`/${locale}/course/${course.slug}`}
+                          onClick={() => {
+                            setMobileSearchOpen(false);
+                          }}
+                          className="flex items-center justify-between"
+                        >
+                          <div className="flex items-center gap-3">
+                            <Image
+                              src={course.courseImage}
+                              width={50}
+                              height={50}
+                              alt="course"
+                            />
+                            <div>
+                              <div className="text-sm font-bold text-gray-800">
+                                {course.title}
+                              </div>
+                              <div className="flex gap-2 py-1">
+                                <span className="text-xs font-bold text-gray-500">
+                                  Course
+                                </span>
+                                <span className="text-xs text-gray-500">
+                                  {course.instructor.name}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            )}
           </div>
 
           <div className="hidden lg:flex lg:justify-end lg:order-3 items-center gap-3">
@@ -161,95 +236,24 @@ const Navbar = ({ session }) => {
             )}
           </div>
           <div className="flex lg:hidden order-3 lg:order-3 gap-6">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
+            <IoIosSearch
               className="h-6 w-6 cursor-pointer hover:text-violet-600"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
-              />
-            </svg>
+              onClick={() => setMobileSearchOpen(true)}
+            />
             <MdOutlineShoppingCart className="h-6 w-6 text-gray-800 hover:text-violet-600 " />
           </div>
         </nav>
-        {/* sidebar */}
-        {/* <Dialog
-        open={mobileMenuOpen}
-        onClose={setMobileMenuOpen}
-        className="lg:hidden"
-      >
-        <div className="fixed inset-0 z-10 bg-[rgba(45,47,45,0.8)]" />
-        <button
-          type="button"
-          onClick={() => setMobileMenuOpen(false)}
-          className={styles.panelbtn}
-        >
-          <span className="sr-only">Close menu</span>
-          <XMarkIcon aria-hidden="true" className="h-6 w-6" />
-        </button>
-        <DialogPanel className="fixed inset-y-0 z-20 w-full max-w-[16rem] overflow-y-auto bg-white px-6 py-6 sm:max-w-[16rem] sm:ring-1 sm:ring-gray-900/10">
-          <div className="mt-6 flow-root">
-            <div className="-my-6 divide-y divide-gray-500/10">
-              <div className="space-y-2 py-6">
-                <Disclosure as="div" className="-mx-3">
-                  <DisclosureButton className="group flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
-                    Product
-                    <ChevronDownIcon
-                      aria-hidden="true"
-                      className="h-5 w-5 flex-none group-data-[open]:rotate-180"
-                    />
-                  </DisclosureButton>
-                  <DisclosurePanel className="mt-2 space-y-2">
-                    {[...products].map((item) => (
-                      <DisclosureButton
-                        key={item.name}
-                        as="a"
-                        href={item.href}
-                        className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                      >
-                        {item.name}
-                      </DisclosureButton>
-                    ))}
-                  </DisclosurePanel>
-                </Disclosure>
-                <a
-                  href="#"
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                >
-                  Features
-                </a>
-                <a
-                  href="#"
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                >
-                  Marketplace
-                </a>
-                <a
-                  href="#"
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                >
-                  Company
-                </a>
-              </div>
-              <div className="py-6">
-                <a
-                  href="#"
-                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                >
-                  Log in
-                </a>
-              </div>
-            </div>
-          </div>
-        </DialogPanel>
-      </Dialog> */}
+        <Sidebar
+          mobileMenuOpen={mobileMenuOpen}
+          setMobileMenuOpen={setMobileMenuOpen}
+          session={session}
+        />
       </header>
+      <Search
+        mobileSearchOpen={mobileSearchOpen}
+        setMobileSearchOpen={setMobileSearchOpen}
+        session={session}
+      />
     </>
   );
 };

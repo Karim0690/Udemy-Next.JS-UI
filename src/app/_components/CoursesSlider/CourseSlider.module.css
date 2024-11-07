@@ -2,3 +2,7 @@
   overflow: visible !important;
   overflow-x: clip !important;
 }
+
+.custom2 {
+  transform: none !important;
+}
