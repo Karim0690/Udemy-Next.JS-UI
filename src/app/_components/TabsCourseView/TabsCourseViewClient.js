@@ -34,26 +34,28 @@ const TabsCourseViewClient = ({ course, reviews }) => {
       <TabsContent value="overview">
         <div className="pl-7 pr-22 m-11">
           <h3 className="text-2xl font-semibold">
-            Spring Boot 3: Learn Spring 6, Spring Core, Spring REST, Spring MVC,
-            Spring Security, Thymeleaf, JPA, Hibernate, MySQL
+           {course.title}
           </h3>
 
           <div className="flex items-center justify-start mt-9 gap-7">
             <div className="flex items-start flex-col">
               <div className="flex">
-                <p className="text-[#4D3105] text-lg font-bold mr-2">{course.rating}</p>
+                <p className="text-[#4D3105] text-lg font-bold pr-2 pb-1">{course.rating.average}</p>
+                <div className="pt-2">
+
                 <FaStar className="text-[#B4690E]" />
+                </div>
               </div>
-              <p className="text-sm font-thin text-slate-500">85,415 ratings</p>
+              <p className="text-sm font-thin text-slate-500">{course.rating.count} ratings</p>
             </div>
 
             <div className="flex items-start flex-col">
-              <p className="text-[#3B3D3F] text-lg font-bold mr-2">404,348</p>
+              <p className="text-[#3B3D3F] text-lg font-bold mr-2">55,02</p>
               <p className="text-sm font-thin text-slate-500">Students</p>
             </div>
 
             <div className="flex items-start flex-col">
-              <p className="text-[#3B3D3F] text-lg font-bold mr-2">33.5 hours</p>
+              <p className="text-[#3B3D3F] text-lg font-bold mr-2">{parseFloat(course.duration.toFixed(1))} hours</p>
               <p className="text-sm font-thin text-slate-500">Total</p>
             </div>
           </div>
@@ -100,11 +102,11 @@ const TabsCourseViewClient = ({ course, reviews }) => {
                 <div className="flex items-start ml-5 flex-col">
                   <p className="text-lg font-bold text-[#3B3D3F]">{review.user.name}</p>
                   <div className="flex items-center gap-2">
-                    <Rating ratingValue={review.rating} readOnly={true} />
+                    <Rating ratingValue={review.rating}  readOnly={true} />
                     <p className="font-thin text-sm text-stone-500">{review.timeAgo}</p>
                   </div>
                   <p className="text-sm text-slate-800 w-9/12 mt-3">{review.comment}</p>
-                  <ReviewFeedback />
+                  <ReviewFeedback />  
                 </div>
               </div>
             ))

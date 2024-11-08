@@ -58,7 +58,7 @@ const VideoCoursePlayer = ({ sections }) => {
     setCurrentVideo(resource);
     setSelectedItemIndex(index); // Update selected item index
   };
-  console.log({ currentVideo });
+  // console.log({ currentVideo });
   return (
     <>
       <div className="relative h-full flex">
