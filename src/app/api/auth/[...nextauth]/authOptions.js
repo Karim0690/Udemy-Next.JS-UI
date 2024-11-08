@@ -15,7 +15,7 @@ export const authOptions = {
 
         try {
           const { data } = await axios.post(
-            `http://127.0.0.1:3001/auth/signin`,
+            `${process.env.NEXTAUTH_URL}/auth/signin`,
             {
               email,
               password,

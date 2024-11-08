@@ -101,30 +101,52 @@ const Sidebar = ({ mobileMenuOpen, setMobileMenuOpen, session }) => {
         </button>
         <DialogPanel className="fixed inset-y-0 z-20 w-full max-w-[16rem] overflow-y-auto bg-white sm:max-w-[16rem] sm:ring-1 sm:ring-gray-900/10">
           <div className="flow-root">
-            <div className="px-3 py-4 flex items-center gap-2 bg-gray-50">
-              <div className="bg-black w-16 h-16 rounded-full text-white flex justify-center items-center font-bold text-2xl">
-                {session?.user.name.charAt(0).toUpperCase() +
-                  session?.user.name.charAt(1).toUpperCase()}
-              </div>
-              <div className="flex flex-wrap flex-col">
-                <p className="font-bold">Hi, {session.user.name}</p>
-                <p className="text-gray-400 text-sm">Welcome back</p>
-              </div>
-            </div>
-            {session.user.role.includes("instructor") && (
-              <div className="px-3 py-3 border-b-2">
-                <Link href={`${locale}/instructor/course`}>
-                  <p className="text-violet-800">Switch to instructor view</p>
+            {!session ? (
+              <div className="px-6 py-3 flex flex-col gap-2">
+                <Link
+                  href={`/${locale}/login`}
+                  className="text-violet-700 hover:text-violet-800 font-medium"
+                >
+                  Log in
+                </Link>
+                <Link
+                  href={`/${locale}/siginup`}
+                  className="text-violet-700 hover:text-violet-800 font-medium"
+                >
+                  Sign up
                 </Link>
               </div>
+            ) : (
+              <>
+                <div className="px-3 py-4 flex items-center gap-2 bg-gray-50">
+                  <div className="bg-black w-16 h-16 rounded-full text-white flex justify-center items-center font-bold text-2xl">
+                    {session?.user.name.charAt(0).toUpperCase() +
+                      session?.user.name.charAt(1).toUpperCase()}
+                  </div>
+                  <div className="flex flex-wrap flex-col">
+                    <p className="font-bold">Hi, {session.user.name}</p>
+                    <p className="text-gray-400 text-sm">Welcome back</p>
+                  </div>
+                </div>
+                {session.user.role.includes("instructor") && (
+                  <div className="px-3 py-3 border-b-2">
+                    <Link href={`${locale}/instructor/course`}>
+                      <p className="text-violet-800">
+                        Switch to instructor view
+                      </p>
+                    </Link>
+                  </div>
+                )}
+                <div className="px-2 py-3 border-b-2">
+                  <p className="font-bold text-sm text-gray-500 p-2">Learn</p>
+                  <Link href={`/${locale}/home/my-courses/learning`}>
+                    <p className="px-2 text-sm">My Learning</p>
+                  </Link>
+                </div>
+              </>
             )}
-            <div className="px-2 py-3 border-b-2">
-              <p className="font-bold text-sm text-gray-500 p-2">Learn</p>
-              <Link href={`/${locale}/home/my-courses/learning`}>
-                <p className="px-2 text-sm">My Learning</p>
-              </Link>
-            </div>
-            <div className="my-1 divide-y divide-gray-500/10">
+
+            <div className="divide-y divide-gray-500/10">
               <div className="py-2 px-3">
                 <p className="font-bold text-sm text-gray-500 p-2">
                   Most popular

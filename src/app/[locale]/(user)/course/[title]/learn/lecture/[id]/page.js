@@ -37,7 +37,8 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 
 function CourseHeader({ course , session }) {
   // <div className="w-full  mx-auto   bg-[#2D2F31] text-white shadow-sm h-14 flex items-center">
-
+  // console.log("user name is here : "+session.user._id);
+  
   return (
     <div className="flex justify-between items-center w-ful h-14 bg-[#2D2F31] text-white px-4">
       <div className="flex items-center gap-2 justify-center">
@@ -70,7 +71,8 @@ function CourseHeader({ course , session }) {
           <AlertDialogDescription className="text-center text-lg text-bold mx-auto">
           {/* Select Rating
           <Rating className="w-2/4"/> */}
-          <RatingComponent courseId={course.id} userId={session.userid}  className="w-full "/>
+          
+          <RatingComponent courseId={course._id} userId={session.user._id}  className="w-full "/>
           </AlertDialogDescription>
         </AlertDialogHeader>
       
@@ -121,7 +123,9 @@ const page = async ({ params }) => {
   let sections;
 
   const session = await getServerSession(authOptions);
-  console.log(session);
+  // console.log("=========================");
+  // console.log(session);
+  // console.log("=========================");
   
 
   try {
@@ -149,7 +153,7 @@ const page = async ({ params }) => {
         </div>
       </div>
       <div>
-        <TabsCourseView session={session}/>
+        <TabsCourseView course={course}/>
       </div>
     </>
   );
