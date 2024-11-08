@@ -3,6 +3,7 @@
 import useCartStore from "@/app/store/cartStore";
 import axios from "axios";
 import { useSession } from "next-auth/react";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { IoMdCheckmarkCircle } from "react-icons/io";
@@ -10,6 +11,7 @@ import { TbAlertOctagonFilled } from "react-icons/tb";
 import { toast } from "sonner";
 
 const RemoveButton = ({ id }) => {
+  const t = useTranslations("RemoveButton");
   const { fetchUsersCart } = useCartStore();
   const { data: session } = useSession();
 
@@ -29,7 +31,7 @@ const RemoveButton = ({ id }) => {
             className="mt-5 mx-14 bg-gray-800 text-white w-20 p-3"
             onClick={() => toast.dismiss(toastId)}
           >
-            Dismiss
+            {t("dismiss")}
           </button>
         </div>
       ),
@@ -68,7 +70,7 @@ const RemoveButton = ({ id }) => {
           handleRemove();
         }}
       >
-        Remove
+        {t("remove")}
       </button>
     </>
   );

@@ -1,6 +1,8 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import axios from "axios";
 import { getServerSession } from "next-auth";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -8,6 +10,7 @@ import React from "react";
 import { IoPlayCircleOutline } from "react-icons/io5";
 
 const Page = async ({ params: { locale } }) => {
+  const t = useTranslations("learning");
   const session = await getServerSession(authOptions);
   if (!session) {
     return redirect("/");
@@ -30,9 +33,9 @@ const Page = async ({ params: { locale } }) => {
     <>
       <div className="bg-[#2d2f31] text-white pt-6">
         <div className="container mx-auto px-4 lg:px-0">
-          <h1 className="text-4xl my-6 font-bold">My Learning</h1>
+          <h1 className="text-4xl my-6 font-bold">{t("MyLearning")}</h1>
           <p className="w-fit pr-1 py-2 border-b-8 border-gray-200 font-bold">
-            All courses
+            {t("allCourses")}
           </p>
         </div>
       </div>
@@ -60,21 +63,19 @@ const Page = async ({ params: { locale } }) => {
                 <p className="text-xs text-gray-500 pb-3 border-b-4">
                   {course.instructor ? course.instructor.name : "No instructor"}
                 </p>
-                <p>START COURSE</p>
+                <p>{t("startCourse")} </p>
               </div>
             ))}
           </div>
         ) : (
           <div className="flex flex-col my-20 justify-center items-center">
-            <h2 className="font-bold text-lg">
-              Start learning from over 250,000 courses today.
-            </h2>
+            <h2 className="font-bold text-lg">{t("startLearningToday")}</h2>
             <p>
-              when you purchase a course, it will appear here.
+              {t("coursePurchaseMessage")}
               <Link href="/">
-              <span className="text-[#5022c3] underline underline-offset-4 hover:text-[#3b198f]">
-                Browse now.
-              </span>
+                <span className="text-[#5022c3] underline underline-offset-4 hover:text-[#3b198f]">
+                  {t("browseNow")}
+                </span>
               </Link>
             </p>
           </div>

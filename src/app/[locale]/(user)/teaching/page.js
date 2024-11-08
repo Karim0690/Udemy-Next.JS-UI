@@ -1,9 +1,9 @@
 "use client";
 
-import axios from "axios";
 import LearningMenu from "../../../_components/LearningMenu/LearningMenu";
 import { TeachingAccordion } from "../../../_components/TeachingAccordion/TeachingAccordion";
 import TeachingSlider from "../../../_components/TeachingSlider/TeachingSlider";
+import axios from "axios";
 import { useSession, signOut } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
@@ -29,7 +29,7 @@ const Page = ({ params: { locale } }) => {
         }
       );
       console.log(data);
-      
+
       if (data.message === "success") {
         signOut();
       }

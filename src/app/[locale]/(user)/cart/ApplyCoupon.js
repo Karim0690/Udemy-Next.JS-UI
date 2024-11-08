@@ -10,6 +10,7 @@ import { TbAlertOctagonFilled } from "react-icons/tb";
 import { toast } from "sonner";
 
 const ApplyCoupon = ({ discount }) => {
+  const t = useTranslations("ApplyCoupon");
   const [code, setCode] = useState("");
   const { fetchUsersCart } = useCartStore();
   const { data: session } = useSession();
@@ -30,7 +31,7 @@ const ApplyCoupon = ({ discount }) => {
             className="mt-5 mx-14 bg-gray-800 text-white w-20 p-3"
             onClick={() => toast.dismiss(toastId)}
           >
-            Dismiss
+            {t("dismiss")}
           </button>
         </div>
       ),
@@ -101,7 +102,7 @@ const ApplyCoupon = ({ discount }) => {
         <input
           type="text"
           className="border border-black px-3 py-1 flex-1 outline-none"
-          placeholder="Enter Coupon"
+          placeholder={t("enterCoupon")}
           value={code}
           onChange={(e) => setCode(e.target.value)}
         />
@@ -111,7 +112,7 @@ const ApplyCoupon = ({ discount }) => {
             applyCuopon();
           }}
         >
-          Apply
+          {t("apply")}
         </button>
       </div>
 
@@ -123,7 +124,7 @@ const ApplyCoupon = ({ discount }) => {
               removeCoupon();
             }}
           >
-            Remove Coupon
+            {t("removeCoupon")}
           </button>
         )}
       </div>
