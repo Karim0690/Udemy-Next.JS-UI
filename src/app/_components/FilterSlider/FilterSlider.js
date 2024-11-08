@@ -7,7 +7,6 @@ import React, { useState } from "react";
 const FilterSlider = ({courses}) => {
   const [activeTab, setActiveTab] = useState("MostPopular");
   const t = useTranslations("Categories");
-  console.log(courses);
   
 
   return (

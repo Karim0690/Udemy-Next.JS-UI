@@ -8,17 +8,29 @@ import LandingPage from "@/app/_components/landingPage/page";
 import LandingPageSection5 from "@/app/_components/landingPageSection5/page";
 import LandingPageSection8 from "@/app/_components/landingPageSection8/page";
 import LandingPageSection9 from "@/app/_components/landingPageSection9/page";
-import { Link } from "@/i18n/routing";
-import axios from "axios";
-import { useTranslations } from "next-intl";
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { getServerSession } from "next-auth";
 
-export default function Home() {
-  const t = useTranslations("LandingPage");
+export default async function Home({params:{locale}}) {
+  const session = await getServerSession(authOptions);
 
   return (
     <>
-      <LandingPage t={t} />
-      <Com_Logos t={t} />
+      {session && (
+        <div className="flex gap-3 items-center my-10 mx-28 ">
+          <div className="bg-black w-20 h-20 rounded-full text-white flex justify-center items-center font-bold text-2xl">
+            {session?.user.name.charAt(0).toUpperCase() +
+              session?.user.name.charAt(1).toUpperCase()}
+          </div>
+          <div className="flex flex-wrap flex-col items-center">
+            <p className="text-gray-900 font-bold text-2xl">
+              {locale==="en"?"Welcome back,":"مرحباً بعودتك,"} {session.user.name}
+            </p>
+          </div>
+        </div>
+      )}
+      <LandingPage />
+      <Com_Logos />
       <BroadSelection />
       <LearnersAchieves />
       <LandingPageSection5 />

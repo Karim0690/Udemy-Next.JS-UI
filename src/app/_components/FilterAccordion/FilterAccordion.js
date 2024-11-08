@@ -1,3 +1,5 @@
+"use client";
+
 import StarRating from "../RatingStars/RatingStars";
 import {
   Accordion,
@@ -7,10 +9,33 @@ import {
 } from "@/components/ui/accordion";
 import { RadioGroup } from "@/components/ui/radio-group";
 import { useTranslations } from "next-intl";
+import { useParams } from "next/navigation";
 import React from "react";
 
-const FilterAccordion = () => {
+const FilterAccordion = ({
+  rating,
+  setRating,
+  topics,
+  setTopics,
+  subcategory,
+  setSubcategory,
+  level,
+  setLevel,
+  price,
+  setPrice,
+  category,
+}) => {
   const t = useTranslations("Categories");
+  const { locale } = useParams();
+  const handleSubcategoryChange = (subcategoryId) => {
+    setSubcategory(subcategoryId);
+  };
+  const handleTopicChange = (topicId) => {
+    setTopics(topicId);
+  };
+  const handleLevelChange = (event) => {
+    setLevel(event.target.value);
+  };
 
   return (
     <>
@@ -23,7 +48,7 @@ const FilterAccordion = () => {
           <AccordionTrigger>{t("ratings")}</AccordionTrigger>
           <AccordionContent>
             <RadioGroup className="gap-0">
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center gap-2">
                 <input
                   type="radio"
                   id="rating-4.5"
@@ -37,7 +62,7 @@ const FilterAccordion = () => {
                   <span className="text-xs text-gray-700 ml-1">(10,000)</span>
                 </label>
               </div>
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center gap-2">
                 <input
                   type="radio"
                   id="rating-4"
@@ -51,7 +76,7 @@ const FilterAccordion = () => {
                   <span className="text-xs text-gray-700 ml-1">(10,000)</span>
                 </label>
               </div>
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center gap-2">
                 <input
                   type="radio"
                   id="rating-3.5"
@@ -65,7 +90,7 @@ const FilterAccordion = () => {
                   <span className="text-xs text-gray-700 ml-1">(10,000)</span>
                 </label>
               </div>
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center gap-2">
                 <input
                   type="radio"
                   id="rating-3"
@@ -85,183 +110,166 @@ const FilterAccordion = () => {
         <AccordionItem value="item-2">
           <AccordionTrigger>{t("topics")}</AccordionTrigger>
           <AccordionContent>
-            <div className="flex flex-col">
-              <div className="flex items-center mb-2">
-                <input type="checkbox" id="python" className="h-4 w-4" />
-                <label
-                  htmlFor="python"
-                  className="text-sm font-medium leading-none ml-2 cursor-pointer"
-                >
-                  <span className="font-normal">Python</span>
-                  <span className="text-sm text-gray-700 ml-1">(892)</span>
-                </label>
-              </div>
-              <div className="flex items-center mb-2">
-                <input type="checkbox" id="javascript" className="h-4 w-4" />
-                <label
-                  htmlFor="javascript"
-                  className="text-sm font-medium leading-none ml-2 cursor-pointer"
-                >
-                  <span className="font-normal">JavaScript</span>
-                  <span className="text-sm text-gray-700 ml-1">(3,331)</span>
-                </label>
-              </div>
-              <div className="flex items-center mb-2">
-                <input type="checkbox" id="unity" className="h-4 w-4" />
-                <label
-                  htmlFor="unity"
-                  className="text-sm font-medium leading-none ml-2 cursor-pointer"
-                >
-                  <span className="font-normal">Unity</span>
-                  <span className="text-sm text-gray-700 ml-1">(3,126)</span>
-                </label>
-              </div>
-              <div className="flex items-center mb-2">
-                <input type="checkbox" id="java" className="h-4 w-4" />
-                <label
-                  htmlFor="java"
-                  className="text-sm font-medium leading-none ml-2 cursor-pointer"
-                >
-                  <span className="font-normal">Java</span>
-                  <span className="text-sm text-gray-700 ml-1">(4,745)</span>
-                </label>
-              </div>
-              <div className="flex items-center mb-2">
-                <input
-                  type="checkbox"
-                  id="web-development"
-                  className="h-4 w-4"
-                />
-                <label
-                  htmlFor="web-development"
-                  className="text-sm font-medium leading-none ml-2 cursor-pointer"
-                >
-                  <span className="font-normal">Web Development</span>
-                  <span className="text-sm text-gray-700 ml-1">(2,327)</span>
-                </label>
-              </div>
-            </div>
+            {category?.subcategories.map((subcategory) => {
+              return (
+                <div key={subcategory._id}>
+                  {subcategory.topics.map((topic) => {
+                    return (
+                      <div key={topic._id} className="flex flex-col">
+                        <div className="flex items-center gap-2 mb-2">
+                          <input
+                            type="radio"
+                            id={`topic-${topic._id}`}
+                            name={`subcategory-${subcategory._id}`}
+                            className="h-4 w-4"
+                            checked={topics.includes(topic._id)}
+                            onChange={() => handleTopicChange(topic._id)}
+                          />
+                          <label
+                            htmlFor={`topic-${topic._id}`}
+                            className="text-sm font-medium leading-none ml-2 cursor-pointer"
+                          >
+                            <span className="font-normal">
+                              {locale === "en"
+                                ? topic.name
+                                : topic.nameAr || topic.name}
+                            </span>
+                          </label>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              );
+            })}
           </AccordionContent>
+          {topics && (
+            <button
+              className="text-violet-700 underline underline-offset-2 hover:text-violet-900 text-sm mb-3"
+              onClick={() => {
+                setTopics("");
+              }}
+            >
+              Clear Topics Filter
+            </button>
+          )}
         </AccordionItem>
         <AccordionItem value="item-3">
           <AccordionTrigger>{t("subcategory")}</AccordionTrigger>
           <AccordionContent>
             <div className="flex flex-col">
-              <div className="flex items-center mb-2">
-                <input
-                  type="checkbox"
-                  id="web-development"
-                  className="h-4 w-4"
-                />
-                <label
-                  htmlFor="web-development"
-                  className="text-sm font-medium leading-none ml-2 cursor-pointer"
+              {category?.subcategories?.map((subcategoryItem) => (
+                <div
+                  className="flex items-center gap-2 mb-2"
+                  key={subcategoryItem._id}
                 >
-                  <span className="font-normal">Web Development</span>
-                  <span className="text-sm text-gray-700 ml-1">(892)</span>
-                </label>
-              </div>
-              <div className="flex items-center mb-2">
-                <input
-                  type="checkbox"
-                  id="programming-language"
-                  className="h-4 w-4"
-                />
-                <label
-                  htmlFor="programming-language"
-                  className="text-sm font-medium leading-none ml-2 cursor-pointer"
-                >
-                  <span className="font-normal">Programming Language</span>
-                  <span className="text-sm text-gray-700 ml-1">(3,331)</span>
-                </label>
-              </div>
-              <div className="flex items-center mb-2">
-                <input type="checkbox" id="data-science" className="h-4 w-4" />
-                <label
-                  htmlFor="data-science"
-                  className="text-sm font-medium leading-none ml-2 cursor-pointer"
-                >
-                  <span className="font-normal">Data Science</span>
-                  <span className="text-sm text-gray-700 ml-1">(3,126)</span>
-                </label>
-              </div>
-              <div className="flex items-center mb-2">
-                <input
-                  type="checkbox"
-                  id="game-development"
-                  className="h-4 w-4"
-                />
-                <label
-                  htmlFor="game-development"
-                  className="text-sm font-medium leading-none ml-2 cursor-pointer"
-                >
-                  <span className="font-normal">Game Development</span>
-                  <span className="text-sm text-gray-700 ml-1">(4,745)</span>
-                </label>
-              </div>
-              <div className="flex items-center mb-2">
-                <input
-                  type="checkbox"
-                  id="mobile-development"
-                  className="h-4 w-4"
-                />
-                <label
-                  htmlFor="mobile-development"
-                  className="text-sm font-medium leading-none ml-2 cursor-pointer"
-                >
-                  <span className="font-normal">Mobile Development</span>
-                  <span className="text-sm text-gray-700 ml-1">(2,327)</span>
-                </label>
-              </div>
+                  <input
+                    type="radio"
+                    id={`subcategory-${subcategoryItem._id}`}
+                    name="subcategory"
+                    className="h-4 w-4"
+                    checked={subcategory === subcategoryItem._id}
+                    onChange={() =>
+                      handleSubcategoryChange(subcategoryItem._id)
+                    }
+                  />
+                  <label
+                    htmlFor={`subcategory-${subcategoryItem._id}`}
+                    className="text-sm font-medium leading-none ml-2 cursor-pointer"
+                  >
+                    <span className="font-normal">
+                      {locale === "en"
+                        ? subcategoryItem.name
+                        : subcategoryItem.nameAr}
+                    </span>
+                  </label>
+                </div>
+              ))}
             </div>
           </AccordionContent>
+          {subcategory && (
+            <button
+              className="text-violet-700 underline underline-offset-2 hover:text-violet-900 text-sm mb-3"
+              onClick={() => {
+                setSubcategory("");
+              }}
+            >
+              Clear subcategory Filter
+            </button>
+          )}
         </AccordionItem>
         <AccordionItem value="item-4">
           <AccordionTrigger>{t("level")}</AccordionTrigger>
           <AccordionContent>
             <div className="flex flex-col">
-              <div className="flex items-center mb-2">
-                <input type="checkbox" id="beginner" className="h-4 w-4" />
+              {/* Beginner Level Radio */}
+              <div className="flex items-center gap-2 mb-2">
+                <input
+                  type="radio"
+                  id="beginner"
+                  name="level"
+                  value="Beginner Level"
+                  className="h-4 w-4"
+                  checked={level === "Beginner Level"}
+                  onChange={handleLevelChange}
+                />
                 <label
                   htmlFor="beginner"
                   className="text-sm font-medium leading-none ml-2 cursor-pointer"
                 >
                   <span className="font-normal">Beginner</span>
-                  <span className="text-sm text-gray-700 ml-1">(892)</span>
                 </label>
               </div>
-              <div className="flex items-center mb-2">
-                <input type="checkbox" id="all-levels" className="h-4 w-4" />
+
+              {/* All Levels Radio */}
+              <div className="flex items-center gap-2 mb-2">
+                <input
+                  type="radio"
+                  id="all-levels"
+                  name="level"
+                  value="All Levels"
+                  className="h-4 w-4"
+                  checked={level === "All Levels"}
+                  onChange={handleLevelChange}
+                />
                 <label
                   htmlFor="all-levels"
                   className="text-sm font-medium leading-none ml-2 cursor-pointer"
                 >
                   <span className="font-normal">All Levels</span>
-                  <span className="text-sm text-gray-700 ml-1">(3,331)</span>
                 </label>
               </div>
-              <div className="flex items-center mb-2">
-                <input type="checkbox" id="intermediate" className="h-4 w-4" />
+
+              {/* Intermediate Level Radio */}
+              <div className="flex items-center gap-2 mb-2">
+                <input
+                  type="radio"
+                  id="intermediate"
+                  name="level"
+                  value="Intermediate Level"
+                  className="h-4 w-4"
+                  checked={level === "Intermediate Level"}
+                  onChange={handleLevelChange}
+                />
                 <label
                   htmlFor="intermediate"
                   className="text-sm font-medium leading-none ml-2 cursor-pointer"
                 >
                   <span className="font-normal">Intermediate</span>
-                  <span className="text-sm text-gray-700 ml-1">(3,126)</span>
-                </label>
-              </div>
-              <div className="flex items-center mb-2">
-                <input type="checkbox" id="Expert" className="h-4 w-4" />
-                <label
-                  htmlFor="Expert"
-                  className="text-sm font-medium leading-none ml-2 cursor-pointer"
-                >
-                  <span className="font-normal">6-17 Hour</span>
-                  <span className="text-sm text-gray-700 ml-1">(4,745)</span>
                 </label>
               </div>
             </div>
           </AccordionContent>
+          {level && (
+            <button
+              className="text-violet-700 underline underline-offset-2 hover:text-violet-900 text-sm mb-3"
+              onClick={() => {
+                setLevel("");
+              }}
+            >
+              Clear Level Filter
+            </button>
+          )}
         </AccordionItem>
         <AccordionItem value="item-5">
           <AccordionTrigger>{t("price")}</AccordionTrigger>
@@ -274,7 +282,6 @@ const FilterAccordion = () => {
                   className="text-sm font-medium leading-none ml-2 cursor-pointer"
                 >
                   <span className="font-normal">Paid</span>
-                  <span className="text-sm text-gray-700 ml-1">(892)</span>
                 </label>
               </div>
               <div className="flex items-center mb-2">
@@ -284,7 +291,6 @@ const FilterAccordion = () => {
                   className="text-sm font-medium leading-none ml-2 cursor-pointer"
                 >
                   <span className="font-normal">Free</span>
-                  <span className="text-sm text-gray-700 ml-1">(3,331)</span>
                 </label>
               </div>
             </div>

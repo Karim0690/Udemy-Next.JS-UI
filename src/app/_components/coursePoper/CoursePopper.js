@@ -5,12 +5,14 @@ import useCartStore from "@/app/store/cartStore";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
+import { useParams } from "next/navigation";
 import React from "react";
 import { IoMdCheckmark, IoMdCheckmarkCircle } from "react-icons/io";
 import { TbAlertOctagonFilled } from "react-icons/tb";
 import { toast } from "sonner";
 
-const CoursePopper = ({ courseTitle, courseId }) => {
+const CoursePopper = ({ courseTitle, courseId, subtitle, objectives }) => {
+  let objectiveThree = objectives.slice(0, 3);
   const showToast = (message, isError = false) => {
     const toastId = toast("", {
       description: (
@@ -44,6 +46,7 @@ const CoursePopper = ({ courseTitle, courseId }) => {
   const t = useTranslations("Categories");
   const { data: session } = useSession();
   const fetchUsersCart = useCartStore((state) => state.fetchUsersCart);
+  const { locale } = useParams();
 
   const addToCart = async () => {
     try {
@@ -66,6 +69,7 @@ const CoursePopper = ({ courseTitle, courseId }) => {
       }
     } catch (e) {
       console.log(e);
+      showToast(e.respones.data.message, true);
     }
   };
 
@@ -75,36 +79,22 @@ const CoursePopper = ({ courseTitle, courseId }) => {
         <div className="p-6">
           <h3 className="font-bold text-lg my-2">{courseTitle}</h3>
           <p className="text-xs text-green-800 my-3">
-            Updated <b>July 2023</b>
+            {locale === "en" ? "Updated" : "تم التحديث"}
+            <b>Nov 2023</b>
           </p>
-          <p className="text-xs text-gray-400 my-2">
-            22 total hours . All Levels . Subtitle
-          </p>
-          <p className="my-3">
-            Learn Python like a Professional Start from the basics and go all
-            the way to creating your own applications and games
-          </p>
+          {/* <p className="text-xs text-gray-400 my-2">
+            22 total hours . All Levels
+          </p> */}
+          <p className="my-3">{subtitle}</p>
           <div className="my-3">
-            <div className="flex items-center gap-5">
-              <IoMdCheckmark />
-              <p>
-                You will learn how to leverage the power of Python to solve
-                tasks.
-              </p>
-            </div>
-            <div className="flex items-center gap-5">
-              <IoMdCheckmark />
-              <p>
-                You will build games and programs that use Python libraries.
-              </p>
-            </div>
-            <div className="flex items-center gap-5">
-              <IoMdCheckmark />
-              <p>
-                You will be able to use Python for your own work problems or
-                personal projects.
-              </p>
-            </div>
+            {objectiveThree?.map((obj, index) => {
+              return (
+                <div key={index} className="flex items-center gap-5">
+                  <IoMdCheckmark />
+                  <p>{obj}</p>
+                </div>
+              );
+            })}
           </div>
           <div className="flex gap-3">
             <button

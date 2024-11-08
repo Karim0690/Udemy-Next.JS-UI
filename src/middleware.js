@@ -32,6 +32,13 @@ export async function middleware(req) {
     return NextResponse.redirect(new URL(`/${locale}/`, req.url));
   }
 
+  // Check if user is authenticated and trying to access login or signup
+  const isLoginOrSignup = /^\/(en|ar)\/(login|signup)/.test(pathname);
+  if (isAuthenticated && isLoginOrSignup) {
+    // If user is authenticated and trying to access login/signup, redirect to home
+    return NextResponse.redirect(new URL(`/${locale || "en"}/`, req.url));
+  }
+
   // Apply localization middleware
   return localeMiddleware(req);
 }

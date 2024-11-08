@@ -759,5 +759,33 @@
     "add-section": "Add Section",
     "cancle": "Cancle",
     "blank": "This field may not be blank."
+  },
+  "CoursePage":{
+    "bestseller":"Bestseller",
+    "ratings":"ratings",
+    "created":"Created by",
+    "willLearn":"What you'll learn",
+    "courseContent":"Course content",
+    "sections":"sections",
+    "lectures":"lectures",
+    "totalLength":"total length",
+    "courseInfo":"Course Info",
+    "courseDescription":"Course Description",
+    "requirements":"Requirements",
+    "description":"Description",
+    "courseFor":"Who this course is for:",
+    "alsoBought":"Students also bought",
+    "preview":"Preview this course",
+    "coursePreview":"Course Preview",
+    "subscripe":"Subscribe to Udemy’s top courses",
+    "persoalPlan":"Get this course, plus 12,000+ of our top-rated courses, with Personal Plan.",
+    "try":"Try Personal Plan for free",
+    "starting":"Starting at E£204.00 per month after trial",
+    "cancel":"Cancle anytime",
+    "or":"or",
+    "addtocart":"Add to cart",
+    "moneyBack":"30-Day Money-Back Guarantee",
+    "full":"Full Lifetime Access"
   }
+
 }

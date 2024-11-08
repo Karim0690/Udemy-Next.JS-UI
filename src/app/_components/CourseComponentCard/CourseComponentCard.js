@@ -24,7 +24,6 @@ function CourseComponentCard({ image, title, instractour, rate, price }) {
           <span className="ml-2">
             <StarRating rating={rate} />
           </span>
-          <span className="text-xs text-gray-600 ml-2">(316)</span>
         </div>
         <h1 className="text-base font-bold">{price}</h1>
       </div>

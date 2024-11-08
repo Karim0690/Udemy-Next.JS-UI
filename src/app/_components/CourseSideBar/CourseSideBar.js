@@ -1,11 +1,9 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
-import Image from "next/image";
+
 import CoursePrice from "../CorusePrice/CoursePrice";
 import HeartButton from "../HeartButton/HeartButton";
-import { Input } from "@/components/ui/input";
-import { MdPlayCircle } from "react-icons/md";
+import useCartStore from "@/app/store/cartStore";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -14,8 +12,74 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import axios from "axios";
+import { useSession } from "next-auth/react";
+import { useTranslations } from "next-intl";
+import Image from "next/image";
+import React, { useEffect, useState } from "react";
+import { IoMdCheckmarkCircle } from "react-icons/io";
+import { MdPlayCircle } from "react-icons/md";
+import { TbAlertOctagonFilled } from "react-icons/tb";
+import { toast } from "sonner";
 
-const CourseSideBar = ({ course, courseImg, price }) => {
+
+const CourseSideBar = ({ course, courseImg, price, locale }) => {
+  const showToast = (message, isError = false) => {
+    const toastId = toast("", {
+      description: (
+        <div className="flex flex-col">
+          <div className="flex items-center gap-5">
+            {isError ? (
+              <TbAlertOctagonFilled className="text-6xl" />
+            ) : (
+              <IoMdCheckmarkCircle className="text-4xl" />
+            )}
+            <span className={`font-bold "text-black"`}>{message}</span>
+          </div>
+          <button
+            className="mt-5 mx-14 bg-gray-800 text-white w-20 p-3"
+            onClick={() => toast.dismiss(toastId)}
+          >
+            Dismiss
+          </button>
+        </div>
+      ),
+      style: {
+        background: isError ? "#fcbca0" : "#acd2cc",
+        fontSize: "16px",
+        color: "#1c1c1c",
+        padding: "12px",
+        borderRadius: "0",
+        border: isError ? "1px solid #f5c6cb" : "1px solid #ccc",
+      },
+    });
+  };
+  const { data: session } = useSession();
+  const fetchUsersCart = useCartStore((state) => state.fetchUsersCart);
+
+  const addToCart = async () => {
+    try {
+      const { data } = await axios.post(
+        `${process.env.NEXT_PUBLIC_LOCAL_API}/cart`,
+        {
+          course: course._id,
+        },
+        {
+          headers: {
+            Authorization: session.accessToken,
+          },
+        }
+      );
+      if (data.message === "success") {
+        showToast("Course added to cart successfully", false);
+        if (session?.accessToken) {
+          fetchUsersCart(session.accessToken);
+        }
+      }
+    } catch (e) {      
+      showToast(e.response.data.message, true);
+    }
+  };
   const img = courseImg;
   const [isSticky, setIsSticky] = useState(false);
   const [isRelative, setIsRelative] = useState(true);
@@ -47,6 +111,8 @@ const CourseSideBar = ({ course, courseImg, price }) => {
     };
   }, []);
 
+  const t = useTranslations("CoursePage");
+
   return (
     <div
       className={`transition-all duration-300  ${isRelative ? "" : "relative"}`}
@@ -63,7 +129,7 @@ const CourseSideBar = ({ course, courseImg, price }) => {
               className="transition-transform duration-300 transform hover:scale-105 w-full"
             />
             <span className="absolute h-full inset-0 font-extrabold flex mb-3 items-end justify-center text-white bg-black bg-opacity-15 hover:bg-opacity-50 transition-opacity duration-200">
-              <p className="text-sm font-medium py-2">Preview this course</p>
+              <p className="text-sm font-medium py-2">{t("preview")}</p>
             </span>
             <Dialog>
               <DialogTrigger className="absolute inset-0 flex items-center justify-center border-none">
@@ -71,7 +137,9 @@ const CourseSideBar = ({ course, courseImg, price }) => {
               </DialogTrigger>
               <DialogContent className="bg-[#191a1b] text-white w-full h-full">
                 <DialogHeader>
-                  <DialogTitle className="text-sm">Course Preview</DialogTitle>
+                  <DialogTitle className="text-sm">
+                    {t("coursePreview")}
+                  </DialogTitle>
                   <DialogDescription className="text-xl">
                     {course.title}
                   </DialogDescription>
@@ -87,37 +155,36 @@ const CourseSideBar = ({ course, courseImg, price }) => {
         <div
           className={`transition-all duration-300 lg:w-[360px] ${
             isSticky && !isRelative
-              ? "lg:fixed lg:top-4 lg:right-36 lg:bg-white lg:z-20"
+              ? `lg:fixed lg:top-4 ${
+                  locale === "en" ? "lg:right-36" : "lg:left-28"
+                }  lg:bg-white lg:z-20`
               : "relative"
           } `}
         >
           <div className="flex-grow px-6">
             <h2 className="text-xl my-2 text-gray-700 font-semibold">
-              Subscribe to Udemy’s top courses
+              {t("subscripe")}
             </h2>
-            <p className="text-sm text-gray-700 mb-4">
-              Get this course, plus 12,000+ of our top-rated courses, with
-              Personal Plan.
-            </p>
+            <p className="text-sm text-gray-700 mb-4">{t("persoalPlan")}</p>
             <div className="flex justify-center">
               <Button
                 className="w-99 mb-2 bg-purple-700 h-14 text-slate-100 mx-auto font-bold"
                 variant="brand"
               >
-                Try Personal Plan for free
+                {t("try")}
               </Button>
             </div>
             <div className="text-sm text-gray-500 text-center">
-              Starting at E£204.00 per month after trial
+              {t("starting")}
             </div>
             <div className="text-sm text-gray-500 text-center mt-2">
-              Cancel anytime
+              {t("cancel")}
             </div>
           </div>
 
           <div className="flex items-center justify-center mt-5">
             <div className="border-t border-gray-300 flex-grow mr-3"></div>
-            <span className="text-gray-500">or</span>
+            <span className="text-gray-500">{t("or")}</span>
             <div className="border-t border-gray-300 flex-grow ml-3"></div>
           </div>
 
@@ -126,20 +193,25 @@ const CourseSideBar = ({ course, courseImg, price }) => {
               <CoursePrice price={price} />
             </p>
             <div className="flex flex-1 mt-3 justify-between space-x-2">
-              <Button className="w-full p-6 text-lg border border-black">
-                Add to cart
-              </Button>
+              <button
+                className="w-full p-3 text-lg border border-black"
+                onClick={() => {
+                  addToCart();
+                }}
+              >
+                {t("addtocart")}
+              </button>
 
               <HeartButton className="basis-1/4" />
             </div>
             <div className="text-sm text-gray-500 text-center mt-5">
-              30-Day Money-Back Guarantee
+              {t("moneyBack")}
             </div>
             <div className="text-sm text-gray-500 text-center mt-2">
-              Full Lifetime Access
+              {t("full")}
             </div>
 
-            <div className="flex justify-between mt-5">
+            {/* <div className="flex justify-between mt-5">
               <Button
                 className="underline decoration-indigo-500"
                 variant="link"
@@ -154,7 +226,7 @@ const CourseSideBar = ({ course, courseImg, price }) => {
               <Button className="hover:bg-slate-600 bg-slate-700 text-slate-200 h-12 font-bold">
                 Apply
               </Button>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

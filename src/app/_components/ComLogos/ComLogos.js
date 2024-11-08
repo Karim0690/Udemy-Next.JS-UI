@@ -1,7 +1,10 @@
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import React from "react";
 
-export default function Com_Logos({ t }) {
+export default function Com_Logos() {
+  const t = useTranslations("LandingPage");
+
   const logos = [
     {
       src: "https://cms-images.udemycdn.com/content/tqevknj7om/svg/volkswagen_logo.svg",

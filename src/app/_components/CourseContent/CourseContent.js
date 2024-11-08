@@ -1,20 +1,21 @@
 "use client";
-import { AiOutlineDown } from "react-icons/ai";
-import React, { useState } from "react";
+
 import {
   Collapsible,
   CollapsibleTrigger,
   CollapsibleContent,
-} from "@/components/ui/collapsible"; // Import ShadCN's Collapsible
-import { IoChevronDownSharp } from "react-icons/io5";
+} from "@/components/ui/collapsible";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
-import { PiMonitorPlayBold } from "react-icons/pi";
+import React, { useState } from "react";
+import { AiOutlineDown } from "react-icons/ai";
 import { FaRegQuestionCircle } from "react-icons/fa";
+// Import ShadCN's Collapsible
+import { IoChevronDownSharp } from "react-icons/io5";
+import { PiMonitorPlayBold } from "react-icons/pi";
 
-const CourseContent = ({ sections, duration }) => {
-  //   console.log(sections);
-  //   console.log(sections);
-
+const CourseContent = ({ sections, duration, locale }) => {
+  const t = useTranslations("CoursePage")
   const [openSection, setOpenSection] = useState(null);
   const [showAllSections, setShowAllSections] = useState(false); // Toggle to show more/less sections
 
@@ -35,10 +36,9 @@ const CourseContent = ({ sections, duration }) => {
 
   return (
     <div className="max-w-7xl mx-auto p-6 bg-white  rounded-md">
-      <h2 className="text-2xl font-bold text-slate-800">Course content</h2>
+      <h2 className="text-2xl font-bold text-slate-800">{t("courseContent")}</h2>
       <p className="text-slate-600 mt-2 mb-4">
-        {sections.length} sections • {lecturesCount} lectures • {duration} total
-        length
+        {sections.length} {t("sections")} • {lecturesCount} {t("lectures")} • {duration} {t("totalLength")}
       </p>
 
       {/* Render the displayed sections */}
@@ -63,12 +63,14 @@ const CourseContent = ({ sections, duration }) => {
                       openSection === index ? "rotate-180" : ""
                     }`}
                   />
-                  <h3 className="font-bold text-black">{section.title}</h3>
+                  <h3 className="font-bold text-black">
+                    {locale === "en" ? section.title : section.title_Ar}
+                  </h3>
                 </div>
 
                 <div>
                   <p className="text-slate-500 text-sm">
-                    {lectureCount} lectures •{" "}
+                    {lectureCount} {t("lectures")} •{" "}
                     {/* Add other relevant info here */}
                   </p>
                 </div>
@@ -85,13 +87,13 @@ const CourseContent = ({ sections, duration }) => {
                         key={item._id}
                         className="flex items-center flex-1 justify-between py-2"
                       >
-                        <div className="flex items-center">
-                          <PiMonitorPlayBold className=" mr-3" />
+                        <div className="flex items-center gap-3">
+                          <PiMonitorPlayBold className="" />
                           <Link
                             href={`/lecture/${item._id}`}
-                            className="text-violet-700 underline hover:text-violet-900"
+                            className="text-sm font-medium"
                           >
-                            {item.item.title}
+                            {locale==="en"?item.item.title:item.item.title_ar}
                           </Link>
                         </div>
                         <span className="text-slate-500 text-sm ml-2">

@@ -87,7 +87,9 @@ const MultiLevelDropdown = () => {
                         }}
                       >
                         <div className="flex justify-between items-center">
-                          <span>{category.name}</span>
+                          <span>
+                            {locale === "en" ? category.name : category.nameAr}
+                          </span>
                           {category.subcategories &&
                             (locale === "en" ? (
                               <IoChevronForward />
@@ -133,7 +135,11 @@ const MultiLevelDropdown = () => {
                             }
                           >
                             <div className="flex justify-between items-center">
-                              <span>{subcategory.name}</span>
+                              <span>
+                                {locale === "en"
+                                  ? subcategory.name
+                                  : subcategory.nameAr}
+                              </span>
                               {subcategory.topics &&
                                 subcategory.topics.length > 0 &&
                                 (locale === "en" ? (
@@ -158,7 +164,9 @@ const MultiLevelDropdown = () => {
               }  top-full z-10 bg-white shadow-lg`}
             >
               <div className="flex flex-col px-3 pt-3 text-sm border border-gray-300">
-                <h2 className={styles.popular}>Popular Topics</h2>
+                <h2 className={styles.popular}>
+                  {locale === "en" ? "Popular Topics" : "المواضيع الشائعة"}
+                </h2>
                 <ul className="ud-unstyled-list ud-block-list w-[215px] h-[85vh]">
                   {categories
                     .find((c) => c._id === activeCategory)
@@ -172,7 +180,7 @@ const MultiLevelDropdown = () => {
                           key={topic._id}
                           className="px-3 py-2 hover:text-violet-600"
                         >
-                          {topic.name}
+                          {locale === "en" ? topic.name : topic.nameAr}
                         </li>
                       </Link>
                     ))}

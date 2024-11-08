@@ -3,20 +3,20 @@ import Link from "next/link";
 import React from "react";
 import { FaStar } from "react-icons/fa";
 import { FaAward } from "react-icons/fa";
-import { MdPeopleAlt } from "react-icons/md";
 import { FaCirclePlay } from "react-icons/fa6";
+import { MdPeopleAlt } from "react-icons/md";
 
-const CourseInstructorDetails = ({ instructor }) => {
+const CourseInstructorDetails = ({ instructor, locale }) => {
   return (
     <>
-      <h2 className="text-2xl font-bold text-slate-800 mb-4">Instructor</h2>
+      <h2 className="text-2xl font-bold text-slate-800 mb-4">{locale==="en"?"Instructor":"المُعلم"}</h2>
       <Link href="#">
         <h4 className="text-[#A435F0] text-xl font-bold underline hover:text-[#8710D8]">
           {instructor.name}
         </h4>
       </Link>
       <h6 className="text-slate-500 text-base">{instructor.headline}</h6>
-      <div className="flex mt-2">
+      <div className="flex mt-2 my-8">
         <div className="mr-9 ">
           <Link href="#">
             <Avatar className="w-32 h-32">

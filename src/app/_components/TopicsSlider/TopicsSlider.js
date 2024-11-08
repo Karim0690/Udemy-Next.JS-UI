@@ -1,14 +1,16 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/grid";
 import "swiper/css/navigation";
+import styles from "./topicsSlider.module.css";
+import axios from "axios";
+import Link from "next/link";
 import { useParams } from "next/navigation";
 import { Grid, Navigation } from "swiper/modules";
-import styles from "./topicsSlider.module.css"
 
 // Custom Next Arrow
 const SampleNextArrow = ({ onClick, isHidden }) => (
@@ -61,6 +63,24 @@ const TopicsSlider = () => {
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
   const { locale } = useParams();
+  const [topic, setTopics] = useState(null);
+  useEffect(() => {
+    const fetchTopics = async () => {
+      try {
+        const { data } = await axios.get(
+          `${process.env.NEXT_PUBLIC_LOCAL_API}/topic`
+        );
+        if (data.message === "success") {
+          setTopics(data.result); // Store the fetched courses
+        } else {
+          console.error("Failed to fetch topics");
+        }
+      } catch (error) {
+        console.error("Error fetching topics:", error);
+      }
+    };
+    fetchTopics();
+  }, []);
 
   return (
     <div className="relative">
@@ -127,14 +147,19 @@ const TopicsSlider = () => {
           },
         }}
       >
-        {topics.map((topic, index) => (
-          <SwiperSlide
-            key={index}
-            className={`border border-gray-300 py-4 mb-2 flex items-center justify-center ${styles.height}`}
-          >
-            <h1 className="font-bold text-base text-gray-800">{topic}</h1>
-          </SwiperSlide>
-        ))}
+        {topic &&
+          topic.map((topic, index) => (
+            <SwiperSlide
+              key={index}
+              className={`border border-gray-300 py-4 mb-2 flex items-center justify-center ${styles.height}`}
+            >
+              <Link href={`/${locale}/topic/${topic.slug}`}>
+                <h1 className="font-bold text-base text-gray-800">
+                  {locale === "en" ? topic.name : topic.nameAr}
+                </h1>
+              </Link>
+            </SwiperSlide>
+          ))}
       </Swiper>
     </div>
   );

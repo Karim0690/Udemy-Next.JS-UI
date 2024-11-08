@@ -3,8 +3,10 @@ import Image from "next/image";
 import React, { useState } from "react";
 import CoursePrice from "../CorusePrice/CoursePrice";
 import HeartButton from "../HeartButton/HeartButton";
+import { useTranslations } from "next-intl";
 
 const StudentsAlsoBought = ({ courses }) => {
+  const t = useTranslations("CoursePage")
   const [showMore, setShowMore] = useState(false);
   const itemsToShow = showMore ? courses.length : 3;
 
@@ -12,7 +14,7 @@ const StudentsAlsoBought = ({ courses }) => {
 
   // Check if courses are available
   if (!courses || courses.length === 0) {
-    return <div>No related courses available.</div>;
+    return <div></div>;
   }
 
   return (

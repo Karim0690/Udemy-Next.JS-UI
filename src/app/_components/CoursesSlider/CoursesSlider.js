@@ -63,6 +63,14 @@ const CoursesSlider = ({ courses }) => {
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
 
+  if (!courses || courses.length === 0) {
+    return (
+      <div className="my-10 p-4 text-center">
+        <p className="text-lg text-gray-600">No courses to show</p>
+      </div>
+    );
+  }
+
   return (
     <div className={`my-10 p-4`}>
       <div className="relative">
@@ -127,10 +135,13 @@ const CoursesSlider = ({ courses }) => {
               <SwiperSlide key={course._id} className={`${styles.custom2}`}>
                 <div className="group flex">
                   <>
-                    <Link className="static z-10" href={`/${locale}/course/${course.slug}`}>
+                    <Link
+                      className="static z-10"
+                      href={`/${locale}/course/${course.slug}`}
+                    >
                       <CourseComponentCard
                         image={course.courseImage}
-                        title={course.title}
+                        title={locale === "en" ? course.title : course.title_Ar}
                         instructor={course.instructor}
                         rate={course.rating.average}
                         price={course.price}
@@ -143,8 +154,18 @@ const CoursesSlider = ({ courses }) => {
                     }  hidden group-hover:block`}
                   >
                     <CoursePopper
-                      courseTitle={course.title}
+                      courseTitle={
+                        locale === "en" ? course.title : course.title_Ar
+                      }
                       courseId={course._id}
+                      subtitle={
+                        locale === "en" ? course.subtitle : course.subtitle_Ar
+                      }
+                      objectives={
+                        locale === "en"
+                          ? course.learningObjective
+                          : course.learningObjective_Ar
+                      }
                     />
                   </div>
                 </div>
