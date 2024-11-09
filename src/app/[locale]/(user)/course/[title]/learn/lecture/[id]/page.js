@@ -78,20 +78,7 @@ function CourseHeader({ course , session }) {
       
       </AlertDialogContent>
     </AlertDialog>
-        <Popover>
-          <PopoverTrigger>
-            <div className="flex items-center justify-center gap-2">
-              <RadialProgress percentage={100} />
-              <div className="flex items-center hover:text-stone-300">
-                <p>progress</p>
-                <IoIosArrowDown />
-              </div>
-            </div>
-          </PopoverTrigger>
-          <PopoverContent className="bg-white text-base font-semibold">
-            15 of 32 complete.
-          </PopoverContent>
-        </Popover>
+      
         <AlertDialog>
           <AlertDialogTrigger>
             <div className="flex items-center justify-center bg-[#2D2F31] hover:bg-[#3D3F41] border-2 p-2 gap-2">

@@ -76,6 +76,7 @@ const VideoCoursePlayer = ({ sections }) => {
               </div>
             </div>
           )}
+          
           <SidebarProvider className={`${openSection ? "" : "hidden"} h-full `}>
             <div className="flex flex-col">
               <div
@@ -124,7 +125,6 @@ const VideoCoursePlayer = ({ sections }) => {
                                   handleItemClick(item.item.resource, itemindex)
                                 }
                               >
-                                <input type="checkbox" className="mr-2" />
                                 <div className="flex flex-col gap-1 items-start">
                                   <div>{item.item.title}</div>
                                   <div className="flex  gap-2 text-xs text-gray-500">
