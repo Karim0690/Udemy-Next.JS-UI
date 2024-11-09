@@ -2,6 +2,7 @@ import AuthProvider from "../context/AuthProvider";
 import { routing } from "@/i18n/routing";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
+import { redirect } from "next/dist/server/api-utils";
 import { Toaster } from "sonner";
 
 export const metadata = {
@@ -11,7 +12,7 @@ export const metadata = {
 
 export default async function RootLayout({ children, params: { locale } }) {
   if (!routing.locales.includes(locale)) {
-    NotFound();
+   redirect(`/${locale}/`)
   }
   const messages = await getMessages();
   return (

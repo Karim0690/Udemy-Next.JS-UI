@@ -36,6 +36,12 @@ const FilterAccordion = ({
   const handleLevelChange = (event) => {
     setLevel(event.target.value);
   };
+  const handleRatingChange = (event) => {
+    setRating(event.target.value);
+  };
+  const handlePriceChange = (e) => {
+    setPrice(e.target.value);
+  };
 
   return (
     <>
@@ -48,62 +54,26 @@ const FilterAccordion = ({
           <AccordionTrigger>{t("ratings")}</AccordionTrigger>
           <AccordionContent>
             <RadioGroup className="gap-0">
-              <div className="flex items-center gap-2">
-                <input
-                  type="radio"
-                  id="rating-4.5"
-                  name="rating"
-                  value="4.5"
-                  className="h-4 w-4 bg-black border-black text-black border-2"
-                />
-                <label htmlFor="rating-4.5" className="flex items-center">
-                  <StarRating rating={4.5} />
-                  <span>4.5 & up</span>
-                  <span className="text-xs text-gray-700 ml-1">(10,000)</span>
-                </label>
-              </div>
-              <div className="flex items-center gap-2">
-                <input
-                  type="radio"
-                  id="rating-4"
-                  name="rating"
-                  value="4"
-                  className="h-4 w-4 bg-black border-black text-black border-2"
-                />
-                <label htmlFor="rating-4" className="flex items-center">
-                  <StarRating rating={4} />
-                  <span>4.5 & up</span>
-                  <span className="text-xs text-gray-700 ml-1">(10,000)</span>
-                </label>
-              </div>
-              <div className="flex items-center gap-2">
-                <input
-                  type="radio"
-                  id="rating-3.5"
-                  name="rating"
-                  value="3.5"
-                  className="h-4 w-4 bg-black border-black text-black border-2"
-                />
-                <label htmlFor="rating-3.5" className="flex items-center">
-                  <StarRating rating={3.5} />
-                  3.5 & up
-                  <span className="text-xs text-gray-700 ml-1">(10,000)</span>
-                </label>
-              </div>
-              <div className="flex items-center gap-2">
-                <input
-                  type="radio"
-                  id="rating-3"
-                  name="rating"
-                  value="3"
-                  className="h-4 w-4 bg-black border-black text-black border-2"
-                />
-                <label htmlFor="rating-3" className="flex items-center">
-                  <StarRating rating={3} />
-                  3.0 & up
-                  <span className="text-sm text-gray-700 ml-1">(10,000)</span>
-                </label>
-              </div>
+              {[4.5, 4.0, 3.5, 3.0].map((value) => (
+                <div key={value} className="flex items-center gap-2">
+                  <input
+                    type="radio"
+                    id={`rating-${value}`}
+                    name="rating"
+                    value={value}
+                    checked={rating === value.toString()}
+                    onChange={handleRatingChange}
+                    className="h-4 w-4 bg-black border-black text-black border-2"
+                  />
+                  <label
+                    htmlFor={`rating-${value}`}
+                    className="flex items-center"
+                  >
+                    <StarRating rating={value} />
+                    <span>{value} & up</span>
+                  </label>
+                </div>
+              ))}
             </RadioGroup>
           </AccordionContent>
         </AccordionItem>
@@ -276,21 +246,37 @@ const FilterAccordion = ({
           <AccordionContent>
             <div className="flex flex-col">
               <div className="flex items-center mb-2">
-                <input type="checkbox" id="paid" className="h-4 w-4" />
+                <input
+                  type="radio"
+                  id="paid"
+                  name="price-filter"
+                  value="[gte]=30.99"
+                  className="h-4 w-4"
+                  checked={price === "[gte]=30.99"}
+                  onChange={handlePriceChange} // Update state on selection
+                />
                 <label
                   htmlFor="paid"
                   className="text-sm font-medium leading-none ml-2 cursor-pointer"
                 >
-                  <span className="font-normal">Paid</span>
+                  <span className="font-normal">30.99 E£ & up</span>
                 </label>
               </div>
               <div className="flex items-center mb-2">
-                <input type="checkbox" id="free" className="h-4 w-4" />
+                <input
+                  type="radio"
+                  id="paid"
+                  name="price-filter"
+                  value="[lte]=30.99"
+                  className="h-4 w-4"
+                  checked={price === "[lte]=30.99"}
+                  onChange={handlePriceChange}
+                />
                 <label
                   htmlFor="free"
                   className="text-sm font-medium leading-none ml-2 cursor-pointer"
                 >
-                  <span className="font-normal">Free</span>
+                  <span className="font-normal">30.99 E£ & less</span>
                 </label>
               </div>
             </div>

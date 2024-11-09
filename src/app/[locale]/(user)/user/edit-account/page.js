@@ -159,6 +159,7 @@ const Page = () => {
       if (data.message === "success") {
         showToast("Your changes have been saved successfully");
         setEmailData({ email: "", password: "" });
+        window.location.reload();
       }
     } catch (error) {
       console.log(error.response.data.message);

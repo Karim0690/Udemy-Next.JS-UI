@@ -104,8 +104,10 @@ const Page = () => {
           `${process.env.NEXT_PUBLIC_LOCAL_API}/user/${session.user._id}`,
           formPhoto
         );
-        if (data.message === "success")
+        if (data.message === "success") {
           showToast("Your changes have been saved successfully");
+          window.location.reload();
+        }
       } catch (error) {
         showToast(
           "Your changes have not been saved. Please address the issues.",

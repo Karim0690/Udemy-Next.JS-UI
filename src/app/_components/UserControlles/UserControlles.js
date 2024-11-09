@@ -10,11 +10,12 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import axios from "axios";
 import { signOut } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FaRegBell } from "react-icons/fa";
 import {
   MdFavoriteBorder,
@@ -24,6 +25,25 @@ import {
 
 const UserControlles = ({ user, locale }) => {
   const t = useTranslations("Header");
+  const [userData, setUserData] = useState(null);
+
+  useEffect(() => {
+    if (user?._id) {
+      const fetchData = async () => {
+        try {
+          const { data } = await axios.get(
+            `${process.env.NEXT_PUBLIC_LOCAL_API}/user/${user._id}`
+          );
+          console.log(data.user);
+
+          setUserData(data.user);
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+        }
+      };
+      fetchData();
+    }
+  }, []);
 
   return (
     <>
@@ -31,7 +51,7 @@ const UserControlles = ({ user, locale }) => {
         <HoverCard>
           <HoverCardTrigger asChild>
             <Avatar className="hover:cursor-pointer w-[35px] h-[35px]">
-              <AvatarImage />
+              <AvatarImage src={userData?.profilePic} />
               <AvatarFallback className="bg-gray-900 text-white font-bold">
                 {user.name.charAt(0).toUpperCase() +
                   user.name.charAt(1).toUpperCase()}
@@ -54,9 +74,9 @@ const UserControlles = ({ user, locale }) => {
 
               <div>
                 <h1 className="text-sm font-bold text-gray-900 group-hover:text-violet-800">
-                  {user.name}
+                  {userData?.name}
                 </h1>
-                <p className="text-xs text-gray-500">{user.email}</p>
+                <p className="text-xs text-gray-500">{userData?.email}</p>
               </div>
             </div>
 

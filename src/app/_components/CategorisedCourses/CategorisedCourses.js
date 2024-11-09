@@ -41,6 +41,12 @@ const CategorisedCourses = ({ category }) => {
           if (topics) {
             query += `&topics=${topics}`;
           }
+          if (rating) {
+            query += `&rating.average[gte]=${rating}`;
+          }
+          if (price) {
+            query += `&price${price}`;
+          }
           const { data } = await axios.get(
             `${process.env.NEXT_PUBLIC_LOCAL_API}/course/public/courses${query}`
           );
@@ -57,7 +63,7 @@ const CategorisedCourses = ({ category }) => {
       };
       fetchCourses();
     }
-  }, [category, sort, subcategory, level, topics]);
+  }, [category, sort, subcategory, level, topics, rating, price]);
 
   return (
     <>
