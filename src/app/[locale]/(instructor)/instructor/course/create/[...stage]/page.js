@@ -99,6 +99,22 @@ const Page = () => {
     },
   ];
 
+<<<<<<< HEAD
+  const translatedOptions = options.map((option) => ({
+    key: option.key,
+    translatedText: t(option.key), 
+  }));
+
+  // karim options __________________
+  // const options = [
+  //   "I’m very busy right now (0-2 hours)",
+  //   "I’ll work on this on the side (2-4 hours)",
+  //   "I have lots of flexibility (5+ hours)",
+  //   "I haven’t yet decided if I have time",
+  // ];
+
+=======
+>>>>>>> 039ed9a861f9001af546b493e8359aa6d8813c61
   const handleTitleChange = (e) => {
     const { name, value } = e.target;
     if (name === "title") {

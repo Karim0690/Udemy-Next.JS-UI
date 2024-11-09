@@ -370,7 +370,11 @@ const Curriculum = () => {
                                                   ref={provided.innerRef}
                                                   {...provided.draggableProps}
                                                   {...provided.dragHandleProps}
-                                                  className={`relative mt-4 ${params.locale==="en"?"ml-20 mr-2":"mr-20 ml-2"} p-3 flex items-center border border-gray-600 bg-white group cursor-move`}
+                                                  className={`relative mt-4 ${
+                                                    params.locale === "en"
+                                                      ? "ml-2 md:ml-20 mr-2"
+                                                      : "mr-2 md:mr-20 ml-2"
+                                                  } p-3 flex items-center border border-gray-600 bg-white group cursor-move`}
                                                 >
                                                   <div className=" flex items-center gap-4 flex-1">
                                                     <IoIosCheckmarkCircle className="text-gray-800" />
@@ -397,7 +401,7 @@ const Curriculum = () => {
                                                       )}
                                                       <p>{item.item.title}</p>
                                                     </div>
-                                                    <div className="flex items-center gap-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                                    <div className="flex flex-col md:flex-row items-center mx-1 md:mx-0 gap-4 lg:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                                       <FaPen
                                                         className="text-xs cursor-pointer"
                                                         onClick={() => {
@@ -420,7 +424,7 @@ const Curriculum = () => {
                                                       />
                                                     </div>
                                                   </div>
-                                                  <div className="flex items-center gap-4">
+                                                  <div className="flex items-center flex-wrap gap-1 md:gap-4">
                                                     {item.type === "Lecture" &&
                                                       !item.item.resource && (
                                                         <>
@@ -437,7 +441,9 @@ const Curriculum = () => {
                                                             }
                                                           >
                                                             <FaPlus className="text-sm" />
-                                                            {t("content")}
+                                                            <span className="hidden md:block">
+                                                              {t("content")}
+                                                            </span>
                                                           </button>
                                                         </>
                                                       )}
@@ -597,8 +603,8 @@ const Curriculum = () => {
                                     <div
                                       className={`my-4 ${
                                         params.locale === "en"
-                                          ? "ml-20"
-                                          : " mr-20"
+                                          ? "md:ml-20"
+                                          : "md:mr-20"
                                       }`}
                                     >
                                       <button

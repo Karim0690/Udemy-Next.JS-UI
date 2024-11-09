@@ -1,5 +1,7 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 "use client";
-import React, { useState } from "react";
+
+import AccountSidenav from "../accountSidenav/AccountSidenav";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -9,30 +11,33 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import axios from "axios";
-import { TbAlertOctagonFilled } from "react-icons/tb";
+import { useTranslations } from "next-intl";
+import React, { useState } from "react";
 import { IoMdCheckmarkCircle } from "react-icons/io";
+import { TbAlertOctagonFilled } from "react-icons/tb";
 import { toast } from "sonner";
-import AccountSidenav from "../accountSidenav/AccountSidenav";
 
 const page = () => {
+  const t = useTranslations("CloseAccount");
   const showToast = (message, isError = false) => {
     const toastId = toast("", {
       description: (
         <div className="flex flex-col">
           <div className="flex items-center gap-5">
+            {" "}
             {isError ? (
               <TbAlertOctagonFilled className="text-6xl" />
             ) : (
               <IoMdCheckmarkCircle className="text-4xl" />
-            )}
-            <span className={`font-bold "text-black"`}>{message}</span>
-          </div>
+            )}{" "}
+            <span className={`font-bold "text-black"`}> {message} </span>{" "}
+          </div>{" "}
           <button
             className="mt-5 mx-14 bg-gray-800 text-white w-20 p-3"
             onClick={() => toast.dismiss(toastId)}
           >
-            Dismiss
-          </button>
+            {t("dismiss")}
+          </button>{" "}
         </div>
       ),
       style: {
@@ -45,6 +50,7 @@ const page = () => {
       },
     });
   };
+
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -86,43 +92,38 @@ const page = () => {
             <div className="flex border-b border-gray-300 py-4">
               <div className="mx-auto max-w-7xl px-6 text-center">
                 <h1 className="font-heading font-bold leading-tight tracking-normal text-lg sm:text-xl md:text-2xl max-w-3xl">
-                  Close Account
-                </h1>
+                  {t("closeAccount")}
+                </h1>{" "}
                 <p className="font-text mt-2 leading-6 ">
-                  Close your account permanently
-                </p>
-              </div>
-            </div>
+                  {t("closeAccountPermanently")}
+                </p>{" "}
+              </div>{" "}
+            </div>{" "}
             <div className="flex-1">
               <div className="px-4 max-w-[700px] mx-auto mt-4">
                 <p>
-                  <b className="text-red-700 "> Warning: </b>
-                  If you close your account, you will be unsubscribed from all 0
-                  of your courses and will lose access to your account and data
-                  associated with your account forever, even if you choose to
-                  create a new account using the same email address in the
-                  future.
+                  <b className="text-red-700 "> {t("warning")}</b>
+
+                  {t("accountClosureWarning")}
+
                   <br />
                   <br />
-                  Please note, if you want to reinstate your account after
-                  submitting a deletion request, you will have 14 days after the
-                  initial submission date to reach out to privacy@udemy.com to
-                  cancel this request.
-                </p>
+                  {t("accountReinstatementNotice")}
+                </p>{" "}
                 <div className="flex items-center mb-80 space-x-2">
                   <Dialog>
                     <DialogTrigger asChild>
                       <Button className="bg-zinc-800 text-white hover:bg-zinc-700 h-12 font-semibold text-lg mt-6">
-                        Close account
-                      </Button>
-                    </DialogTrigger>
+                        {t("closeAccount")}
+                      </Button>{" "}
+                    </DialogTrigger>{" "}
                     <DialogContent className="sm:max-w-[600px] bg-white">
                       <DialogHeader>
-                        <DialogTitle>Close Your Account</DialogTitle>
-                      </DialogHeader>
+                        <DialogTitle> {t("closeYourAccount")}</DialogTitle>{" "}
+                      </DialogHeader>{" "}
                       <div className="pt-3">
-                        <b>Are you sure you want to close your account?</b>
-                      </div>
+                        <b> {t("areYouSureCloseAccount")}</b>{" "}
+                      </div>{" "}
                       <div className="grid gap-4">
                         <div className="items-center gap-4">
                           <input
@@ -134,14 +135,13 @@ const page = () => {
                             className="border border-black w-full p-2"
                             placeholder="Enter your password"
                           />
-                        </div>
+                        </div>{" "}
                         {error && (
                           <div className="p-3 bg-[#fcbca0] text-gray-800 flex items-center gap-4">
                             <TbAlertOctagonFilled className="text-3xl text-black" />
-                            <p className="font-semibold">{error}</p>
+                            <p className="font-semibold"> {error} </p>{" "}
                           </div>
                         )}
-
                         <div className="mt-4 ">
                           <div className="flex justify-end ">
                             <button
@@ -150,19 +150,21 @@ const page = () => {
                               disabled={isLoading}
                               onClick={handleCloseAccount}
                             >
-                              {isLoading ? "Close account..." : "Close account"}
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </DialogContent>
-                  </Dialog>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+                              {isLoading
+                                ? t("closeAccount...")
+                                : t("closeAccount...")}
+                            </button>{" "}
+                          </div>{" "}
+                        </div>{" "}
+                      </div>{" "}
+                    </DialogContent>{" "}
+                  </Dialog>{" "}
+                </div>{" "}
+              </div>{" "}
+            </div>{" "}
+          </div>{" "}
+        </div>{" "}
+      </div>{" "}
     </>
   );
 };

@@ -5,26 +5,41 @@ import RichText3 from "@/app/[locale]/(instructor)/_components/RichText3/RichTex
 import useUserStore from "@/app/store/userStore";
 import { Spinner } from "@material-tailwind/react";
 import axios from "axios";
+import { useSession } from "next-auth/react";
+import { useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function Page() {
-  const { user, userData, setUser, fetchUser } = useUserStore();
+  const t = useTranslations("editProfile");
   const [isLoading, setIsLoading] = useState(true);
+  const [userData, setUserData] = useState();
+  const { data: session } = useSession();
+  const router = useRouter();
 
   useEffect(() => {
-    setUser();
-  }, []);
+    if (session?.user?._id) {
+      const fetchData = async () => {
+        try {
+          const { data } = await axios.get(
+            `${process.env.NEXT_PUBLIC_LOCAL_API}/user/${session.user._id}`
+          );
+          console.log(data.user);
 
-  useEffect(() => {
-    if (user) {
-      fetchUser(user._id);
-      setIsLoading(false);
+          setUserData(data.user);
+          setIsLoading(false); // Add this line to stop loading after data is fetched
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+          setUserData(false);
+          setIsLoading(false); // Ensure loading is stopped even in case of error
+        }
+      };
+      fetchData();
     }
-  }, [user, fetchUser]);
+  }, [session]);
 
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    name: "",
     headline: "",
     language: "",
     biography: "",
@@ -41,19 +56,18 @@ export default function Page() {
   useEffect(() => {
     if (userData) {
       setFormData({
-        firstName: userData.firstName || "",
-        lastName: userData.lastName || "",
-        headline: userData.headline || "",
-        language: userData.language || "",
-        biography: userData.biography || "",
+        name: userData.name,
+        headline: userData.headline,
+        language: userData.language,
+        biography: userData.biography,
         social: {
-          website: userData.social?.website || "",
-          facebook: userData.social?.facebook || "",
-          twitter: userData.social?.twitter || "",
-          linkedin: userData.social?.linkedin || "",
-          youtube: userData.social?.youtube || "",
+          website: userData.social?.website,
+          facebook: userData.social?.facebook,
+          twitter: userData.social?.twitter,
+          linkedin: userData.social?.linkedin,
+          youtube: userData.social?.youtube,
         },
-        photo: userData.photo || "",
+        photo: userData.photo,
       });
     }
   }, [userData]);
@@ -85,12 +99,13 @@ export default function Page() {
     setSuccess(null);
     try {
       const response = await axios.put(
-        `http://localhost:3001/user/${user._id}`,
+        `${process.env.NEXT_PUBLIC_LOCAL_API}/user/${session.user._id}`,
         formData
       );
       console.log(formData);
 
       setSuccess("User data updated successfully!");
+      window.location.reload();
     } catch (error) {
       console.error(error);
       setError(
@@ -107,11 +122,9 @@ export default function Page() {
         <div className="flex border-b border-gray-300 py-4">
           <div className="mx-auto max-w-7xl px-6 text-center">
             <h1 className="font-heading font-bold leading-tight tracking-normal text-lg sm:text-xl md:text-2xl max-w-3xl">
-              Public profile
+              {t("publicProfile")}
             </h1>
-            <p className="font-text mt-2 leading-6">
-              Add information about yourself
-            </p>
+            <p className="font-text mt-2 leading-6">{t("addInformation")}</p>
           </div>
         </div>
         {isLoading ? (
@@ -121,42 +134,41 @@ export default function Page() {
         ) : (
           <div className="flex-1">
             <div className="px-4 max-w-[700px] mx-auto">
-              <h2 className="font-semibold px-3 mt-3">Basics:</h2>
+              <h2 className="font-semibold px-3 mt-3"> {t("basics")} </h2>
 
               <div className="w-full px-3 mt-2 mb-6 md:mb-0">
                 <input
                   className="appearance-none block w-full text-gray-700 border border-black py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                   type="text"
-                  name="firstName"
-                  placeholder="First Name"
-                  value={formData.firstName}
+                  name="name"
+                  placeholder={t("firstName")}
+                  value={formData.name}
                   onChange={handleChange}
                 />
               </div>
 
-              <div className="w-full px-3 mt-6 md:mb-0">
+              {/* <div className="w-full px-3 mt-6 md:mb-0">
                 <input
                   className="appearance-none block w-full text-gray-700 border border-black py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                   type="text"
                   name="lastName"
-                  placeholder="Last Name"
+                  placeholder={t("lastName")}
                   value={formData.lastName}
                   onChange={handleChange}
                 />
-              </div>
+              </div> */}
 
               <div className="w-full px-3 mt-6 md:mb-0">
                 <input
                   name="headline"
                   className="appearance-none block w-full text-gray-700 border border-black py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                   type="text"
-                  placeholder="Headline"
+                  placeholder={t("headline")}
                   value={formData.headline}
                   onChange={handleChange}
                 />
                 <div className="flex align-center text-gray-600 text-xs">
-                  Add a professional headline like, "Instructor at Udemy" or
-                  "Architect."
+                  {t("addProfessionalHeadline")}
                 </div>
               </div>
 
@@ -172,31 +184,30 @@ export default function Page() {
                   name="biography"
                 />
                 <div className="text-gray-600 text-xs align-center mt-2">
-                  Links and coupon codes are not permitted in this section.
+                  {t("linksAndCouponsNotPermitted")}
                 </div>
               </div>
 
-              <div className="w-full px-3 mt-6 md:mb-0 border-b border-gray-300">
+              {/* <div className="w-full px-3 mt-6 md:mb-0 border-b border-gray-300">
                 <label
                   htmlFor="language"
                   className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                 >
-                  Language
+                  {t("language")}
                 </label>
                 <select
                   name="language"
                   id="language"
                   className="border border-black py-3 px-4 mb-3 text-gray-900 text-sm block w-full h-12"
-                  value={formData.language}
+                  value="English (US)"
                   onChange={handleChange}
                 >
-                  <option value="English (US)">English (US)</option>
-                  {/* Add other options here */}
+                  <option value="English (US)"> {t("englishUS")}</option>
                 </select>
-              </div>
+              </div> */}
 
               <div className="w-full px-3 mt-3 md:mb-0">
-                <h2 className="font-bold"> Links:</h2>
+                <h2 className="font-bold">{t("links")} </h2>
                 <input
                   className="appearance-none block w-full text-gray-700 border border-black py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                   type="text"
@@ -212,14 +223,14 @@ export default function Page() {
                   htmlFor="grid-twitter-url"
                   className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                 >
-                  Twitter
+                  {t("twitter")}
                 </label>
                 <div className="relative flex w-full items-stretch">
                   <span className="inline-flex items-center whitespace-nowrap text-black bg-gray-100 border border-black py-3 px-1 lg:px-4 mb-3 text-center text-xs lg:text-base font-normal leading-[1.6]">
                     http://www.twitter.com/
                   </span>
                   <input
-                    placeholder="Twitter Profile"
+                    placeholder={t("twitterProfile")}
                     type="text"
                     className="relative m-0 block flex-auto appearance-none w-full text-gray-700 border border-black py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                     id="grid-twitter-url"
@@ -230,7 +241,7 @@ export default function Page() {
                   />
                 </div>
                 <div className="flex align-center text-gray-600 text-xs">
-                  Add your Twitter username (e.g. johnsmith).
+                  {t("addTwitterUsername")}
                 </div>
               </div>
 
@@ -239,14 +250,14 @@ export default function Page() {
                   htmlFor="grid-facebook-url"
                   className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                 >
-                  Facebook
+                  {t("facebook")}
                 </label>
                 <div className="relative flex w-full items-stretch">
                   <span className="inline-flex items-center whitespace-nowrap text-black bg-gray-100 border border-black py-3 px-1 lg:px-4 mb-3 text-center text-xs lg:text-base font-normal leading-[1.6]">
                     http://www.facebook.com/
                   </span>
                   <input
-                    placeholder="Facebook Profile"
+                    placeholder={t("facebookProfile")}
                     name="facebook"
                     type="text"
                     className="relative m-0 block flex-auto appearance-none w-full text-gray-700 border border-black py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
@@ -257,7 +268,7 @@ export default function Page() {
                   />
                 </div>
                 <div className="flex align-center text-gray-600 text-xs">
-                  Input your Facebook username (e.g. johnsmith).
+                  {t("inputFacebookUsername")}
                 </div>
               </div>
 
@@ -266,14 +277,14 @@ export default function Page() {
                   htmlFor="grid-linkedin-url"
                   className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                 >
-                  LinkedIn
+                  {t("linkedin")}
                 </label>
                 <div className="relative flex w-full items-stretch">
                   <span className="inline-flex items-center whitespace-nowrap text-black bg-gray-100 border border-black py-3 px-1 lg:px-4 mb-3 text-center text-xs lg:text-base font-normal leading-[1.6]">
                     http://www.linkedin.com/
                   </span>
                   <input
-                    placeholder="LinkedIn Profile"
+                    placeholder={t("linkedinProfile")}
                     name="linkedin"
                     type="text"
                     className="relative m-0 block flex-auto appearance-none w-full text-gray-700 border border-black py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
@@ -284,7 +295,7 @@ export default function Page() {
                   />
                 </div>
                 <div className="flex align-center text-gray-600 text-xs">
-                  Input your LinkedIn resource id (e.g. in/johnsmith).
+                  {t("inputLinkedInResourceId")}
                 </div>
               </div>
 
@@ -293,14 +304,14 @@ export default function Page() {
                   htmlFor="grid-youtube-url"
                   className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                 >
-                  YouTube
+                  {t("youtube")}
                 </label>
                 <div className="relative flex w-full items-stretch">
                   <span className="text-xs inline-flex items-center whitespace-nowrap text-black bg-gray-100 border border-black py-3 px-1 lg:px-4 mb-3 text-center md:text-base font-normal leading-[1.6]">
                     http://www.youtube.com/
                   </span>
                   <input
-                    placeholder="YouTube Profile"
+                    placeholder={t("youtubeProfile")}
                     name="youtube"
                     type="text"
                     className="relative m-0 block flex-auto appearance-none w-full text-gray-700 border border-black py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
@@ -311,7 +322,7 @@ export default function Page() {
                   />
                 </div>
                 <div className="flex align-center text-gray-600 text-xs">
-                  Input your YouTube username (e.g. johnsmith).
+                  {t("inputYouTubeUsername")}
                 </div>
               </div>
 
@@ -323,7 +334,7 @@ export default function Page() {
                   className="bg-black text-white hover:bg-gray-700 p-3 font-bold text-lg mt-4"
                   onClick={handleSubmit}
                 >
-                  Save
+                  {t("save")}
                 </button>
               </div>
               {error && <div className="text-red-500">{error}</div>}

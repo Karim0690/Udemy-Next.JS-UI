@@ -785,5 +785,81 @@
     "addtocart": "أضف إلى السلة",
     "moneyBack": "ضمان استرداد الأموال خلال 30 يومًا",
     "full": "وصول كامل مدى الحياة"
+  },
+  "userenrolledCourses": {
+    "courses_enrolled": "الدورات التي قمت بالتسجيل فيها",
+    "start_course": "ابدأ الدورة"
+  },
+  "AccountSidenav": {
+    "view_public_profile": "عرض الملف الشخصي العام",
+    "profile": "الملف الشخصي",
+    "photo": "الصورة",
+    "accountSecurity": "أمان الحساب",
+    "closeAccount": "إغلاق الحساب"
+  },
+  "CloseAccount": {
+    "dismiss": "إلغاء",
+    "closeAccount": "إغلاق الحساب",
+    "closeAccountPermanently": "إغلاق حسابك بشكل دائم",
+    "warning": "تحذير:",
+    "accountClosureWarning": "إذا قمت بإغلاق حسابك، سيتم إلغاء اشتراكك في جميع {{count}} من دوراتك وسيفقد حسابك والوصول إلى البيانات المرتبطة بحسابك بشكل نهائي، حتى إذا قررت إنشاء حساب جديد باستخدام نفس عنوان البريد الإلكتروني في المستقبل.",
+    "accountReinstatementNotice": "يرجى ملاحظة أنه إذا كنت ترغب في إعادة تفعيل حسابك بعد تقديم طلب الحذف، سيكون لديك 14 يومًا بعد تاريخ التقديم الأصلي للتواصل مع privacy@udemy.com لإلغاء هذا الطلب.",
+    "closeYourAccount": "إغلاق حسابك",
+    "areYouSureCloseAccount": "هل أنت متأكد أنك تريد إغلاق حسابك؟",
+    "closeAccount1": "جاري إغلاق الحساب..."
+  },
+  "editAccount": {
+    "account": "الحساب",
+    "editAccountSettings": "قم بتعديل إعدادات حسابك وتغيير كلمة المرور هنا",
+    "email": "البريد الإلكتروني:",
+    "yourEmailAddress": "عنوان بريدك الإلكتروني هو",
+    "changeYourEmail": "تغيير بريدك الإلكتروني",
+    "enterYourEmail": "أدخل بريدك الإلكتروني",
+    "enterYourPassword": "أدخل كلمة المرور",
+    "emailChangeWarning": "لأمانك، إذا قمت بتغيير عنوان بريدك الإلكتروني، سيتم حذف معلومات بطاقة الائتمان المحفوظة.",
+    "save": "حفظ",
+    "saving": "جاري الحفظ...",
+    "password": "كلمة المرور:",
+    "enterCurrentPassword": "أدخل كلمة المرور الحالية",
+    "enterNewPassword": "أدخل كلمة المرور الجديدة",
+    "retypeNewPassword": "أعد كتابة كلمة المرور الجديدة",
+    "changePassword": "تغيير كلمة المرور"
+  },
+  "editPhoto": {
+    "dismiss": "إلغاء",
+    "photo": "الصورة",
+    "addPhoto": "أضف صورة جميلة لنفسك لملفك الشخصي.",
+    "imagePreview": "معاينة الصورة",
+    "loading": "جاري التحميل...",
+    "noFileSelected": "لم يتم اختيار أي ملف",
+    "change": "تغيير",
+    "uploadFile": "رفع الملف",
+    "save": "حفظ"
+  },
+  "editProfile": {
+    "publicProfile": "الملف الشخصي العام",
+    "addInformation": "أضف معلومات عن نفسك",
+    "basics": "الأساسيات:",
+    "firstName": "الاسم",
+    "lastName": "اسم العائلة",
+    "headline": "العنوان الوظيفي",
+    "addProfessionalHeadline": "أضف عنوانًا مهنيًا مثل 'مدرب في Udemy' أو 'مهندس معماري.'",
+    "linksAndCouponsNotPermitted": "لا يُسمح بالروابط أو أكواد الخصم في هذا القسم.",
+    "language": "اللغة",
+    "englishUS": "الإنجليزية (الولايات المتحدة)",
+    "links": "الروابط:",
+    "twitter": "تويتر",
+    "twitterProfile": "الملف الشخصي على تويتر",
+    "addTwitterUsername": "أضف اسم المستخدم على تويتر (مثل: johnsmith).",
+    "facebook": "فيسبوك",
+    "facebookProfile": "الملف الشخصي على فيسبوك",
+    "inputFacebookUsername": "أدخل اسم المستخدم على فيسبوك (مثل: johnsmith).",
+    "linkedin": "لينكد إن",
+    "linkedinProfile": "الملف الشخصي على لينكد إن",
+    "inputLinkedInResourceId": "أدخل معرّف المورد الخاص بك على لينكد إن (مثل: in/johnsmith).",
+    "youtube": "يوتيوب",
+    "youtubeProfile": "الملف الشخصي على يوتيوب",
+    "inputYouTubeUsername": "أدخل اسم المستخدم على يوتيوب (مثل: johnsmith).",
+    "save": "حفظ"
   }
 }

@@ -1,16 +1,36 @@
 "use client";
+
+import AccountSidenav from "../accountSidenav/AccountSidenav";
 import axios from "axios";
+import { useSession } from "next-auth/react";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { IoMdCheckmarkCircle } from "react-icons/io";
 import { TbAlertOctagonFilled } from "react-icons/tb";
 import { toast } from "sonner";
-import AccountSidenav from "../accountSidenav/AccountSidenav";
 
-const page = () => {
+const Page = () => {
+  const t = useTranslations("editPhoto");
+  const { data: session } = useSession();
   const [formPhoto, setFormPhoto] = useState({
-    photo: "",
+    profilePic: "",
   });
+  useEffect(() => {
+    if (session?.user?._id) {
+      const fetchData = async () => {
+        try {
+          const { data } = await axios.get(
+            `${process.env.NEXT_PUBLIC_LOCAL_API}/user/${session.user._id}`
+          );
+          setFormPhoto({ profilePic: data.user.profilePic });
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+        }
+      };
+      fetchData();
+    }
+  }, [session]);
   const showToast = (message, isError = false) => {
     const toastId = toast("", {
       description: (
@@ -27,7 +47,7 @@ const page = () => {
             className="mt-5 mx-14 bg-gray-800 text-white w-20 p-3"
             onClick={() => toast.dismiss(toastId)}
           >
-            Dismiss
+            {t("dismiss")}
           </button>
         </div>
       ),
@@ -69,7 +89,7 @@ const page = () => {
         }
       );
 
-      setFormPhoto({ photo: data.secure_url });
+      setFormPhoto({ profilePic: data.secure_url });
     } catch (error) {
       console.error("Error uploading file:", error);
     } finally {
@@ -78,10 +98,10 @@ const page = () => {
   };
 
   const handleSubmitPhoto = async () => {
-    if (formPhoto.photo) {
+    if (formPhoto.profilePic) {
       try {
         let { data } = await axios.put(
-          `http://localhost:3001/user/66aa2d5a201f806f92eebb25`,
+          `${process.env.NEXT_PUBLIC_LOCAL_API}/user/${session.user._id}`,
           formPhoto
         );
         if (data.message === "success")
@@ -108,11 +128,9 @@ const page = () => {
           <div className="flex border-b border-gray-300 py-4">
             <div className="mx-auto max-w-7xl px-6 text-center">
               <h1 className="font-heading font-bold leading-tight tracking-normal text-lg sm:text-xl md:text-2xl max-w-3xl">
-                Photo
+                {t("photo")}
               </h1>
-              <p className="font-text mt-2 leading-6 ">
-                Add a nice photo of yourself for your profile.
-              </p>
+              <p className="font-text mt-2 leading-6 ">{t("addPhoto")}</p>
             </div>
           </div>
 
@@ -120,7 +138,7 @@ const page = () => {
             <div className="px-4 max-w-[700px] mx-auto my-6">
               {" "}
               <p className="font-heading font-bold my-4 leading-tight tracking-normal">
-                Image preview
+                {t("imagePreview")}
               </p>
               <div className="flex items-center justify-center w-full">
                 <div className="border border-black w-full h-60 p-2">
@@ -145,7 +163,7 @@ const page = () => {
                               fill="currentFill"
                             />
                           </svg>
-                          <span className="sr-only">Loading...</span>
+                          <span className="sr-only"> {t("loading")} </span>
                         </div>
                       </div>
                     )}
@@ -153,7 +171,7 @@ const page = () => {
                       width={200}
                       height={200}
                       src={
-                        formPhoto.photo ||
+                        formPhoto.profilePic ||
                         "https://img-c.udemycdn.com/user/200_H/anonymous_3.png"
                       }
                       alt="User Avatar"
@@ -167,7 +185,7 @@ const page = () => {
                 <div className="mt-4 flex w-full">
                   {uploadProgress == 0 ? (
                     <span className="p-3 text-gray-500 border border-black flex-1">
-                      No file selected
+                      {t("noFileSelected")}
                     </span>
                   ) : (
                     <div className="flex-1">
@@ -183,7 +201,10 @@ const page = () => {
                   )}
                   {uploadProgress == 100 ? (
                     <label className="bg-white border border-black p-3 cursor-pointer hover:bg-gray-100">
-                      <span className="font-bold text-black">Change</span>
+                      <span className="font-bold text-black">
+                        {" "}
+                        {t("change")}{" "}
+                      </span>
                       <input
                         name="courseImage"
                         className="hidden"
@@ -196,7 +217,9 @@ const page = () => {
                     </label>
                   ) : (
                     <label className="bg-white border border-black p-3 cursor-pointer hover:bg-gray-100">
-                      <span className="font-bold text-black">Upload File</span>
+                      <span className="font-bold text-black">
+                        {t("uploadFile")}{" "}
+                      </span>
                       <input
                         name="courseImage"
                         className="hidden"
@@ -214,16 +237,16 @@ const page = () => {
                 <button
                   type="submit"
                   className={`${
-                    formPhoto.photo
+                    formPhoto.profilePic
                       ? "bg-zinc-800 hover:bg-zinc-700"
                       : "bg-gray-400 cursor-not-allowed"
                   } text-white  w-20 h-12 font-bold text-lg mt-6`}
-                  disabled={!formPhoto.photo}
+                  disabled={!formPhoto.profilePic}
                   onClick={() => {
                     handleSubmitPhoto();
                   }}
                 >
-                  Save
+                  {t("save")}
                 </button>
               </div>
             </div>
@@ -234,4 +257,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

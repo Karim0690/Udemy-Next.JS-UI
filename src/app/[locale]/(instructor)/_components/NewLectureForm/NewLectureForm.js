@@ -22,7 +22,7 @@ const NewLectureForm = ({
   const addNewLecture = async () => {
     try {
       let response = await axios.post(
-        `http://127.0.0.1:3001/course-sections/${sectionId}/lecture`,
+        `${process.env.NEXT_PUBLIC_LOCAL_API}/course-sections/${sectionId}/lecture`,
         newLecture
       );
       if (response.data.message === "success") {
@@ -58,7 +58,7 @@ const NewLectureForm = ({
   return (
     <div
       className={`flex p-4 border border-black ${
-        locale === "en" ? "mr-2" : "ml-2"
+        locale === "en" ? "ml-2 md:ml-20 mr-2" : "mr-2 md:mr-20 ml-2"
       }  bg-white`}
     >
       <p>{t("new-lecture")}</p>
@@ -89,7 +89,7 @@ const NewLectureForm = ({
         <div className="relative my-2">
           <input
             type="text"
-            placeholder={t("enter-title")}
+            placeholder={t("enter-title_ar")}
             name="title_ar"
             value={newLecture.title_ar}
             onChange={handleLectureChange}

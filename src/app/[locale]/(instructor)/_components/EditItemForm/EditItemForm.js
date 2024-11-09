@@ -66,9 +66,7 @@ const EditItemForm = ({
 
   return (
     <div
-      className={`my-4 ${
-        locale === "en" ? "ml-20 mr-2" : "mr-20 ml-2"
-      } p-3 flex items-center border border-gray-600 bg-white group cursor-move`}
+      className={`my-4 ${locale==="en"?"ml-2 md:ml-20 mr-2":"mr-2 md:mr-20 ml-2"} p-3 flex items-center border border-gray-600 bg-white group cursor-move`}
     >
       <div className="flex items-start flex-1 gap-2">
         <div className="flex items-center gap-2">

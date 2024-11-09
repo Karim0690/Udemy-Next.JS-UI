@@ -61,68 +61,68 @@ const UserControlles = ({ user, locale }) => {
             </div>
 
             <hr />
-            <Link href={`${locale}/home/my-courses/learning`}>
+            <Link href={`/${locale}/home/my-courses/learning`}>
               <h1 className="p-2 hover:text-violet-700 cursor-pointer">
-                My Learning
+                {locale === "en" ? "My Learning" : "تعليمي"}
               </h1>
             </Link>
-            <h1 className="p-2 hover:text-violet-700 cursor-pointer">
-              My Cart
-            </h1>
-            <h1 className="p-2 hover:text-violet-700 cursor-pointer">
-              Wishlist
-            </h1>
-            <h1 className="p-2 hover:text-violet-700 cursor-pointer">
-              Teach on Udemy
-            </h1>
+            <Link href={`/${locale}/cart`}>
+              <h1 className="p-2 hover:text-violet-700 cursor-pointer">
+                {locale === "en" ? "My Cart" : "عربة التسوق"}
+              </h1>
+            </Link>
+            {!user.role.includes("instructor") && (
+              <Link href={`/${locale}/teaching`}>
+                <h1 className="p-2 hover:text-violet-700 cursor-pointer">
+                  {locale === "en" ? "Teach on Udemy" : "التدريس علي يوديمي"}
+                </h1>
+              </Link>
+            )}
 
             <hr />
 
             <h1 className="p-2 hover:text-violet-700 cursor-pointer">
-              Account settings
+              <Link href={`/${locale}/user/edit-account`}>
+                {locale === "en" ? "Account settings" : "اعدادات الحساب"}
+              </Link>
             </h1>
             <hr />
 
             <div className="flex justify-between items-center">
               <h1 className="p-2 hover:text-violet-700 cursor-pointer flex-1">
-                Language
+                {locale === "en" ? "Language" : "اللغة"}
               </h1>
               <div>
                 <LanguageSwitch />
               </div>
             </div>
             <hr />
-            <Link href={`${locale}/user/${user.name}`}>
+            <Link href={`/${locale}/user/${user.name}`}>
               <h1 className="p-2 hover:text-violet-700 cursor-pointer pb-0">
-                Public Profile
+                {locale === "en" ? "Public Profile" : "الحساب الشخصي"}
               </h1>
             </Link>
 
             <Link
               href={
                 user.role.includes("student")
-                  ? `${locale}/user/edit-accout`
-                  : `${locale}/instructor/profileandsettings`
+                  ? `/${locale}/user/edit-account`
+                  : `/${locale}/user/edit-account`
               }
             >
               <h1 className="p-2 hover:text-violet-700 cursor-pointer">
-                Edit Profile
+                {locale === "en" ? "Edit Profile" : "تعديل الحساب"}
               </h1>
             </Link>
 
             <hr />
-
-            <h1 className="p-2 hover:text-violet-700 cursor-pointer pb-0">
-              Help and Support
-            </h1>
-
             <Link href="/login" onClick={() => signOut()}>
               <h1 className="p-2 hover:text-violet-700 cursor-pointer">
-                Log out
+                {locale === "en" ? "Log out" : "تسجيل الخروج"}
               </h1>
             </Link>
             <hr />
-            <div className="flex w-full justify-between items-start px-2 py-4 group">
+            {/* <div className="flex w-full justify-between items-start px-2 py-4 group">
               <div className="flex flex-col justify-between">
                 <h1 className="text-lg font-bold text-gray-900 group-hover:text-violet-800">
                   Udemy Business
@@ -132,7 +132,7 @@ const UserControlles = ({ user, locale }) => {
                 </p>
               </div>
               <MdOutlineOpenInNew className="text-2xl" />
-            </div>
+            </div> */}
           </HoverCardContent>
         </HoverCard>
 

@@ -1,5 +1,7 @@
 "use client";
-import React, { useEffect, useState } from "react";
+
+import AccountSidenav from "../accountSidenav/AccountSidenav";
+import useUserStore from "@/app/store/userStore";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -8,35 +10,50 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { MdModeEdit } from "react-icons/md";
-import { toast } from "sonner";
-import { TbAlertOctagonFilled } from "react-icons/tb";
-import { IoMdCheckmarkCircle } from "react-icons/io";
-import axios from "axios";
-import AccountSidenav from "../accountSidenav/AccountSidenav";
-import useUserStore from "@/app/store/userStore";
 import { Spinner } from "@material-tailwind/react";
+import axios from "axios";
+import { useSession } from "next-auth/react";
+import { useTranslations } from "next-intl";
+import { useParams } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import { IoMdCheckmarkCircle } from "react-icons/io";
+import { MdModeEdit } from "react-icons/md";
+import { TbAlertOctagonFilled } from "react-icons/tb";
+import { toast } from "sonner";
 
-const page = () => {
-  const { user, setUser } = useUserStore();
+const Page = () => {
+  const t = useTranslations("editAccount");
+  const { data: session } = useSession();
+  const [userData, setUserData] = useState();
   const [pageIsLoading, setPageIsLoading] = useState(true);
   const [email, setEmail] = useState("");
+  const { locale } = useParams();
 
   useEffect(() => {
-    const fetchUser = async () => {
-      await setUser();
-      setPageIsLoading(false);
-    };
-
-    fetchUser();
-  }, [setUser]);
-
-  useEffect(() => {
-    if (user) {
-      setEmail(user.email);
-      setEmailData((prevData) => ({ ...prevData, email: user.email }));
+    if (session?.user?._id) {
+      const fetchData = async () => {
+        try {
+          const { data } = await axios.get(
+            `${process.env.NEXT_PUBLIC_LOCAL_API}/user/${session.user._id}`
+          );
+          setUserData(data.user);
+          setEmail(data.user.email);
+          setPageIsLoading(false);
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+          setPageIsLoading(false);
+        }
+      };
+      fetchData();
     }
-  }, [user]);
+  }, [session]);
+
+  useEffect(() => {
+    if (userData) {
+      setEmail(userData.email); // Set email when userData is fetched
+      setEmailData((prevData) => ({ ...prevData, email: userData.email }));
+    }
+  }, [userData]);
 
   const showToast = (message, isError = false) => {
     const toastId = toast("", {
@@ -93,7 +110,7 @@ const page = () => {
 
     try {
       const { data } = await axios.put(
-        `http://localhost:3001/user/change-password/6718e7e6d862afcf2b83f769`,
+        `${process.env.NEXT_PUBLIC_LOCAL_API}/user/change-password/${session.user._id}`,
         passwordData
       );
       if (data.message === "success") {
@@ -136,7 +153,7 @@ const page = () => {
 
     try {
       const { data } = await axios.post(
-        `http://127.0.0.1:3001/user/change-email/6718e7e6d862afcf2b83f769`,
+        `${process.env.NEXT_PUBLIC_LOCAL_API}/user/change-email/${session.user._id}`,
         emailData
       );
       if (data.message === "success") {
@@ -170,10 +187,10 @@ const page = () => {
           <div className="flex border-b border-gray-300 py-4">
             <div className="mx-auto max-w-7xl px-6 text-center">
               <h1 className="font-heading font-bold leading-tight tracking-normal text-lg sm:text-xl md:text-2xl max-w-3xl">
-                Account
+                {t("account")}
               </h1>
               <p className="font-text mt-2 leading-6">
-                Edit your account settings and change your password here
+                {t("editAccountSettings")}
               </p>
             </div>
           </div>
@@ -184,12 +201,16 @@ const page = () => {
           ) : (
             <div className="flex-1">
               <div className="px-4 max-w-[700px] mx-auto my-6">
-                <h2 className="font-semibold px-3 ">Email:</h2>
+                <h2 className="font-semibold px-3 "> {t("email")} </h2>
                 <div className="w-full px-3 mt-2  min-w-[200px]">
                   <div className="relative flex border border-black">
-                    <div className="w-full pl-3 pr-10 py-4 bg-transparent text-slate-600 text-sm">
+                    <div
+                      className={`w-full ${
+                        locale === "en" ? "pl-3 pr-10" : "pr-16 pl-10"
+                      }  py-4 bg-transparent text-slate-600 text-sm`}
+                    >
                       <span className="text-black flex-1">
-                        Your email address is <b>{email}</b>
+                        {t("yourEmailAddress")} <b>{email}</b>
                       </span>
                     </div>
                     <div className="absolute inset-y-0 right-0 flex items-center">
@@ -206,7 +227,7 @@ const page = () => {
                         </DialogTrigger>
                         <DialogContent className="sm:max-w-[600px] bg-white">
                           <DialogHeader>
-                            <DialogTitle>Change your email</DialogTitle>
+                            <DialogTitle>{t("changeYourEmail")}</DialogTitle>
                           </DialogHeader>
                           <form
                             onSubmit={handleEmailChange}
@@ -219,7 +240,7 @@ const page = () => {
                                 value={emailData.email}
                                 onChange={handleEmailChangeUpdate}
                                 className="border border-black w-full p-2"
-                                placeholder="Enter your email"
+                                placeholder={t("enterYourEmail")}
                               />
                             </div>
                             <div className="items-center gap-4">
@@ -230,7 +251,7 @@ const page = () => {
                                 value={emailData.password}
                                 onChange={handleEmailChangeUpdate}
                                 className="border border-black w-full p-2"
-                                placeholder="Enter your password"
+                                placeholder={t("enterYourPassword")}
                               />
                             </div>
                             {emailError && (
@@ -244,11 +265,7 @@ const page = () => {
                             )}
                             <div className="mt-4">
                               <div className="mb-4">
-                                <p>
-                                  For your security, if you change your email
-                                  address your saved credit card information
-                                  will be deleted.
-                                </p>
+                                <p>{t("emailChangeWarning")}</p>
                               </div>
                               <div className="flex justify-end">
                                 <Button
@@ -256,7 +273,7 @@ const page = () => {
                                   className="bg-black text-white font-bold hover:bg-gray-800 h-12 w-20"
                                   disabled={isLoading}
                                 >
-                                  {isLoading ? "Saving..." : "Save"}
+                                  {isLoading ? t("saving") : t("save")}
                                 </Button>
                               </div>
                             </div>
@@ -271,7 +288,10 @@ const page = () => {
               <div className="flex-1">
                 <div className="px-4 max-w-[700px] mx-auto">
                   <div>
-                    <h2 className="font-semibold px-3 mt-6">Password:</h2>
+                    <h2 className="font-semibold px-3 mt-6">
+                      {" "}
+                      {t("password")}{" "}
+                    </h2>
                     <div className="w-full px-3 mt-2 mb-6 md:mb-0">
                       <label
                         className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
@@ -284,7 +304,7 @@ const page = () => {
                         name="oldPassword"
                         value={passwordData.oldPassword}
                         onChange={handlePasswordChangeUpdate}
-                        placeholder="Enter current password"
+                        placeholder={t("enterCurrentPassword")}
                       />
                     </div>
 
@@ -300,7 +320,7 @@ const page = () => {
                         name="newPassword"
                         value={passwordData.newPassword}
                         onChange={handlePasswordChangeUpdate}
-                        placeholder="Enter new password"
+                        placeholder={t("enterNewPassword")}
                       />
                     </div>
 
@@ -316,7 +336,7 @@ const page = () => {
                         name="confirmPassword"
                         value={passwordData.confirmPassword}
                         onChange={handlePasswordChangeUpdate}
-                        placeholder="Re-type new password"
+                        placeholder={t("retypeNewPassword")}
                       />
                     </div>
                     {error && (
@@ -334,7 +354,7 @@ const page = () => {
                           handlePasswordChange();
                         }}
                       >
-                        Change password
+                        {t("changePassword")}
                       </button>
                     </div>
                   </div>
@@ -348,4 +368,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

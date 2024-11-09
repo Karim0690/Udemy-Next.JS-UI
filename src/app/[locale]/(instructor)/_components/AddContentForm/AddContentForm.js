@@ -127,13 +127,13 @@ const AddContentForm = ({
       <div
         className={`absolute ${
           params.locale === "en" ? "right-14" : "left-14"
-        }  -top-[28px] bg-white flex items-center gap-2 border border-black border-b-0 p-1  text-sm cursor-default`}
+        } -top-[16px] md:-top-[28px] bg-white flex items-center gap-2 border border-black border-b-0 p-1  text-sm cursor-default`}
       >
-        <p className="font-bold">
+        <p className="hidden md:block font-bold text-xs md:text-base">
           {addVideo ? t("content-type") : t("add-video")}
         </p>
         <IoMdClose
-          className="text-lg cursor-pointer"
+          className="text-sm md:text-lg cursor-pointer"
           onClick={() => {
             setAddContent(null);
             setAddVideo(true);
@@ -143,7 +143,7 @@ const AddContentForm = ({
       {addVideo ? (
         <div
           className={`bg-white text-center gap-2 border border-black border-t-0 p-4 ${
-            params.locale === "en" ? "ml-20 mr-2" : "mr-20 ml-2"
+            params.locale === "en" ? "ml-2 md:ml-20 mr-2" : "mr-2 md:mr-20 ml-2"
           } relative`}
         >
           <p>
@@ -204,7 +204,7 @@ const AddContentForm = ({
       ) : (
         <div
           className={`bg-white gap-2 border border-black border-t-0 p-4 ${
-            params.locale === "en" ? "ml-20 mr-2" : "mr-20 ml-2"
+            params.locale === "en" ? "ml-2 md:ml-20 mr-2" : "mr-2 md:mr-20 ml-2"
           }`}
         >
           <div className="border-b">

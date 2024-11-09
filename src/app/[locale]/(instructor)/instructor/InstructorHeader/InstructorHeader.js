@@ -61,13 +61,17 @@ const InstructorHeader = ({ session, locale }) => {
           <button className="p-2 hover:text-violet-700">{t("student")}</button>
           <hr />
 
-          <button className="p-2 hover:text-violet-700">{t("settings")}</button>
-          <hr />
+          {/* <button className="p-2 hover:text-violet-700">{t("settings")}</button> */}
+          {/* <hr /> */}
           <div className="flex flex-col flex-1 justify-start items-start">
-            <button className="p-2 hover:text-violet-700 pb-0">
-              {t("public")}
-            </button>
-            <button className="p-2 hover:text-violet-700">{t("edit")}</button>
+            <Link href={`/${locale}/user/${session?.user.name}`}>
+              <button className="p-2 hover:text-violet-700 pb-0">
+                {t("public")}
+              </button>
+            </Link>
+            <Link href={`/${locale}/user/edit-profile`}>
+              <button className="p-2 hover:text-violet-700">{t("edit")}</button>
+            </Link>
           </div>
 
           <hr />

@@ -51,7 +51,7 @@ const LectureContentExpanded = ({
     <>
       <div
         className={`bg-white gap-2 border border-black border-t-0 p-2 ${
-          locale === "en" ? "ml-20 mr-2" : "mr-20 ml-2"
+          locale === "en" ? "ml-2 md:ml-20 mr-2" : "mr-2 md:mr-20 ml-2"
         }`}
       >
         {item.resource && (

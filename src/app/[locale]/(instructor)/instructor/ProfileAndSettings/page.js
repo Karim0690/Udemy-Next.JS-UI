@@ -7,6 +7,7 @@ import InstructorFooter from "../instractorFooter/page";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import axios from "axios";
+import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { useParams } from "next/navigation";
@@ -14,11 +15,12 @@ import React, { useState, useEffect } from "react";
 
 export default function Page() {
   const t = useTranslations("ProfileSettings");
+  const { data: session } = useSession();
   const [activeTab, setActiveTab] = useState(t("udemyProfile"));
-  console.log("Translations :", t);
   const [formData, setFormData] = useState({
     name: "",
     headline: "",
+    biography: "",
     social: {
       facebook: "",
       twitter: "",
@@ -34,7 +36,6 @@ export default function Page() {
     const { name, value } = event.target;
 
     if (name in formData.social) {
-      // Update social field
       setFormData((prevData) => ({
         ...prevData,
         social: {
@@ -51,7 +52,6 @@ export default function Page() {
   };
 
   const handleSubmit = async (event) => {
-    console.log(formData.social.facebook);
     event.preventDefault();
     setIsLoading(true);
     setError(null);
@@ -59,7 +59,7 @@ export default function Page() {
 
     try {
       const response = await axios.put(
-        `https://udemy-eosin-eight.vercel.app/user/669904f9ad62aaee0f072f8a`,
+        `https://udemy-eosin-eight.vercel.app/user/${session.user._id}`,
 
         formData
       );
@@ -94,8 +94,10 @@ export default function Page() {
         <div className="hidden md:block">
           <SideNav />
         </div>
-        <div className={`flex-1 ${locale === "en" ? "ml-24" : " mr-24"}`}>
-          <h1 className="mb-10 font-semibold text-5xl leading-tight tracking-tighter max-w-3xl">
+        <div
+          className={`flex-1 ${locale === "en" ? "ml-24 p-6" : " mr-24 p-6"}`}
+        >
+          <h1 className="mb-10 font-semibold text-4xl leading-tight tracking-tighter max-w-3xl">
             {t("title")}
           </h1>
           <div className="container flex w-full">
@@ -176,10 +178,6 @@ export default function Page() {
                             type="text"
                             placeholder={t("lastName")}
                             name="lastName"
-                            /*    value={formData.name}
-                            onChange={(e) => {
-                              handleChangeUpdate(e);
-                            }} */
                           />
                         </div>
                         <div className="w-full md:w-1/2 px-3 mt-6 md:mb-0">
@@ -331,39 +329,6 @@ export default function Page() {
                               aria-describedby="basic-addon3"
                             />
                           </div>
-                        </div>
-
-                        <div className="w-full md:w-1/2 px-3 mt-6 md:mb-0">
-                          <label
-                            for="grid-youtube-url"
-                            className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                          >
-                            {t("language")}
-                          </label>
-                          <select
-                            id="laguage"
-                            className=" border  border-black py-3 px-4 mb-3 text-gray-900 text-sm  block w-full h-12"
-                          >
-                            <option className="  " selected>
-                              {" "}
-                              {t("chooseLanguage")}
-                            </option>
-                            <option value="US">{t("US")}</option>
-                            <option value="CA">{t("CA")}</option>
-                            <option value="FR">{t("FR")}</option>
-                            <option value="DE">{t("DE")}</option>
-                            <option value="ES">{t("ES")}</option>
-                            <option value="IT">{t("IT")}</option>
-                            <option value="UK">{t("UK")}</option>
-                            <option value="NL">{t("NL")}</option>
-                            <option value="AU">{t("AU")}</option>
-                            <option value="NZ">{t("NZ")}</option>
-                            <option value="IN">{t("IN")}</option>
-                            <option value="BR">{t("BR")}</option>
-                            <option value="MX">{t("MX")}</option>
-                            <option value="CN">{t("CN")}</option>
-                            <option value="RU">{t("RU")}</option>
-                          </select>
                         </div>
                       </div>
                       <div
