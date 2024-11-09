@@ -15,7 +15,7 @@ export const authOptions = {
 
         try {
           const { data } = await axios.post(
-            `http://127.0.0.1:3001/auth/signin`,
+            `https://udemy-eosin-eight.vercel.app/auth/signin`,
             {
               email,
               password,
@@ -64,6 +64,5 @@ export const authOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   pages: {
     signIn: "/login",
-    signOut: "/",
   },
 };

@@ -67,7 +67,7 @@ const Page = () => {
       setName("");
       setEmail("");
       setPassword("");
-      router.push("/login");
+      router.push(`/${locale}/login`);
     } catch (err) {
       setGeneralError(err.message);
     }

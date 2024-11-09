@@ -44,7 +44,7 @@ const FilterAccordion = ({
         defaultValue={["item-1", "item-2"]}
         className="w-full font-sans"
       >
-        <AccordionItem value="item-1" className="border-t border-gray-200">
+        {/* <AccordionItem value="item-1" className="border-t border-gray-200">
           <AccordionTrigger>{t("ratings")}</AccordionTrigger>
           <AccordionContent>
             <RadioGroup className="gap-0">
@@ -106,7 +106,7 @@ const FilterAccordion = ({
               </div>
             </RadioGroup>
           </AccordionContent>
-        </AccordionItem>
+        </AccordionItem> */}
         <AccordionItem value="item-2">
           <AccordionTrigger>{t("topics")}</AccordionTrigger>
           <AccordionContent>

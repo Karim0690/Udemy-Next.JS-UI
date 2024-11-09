@@ -99,7 +99,6 @@ const Page = () => {
     },
   ];
 
-<<<<<<< HEAD
   const translatedOptions = options.map((option) => ({
     key: option.key,
     translatedText: t(option.key), 
@@ -113,8 +112,6 @@ const Page = () => {
   //   "I haven’t yet decided if I have time",
   // ];
 
-=======
->>>>>>> 039ed9a861f9001af546b493e8359aa6d8813c61
   const handleTitleChange = (e) => {
     const { name, value } = e.target;
     if (name === "title") {
