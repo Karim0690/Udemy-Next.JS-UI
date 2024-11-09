@@ -43,28 +43,35 @@ const Page = async ({ params: { locale } }) => {
         {courses.length > 0 ? (
           <div className="flex flex-wrap justify-start gap-x-6 gap-y-6">
             {courses.map((course) => (
-              <div key={course._id} className="group cursor-pointer w-72 h-80">
-                <div className="relative">
-                  <div className="hidden w-full h-full bg-black opacity-25 absolute group-hover:block"></div>
-                  <div className="hidden absolute w-full h-full justify-center items-center group-hover:flex">
-                    <IoPlayCircleOutline className="text-white text-6xl" />
+              <Link
+                key={course._id}
+                href={`/${locale}/course/${course.slug}/learn/lecture`}
+              >
+                <div className="group cursor-pointer w-72 h-80">
+                  <div className="relative">
+                    <div className="hidden w-full h-full bg-black opacity-25 absolute group-hover:block"></div>
+                    <div className="hidden absolute w-full h-full justify-center items-center group-hover:flex">
+                      <IoPlayCircleOutline className="text-white text-6xl" />
+                    </div>
+                    <Image
+                      src={course.courseImage}
+                      width={350}
+                      height={100}
+                      alt={course.title}
+                      className="border-2 w-72 h-40"
+                    />
                   </div>
-                  <Image
-                    src={course.courseImage}
-                    width={350}
-                    height={100}
-                    alt={course.title}
-                    className="border-2 w-72 h-40"
-                  />
+                  <h2 className="font-semibold my-2 overflow-hidden text-ellipsis whitespace-nowrap">
+                    {locale === "en" ? course.title : course.title_Ar}
+                  </h2>
+                  <p className="text-xs text-gray-500 pb-3 border-b-4">
+                    {course.instructor
+                      ? course.instructor.name
+                      : "No instructor"}
+                  </p>
+                  <p>{locale === "en" ? "START COURSE" : "أبدأ الدورة"}</p>
                 </div>
-                <h2 className="font-semibold my-2 overflow-hidden text-ellipsis whitespace-nowrap">
-                  {locale === "en" ? course.title : course.title_Ar}
-                </h2>
-                <p className="text-xs text-gray-500 pb-3 border-b-4">
-                  {course.instructor ? course.instructor.name : "No instructor"}
-                </p>
-                <p>{locale === "en" ? "START COURSE" : "أبدأ الدورة"}</p>
-              </div>
+              </Link>
             ))}
           </div>
         ) : (
