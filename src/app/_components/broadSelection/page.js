@@ -76,7 +76,7 @@ function BroadSelection() {
         </div>
       </div>
 
-      <div className="mx-16 py-8 relative">
+      <div className="mx-2 lg:mx-16 py-8 relative">
         <div>
           <div className="font-bold text-center text-gray-500"></div>
           <div className="font-bold text-center text-gray-500">

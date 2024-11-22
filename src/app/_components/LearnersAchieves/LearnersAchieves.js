@@ -90,7 +90,7 @@ const LearnersAchieves = () => {
         />
         <Swiper
           ref={swiperRef}
-          className="h-[350px] mx-auto"
+          className="mx-auto"
           modules={[Navigation]}
           onSwiper={(swiper) => {
             swiperRef.current = swiper;
@@ -116,39 +116,41 @@ const LearnersAchieves = () => {
         >
           <SwiperSlide>
             <div
-              className={`${styles.achieves} border border-gray-500 p-5 bg-white`}
+              className={`${styles.achieves} border border-gray-500 px-5 py-3 bg-white`}
             >
-              <div className={styles.mainContent}>
-                <Image
-                  src="https://s.udemycdn.com/browse_components/student-quote-unit/quote.svg"
-                  width="18"
-                  height="16"
-                  alt="quote"
-                  className="my-2"
-                />
-                <span>
-                  {t("slider1")}
-                  <span className={styles.udTextBold}>{t("slider12")}</span>
-                  {t("slider13")}
-                </span>
-              </div>
-              <div className="my-2">
-                <div className={`${styles.udAvatar} ${styles.udHeadingSm}`}>
-                  WA
-                </div>
-                <span className="mx-2">Will A</span>
-              </div>
-              <hr className="border-t border-gray-500 my-4" />
-              <div className="flex justify-center items-center my-2">
-                <div className="bg-[#5022c3] w-10 h-10 rounded-full flex justify-center items-center">
-                  <FontAwesomeIcon
-                    className="w-20 text-white p-2 ml-1"
-                    icon={faPlay}
+              <div>
+                <div className={styles.mainContent}>
+                  <Image
+                    src="https://s.udemycdn.com/browse_components/student-quote-unit/quote.svg"
+                    width="18"
+                    height="16"
+                    alt="quote"
+                    className="my-2"
                   />
+                  <span>
+                    {t("slider1")}
+                    <span className={styles.udTextBold}>{t("slider12")}</span>
+                    {t("slider13")}
+                  </span>
                 </div>
-                <span className="text-[#5022c3] mx-2 font-bold">
-                  {t("slider14")}
-                </span>
+                <div className="my-2">
+                  <div className={`${styles.udAvatar} ${styles.udHeadingSm}`}>
+                    WA
+                  </div>
+                  <span className="mx-2">Will A</span>
+                </div>
+                <hr className="border-t border-gray-500 my-4" />
+                <div className="flex justify-center items-center my-2">
+                  <div className="bg-[#5022c3] w-10 h-10 rounded-full flex justify-center items-center">
+                    <FontAwesomeIcon
+                      className="w-20 text-white p-2 ml-1"
+                      icon={faPlay}
+                    />
+                  </div>
+                  <span className="text-[#5022c3] mx-2 font-bold">
+                    {t("slider14")}
+                  </span>
+                </div>
               </div>
             </div>
           </SwiperSlide>
@@ -194,37 +196,39 @@ const LearnersAchieves = () => {
             <div
               className={`${styles.achieves} border border-gray-500 p-5 bg-white`}
             >
-              <div className={styles.mainContent}>
-                <Image
-                  src="https://s.udemycdn.com/browse_components/student-quote-unit/quote.svg"
-                  width="18"
-                  height="16"
-                  alt="quote"
-                  className="my-2"
-                />
-                <span>
-                  {t("slider3")}
-
-                  <span className={styles.udTextBold}> {t("slider32")}</span>
-                </span>
-              </div>
-              <div className="my-2">
-                <div className={`${styles.udAvatar} ${styles.udHeadingSm}`}>
-                  PW
-                </div>
-                <span className="mx-2">Phillip W</span>
-              </div>
-              <hr className="border-t border-gray-500 my-4" />
-              <div className="flex  items-center my-2">
-                <div className="bg-[#5022c3] w-10 h-10 rounded-full flex justify-center items-center">
-                  <FontAwesomeIcon
-                    className="w-20 text-white p-2 ml-1"
-                    icon={faPlay}
+              <div>
+                <div className={styles.mainContent}>
+                  <Image
+                    src="https://s.udemycdn.com/browse_components/student-quote-unit/quote.svg"
+                    width="18"
+                    height="16"
+                    alt="quote"
+                    className="my-2"
                   />
+                  <span>
+                    {t("slider3")}
+
+                    <span className={styles.udTextBold}> {t("slider32")}</span>
+                  </span>
                 </div>
-                <span className="text-[#5022c3] mx-2 font-bold">
-                  {t("slider33")}
-                </span>
+                <div className="my-2">
+                  <div className={`${styles.udAvatar} ${styles.udHeadingSm}`}>
+                    PW
+                  </div>
+                  <span className="mx-2">Phillip W</span>
+                </div>
+                <hr className="border-t border-gray-500 my-4" />
+                <div className="flex  items-center my-2">
+                  <div className="bg-[#5022c3] w-10 h-10 rounded-full flex justify-center items-center">
+                    <FontAwesomeIcon
+                      className="w-20 text-white p-2 ml-1"
+                      icon={faPlay}
+                    />
+                  </div>
+                  <span className="text-[#5022c3] mx-2 font-bold">
+                    {t("slider33")}
+                  </span>
+                </div>
               </div>
             </div>
           </SwiperSlide>
@@ -232,38 +236,40 @@ const LearnersAchieves = () => {
             <div
               className={`${styles.achieves} border border-gray-500 p-5 bg-white`}
             >
-              <div className={styles.mainContent}>
-                <Image
-                  src="https://s.udemycdn.com/browse_components/student-quote-unit/quote.svg"
-                  width="18"
-                  height="16"
-                  alt="quote"
-                  className="my-2"
-                />
-                <span>
-                  {t("slider4")}
-
-                  <span className={styles.udTextBold}>{t("slider42")}</span>
-                  {t("slider43")}
-                </span>
-              </div>
-              <div className="my-2">
-                <div className={`${styles.udAvatar} ${styles.udHeadingSm}`}>
-                  WA
-                </div>
-                <span className="mx-2">Will A</span>
-              </div>
-              <hr className="border-t border-gray-500 my-4" />
-              <div className="flex justify-center items-center my-2">
-                <div className="bg-[#5022c3] w-10 h-10 rounded-full flex justify-center items-center">
-                  <FontAwesomeIcon
-                    className="w-20 text-white p-2 ml-1"
-                    icon={faPlay}
+              <div>
+                <div className={styles.mainContent}>
+                  <Image
+                    src="https://s.udemycdn.com/browse_components/student-quote-unit/quote.svg"
+                    width="18"
+                    height="16"
+                    alt="quote"
+                    className="my-2"
                   />
+                  <span>
+                    {t("slider4")}
+
+                    <span className={styles.udTextBold}>{t("slider42")}</span>
+                    {t("slider43")}
+                  </span>
                 </div>
-                <span className="text-[#5022c3] mx-2 font-bold">
-                  {t("slider44")}
-                </span>
+                <div className="my-2">
+                  <div className={`${styles.udAvatar} ${styles.udHeadingSm}`}>
+                    WA
+                  </div>
+                  <span className="mx-2">Will A</span>
+                </div>
+                <hr className="border-t border-gray-500 my-4" />
+                <div className="flex justify-center items-center my-2">
+                  <div className="bg-[#5022c3] w-10 h-10 rounded-full flex justify-center items-center">
+                    <FontAwesomeIcon
+                      className="w-20 text-white p-2 ml-1"
+                      icon={faPlay}
+                    />
+                  </div>
+                  <span className="text-[#5022c3] mx-2 font-bold">
+                    {t("slider44")}
+                  </span>
+                </div>
               </div>
             </div>
           </SwiperSlide>

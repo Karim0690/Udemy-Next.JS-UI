@@ -13,11 +13,6 @@ export async function middleware(req) {
   const localeMatch = pathname.match(/^\/(ar|en)/);
   const locale = localeMatch ? localeMatch[1] : null;
 
-  console.log(`Requested Path: ${pathname}`);
-  console.log(`Locale: ${locale}`);
-  console.log(`Authenticated: ${isAuthenticated}`);
-  console.log(token?.user.role.includes("instructor"));
-
   // Define protected routes
   const protectedRoutes = /^\/(en|ar)\/instructor\/.*/;
 

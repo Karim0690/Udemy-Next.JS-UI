@@ -17,8 +17,8 @@ export default async function Home({params:{locale}}) {
   return (
     <>
       {session && (
-        <div className="flex gap-3 items-center my-10 mx-28 ">
-          <div className="bg-black w-20 h-20 rounded-full text-white flex justify-center items-center font-bold text-2xl">
+        <div className="flex gap-3 items-center my-10 mx-2 lg:mx-28 ">
+          <div className="bg-black p-6 w-20 h-20 rounded-full text-white flex justify-center items-center font-bold text-2xl">
             {session?.user.name.charAt(0).toUpperCase() +
               session?.user.name.charAt(1).toUpperCase()}
           </div>

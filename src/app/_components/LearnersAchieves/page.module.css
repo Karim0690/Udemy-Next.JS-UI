@@ -1,6 +1,6 @@
 .achieves {
   width: 380px !important;
-  height: 329px !important;
+  height: 350px !important;
   margin-left: 20px;
 }
 .mainContent {
@@ -40,7 +40,7 @@
 @media (max-width: 768px) {
   .achieves {
     width: 320px !important;
-    height: 329px !important;
+    height: 350px !important;
     margin-left: 20px;
   }
 }
